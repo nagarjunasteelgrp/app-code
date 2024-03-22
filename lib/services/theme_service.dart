@@ -1,0 +1,52 @@
+import 'package:digital_lync/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
+
+class ThemeServices {
+  static ThemeData getLightTheme() {
+    return ThemeData(
+      brightness: Brightness.light,
+      useMaterial3: false,
+      primaryColor: AppColors.WHITE_COLOR,
+      scaffoldBackgroundColor: AppColors.WHITE_COLOR,
+      appBarTheme: const AppBarTheme(backgroundColor: AppColors.WHITE_COLOR),
+      iconTheme: const IconThemeData(color: AppColors.BLACK_COLOR),
+      colorScheme: const ColorScheme.light(
+        brightness: Brightness.light,
+        primary: AppColors.BLUE_COLOR,
+        onPrimary: AppColors.SECOND_BLUE_COLOR,
+        secondary: AppColors.BLACK_COLOR,
+        onSecondary: AppColors.GREY_COLOR,
+        background: AppColors.WHITE_COLOR,
+        onBackground: AppColors.LIGHT_GREY_COLOR,
+        surface: AppColors.CREEM_COLOR,
+        onSurface: AppColors.OFF_WHITE_COLOR,
+        error: AppColors.RED_COLOR,
+        scrim: AppColors.YELLOW_COLOR,
+        inversePrimary: AppColors.GREEN_COLOR,
+        inverseSurface: AppColors.PURPLE_COLOR,
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.RED_COLOR, width: 0.5)),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5))),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          selectedIconTheme: const IconThemeData(color: AppColors.BLUE_COLOR),
+          selectedLabelStyle:
+              GoogleFonts.outfit(fontSize: 1.6.h, fontWeight: FontWeight.w500),
+          unselectedLabelStyle:
+              GoogleFonts.outfit(fontSize: 1.6.h, fontWeight: FontWeight.w500),
+          selectedItemColor: AppColors.BLUE_COLOR,
+          unselectedItemColor: AppColors.BLACK_COLOR),
+    );
+  }
+}
