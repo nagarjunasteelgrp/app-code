@@ -1,6 +1,6 @@
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
-import 'package:digital_lync/common/dailog_box.dart';
+import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -83,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                           width: 80.w,
                           child: AppText(
                               title: "Login",
-                              fontSize: 2.5.h,
+                              fontSize: 2.h,
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).colorScheme.background),
                           context: context,

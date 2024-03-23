@@ -42,7 +42,7 @@ class AppText extends StatelessWidget {
           ? GoogleFonts.outfit(
               height: height,
               fontSize: fontSize,
-              fontWeight: fontWeight,
+              fontWeight: fontWeight ?? FontWeight.w500,
               color: color ?? Theme.of(context).colorScheme.secondary,
               fontStyle: fontStyle,
               letterSpacing: letterSpacing,
@@ -50,7 +50,7 @@ class AppText extends StatelessWidget {
           : GoogleFonts.poppins(
               height: height,
               fontSize: fontSize,
-              fontWeight: fontWeight,
+          fontWeight: fontWeight ?? FontWeight.w500,
               color: color ?? Theme.of(context).colorScheme.secondary,
               fontStyle: fontStyle,
               letterSpacing: letterSpacing,

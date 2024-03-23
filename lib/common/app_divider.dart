@@ -10,7 +10,8 @@ Widget appDivider(
   return Padding(
     padding: EdgeInsets.symmetric(vertical: vertical ?? 1.5.h),
     child: Divider(
-      color: colors ?? Theme.of(context).colorScheme.secondary,
+      thickness: 0.5,
+      color: colors ?? Theme.of(context).colorScheme.secondary.withOpacity(0.3),
     ),
   );
 }

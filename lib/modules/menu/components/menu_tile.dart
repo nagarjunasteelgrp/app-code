@@ -41,7 +41,7 @@ class MenuTile extends StatelessWidget {
             child: GestureDetector(
               
               child: Padding(
-                padding: EdgeInsets.only(left: 2.w, right: 4.w),
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,

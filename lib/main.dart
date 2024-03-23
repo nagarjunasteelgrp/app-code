@@ -4,11 +4,25 @@ import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/provider_services.dart';
 import 'package:digital_lync/services/theme_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+void main() async {
+
+ WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+ FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+ SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+   statusBarColor: Colors.transparent, // Status bar color
+ ));
+ SystemChrome.setPreferredOrientations([
+   DeviceOrientation.portraitUp,
+
+ ]);
+ await Future.delayed(const Duration (seconds: 2));
+ FlutterNativeSplash.remove();
   runApp(MultiProvider(providers: providers,
     child: const MyApp()));
 }

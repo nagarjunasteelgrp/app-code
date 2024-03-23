@@ -27,6 +27,7 @@ class ThemeServices {
         inversePrimary: AppColors.GREEN_COLOR,
         inverseSurface: AppColors.PURPLE_COLOR,
       ),
+
       inputDecorationTheme: const InputDecorationTheme(
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
