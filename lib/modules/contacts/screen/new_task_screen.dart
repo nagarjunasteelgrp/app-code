@@ -1,4 +1,5 @@
 import 'package:digital_lync/common/app_bar.dart';
+import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/contacts/components/add_task_dailog_box.dart';
@@ -26,12 +27,13 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           Get.back();
         },
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Consumer<NewTaskProvider>(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 2.h,),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Consumer<NewTaskProvider>(
               builder: (context, value, _) {
                 return GestureDetector(
                   onTap: () {
@@ -42,7 +44,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       AppText(
                         title: 'My Tasks',
                         isPoppins: true,
-                        fontSize: 1.5.h,
+                          fontSize: 1.7.h
                       ),
                       Icon(
                         value.isShowTask == false
@@ -55,54 +57,57 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                 );
               },
             ),
-            Divider(
-              thickness: 0.8,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            Consumer<NewTaskProvider>(builder: (context, value, _) {
-              return value.isShowTask == true
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(value.taskList.length, (index) {
-                        return Padding(
-                          padding: EdgeInsets.only(left: 2.w),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 0.5.h),
-                              AppText(
-                                  title: value.taskList[index],
-                                  fontSize: 1.8.h),
-                              SizedBox(height: 0.5.h),
-                              Divider(
-                                thickness: 0.8,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                              )
-                            ],
+          ),
+        Consumer<NewTaskProvider>(builder: (context, value, _) {
+          return  value.isShowTask == true ?  appDivider(context: context,vertical: 0.0) : const SizedBox();
+        }),
+
+
+          Consumer<NewTaskProvider>(builder: (context, value, _) {
+            return value.isShowTask == true
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(value.taskList.length, (index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          Padding(
+                            padding: EdgeInsets.only(left: 7.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 0.5.h),
+                                AppText(
+                                    title: value.taskList[index],
+                                    fontSize: 1.8.h),
+                                SizedBox(height: 0.5.h),
+                              ],
+                            ),
                           ),
-                        );
-                      }),
-                    )
-                  : const SizedBox();
-            }),
-            SizedBox(height: 2.h),
-            appOutlineButton(
-                onTap: () {
-                  showAddTaskDialog(context);
-                },
-                context: context,
-                width: double.infinity,
-                radius: 2.w,
-                child: AppText(
-                  title: 'New Tasks',
-                  isPoppins: true,
-                  color: Theme.of(context).colorScheme.primary,
-                )),
-          ],
-        ),
+                          appDivider(context: context,vertical: 0.0),
+                        ],
+                      );
+                    }),
+                  )
+                : const SizedBox();
+          }),
+          SizedBox(height: 2.h),
+          appOutlineButton(
+              onTap: () {
+                showAddTaskDialog(context);
+              },
+              context: context,
+              width: double.infinity,
+              radius: 2.w,
+              child: AppText(
+                title: 'New Tasks',
+                isPoppins: true,
+                color: Theme.of(context).colorScheme.primary,
+              )),
+        ],
       ),
     );
   }

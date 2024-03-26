@@ -150,8 +150,7 @@ class TrackingScreen extends StatelessWidget {
               Image.asset(AppAssets.DUMMY_MAP,scale: 0.1.h,),
               SizedBox(height: 3.h),
               AppText(title: 'Images',color: Theme.of(context).colorScheme.onSecondary,),
-
-              SizedBox(height: 3.h),
+              SizedBox(height: 1.h),
               Container(
                 height: 25.h,
                 decoration: BoxDecoration(

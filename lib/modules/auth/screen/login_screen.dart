@@ -3,6 +3,7 @@ import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -25,7 +26,7 @@ class LoginScreen extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 3.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
             child: Column(
               children: [
                 Center(child: Image.asset(AppAssets.APP_LOGO, width: 56.w)),
@@ -35,6 +36,7 @@ class LoginScreen extends StatelessWidget {
                     title: "Login to your account",
                     fontWeight: FontWeight.w500,
                     textAlign: TextAlign.center,
+                    fontSize: 1.8.h,
                   ),
                 ),
                 appDivider(context: context),
@@ -58,7 +60,27 @@ class LoginScreen extends StatelessWidget {
                         fontSize: 1.8.h,
                       ),
                       SizedBox(height: 1.h),
-                      appTextfield(context: context),
+    Consumer<LoginProvider>(builder: (context, value, _) {
+      return appTextfield(context: context,
+        obscureText: value.obscureText,
+        suffixIcon: GestureDetector(
+          onTap: () {
+            value.obscureTextChange();
+          },
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: value.obscureText
+                ? const Icon(
+              Icons.visibility,
+            )
+                : const Icon(
+              Icons.visibility_off,
+            ),
+          ),
+        ),
+      );
+    }),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -71,13 +93,11 @@ class LoginScreen extends StatelessWidget {
                             child: AppText(
                                 title: "Recover Password",
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inverseSurface),
+                                color: Theme.of(context).colorScheme.inverseSurface),
                           )
                         ],
                       ),
-                      SizedBox(height: 5.w),
+                      SizedBox(height: 1.w),
                       Center(
                         child: appButton(
                           width: 80.w,

@@ -16,6 +16,7 @@ class ThemeServices {
         brightness: Brightness.light,
         primary: AppColors.BLUE_COLOR,
         onPrimary: AppColors.SECOND_BLUE_COLOR,
+        onError: AppColors.NAVI_BLUE,
         secondary: AppColors.BLACK_COLOR,
         onSecondary: AppColors.GREY_COLOR,
         background: AppColors.WHITE_COLOR,

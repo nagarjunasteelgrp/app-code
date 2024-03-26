@@ -34,7 +34,7 @@ class ContactDetailsScreen extends StatelessWidget {
             AppText(title: 'Details',fontWeight: FontWeight.w500,fontSize: 1.6.h,isPoppins: true),
             appDivider(context: context,vertical: 1.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class ContactDetailsScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class ContactDetailsScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

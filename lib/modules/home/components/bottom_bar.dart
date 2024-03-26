@@ -17,7 +17,7 @@ class AppBottomBar extends StatelessWidget {
             elevation: 3.h,
             currentIndex: value.selectedIndex,
             showUnselectedLabels: true,
-            selectedItemColor: Theme.of(context).colorScheme.primary,
+            selectedItemColor: Theme.of(context).colorScheme.onError,
             unselectedItemColor: Theme.of(context).colorScheme.secondary,
             onTap: (values) {
               value.setSelectedIndex(values);
@@ -28,7 +28,7 @@ class AppBottomBar extends StatelessWidget {
                   AppAssets.CONTACTS,
                   height: 3.h,
                   color: value.selectedIndex == 0
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
                 ),
                 label: Constants.contacts,
@@ -38,7 +38,7 @@ class AppBottomBar extends StatelessWidget {
                   AppAssets.ACRIVITIES,
                   height: 3.h,
                   color: value.selectedIndex == 1
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
                 ),
                 label: Constants.activities,
@@ -47,7 +47,7 @@ class AppBottomBar extends StatelessWidget {
                 icon: Image.asset(
                   height: 3.h,
                   color: value.selectedIndex == 2
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
                   AppAssets.CHEACK_IN,
                 ),
@@ -57,7 +57,7 @@ class AppBottomBar extends StatelessWidget {
                 icon: Image.asset(
                   height: 3.h,
                   color: value.selectedIndex == 3
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
                   AppAssets.TRACKING,
                 ),
@@ -66,7 +66,7 @@ class AppBottomBar extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Image.asset(
                   color: value.selectedIndex == 4
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
                   AppAssets.MENU,
                   height: 3.h,

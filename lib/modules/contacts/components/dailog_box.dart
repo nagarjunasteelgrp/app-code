@@ -1,5 +1,3 @@
-
-
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
@@ -33,7 +31,7 @@ void showContactDialog(BuildContext context) {
                 children: [
                   Row(
                     children: [
-                      SizedBox(width: 4.w),
+                      SizedBox(width: 5.w),
                       appCircleIcon(
                         context: context,
                         colors: Theme.of(context).colorScheme.primary,
@@ -41,7 +39,7 @@ void showContactDialog(BuildContext context) {
                         height: 6.w,
                         width: 6.w,
                         child: Padding(
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(6.0),
                           child: SvgPicture.asset(AppAssets.APP_CREATE_SVG,
                               color: Theme.of(context).primaryColor),
                         ),
@@ -49,7 +47,6 @@ void showContactDialog(BuildContext context) {
                       SizedBox(width: 4.w),
                       AppText(
                         title: 'Create Contact',
-
                         fontSize: 2.h,isPoppins: true,),
                     ],
                   ),
@@ -63,7 +60,7 @@ void showContactDialog(BuildContext context) {
                 ],
               ),
               appDivider(context: context,vertical: 0.h),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 5.w),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 6.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +133,7 @@ void showContactDialog(BuildContext context) {
               ),
               appDivider(context: context),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding: EdgeInsets.symmetric(horizontal: 6.w),
                 child: Center(
                   child: appButton(
                     width: double.infinity,

@@ -55,7 +55,7 @@ Widget appTextfield(
       fillColor: Theme.of(context).colorScheme.onSurface,
       filled: true,
       isDense: true,
-      contentPadding: EdgeInsets.symmetric(vertical: verticalpading ?? 1.3.h,horizontal: 2.5.w),
+      contentPadding: EdgeInsets.symmetric(vertical: verticalpading ?? 1.6.h,horizontal: 2.5.w),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
         borderSide:

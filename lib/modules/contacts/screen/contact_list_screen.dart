@@ -43,7 +43,7 @@ class ContactListScreen extends StatelessWidget {
               height: 7.h,
               color: Theme.of(context).colorScheme.onBackground,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                padding: EdgeInsets.symmetric(horizontal: 3.w),
                 child: Row(
                   children: [
                     appCircleIcon(
@@ -78,7 +78,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             SizedBox(height: 2.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 children: [
                   Expanded(child: AppText(title: 'Person  Name',fontWeight: FontWeight.w500, fontSize: 1.5.h,isPoppins: true,)),
@@ -90,7 +90,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 children: [
                   Expanded(child: AppText(title: 'Company Name',fontWeight: FontWeight.w500, fontSize: 1.5.h,isPoppins: true,)),
@@ -102,7 +102,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 children: [
                   Expanded(child: AppText(title: 'Contact Type',fontWeight: FontWeight.w500, fontSize: 1.5.h,isPoppins: true,)),
@@ -112,7 +112,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 children: [
                   Expanded(child: AppText(title: 'Phone Number',fontWeight: FontWeight.w500, fontSize: 1.5.h,isPoppins: true,)),
@@ -136,7 +136,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: GestureDetector(
                 onTap: (){
                   Get.toNamed(RoutesName.CONTACT_DETAILS);
@@ -153,7 +153,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -168,7 +168,7 @@ class ContactListScreen extends StatelessWidget {
                 Get.toNamed(RoutesName.TRACKING);
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -180,7 +180,7 @@ class ContactListScreen extends StatelessWidget {
             ),
             appDivider(context: context),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

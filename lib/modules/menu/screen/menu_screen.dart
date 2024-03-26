@@ -12,7 +12,7 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        Container (
           padding: EdgeInsets.only(bottom: 1.h, left: 2.5.w),
           height: 5.h,
           decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class MenuScreen extends StatelessWidget {
                       blurRadius: 5)
                 ]),
             child: Padding(
-              padding: EdgeInsets.only(left: 2.w, right: 4.w),
+              padding: EdgeInsets.only(left: 3.w, right: 4.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,6 +77,7 @@ class MenuScreen extends StatelessWidget {
           height: 0.2.h,
         ),
         MenuTile(
+          iconHeight: 3.5.h,
           icon: AppAssets.CONTACTS,
           title: Constants.contacts,
           index: 0,
@@ -86,6 +87,7 @@ class MenuScreen extends StatelessWidget {
           height: 0.2.h,
         ),
         MenuTile(
+          iconHeight: 3.h,
           icon: AppAssets.ACRIVITIES,
           title: Constants.activities,
           index: 1,
@@ -95,7 +97,7 @@ class MenuScreen extends StatelessWidget {
           height: 0.2.h,
         ),
         MenuTile(
-          iconHeight: 3.h,
+          iconHeight: 2.5.h,
           icon: AppAssets.CHEACK_IN_2,
           title: Constants.checkIn,
           index: 2,
@@ -114,7 +116,7 @@ class MenuScreen extends StatelessWidget {
           height: 0.2.h,
         ),
         MenuTile(
-          iconHeight: 3.h,
+          iconHeight: 2.5.h,
           icon: AppAssets.DASHBOARD,
           title: Constants.dashboard,
           index: 3,

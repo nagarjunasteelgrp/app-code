@@ -15,6 +15,8 @@ class AppColors {
 
   static const Color SECOND_BLUE_COLOR = Color(0xff1C80C2); //
 
+  static const Color NAVI_BLUE = Color(0xff0176D3); //
+
   static const Color PURPLE_COLOR = Color(0xff413B89); 
 
   static const Color GREEN_COLOR = Color(0xff01AC61); //
@@ -28,5 +30,7 @@ class AppColors {
   static const Color LIGHT_GREY_COLOR = Color(0xffD9D9D9); //
 
   static const Color BLACK_COLOR = Color(0xff000000);  //
+
+
 
 }

@@ -26,7 +26,7 @@ class ContactScreen extends StatelessWidget {
                 height: 2.h,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding: EdgeInsets.symmetric(horizontal: 7.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -109,8 +109,11 @@ class ContactScreen extends StatelessWidget {
                       radius: 0.5.h,
                       height: 8.w,
                       width: 8.w,
-                      child: SvgPicture.asset(AppAssets.APP_CREATE_SVG,
-                          color: Theme.of(context).primaryColor),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7.0),
+                        child: SvgPicture.asset(AppAssets.APP_CREATE_SVG,
+                            color: Theme.of(context).primaryColor),
+                      ),
                     ),
                     SizedBox(width: 2.w),
                     AppText(
@@ -126,93 +129,127 @@ class ContactScreen extends StatelessWidget {
               ),
               Column(
                 children: List.generate(5, (index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed(RoutesName.CONTACTS_LIST);
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.w),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      AppText(
-                                          title: 'Person  Name',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: 'Company Name',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: 'Contact Type',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: 'Phone Number',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: 'Email Id',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      AppText(
-                                          title: 'Philip',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: 'Acme Corporation',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary),
-                                      AppText(
-                                          title: 'Fabricator',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: '+91 9876543210',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                      AppText(
-                                          title: 'debra.holt@example.com',
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w500,
-                                          isPoppins: true),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
+                  return Column(
+                    children: [
+                      // Get.toNamed(RoutesName.CONTACTS_LIST);
+                      InkWell(
+                        onTap: (){
+                          Get.toNamed(RoutesName.CONTACTS_LIST);
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                            title: 'Person  Name',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'Company Name',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'Contact Type',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'Phone Number',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'Email Id',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                            title: 'Philip',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'Acme Corporation',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'Fabricator',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: '+91 9876543210',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                        AppText(
+                                            title: 'debra.holt@example.com',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            isPoppins: true),
+                                        SizedBox(
+                                          height: 0.5.h,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        index == 4 ? SizedBox() : appDivider(context: context),
-                        // index == contactList.length - 1 ? SizedBox() : appDivider(context: context),
-                      ],
-                    ),
+                      ),
+                      index == 4 ? SizedBox() : appDivider(context: context),
+                      // index == contactList.length - 1 ? SizedBox() : appDivider(context: context),
+                    ],
                   );
                 }),
               ),

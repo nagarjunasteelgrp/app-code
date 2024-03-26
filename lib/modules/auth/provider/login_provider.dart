@@ -7,4 +7,13 @@ class LoginProvider extends ChangeNotifier {
     isChecked = !isChecked;
     notifyListeners();
   }
+
+  bool obscureText = true;
+
+  void obscureTextChange() {
+    obscureText = !obscureText;
+    notifyListeners();
+  }
+
+
 }

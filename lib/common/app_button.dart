@@ -24,7 +24,7 @@ Widget appButton(
         margin: margin ?? const EdgeInsets.all(0),
         padding: padding ?? const EdgeInsets.all(0),
         decoration: BoxDecoration(
-            color: color ?? Theme.of(context).colorScheme.onPrimary,
+            color: color ?? Theme.of(context).colorScheme.onError,
             borderRadius: BorderRadius.circular(radius ?? 5.h),
             boxShadow: boxShadow),
         child: Center(child: child)),
