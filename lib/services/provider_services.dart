@@ -1,4 +1,5 @@
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
+import 'package:digital_lync/modules/auth/provider/reset_email_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/new_task_provider.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
@@ -12,4 +13,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => MenuProvider()),
   ChangeNotifierProvider(create: (context) => ContactProvider()),
   ChangeNotifierProvider(create: (context) => NewTaskProvider()),
+  ChangeNotifierProvider(create: (context) => ResetEmailProvider()),
 ];

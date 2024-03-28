@@ -1,4 +1,5 @@
 import 'package:digital_lync/modules/auth/screen/login_screen.dart';
+import 'package:digital_lync/modules/auth/screen/reset_email_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/contact_list_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/details/conatct_details_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/new_task_screen.dart';
@@ -15,5 +16,6 @@ class RouteNavigation {
     GetPage(name: RoutesName.CONTACT_DETAILS, page: () => const ContactDetailsScreen()),
     GetPage(name: RoutesName.TRACKING, page: () => const TrackingScreen()),
     GetPage(name: RoutesName.NEW_TASK, page: () => const NewTaskScreen()),
+    GetPage(name: RoutesName.RESET_EMAIL, page: () => const ResetEmailScreen()),
   ];
 }

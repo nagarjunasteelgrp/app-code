@@ -41,7 +41,7 @@ dependencies:
   shared_preferences: ^2.2.2
   intl: ^0.19.0
   google_fonts: ^6.2.1
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.0.5
   mobkit_dashed_border: ^0.0.6
   flutter_native_splash: ^2.4.0
 

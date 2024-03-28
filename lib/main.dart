@@ -1,3 +1,4 @@
+import 'package:digital_lync/constants/app_token.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -14,7 +15,7 @@ void main() async {
 
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
- SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+ SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
    statusBarColor: Colors.transparent, // Status bar color
  ));
  SystemChrome.setPreferredOrientations([
@@ -31,6 +32,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    var token;
+    getToken().then((value) {
+      token = value;
+    });
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
@@ -38,7 +43,9 @@ class MyApp extends StatelessWidget {
           title: Constants.APP_NAME,
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
-          initialRoute: RoutesName.LOGIN,
+          initialRoute:
+          // token != null ? RoutesName.HOME :
+          RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );
       },

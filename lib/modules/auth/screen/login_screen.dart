@@ -52,7 +52,12 @@ class LoginScreen extends StatelessWidget {
                         fontSize: 1.8.h,
                       ),
                       SizedBox(height: 1.h),
-                      appTextfield(context: context),
+                      Consumer<LoginProvider>(builder: (context, value, _) {
+                        return appTextfield(
+                          controller: value.emailController,
+                            context: context);
+                      }),
+
                       SizedBox(height: 2.h),
                       AppText(
                         title: "Enter Your Password",
@@ -60,59 +65,67 @@ class LoginScreen extends StatelessWidget {
                         fontSize: 1.8.h,
                       ),
                       SizedBox(height: 1.h),
-    Consumer<LoginProvider>(builder: (context, value, _) {
-      return appTextfield(context: context,
-        obscureText: value.obscureText,
-        suffixIcon: GestureDetector(
-          onTap: () {
-            value.obscureTextChange();
-          },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: value.obscureText
-                ? const Icon(
-              Icons.visibility,
-            )
-                : const Icon(
-              Icons.visibility_off,
-            ),
-          ),
-        ),
-      );
-    }),
-
+                      Consumer<LoginProvider>(builder: (context, value, _) {
+                        return appTextfield(
+                          controller: value.passwordController,
+                          context: context,
+                          obscureText: value.obscureText,
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              value.obscureTextChange();
+                            },
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: value.obscureText
+                                  ? const Icon(
+                                      Icons.visibility,
+                                    )
+                                  : const Icon(
+                                      Icons.visibility_off,
+                                    ),
+                            ),
+                          ),
+                        );
+                      }),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Consumer<LoginProvider>(
                               builder: (context, value, child) {
-                                return const CommonCheckbox(label: "Remember Me");
-                              }),
+                            return const CommonCheckbox(label: "Remember Me");
+                          }),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(RoutesName.RESET_EMAIL);
+                            },
                             child: AppText(
                                 title: "Recover Password",
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.inverseSurface),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inverseSurface),
                           )
                         ],
                       ),
                       SizedBox(height: 1.w),
-                      Center(
-                        child: appButton(
-                          width: 80.w,
-                          child: AppText(
-                              title: "Login",
-                              fontSize: 2.h,
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).colorScheme.background),
-                          context: context,
-                          onTap: () {
-                            Get.toNamed(RoutesName.HOME);
-                            // showContactDialog(context);
-                          },
-                        ),
-                      )
+                      Consumer<LoginProvider>(builder: (context, provider, _) {
+                        return Center(
+                          child: appButton(
+                            width: 80.w,
+                            child: AppText(
+                                title: "Login",
+                                fontSize: 2.h,
+                                fontWeight: FontWeight.w700,
+                                color:
+                                    Theme.of(context).colorScheme.background),
+                            context: context,
+                            onTap: () {
+                              provider.login(context);
+                              // showContactDialog(context);
+                            },
+                          ),
+                        );
+                      }),
                     ],
                   ),
                 ),

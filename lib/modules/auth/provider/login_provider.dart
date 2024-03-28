@@ -1,6 +1,19 @@
+import 'package:digital_lync/common/shared_prefs.dart';
+import 'package:digital_lync/constants/app_snackbar.dart';
+import 'package:digital_lync/constants/validation.dart';
+import 'package:digital_lync/routes/routes_path.dart';
+import 'package:digital_lync/services/api_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 
 class LoginProvider extends ChangeNotifier {
+  ApiServices apiServices = ApiServices();
+  SharedPrefers sharedPrefers = SharedPrefers();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   bool isChecked = false;
 
   void toggleCheckbox() {
@@ -15,5 +28,41 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> login(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+    print("Email:- ${emailController.text}");
+    print("Password:- ${passwordController.text}");
+    if (!Validation.isValidEmail(emailController.text.trim())) {
+      showAppSnackBar(context: context, title: 'Please enter a valid email address.');
+      return;
+    }
+    if (!Validation.isValidPassword(passwordController.text.trim())) {
+      showAppSnackBar(context: context, title: 'Password must be at least 6 characters.');
+      return;
+    }
+    notifyListeners();
+    try {
+      var logResponse = await apiServices.login(email: emailController.text, password: passwordController.text);
+      if (logResponse['success'] == true) {
+        print("LOGIN SUCCESS : ${logResponse['token']}");
+        await sharedPrefers.saveTokenToPrefs(logResponse['token']);
+        showAppSnackBar(type: 'success', context: context, title: 'Login Successful');
+        emailController.clear();
+        passwordController.clear();
+        Get.toNamed(RoutesName.HOME);
+      } else {
+        print("LOGIN ERROR : ${logResponse['message']}");
+        showAppSnackBar(
+          type: 'Error',
+          context: context,
+          title: logResponse['message'],
+        );
+      }
+    } catch (e) {
+      notifyListeners();
+      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      print("LOGIN E : $e");
+    }
+  }
 
 }
