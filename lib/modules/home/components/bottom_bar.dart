@@ -2,6 +2,7 @@ import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,7 +15,7 @@ class AppBottomBar extends StatelessWidget {
       builder: (context, value, _) {
         return BottomNavigationBar(
             backgroundColor: Theme.of(context).primaryColor,
-            elevation: 3.h,
+            elevation: 5.h,
             currentIndex: value.selectedIndex,
             showUnselectedLabels: true,
             selectedItemColor: Theme.of(context).colorScheme.onError,
@@ -24,8 +25,8 @@ class AppBottomBar extends StatelessWidget {
             },
             items: [
               BottomNavigationBarItem(
-                icon: Image.asset(
-                  AppAssets.CONTACTS,
+                icon: SvgPicture.asset(
+                  AppAssets.APP_CONTACTS_SVG,
                   height: 3.h,
                   color: value.selectedIndex == 0
                       ? Theme.of(context).colorScheme.onError
@@ -34,32 +35,32 @@ class AppBottomBar extends StatelessWidget {
                 label: Constants.contacts,
               ),
               BottomNavigationBarItem(
-                icon: Image.asset(
-                  AppAssets.ACRIVITIES,
+                icon: SvgPicture.asset(
+                  AppAssets.APP_ACTIVITIES_SVG,
                   height: 3.h,
                   color: value.selectedIndex == 1
                       ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
                 ),
-                label: Constants.activities,
+                label: Constants.actives,
               ),
               BottomNavigationBarItem(
-                icon: Image.asset(
+                icon: SvgPicture.asset(
                   height: 3.h,
                   color: value.selectedIndex == 2
                       ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
-                  AppAssets.CHEACK_IN,
+                  AppAssets.APP_CHECKING_SVG,
                 ),
                 label: Constants.checkIn,
               ),
               BottomNavigationBarItem(
-                icon: Image.asset(
+                icon: SvgPicture.asset(
                   height: 3.h,
                   color: value.selectedIndex == 3
                       ? Theme.of(context).colorScheme.onError
                       : Theme.of(context).colorScheme.secondary,
-                  AppAssets.TRACKING,
+                  AppAssets.APP_TRACKING_SVG
                 ),
                 label: Constants.tracking,
               ),

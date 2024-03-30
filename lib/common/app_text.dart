@@ -15,7 +15,6 @@ class AppText extends StatelessWidget {
   double? height;
   dynamic decoration;
   String? fontFamily;
-  bool? isPoppins;
   TextOverflow? textOverflow;
   AppText(
       {super.key,
@@ -30,7 +29,6 @@ class AppText extends StatelessWidget {
       this.height,
       this.decoration,
       this.fontFamily,
-      this.isPoppins,
       this.textOverflow});
 
   @override
@@ -38,19 +36,10 @@ class AppText extends StatelessWidget {
     return Text(
       title ?? '',
       textAlign: textAlign ?? TextAlign.start,
-      style: isPoppins == false || isPoppins == null
-          ? GoogleFonts.outfit(
+      style: GoogleFonts.lato(
               height: height,
               fontSize: fontSize,
               fontWeight: fontWeight ?? FontWeight.w500,
-              color: color ?? Theme.of(context).colorScheme.secondary,
-              fontStyle: fontStyle,
-              letterSpacing: letterSpacing,
-              decoration: decoration ?? TextDecoration.none)
-          : GoogleFonts.poppins(
-              height: height,
-              fontSize: fontSize,
-          fontWeight: fontWeight ?? FontWeight.w500,
               color: color ?? Theme.of(context).colorScheme.secondary,
               fontStyle: fontStyle,
               letterSpacing: letterSpacing,

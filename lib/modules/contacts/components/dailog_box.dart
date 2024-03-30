@@ -1,14 +1,26 @@
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
+import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
-void showContactDialog(BuildContext context) {
+void showContactDialog(BuildContext context,
+    TextEditingController companyNameController,
+    TextEditingController emailController,
+    TextEditingController personNameController,
+    TextEditingController contactTypeController,
+    TextEditingController phoneNumberController,
+    TextEditingController addressController,
+    TextEditingController taxIdController,
+    TextEditingController descriptionController
+    ) {
   showDialog(
     context: context,
     builder: (context) {
@@ -47,7 +59,7 @@ void showContactDialog(BuildContext context) {
                       SizedBox(width: 4.w),
                       AppText(
                         title: 'Create Contact',
-                        fontSize: 2.h,isPoppins: true,),
+                        fontSize: 2.h),
                     ],
                   ),
                   IconButton(
@@ -66,90 +78,113 @@ void showContactDialog(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     AppText(
-                        title: "Company Name",
+                        title: Constants.company_Name,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: companyNameController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Pearson Name",
+                        title: Constants.person_Name,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: personNameController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Contact",
+                        title: Constants.contact_Type,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: contactTypeController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Phone Number",
+                        title: Constants.phone_Number,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: phoneNumberController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Email",
+                        title: Constants.email,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: emailController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Address",
+                        title: Constants.address,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: addressController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Tax ID",
+                        title: Constants.tax_ID,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: taxIdController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: "Additional Info",
+                        title: Constants.description,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
-                    appTextfield(context: context),
+                    appTextfield(context: context,controller: descriptionController,),
                   ],
                 ),
               ),
               appDivider(context: context),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6.w),
-                child: Center(
-                  child: appButton(
-                    width: double.infinity,
-                    height: 4.h,
-                    context: context,
-                    radius: 1.w,
-                    child: AppText(
-                        title: "Create",
-                        fontSize: 1.5.h,
-                        isPoppins: true,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .background,
-                        fontWeight:
-                        FontWeight.w600),
-                  ),
+                padding: EdgeInsets.symmetric(horizontal: 2.h),
+                child: Row(
+                  children: [
+                    Expanded(child: Center(
+                      child: appOutlineButton(
+                        boxColor: Theme.of(context)
+                    .colorScheme
+                    .onBackground.withOpacity(0.3),
+                        width: double.infinity,
+                        height: 4.h,
+                        context: context,
+                        radius: 1.w,
+                        child: AppText(
+                            title: Constants.cancel,
+                            fontSize: 1.5.h,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary,
+                            fontWeight:
+                            FontWeight.w600),
+                      ),
+                    ),),
+                    SizedBox(width: 2.h,),
+                    Expanded(child: Center(
+                      child: appButton(
+                        width: double.infinity,
+                        height: 4.h,
+                        context: context,
+                        radius: 1.w,
+                        child: AppText(
+                            title: Constants.save,
+                            fontSize: 1.5.h,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .background,
+                            fontWeight:
+                            FontWeight.w600),
+                      ),
+                    ),),
+                  ],
                 ),
               ),
               SizedBox(height: 2.h),

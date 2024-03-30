@@ -7,5 +7,7 @@ class RoutesName {
   static const CONTACT_DETAILS = '/contact_details';
   static const TRACKING = '/tracking';
   static const NEW_TASK = '/new_task';
-  static const RESET_EMAIL = '/resetemail';
+  static const RESET_EMAIL = '/reset_email';
+  static const RELATED_CONTACT = '/related_contacts';
+  static const ACTIVITIES = '/Activities';
 }

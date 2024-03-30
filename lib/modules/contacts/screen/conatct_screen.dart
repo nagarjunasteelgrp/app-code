@@ -45,7 +45,7 @@ class ContactScreen extends StatelessWidget {
                           height: 0.7.h,
                         ),
                         AppText(
-                          title: 'Filter',
+                          title: Constants.filter,
                           fontWeight: FontWeight.w500,
                         )
                       ],
@@ -65,36 +65,48 @@ class ContactScreen extends StatelessWidget {
                           height: 0.7.h,
                         ),
                         AppText(
-                          title: 'Sort',
+                          title: Constants.sort,
                           fontWeight: FontWeight.w500,
                         )
                       ],
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        showContactDialog(context);
-                      },
-                      child: Column(
-                        children: [
-                          appCircleIcon(
-                              context: context,
-                              colors: Theme.of(context).colorScheme.onPrimary,
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  AppAssets.APP_CREATE_SVG,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              )),
-                          SizedBox(
-                            height: 0.7.h,
-                          ),
-                          AppText(
-                            title: 'Create',
-                            fontWeight: FontWeight.w500,
-                          )
-                        ],
-                      ),
-                    ),
+                    Consumer<ContactProvider>(builder: (context, provider, _) {
+                      return  GestureDetector(
+                        onTap: (){
+                          showContactDialog(context,
+                            provider.emailController,
+                            provider.addressController,
+                            provider.phoneNumberController,
+                            provider.companyNameController,
+                            provider.personNameController,
+                            provider.contactTypeController,
+                            provider.taxIdController,
+                            provider.descriptionController,
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            appCircleIcon(
+                                context: context,
+                                colors: Theme.of(context).colorScheme.onPrimary,
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    AppAssets.APP_CONTACTS_SVG,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 0.7.h,
+                            ),
+                            AppText(
+                              title: Constants.new_Contact,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      );
+                    })
+
                   ],
                 ),
               ),
@@ -109,18 +121,15 @@ class ContactScreen extends StatelessWidget {
                       radius: 0.5.h,
                       height: 8.w,
                       width: 8.w,
-                      child: Padding(
-                        padding: const EdgeInsets.all(7.0),
-                        child: SvgPicture.asset(AppAssets.APP_CREATE_SVG,
-                            color: Theme.of(context).primaryColor),
-                      ),
+                      child: SvgPicture.asset(AppAssets.APP_CONTACTS_SVG,
+                          color: Theme.of(context).primaryColor),
                     ),
                     SizedBox(width: 2.w),
                     AppText(
                         title: Constants.contacts,
                         fontSize: 1.8.h,
                         fontWeight: FontWeight.w500,
-                        isPoppins: true),
+                        ),
                   ],
                 ),
               ),
@@ -131,7 +140,6 @@ class ContactScreen extends StatelessWidget {
                 children: List.generate(5, (index) {
                   return Column(
                     children: [
-                      // Get.toNamed(RoutesName.CONTACTS_LIST);
                       InkWell(
                         onTap: (){
                           Get.toNamed(RoutesName.CONTACTS_LIST);
@@ -148,44 +156,44 @@ class ContactScreen extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         AppText(
-                                            title: 'Person  Name',
+                                            title: '${Constants.company_Name} :',
                                             fontSize: 1.6.h,
                                             fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                           ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                         AppText(
-                                            title: 'Company Name',
+                                            title: '${Constants.person_Name} :',
                                             fontSize: 1.6.h,
                                             fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                            ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                         AppText(
-                                            title: 'Contact Type',
+                                            title: '${Constants.contact_Type} :',
                                             fontSize: 1.6.h,
                                             fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                            ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                         AppText(
-                                            title: 'Phone Number',
+                                            title: '${Constants.phone_Number} :',
                                             fontSize: 1.6.h,
                                             fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                            ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                         AppText(
-                                            title: 'Email Id',
+                                            title: '${Constants.email_Id} :',
                                             fontSize: 1.6.h,
                                             fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                          ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                       ],
                                     ),
@@ -196,47 +204,48 @@ class ContactScreen extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         AppText(
-                                            title: 'Philip',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            isPoppins: true),
-                                        SizedBox(
-                                          height: 0.5.h,
-                                        ),
-                                        AppText(
                                             title: 'Acme Corporation',
                                             fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            isPoppins: true,
+                                            fontWeight: FontWeight.w600,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onPrimary),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
+                                        ),
+                                        AppText(
+                                            title: 'Venkat',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                        SizedBox(
+                                          height: 0.8.h,
                                         ),
                                         AppText(
                                             title: 'Fabricator',
                                             fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                            fontWeight: FontWeight.w600,
+                                            ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                         AppText(
                                             title: '+91 9876543210',
                                             fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                            fontWeight: FontWeight.w600,
+                                            ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                         AppText(
                                             title: 'debra.holt@example.com',
                                             fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            isPoppins: true),
+                                            fontWeight: FontWeight.w600,
+                                            ),
                                         SizedBox(
-                                          height: 0.5.h,
+                                          height: 0.8.h,
                                         ),
                                       ],
                                     )
@@ -259,10 +268,6 @@ class ContactScreen extends StatelessWidget {
             ],
           ),
         );
-
-          // value.isSelected
-          //   ? const ContactListScreen()
-          //   : const ContactDetailsScreen();
       }),
     );
   }

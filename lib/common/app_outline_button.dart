@@ -6,6 +6,7 @@ Widget appOutlineButton(
     required BuildContext context,
     VoidCallback? onTap,
     Color? color,
+      Color? boxColor,
     double? margin,
     double? width,
     double? height,
@@ -20,7 +21,7 @@ Widget appOutlineButton(
         height: height ?? 6.h,
         width: width ?? 35.w,
         decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: boxColor ?? Colors.transparent,
             border: border ??
                 Border.all(
                     color: color ?? Theme.of(context).colorScheme.primary),

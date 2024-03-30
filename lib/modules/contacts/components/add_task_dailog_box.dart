@@ -44,8 +44,7 @@ void showAddTaskDialog(BuildContext context) {
                       SizedBox(width: 4.w),
                       AppText(
                         title: 'New Tasks',
-                        fontSize: 2.h,
-                        isPoppins: true,
+                        fontSize: 2.h
                       ),
                     ],
                   ),
@@ -140,7 +139,6 @@ void showAddTaskDialog(BuildContext context) {
                     child: AppText(
                         title: "Save",
                         fontSize: 1.5.h,
-                        isPoppins: true,
                         color: Theme.of(context).colorScheme.background,
                         fontWeight: FontWeight.w600),
                   ),

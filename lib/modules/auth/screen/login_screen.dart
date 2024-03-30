@@ -121,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                             context: context,
                             onTap: () {
                               provider.login(context);
-                              // showContactDialog(context);
+                              // Get.toNamed(RoutesName.HOME);
                             },
                           ),
                         );

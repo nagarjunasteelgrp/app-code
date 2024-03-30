@@ -43,7 +43,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     children: [
                       AppText(
                         title: 'My Tasks',
-                        isPoppins: true,
                           fontSize: 1.7.h
                       ),
                       Icon(
@@ -104,7 +103,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               radius: 2.w,
               child: AppText(
                 title: 'New Tasks',
-                isPoppins: true,
                 color: Theme.of(context).colorScheme.primary,
               )),
         ],

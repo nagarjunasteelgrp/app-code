@@ -28,8 +28,11 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: elevation ?? 1,
       leading: leadingArrow == false
-          ? Transform.scale(
-              scale: 0.55, child: SvgPicture.asset(AppAssets.APP_PROFILE_SVG))
+          ? Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Transform.scale(
+                scale: 0.5, child: SvgPicture.asset(AppAssets.APP_PROFILE_SVG)),
+          )
           : GestureDetector(
         onTap: onTap,
         child: Icon(Icons.arrow_back_ios_new,color: Theme.of(context).colorScheme.secondary,size: 5.w,),

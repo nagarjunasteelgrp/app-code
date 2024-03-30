@@ -1,6 +1,7 @@
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,7 +31,7 @@ Widget contactTopBar(
               height: 0.7.h,
             ),
             AppText(
-              title: 'Post',
+              title: Constants.post,
               fontWeight: FontWeight.w500,
             )
           ],
@@ -40,7 +41,7 @@ Widget contactTopBar(
           children: [
             appCircleIcon(
                 context: context,
-                colors: Theme.of(context).colorScheme.onPrimary,
+                colors: Theme.of(context).colorScheme.scrim,
                 child: Center(
                   child: SvgPicture.asset(
                     AppAssets.APP_FILE_SVG,
@@ -51,7 +52,7 @@ Widget contactTopBar(
               height: 0.7.h,
             ),
             AppText(
-              title: 'File',
+              title: Constants.file,
               fontWeight: FontWeight.w500,
             )
           ],
@@ -66,7 +67,7 @@ Widget contactTopBar(
                 colors: Theme.of(context).colorScheme.error,
                 child: Center(
                   child: SvgPicture.asset(
-                    AppAssets.APP_NEW_TASK_SVG,
+                    AppAssets.APP_ACTIVITIES_SVG,
                     color: Theme.of(context).primaryColor,
                   ),
                 )),
@@ -74,7 +75,7 @@ Widget contactTopBar(
               height: 0.7.h,
             ),
             AppText(
-              title: 'New Tasks',
+              title: Constants.new_Tasks,
               fontWeight: FontWeight.w500,
             )
           ],
@@ -83,7 +84,7 @@ Widget contactTopBar(
           children: [
             appCircleIcon(
                 context: context,
-                colors: Theme.of(context).colorScheme.scrim,
+                colors: Theme.of(context).colorScheme.onPrimary,
                 child: Center(
                   child: Icon(Icons.more_horiz_outlined,color: Theme.of(context).primaryColor),
                 )),
@@ -91,7 +92,7 @@ Widget contactTopBar(
               height: 0.7.h,
             ),
             AppText(
-              title: 'More',
+              title: Constants.more,
               fontWeight: FontWeight.w500,
             )
           ],

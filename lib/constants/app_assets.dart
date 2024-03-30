@@ -31,4 +31,10 @@ class AppAssets {
   static const String APP_CAPTURE_IMAGE_SVG = 'assets/svg/capture_image.svg';
   static const String APP_GEO_LOCATIONS_SVG = 'assets/svg/geo_location.svg';
   static const String APP_MAP_DUMMY_SVG = 'assets/svg/map_dummy.svg';
+  static const String APP_DASHBOARD_SVG = 'assets/svg/dashboard.svg';
+  static const String APP_ACTIVITIES_SVG = 'assets/svg/activities.svg';
+  static const String APP_CONTACTS_SVG = 'assets/svg/contacts.svg';
+  static const String APP_TRACKING_SVG = 'assets/svg/tracking_2.svg';
+  static const String APP_CHECKING_SVG = 'assets/svg/check_in_2.svg';
+
 }

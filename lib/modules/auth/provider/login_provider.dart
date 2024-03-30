@@ -32,31 +32,32 @@ class LoginProvider extends ChangeNotifier {
     FocusScope.of(context).unfocus();
     print("Email:- ${emailController.text}");
     print("Password:- ${passwordController.text}");
-    if (!Validation.isValidEmail(emailController.text.trim())) {
-      showAppSnackBar(context: context, title: 'Please enter a valid email address.');
+
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (email.isEmpty) {
+      showAppSnackBar(context: context, title: 'Please enter your username.');
       return;
     }
-    if (!Validation.isValidPassword(passwordController.text.trim())) {
-      showAppSnackBar(context: context, title: 'Password must be at least 6 characters.');
+    if (password.isEmpty) {
+      showAppSnackBar(context: context, title: 'Please enter your password.');
       return;
     }
+
     notifyListeners();
     try {
       var logResponse = await apiServices.login(email: emailController.text, password: passwordController.text);
-      if (logResponse['success'] == true) {
+      if (logResponse.containsKey('token')) {
         print("LOGIN SUCCESS : ${logResponse['token']}");
         await sharedPrefers.saveTokenToPrefs(logResponse['token']);
-        showAppSnackBar(type: 'success', context: context, title: 'Login Successful');
+        showAppSnackBar(type: 'success', context: context, title: logResponse['message']);
         emailController.clear();
         passwordController.clear();
         Get.toNamed(RoutesName.HOME);
       } else {
         print("LOGIN ERROR : ${logResponse['message']}");
-        showAppSnackBar(
-          type: 'Error',
-          context: context,
-          title: logResponse['message'],
-        );
+        showAppSnackBar(type: 'Error', context: context, title: logResponse['message']);
       }
     } catch (e) {
       notifyListeners();

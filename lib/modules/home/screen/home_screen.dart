@@ -1,6 +1,7 @@
 import 'package:digital_lync/common/app_bar.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
+import 'package:digital_lync/modules/contacts/screen/activities/activities_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
 import 'package:digital_lync/modules/home/components/bottom_bar.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      // backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CommonAppBar(
         elevation: Provider.of<HomeProvider>(context).selectedIndex == 4 ? 0 : 1,
         leadingArrow: Provider.of<HomeProvider>(context).selectedIndex == 0 ?
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             ? const MenuScreen()
             : value.selectedIndex == 0
                 ? const ContactScreen()
-                : value.selectedIndex == 2 ? const CheckInScreen() : const SizedBox();
+                : value.selectedIndex == 2 ? const CheckInScreen() : value.selectedIndex == 1 ? const ActivitiesScreen() : const SizedBox();
       }),
       bottomNavigationBar: const AppBottomBar(),
     );
