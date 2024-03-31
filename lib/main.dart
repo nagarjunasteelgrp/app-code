@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
           initialRoute:
-          // token != null ? RoutesName.HOME :
+          token != null ? RoutesName.HOME :
           RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );

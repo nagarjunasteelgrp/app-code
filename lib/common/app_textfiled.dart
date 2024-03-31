@@ -72,7 +72,6 @@ Widget appTextfield(
               .inputDecorationTheme
               .focusedErrorBorder!
               .borderSide
-          // borderSide: const BorderSide(width: 0.3, ),
           ),
       errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 3.w),

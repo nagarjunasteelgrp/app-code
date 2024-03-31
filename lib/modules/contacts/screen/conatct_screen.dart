@@ -19,79 +19,28 @@ class ContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<ContactProvider>(builder: (context, value, _) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 2.h,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 7.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+               crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 7.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        appCircleIcon(
-                            context: context,
-                            colors: Theme.of(context).colorScheme.inversePrimary,
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppAssets.APP_FILTER_SVG,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 0.7.h,
-                        ),
-                        AppText(
-                          title: Constants.filter,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        appCircleIcon(
-                            context: context,
-                            colors: Theme.of(context).colorScheme.scrim,
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppAssets.APP_SORT_ARROW_SVG,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 0.7.h,
-                        ),
-                        AppText(
-                          title: Constants.sort,
-                          fontWeight: FontWeight.w500,
-                        )
-                      ],
-                    ),
-                    Consumer<ContactProvider>(builder: (context, provider, _) {
-                      return  GestureDetector(
-                        onTap: (){
-                          showContactDialog(context,
-                            provider.emailController,
-                            provider.addressController,
-                            provider.phoneNumberController,
-                            provider.companyNameController,
-                            provider.personNameController,
-                            provider.contactTypeController,
-                            provider.taxIdController,
-                            provider.descriptionController,
-                          );
-                        },
-                        child: Column(
+                        Column(
                           children: [
                             appCircleIcon(
                                 context: context,
-                                colors: Theme.of(context).colorScheme.onPrimary,
+                                colors: Theme.of(context).colorScheme.inversePrimary,
                                 child: Center(
                                   child: SvgPicture.asset(
-                                    AppAssets.APP_CONTACTS_SVG,
+                                    AppAssets.APP_FILTER_SVG,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 )),
@@ -99,174 +48,248 @@ class ContactScreen extends StatelessWidget {
                               height: 0.7.h,
                             ),
                             AppText(
-                              title: Constants.new_Contact,
+                              title: Constants.filter,
                               fontWeight: FontWeight.w500,
                             )
                           ],
                         ),
-                      );
-                    })
-
-                  ],
-                ),
-              ),
-              appDivider(context: context,vertical: 0.6.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2.w),
-                child: Row(
-                  children: [
-                    appCircleIcon(
-                      context: context,
-                      colors: Theme.of(context).colorScheme.primary,
-                      radius: 0.5.h,
-                      height: 8.w,
-                      width: 8.w,
-                      child: SvgPicture.asset(AppAssets.APP_CONTACTS_SVG,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    SizedBox(width: 2.w),
-                    AppText(
-                        title: Constants.contacts,
-                        fontSize: 1.8.h,
-                        fontWeight: FontWeight.w500,
+                        Column(
+                          children: [
+                            appCircleIcon(
+                                context: context,
+                                colors: Theme.of(context).colorScheme.scrim,
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    AppAssets.APP_SORT_ARROW_SVG,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 0.7.h,
+                            ),
+                            AppText(
+                              title: Constants.sort,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
                         ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 1.5.h,
-              ),
-              Column(
-                children: List.generate(5, (index) {
-                  return Column(
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          Get.toNamed(RoutesName.CONTACTS_LIST);
-                        },
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        Consumer<ContactProvider>(builder: (context, provider, _) {
+                          return  GestureDetector(
+                            onTap: (){
+                              showContactDialog(context,
+                                  provider.companyNameController,
+                                  provider.personNameController,
+                                provider.phoneNumberController,
+                                provider.emailController,
+                                  provider.contactTypeController,
+                                  provider.taxIdController,
+                                  provider.addressController,
+                                provider.descriptionController,
+                               onTapSave: (){
+                                provider.createContact(context);
+                               },
+                                onTapCancel: (){
+                                  Get.back();
+                                }
+                              );
+                            },
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                            title: '${Constants.company_Name} :',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                           ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: '${Constants.person_Name} :',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: '${Constants.contact_Type} :',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: '${Constants.phone_Number} :',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                            ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: '${Constants.email_Id} :',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                            title: 'Acme Corporation',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: 'Venkat',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: 'Fabricator',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w600,
-                                            ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: '+91 9876543210',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w600,
-                                            ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                        AppText(
-                                            title: 'debra.holt@example.com',
-                                            fontSize: 1.6.h,
-                                            fontWeight: FontWeight.w600,
-                                            ),
-                                        SizedBox(
-                                          height: 0.8.h,
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                appCircleIcon(
+                                    context: context,
+                                    colors: Theme.of(context).colorScheme.onPrimary,
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        AppAssets.APP_CONTACTS_SVG,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    )),
+                                SizedBox(
+                                  height: 0.7.h,
                                 ),
+                                AppText(
+                                  title: Constants.new_Contact,
+                                  fontWeight: FontWeight.w500,
+                                )
                               ],
                             ),
-                          ),
+                          );
+                        })
+
+                      ],
+                    ),
+                  ),
+                  appDivider(context: context,vertical: 0.6.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    child: Row(
+                      children: [
+                        appCircleIcon(
+                          context: context,
+                          colors: Theme.of(context).colorScheme.primary,
+                          radius: 0.5.h,
+                          height: 8.w,
+                          width: 8.w,
+                          child: SvgPicture.asset(AppAssets.APP_CONTACTS_SVG,
+                              color: Theme.of(context).primaryColor),
                         ),
-                      ),
-                      index == 4 ? SizedBox() : appDivider(context: context),
-                      // index == contactList.length - 1 ? SizedBox() : appDivider(context: context),
-                    ],
-                  );
-                }),
+                        SizedBox(width: 2.w),
+                        AppText(
+                            title: Constants.contacts,
+                            fontSize: 1.8.h,
+                            fontWeight: FontWeight.w500,
+                            ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 1.5.h,
+                  ),
+                  Consumer<ContactProvider>(builder: (context, provider, _) {
+                    return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(provider.contactList.length, (index) {
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                Get.toNamed(RoutesName.CONTACTS_LIST , arguments: {
+                                  'id': provider.contactList[index]['id'],
+                                });
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                title: '${Constants.company_Name} :',
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: '${Constants.person_Name} :',
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: '${Constants.contact_Type} :',
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: '${Constants.phone_Number} :',
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: '${Constants.email_Id} :',
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                  title: provider.contactList[index]['companyName'],
+                                                  fontSize: 1.6.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                  title: provider.contactList[index]['personName'],
+                                                  fontSize: 1.6.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: provider.contactList[index]['contactType'],
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: provider.contactList[index]['phone'],
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                              AppText(
+                                                title: provider.contactList[index]['email'],
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              SizedBox(
+                                                height: 0.8.h,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            index == 4 ? SizedBox() : appDivider(context: context),
+                            // index == contactList.length - 1 ? SizedBox() : appDivider(context: context),
+                          ],
+                        );
+                      }),
+                    );
+                  }),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 2.h,
+            ),
+            if (value.isLoading)
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
-            ],
-          ),
+          ],
         );
       }),
     );

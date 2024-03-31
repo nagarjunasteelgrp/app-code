@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/validation.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -19,17 +21,19 @@ class ResetEmailProvider extends ChangeNotifier {
     notifyListeners();
     try {
       var logResponse = await apiServices.resetEmail(email: resetEmailController.text);
-      if (logResponse['success'] == true) {
-        print("RESET EMAIL SUCCESS : ${logResponse['token']}");
+      if (logResponse.statusCode == 200) {
+        var response = jsonDecode(logResponse.body);
+        print("RESET EMAIL SUCCESS : ${response['token']}");
         resetEmailController.clear();
-        showAppSnackBar(type: 'success', context: context, title: logResponse['message'],);
+        showAppSnackBar(type: 'success', context: context, title: response['message'],);
         Get.toNamed(RoutesName.LOGIN);
       } else {
-        print("RESET EMAIL ERROR : ${logResponse['message']}");
+        var response = jsonDecode(logResponse.body);
+        print("RESET EMAIL ERROR : ${response['message']}");
         showAppSnackBar(
           type: 'Error',
           context: context,
-          title: logResponse['message'],
+          title: response['message'],
         );
       }
     } catch (e) {

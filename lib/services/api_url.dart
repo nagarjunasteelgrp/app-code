@@ -8,4 +8,8 @@ class ApiUrl{
 
   static String createContactUrl = '${baseUrl}contacts';
 
+  static String listOfContactUrl = '${baseUrl}contacts';
+
+  static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
+
 }

@@ -13,14 +13,14 @@ import 'package:sizer/sizer.dart';
 
 void showContactDialog(BuildContext context,
     TextEditingController companyNameController,
-    TextEditingController emailController,
     TextEditingController personNameController,
-    TextEditingController contactTypeController,
     TextEditingController phoneNumberController,
-    TextEditingController addressController,
+    TextEditingController emailController,
+    TextEditingController contactTypeController,
     TextEditingController taxIdController,
-    TextEditingController descriptionController
-    ) {
+    TextEditingController addressController,
+    TextEditingController descriptionController,
+{VoidCallback? onTapCancel, VoidCallback? onTapSave}) {
   showDialog(
     context: context,
     builder: (context) {
@@ -94,14 +94,6 @@ void showContactDialog(BuildContext context,
                     appTextfield(context: context,controller: personNameController,),
                     SizedBox(height: 1.5.h),
                     AppText(
-                        title: Constants.contact_Type,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        fontSize: 1.5.h),
-                    SizedBox(height: 0.5.h),
-                    appTextfield(context: context,controller: contactTypeController,),
-                    SizedBox(height: 1.5.h),
-                    AppText(
                         title: Constants.phone_Number,
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.onSecondary,
@@ -116,6 +108,14 @@ void showContactDialog(BuildContext context,
                         fontSize: 1.5.h),
                     SizedBox(height: 0.5.h),
                     appTextfield(context: context,controller: emailController,),
+                    SizedBox(height: 1.5.h),
+                    AppText(
+                        title: Constants.contact_Type,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontSize: 1.5.h),
+                    SizedBox(height: 0.5.h),
+                    appTextfield(context: context,controller: contactTypeController,),
                     SizedBox(height: 1.5.h),
                     AppText(
                         title: Constants.address,
@@ -148,40 +148,46 @@ void showContactDialog(BuildContext context,
                 padding: EdgeInsets.symmetric(horizontal: 2.h),
                 child: Row(
                   children: [
-                    Expanded(child: Center(
-                      child: appOutlineButton(
-                        boxColor: Theme.of(context)
-                    .colorScheme
-                    .onBackground.withOpacity(0.3),
-                        width: double.infinity,
-                        height: 4.h,
-                        context: context,
-                        radius: 1.w,
-                        child: AppText(
-                            title: Constants.cancel,
-                            fontSize: 1.5.h,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary,
-                            fontWeight:
-                            FontWeight.w600),
+                    Expanded(child: GestureDetector(
+                      onTap: onTapCancel,
+                      child: Center(
+                        child: appOutlineButton(
+                          boxColor: Theme.of(context)
+                      .colorScheme
+                      .onBackground.withOpacity(0.3),
+                          width: double.infinity,
+                          height: 4.h,
+                          context: context,
+                          radius: 1.w,
+                          child: AppText(
+                              title: Constants.cancel,
+                              fontSize: 1.5.h,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary,
+                              fontWeight:
+                              FontWeight.w600),
+                        ),
                       ),
                     ),),
                     SizedBox(width: 2.h,),
-                    Expanded(child: Center(
-                      child: appButton(
-                        width: double.infinity,
-                        height: 4.h,
-                        context: context,
-                        radius: 1.w,
-                        child: AppText(
-                            title: Constants.save,
-                            fontSize: 1.5.h,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .background,
-                            fontWeight:
-                            FontWeight.w600),
+                    Expanded(child: GestureDetector(
+                      onTap: onTapSave,
+                      child: Center(
+                        child: appButton(
+                          width: double.infinity,
+                          height: 4.h,
+                          context: context,
+                          radius: 1.w,
+                          child: AppText(
+                              title: Constants.save,
+                              fontSize: 1.5.h,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .background,
+                              fontWeight:
+                              FontWeight.w600),
+                        ),
                       ),
                     ),),
                   ],
