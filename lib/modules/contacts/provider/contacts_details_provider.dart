@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'package:digital_lync/constants/app_token.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class ContactDetailsProvider extends ChangeNotifier{
 
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
-  int? contactId;
+  dynamic contactId;
   String? token;
   List contactDetails = [];
   String? companyName;
@@ -15,11 +17,15 @@ class ContactDetailsProvider extends ChangeNotifier{
   String? contactType;
   String? phoneNumber;
   String? email;
-
-
+  String? address;
+  String? taxId;
+  String? description;
 
 
   ContactDetailsProvider() {
+    contactId = Get.arguments['id'] ?? '';
+    print("CONTACTS DETAILS: $contactId");
+    notifyListeners();
     getToken().then((value) {
       token = value;
       contactDetailsAPI(token);
@@ -40,6 +46,9 @@ class ContactDetailsProvider extends ChangeNotifier{
           contactType = responseData['contactType'];
           phoneNumber = responseData['phone'];
           email = responseData['email'];
+          address = responseData['address'];
+          taxId = responseData['taxId'];
+          description = responseData['description'];
         } else {
           print("Empty or invalid response data.");
         }

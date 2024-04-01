@@ -51,6 +51,7 @@ Widget appTextfield(
     readOnly: readOnly ?? false,
     obscureText: obscureText ?? false,
     style: GoogleFonts.outfit(),
+    maxLines: maxLines ?? 1,
     decoration: InputDecoration(
       fillColor: Theme.of(context).colorScheme.onSurface,
       filled: true,

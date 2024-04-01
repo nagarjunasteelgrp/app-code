@@ -1,0 +1,33 @@
+import 'package:digital_lync/services/location_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class CurrentLocationProvider extends ChangeNotifier {
+  Position? userLocation;
+  final LocationService locationService = LocationService();
+
+  CurrentLocationProvider() {
+    getUserLocation();
+  }
+
+  Future<void> getUserLocation() async {
+    try {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      userLocation = await locationService.determinePosition();
+      if (kDebugMode) {
+        print("userLocation :1 ${userLocation!.latitude}");
+      }
+      if (kDebugMode) {
+        print("userLocation :2 ${userLocation!.longitude}");
+      }
+      sharedPreferences.setDouble("latitude", userLocation!.latitude);
+      sharedPreferences.setDouble("longitude", userLocation!.longitude);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+}

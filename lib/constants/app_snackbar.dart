@@ -8,6 +8,7 @@ void showAppSnackBar({required BuildContext context,required String title, subti
     elevation: 0,
     behavior: SnackBarBehavior.floating,
     backgroundColor: Colors.transparent,
+
     content: Container(
       decoration: BoxDecoration(
         color: type == 'success' || type == '' ? Theme.of(context).colorScheme.inversePrimary : Theme.of(context).colorScheme.error,

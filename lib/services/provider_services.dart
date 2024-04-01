@@ -2,7 +2,10 @@ import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:digital_lync/modules/auth/provider/reset_email_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
+import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/new_task_provider.dart';
+import 'package:digital_lync/modules/contacts/provider/releated_contacts_provider.dart';
+import 'package:digital_lync/modules/contacts/provider/tracking_provider.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:digital_lync/modules/menu/provider/menu_provider.dart';
 import 'package:provider/provider.dart';
@@ -16,4 +19,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => ContactDetailsProvider()),
   ChangeNotifierProvider(create: (context) => NewTaskProvider()),
   ChangeNotifierProvider(create: (context) => ResetEmailProvider()),
+  ChangeNotifierProvider(create: (context) => RelatedContactProvider()),
+  ChangeNotifierProvider(create: (context) => TrackingCurrentLocationProvider()),
+  ChangeNotifierProvider(create: (context) => CurrentLocationProvider()),
 ];

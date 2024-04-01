@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'api_url.dart';
 import 'package:http/http.dart' as http;
 
@@ -69,6 +70,16 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response> listOfRelatedContact({String? token}) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.relatedContactsListUrl),
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+    );
+    print("LIST OF RELATED CONTACT STATUS CODE : ${response.statusCode}");
+    print("LIST OF RELATED CONTACT BODY : ${response.body}");
+    return response;
+  }
+
 
   Future<http.Response> contactDetails({String? token,required int id}) async {
     final response = await http.get(
@@ -80,6 +91,46 @@ class ApiServices {
     return response;
   }
 
+
+  Future<http.Response> trackingNotes({String? token , String? description}) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.trackingNotesUrl),
+      headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token'},
+      body: jsonEncode({"description": description,"trackingInfoId": 1}),
+    );
+    print("TRACKING NOTES STATUS CODE : ${response.statusCode}");
+    print("TRACKING NOTES BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> trackingInfo({String? token, double? latitude, double? longitude,String? address}) async {
+    print("TRACKING MAP:-----1 ${latitude} : ${longitude} : ${address}");
+    final response = await http.post(
+      Uri.parse(ApiUrl.trackingInfoUrl),
+      headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token'},
+      body: jsonEncode({"latitude": latitude,"longitude": longitude,"address": address}),
+    );
+    print("TRACKING INFO STATUS CODE : ${response.statusCode}");
+    print("TRACKING INFO BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> trackingImages({
+    required String token,
+    required int trackingInfoId,
+    required File image,
+  }) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(ApiUrl.trackingImageUrl));
+    request.headers['Authorization'] = 'Bearer $token';
+    request.fields['trackingInfoId'] = trackingInfoId.toString();
+    request.files.add(await http.MultipartFile.fromPath('image', image.path));
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print("TRACKING IMAGES STATUS CODE : ${response.statusCode}");
+    print("TRACKING IMAGES BODY : ${response.body}");
+    return response;
+  }
 
 
 }

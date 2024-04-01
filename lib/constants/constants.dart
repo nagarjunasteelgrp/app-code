@@ -2,7 +2,7 @@
 
 class Constants {
   static const String APP_NAME = 'Nagarjuna Steel';
-
+  static const  String GoogleMapKey = 'AIzaSyA7S0qrzxF_OBMWU1qURvg6vXm0OFn0nHY';
   static const String PACKAGE_NAME = 'com.digital.lync.app';
 
   static const String contacts = 'Contacts';
@@ -41,4 +41,5 @@ class Constants {
   static const String select_Image_Source = 'Select Image Source';
   static const String use_Camera = 'Use Camera';
   static const String select_from_gallery = 'Select From Gallery';
+  static const String add_notes = 'Add Notes';
 }
