@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/constants/app_token.dart';
 import 'package:digital_lync/constants/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:digital_lync/services/api_service.dart';
 
 class ContactProvider extends ChangeNotifier {
@@ -19,9 +16,7 @@ class ContactProvider extends ChangeNotifier {
   TextEditingController taxIdController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-
   bool isSelected = true;
-  String? token;
   List contactList = [];
   bool isLoading = false;
   bool isAddContactButton = false;
@@ -38,10 +33,7 @@ class ContactProvider extends ChangeNotifier {
 
   ContactProvider() {
     selectedValue = dropDown.first;
-    getToken().then((value) {
-      token = value;
-      listOfContacts(token);
-    });
+      listOfContacts();
   }
 
   dropDownSelectedValue (newValue) {
@@ -49,14 +41,13 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  Future<void> listOfContacts(token) async {
+  Future<void> listOfContacts() async {
     try {
       if(contactList.isEmpty){
       isLoading = true;
       notifyListeners();
       }
-      var response = await apiServices.listOfContact(token: token);
+      var response = await apiServices.listOfContact();
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         print("LIST OF CONTACTS : ${responseData['contacts']}");
@@ -143,7 +134,6 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
     try {
       var logResponse = await apiServices.createContact(
-        token: token,
         personName: personName,
         companyName: companyName,
         email: emailId,
@@ -168,7 +158,7 @@ class ContactProvider extends ChangeNotifier {
         taxIdController.clear();
         descriptionController.clear();
         Get.back();
-        listOfContacts(token);
+        listOfContacts();
         notifyListeners();
       } else {
         isAddContactButton = false;

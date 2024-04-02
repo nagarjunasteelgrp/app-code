@@ -256,8 +256,7 @@ class ContactScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              index == 4 ? SizedBox() : appDivider(context: context),
-                              // index == contactList.length - 1 ? SizedBox() : appDivider(context: context),
+                              index == provider.contactList.length - 1 ? SizedBox() : appDivider(context: context),
                             ],
                           );
                         }),

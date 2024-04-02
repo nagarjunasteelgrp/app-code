@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:digital_lync/constants/global.dart';
+
 import 'api_url.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +33,6 @@ class ApiServices {
 
 
   Future<http.Response> createContact({
-    String? token,
     String? personName,
     String? companyName,
     String? email,
@@ -43,7 +44,7 @@ class ApiServices {
   }) async {
     final response = await http.post(
       Uri.parse(ApiUrl.createContactUrl),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+      headers:  await getHeaders(),
       body: jsonEncode({
         "personName": personName,
         "companyName": companyName,
@@ -60,20 +61,20 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> listOfContact({String? token}) async {
+  Future<http.Response> listOfContact() async {
     final response = await http.get(
       Uri.parse(ApiUrl.listOfContactUrl),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+      headers:  await getHeaders(),
     );
     print("LIST OF CONTACT STATUS CODE : ${response.statusCode}");
     print("LIST OF CONTACT BODY : ${response.body}");
     return response;
   }
 
-  Future<http.Response> listOfRelatedContact({String? token}) async {
+  Future<http.Response> listOfRelatedContact() async {
     final response = await http.get(
       Uri.parse(ApiUrl.relatedContactsListUrl),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+      headers:  await getHeaders(),
     );
     print("LIST OF RELATED CONTACT STATUS CODE : ${response.statusCode}");
     print("LIST OF RELATED CONTACT BODY : ${response.body}");
@@ -81,10 +82,10 @@ class ApiServices {
   }
 
 
-  Future<http.Response> contactDetails({String? token,required int id}) async {
+  Future<http.Response> contactDetails({required int id}) async {
     final response = await http.get(
       Uri.parse(ApiUrl.contactDetailsUrl(id)),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+      headers:  await getHeaders(),
     );
     print("CONTACT DETAILS STATUS CODE : ${response.statusCode}");
     print("CONTACT DETAILS BODY : ${response.body}");
@@ -92,43 +93,108 @@ class ApiServices {
   }
 
 
-  Future<http.Response> trackingNotes({String? token , String? description}) async {
+  Future<http.Response> trackingNotes({String? description ,int? trackingInfoId}) async {
     final response = await http.post(
       Uri.parse(ApiUrl.trackingNotesUrl),
-      headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token'},
-      body: jsonEncode({"description": description,"trackingInfoId": 1}),
+      headers:  await getHeaders(),
+      body: jsonEncode({"description": description,"trackingInfoId": trackingInfoId}),
     );
     print("TRACKING NOTES STATUS CODE : ${response.statusCode}");
     print("TRACKING NOTES BODY : ${response.body}");
     return response;
   }
 
-  Future<http.Response> trackingInfo({String? token, double? latitude, double? longitude,String? address}) async {
+  Future<http.Response> trackingInfo({double? latitude, double? longitude,String? address,int? userId}) async {
     print("TRACKING MAP:-----1 ${latitude} : ${longitude} : ${address}");
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
-      headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token'},
-      body: jsonEncode({"latitude": latitude,"longitude": longitude,"address": address}),
+      headers:  await getHeaders(),
+      body: jsonEncode({"latitude": latitude,"longitude": longitude,"address": address,
+      "userId": userId
+      }),
     );
+    print("TRACKING INFO STATUS CODE : ${response.request}");
+    print("TRACKING INFO STATUS CODE : ${response.body}");
     print("TRACKING INFO STATUS CODE : ${response.statusCode}");
     print("TRACKING INFO BODY : ${response.body}");
     return response;
   }
 
   Future<http.Response> trackingImages({
-    required String token,
     required int trackingInfoId,
     required File image,
   }) async {
+    var headers = await getHeaders();
     var request = http.MultipartRequest(
         'POST', Uri.parse(ApiUrl.trackingImageUrl));
-    request.headers['Authorization'] = 'Bearer $token';
+    request.headers.addAll(headers);
     request.fields['trackingInfoId'] = trackingInfoId.toString();
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     print("TRACKING IMAGES STATUS CODE : ${response.statusCode}");
     print("TRACKING IMAGES BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> trackingInfoList({required int id}) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.trackingInfoListUrl(id)),
+      headers:  await getHeaders(),
+      // headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+    );
+    print("TRACKING OF LIST STATUS CODE : ${response.statusCode}");
+    print("TRACKING OF LIST BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> getTaskList({required int id}) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.getTaskListUrl(id)),
+      headers:  await getHeaders(),
+    );
+    print("GET TASK OF LIST STATUS CODE : ${response.statusCode}");
+    print("GET TASK OF LIST BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> checkInList({required int id}) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.checkInListUrl(id)),
+      headers:  await getHeaders(),
+    );
+    print("CHECK IN OF LIST STATUS CODE : ${response.statusCode}");
+    print("CHECK IN OF LIST BODY : ${response.body}");
+    return response;
+  }
+
+
+  Future<http.Response> checkInAPI({int? userId,}) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.checkInUrl),
+      headers:  await getHeaders(),
+      body: jsonEncode({
+        "userId": userId,
+        "clockIn": DateTime.now().toIso8601String()}),
+    );
+    print("CHECK IN  STATUS CODE : ${response.statusCode}");
+    print("CHECK IN  BODY : ${response.body}");
+    return response;
+  }
+  
+  Future<http.Response> checkOutAPI({required int checkInId , int? userId, dynamic checkInTime}) async {
+    final response = await http.put(
+      Uri.parse(ApiUrl.checkOutUrl(checkInId)),
+      headers:  await getHeaders(),
+      body: jsonEncode({
+        "userId": userId,
+        "clockIn": checkInTime,
+        "clockOut": DateTime.now().toIso8601String()}),
+    );
+    print("CHECK OUT  STATUS CODE : ${response.request}");
+    print("CHECK OUT  STATUS CODE : ${response.body}");
+    print("CHECK OUT  STATUS CODE : ${response.statusCode}");
+    print("CHECK OUT  BODY : ${response.body}");
     return response;
   }
 

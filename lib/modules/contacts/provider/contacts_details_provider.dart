@@ -10,7 +10,6 @@ class ContactDetailsProvider extends ChangeNotifier{
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
   dynamic contactId;
-  String? token;
   List contactDetails = [];
   String? companyName;
   String? personName;
@@ -26,17 +25,14 @@ class ContactDetailsProvider extends ChangeNotifier{
     contactId = Get.arguments['id'] ?? '';
     print("CONTACTS DETAILS: $contactId");
     notifyListeners();
-    getToken().then((value) {
-      token = value;
-      contactDetailsAPI(token);
-    });
+      contactDetailsAPI();
   }
 
-  Future<void> contactDetailsAPI(context) async {
+  Future<void> contactDetailsAPI() async {
     try {
       isLoading = true;
       notifyListeners();
-      var response = await apiServices.contactDetails(token: token, id: contactId!);
+      var response = await apiServices.contactDetails(id: contactId!);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         print("CONTACTS List DETAILS: $responseData");

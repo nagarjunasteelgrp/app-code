@@ -54,163 +54,165 @@ class ContactDetailsScreen extends StatelessWidget {
              Expanded(
                child: (provider.isLoading) ? Center(
                  child: SpinKitLoader(),
-               ) : Column(
-               children: [
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                   child: Row(
-                     children: [
-                       Expanded(child: AppText(title: Constants.company_Name,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.companyName,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                     ],
+               ) : SingleChildScrollView(
+                 child: Column(
+                 children: [
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 5.w),
+                     child: Row(
+                       children: [
+                         Expanded(child: AppText(title: Constants.company_Name,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.companyName,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                   child: Row(
-                     children: [
-                       Expanded(child: AppText(title: Constants.person_Name,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.personName,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 5.w),
+                     child: Row(
+                       children: [
+                         Expanded(child: AppText(title: Constants.person_Name,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.personName,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                   child: Row(
-                     children: [
-                       Expanded(child: AppText(title: Constants.contact_Type,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.contactType,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 5.w),
+                     child: Row(
+                       children: [
+                         Expanded(child: AppText(title: Constants.contact_Type,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.contactType,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                   child: Row(
-                     children: [
-                       Expanded(child: AppText(title: Constants.phone_Number,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.phoneNumber,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 5.w),
+                     child: Row(
+                       children: [
+                         Expanded(child: AppText(title: Constants.phone_Number,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.phoneNumber,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 4.w),
-                   child: Row(
-                     children: [
-                       Expanded(child: AppText(title: Constants.email_Id,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.email,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 4.w),
+                     child: Row(
+                       children: [
+                         Expanded(child: AppText(title: Constants.email_Id,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.email,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 4.w),
-                   child: Row(
-                     children: [
-                       Expanded(child: AppText(title: Constants.address,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.address,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 4.w),
+                     child: Row(
+                       children: [
+                         Expanded(child: AppText(title: Constants.address,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.address,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                   child: Row(
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Expanded(child: AppText(title: Constants.tax_ID,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.taxId,fontWeight: FontWeight.w500, fontSize: 1.5.h,color: Theme.of(context)
-                           .colorScheme
-                           .onPrimary)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 5.w),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Expanded(child: AppText(title: Constants.tax_ID,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.taxId,fontWeight: FontWeight.w500, fontSize: 1.5.h,color: Theme.of(context)
+                             .colorScheme
+                             .onPrimary)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                   child: Row(
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Expanded(child: AppText(title: Constants.description,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                       Expanded(child: AppText(title: provider.description,fontWeight: FontWeight.w600, fontSize: 1.5.h,maxLines: 5,)),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 5.w),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Expanded(child: AppText(title: Constants.description,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
+                         Expanded(child: AppText(title: provider.description,fontWeight: FontWeight.w600, fontSize: 1.5.h,maxLines: 5,)),
+                       ],
+                     ),
                    ),
-                 ),
-                 appDivider(context: context),
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 4.h),
-                   child: Row(
-                     children: [
-                       Expanded(child: Center(
-                         child: appOutlineButton(
-                           boxColor: Theme.of(context)
-                               .colorScheme
-                               .onBackground.withOpacity(0.3),
-                           width: double.infinity,
-                           height: 4.h,
-                           context: context,
-                           radius: 1.w,
-                           child: AppText(
-                               title: Constants.cancel,
-                               fontSize: 1.5.h,
-                               color: Theme.of(context)
-                                   .colorScheme
-                                   .primary,
-                               fontWeight:
-                               FontWeight.w600),
-                         ),
-                       ),),
-                       SizedBox(width: 2.h,),
-                       Expanded(child: Center(
-                         child: appButton(
-                           width: double.infinity,
-                           height: 4.h,
-                           context: context,
-                           radius: 1.w,
-                           child: AppText(
-                               title: Constants.save,
-                               fontSize: 1.5.h,
-                               color: Theme.of(context)
-                                   .colorScheme
-                                   .background,
-                               fontWeight:
-                               FontWeight.w600),
-                         ),
-                       ),),
-                       // Padding(
-                       //   padding: EdgeInsets.symmetric(horizontal: 6.w),
-                       //   child: Center(
-                       //     child: appButton(
-                       //       width: double.infinity,
-                       //       height: 4.h,
-                       //       context: context,
-                       //       radius: 1.w,
-                       //       child: AppText(
-                       //           title: Constants.save,
-                       //           fontSize: 1.5.h,
-                       //           color: Theme.of(context)
-                       //               .colorScheme
-                       //               .background,
-                       //           fontWeight:
-                       //           FontWeight.w600),
-                       //     ),
-                       //   ),
-                       // ),
-                       // SizedBox(width: 2.h),
-                       // Padding(
-                       //   padding: EdgeInsets.symmetric(horizontal: 6.w),
-                       //   child:
-                       // ),
-                     ],
+                   appDivider(context: context),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 4.h),
+                     child: Row(
+                       children: [
+                         Expanded(child: Center(
+                           child: appOutlineButton(
+                             boxColor: Theme.of(context)
+                                 .colorScheme
+                                 .onBackground.withOpacity(0.3),
+                             width: double.infinity,
+                             height: 4.h,
+                             context: context,
+                             radius: 1.w,
+                             child: AppText(
+                                 title: Constants.cancel,
+                                 fontSize: 1.5.h,
+                                 color: Theme.of(context)
+                                     .colorScheme
+                                     .primary,
+                                 fontWeight:
+                                 FontWeight.w600),
+                           ),
+                         ),),
+                         SizedBox(width: 2.h,),
+                         Expanded(child: Center(
+                           child: appButton(
+                             width: double.infinity,
+                             height: 4.h,
+                             context: context,
+                             radius: 1.w,
+                             child: AppText(
+                                 title: Constants.save,
+                                 fontSize: 1.5.h,
+                                 color: Theme.of(context)
+                                     .colorScheme
+                                     .background,
+                                 fontWeight:
+                                 FontWeight.w600),
+                           ),
+                         ),),
+                         // Padding(
+                         //   padding: EdgeInsets.symmetric(horizontal: 6.w),
+                         //   child: Center(
+                         //     child: appButton(
+                         //       width: double.infinity,
+                         //       height: 4.h,
+                         //       context: context,
+                         //       radius: 1.w,
+                         //       child: AppText(
+                         //           title: Constants.save,
+                         //           fontSize: 1.5.h,
+                         //           color: Theme.of(context)
+                         //               .colorScheme
+                         //               .background,
+                         //           fontWeight:
+                         //           FontWeight.w600),
+                         //     ),
+                         //   ),
+                         // ),
+                         // SizedBox(width: 2.h),
+                         // Padding(
+                         //   padding: EdgeInsets.symmetric(horizontal: 6.w),
+                         //   child:
+                         // ),
+                       ],
+                     ),
                    ),
-                 ),
-               ],
-                             ),
+                 ],
+                               ),
+               ),
              ),
          ],
        );

@@ -45,7 +45,12 @@ class LoginProvider extends ChangeNotifier {
       if (logResponse.statusCode == 200) {
         var response = jsonDecode(logResponse.body);
         print("LOGIN SUCCESS : ${response['token']}");
+        print("LOGIN SUCCESS : ${response['userInfo']['userId']}");
         await sharedPrefers.saveTokenToPrefs(response['token']);
+        await sharedPrefers.saveUserIdPrefs(response['userInfo']['userId']);
+        await sharedPrefers.saveUserEmailPrefs(response['userInfo']['email'].toString());
+        await sharedPrefers.saveUserPhoneNoPrefs(response['userInfo']['mobile'].toString());
+        await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['username'].toString());
         showAppSnackBar(type: 'success', context: context, title: response['message']);
         emailController.clear();
         passwordController.clear();

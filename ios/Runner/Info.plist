@@ -24,7 +24,7 @@
         <string>This app needs access to location when open.</string>
         <key>NSLocationTemporaryUsageDescriptionDictionary</key>
         <dict>
-          <key>AIzaSyA7S0qrzxF_OBMWU1qURvg6vXm0OFn0nHY</key>
+          <key>AIzaSyB6P55VaSsCmcFlxWNVwetPXqEFZzwTeKI</key>
           <string>The example App requires temporary access to the device&apos;s precise location.</string>
         </dict>
 		<key>CFBundleSignature</key>
