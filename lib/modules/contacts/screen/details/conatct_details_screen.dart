@@ -7,7 +7,10 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/components/contact_topbar.dart';
+import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
+import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -15,13 +18,15 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+ContactDetailsProvider contactDetailsProvider = ContactDetailsProvider();
+
 class ContactDetailsScreen extends StatelessWidget {
   const ContactDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: ContactDetailsProvider(),
+      value: contactDetailsProvider,
       child: Scaffold(
         appBar: CommonAppBar(
           title: Constants.APP_NAME,
@@ -44,9 +49,14 @@ class ContactDetailsScreen extends StatelessWidget {
              children: [
                SizedBox(width: 3.h,),
                AppText(title: Constants.details,fontWeight: FontWeight.w600,fontSize: 1.6.h),
-               Padding(
-                 padding: EdgeInsets.symmetric(horizontal: 1.0.h),
-                 child: Image.asset(AppAssets.EDIT),
+               GestureDetector(
+                 onTap: (){
+                   showContactUpdateDialog(context);
+                 },
+                 child: Padding(
+                   padding: EdgeInsets.symmetric(horizontal: 1.0.h),
+                   child: Image.asset(AppAssets.EDIT),
+                 ),
                ),
              ],
            ),
@@ -143,73 +153,6 @@ class ContactDetailsScreen extends StatelessWidget {
                      ),
                    ),
                    appDivider(context: context),
-                   Padding(
-                     padding: EdgeInsets.symmetric(horizontal: 4.h),
-                     child: Row(
-                       children: [
-                         Expanded(child: Center(
-                           child: appOutlineButton(
-                             boxColor: Theme.of(context)
-                                 .colorScheme
-                                 .onBackground.withOpacity(0.3),
-                             width: double.infinity,
-                             height: 4.h,
-                             context: context,
-                             radius: 1.w,
-                             child: AppText(
-                                 title: Constants.cancel,
-                                 fontSize: 1.5.h,
-                                 color: Theme.of(context)
-                                     .colorScheme
-                                     .primary,
-                                 fontWeight:
-                                 FontWeight.w600),
-                           ),
-                         ),),
-                         SizedBox(width: 2.h,),
-                         Expanded(child: Center(
-                           child: appButton(
-                             width: double.infinity,
-                             height: 4.h,
-                             context: context,
-                             radius: 1.w,
-                             child: AppText(
-                                 title: Constants.save,
-                                 fontSize: 1.5.h,
-                                 color: Theme.of(context)
-                                     .colorScheme
-                                     .background,
-                                 fontWeight:
-                                 FontWeight.w600),
-                           ),
-                         ),),
-                         // Padding(
-                         //   padding: EdgeInsets.symmetric(horizontal: 6.w),
-                         //   child: Center(
-                         //     child: appButton(
-                         //       width: double.infinity,
-                         //       height: 4.h,
-                         //       context: context,
-                         //       radius: 1.w,
-                         //       child: AppText(
-                         //           title: Constants.save,
-                         //           fontSize: 1.5.h,
-                         //           color: Theme.of(context)
-                         //               .colorScheme
-                         //               .background,
-                         //           fontWeight:
-                         //           FontWeight.w600),
-                         //     ),
-                         //   ),
-                         // ),
-                         // SizedBox(width: 2.h),
-                         // Padding(
-                         //   padding: EdgeInsets.symmetric(horizontal: 6.w),
-                         //   child:
-                         // ),
-                       ],
-                     ),
-                   ),
                  ],
                                ),
                ),

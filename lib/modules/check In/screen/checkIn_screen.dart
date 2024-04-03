@@ -11,6 +11,7 @@ import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -52,7 +53,7 @@ class CheckInScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 3.w),
                             AppText(
-                              title: Constants.checkIn,
+                              title: Constants.attendance,
                               fontSize: 1.8.h,
                               fontWeight: FontWeight.w500,
                             ),
@@ -64,7 +65,14 @@ class CheckInScreen extends StatelessWidget {
                          onTap: (){
                            showCheckInDialog(context);
                        },
-                         child: AppText(title: provider.checkInStatus ? Constants.checkIn : Constants.checkOut),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             AppText(title: provider.checkInStatus ? Constants.checkIn : Constants.checkOut),
+                             SizedBox(width: 1.h),
+                             provider.checkInStatus ? SizedBox() :  Icon(Icons.login)
+                           ],
+                         ),
                        ),
                       ],
                     ),
@@ -72,7 +80,9 @@ class CheckInScreen extends StatelessWidget {
                   SizedBox(height: 3.h),
                   Expanded(
                     child:
-                    provider.isLoading ? Center(child: SpinKitLoader()) : SingleChildScrollView(
+                    provider.isLoading ? Center(child: SpinKitLoader()) : provider.checkInList.length < 0 ? Center(
+              child: AppText(title: Constants.result_not_found,),
+              ) : SingleChildScrollView(
                       child: Column(
                               children: List.generate(
                                   provider.checkInList.length, (index) {
@@ -150,8 +160,9 @@ class CheckInScreen extends StatelessWidget {
                                                   height: 1.0.h,
                                                 ),
                                                 AppText(
-                                                    title: provider
-                                                        .checkInList[index]['clockIn'].substring(0, 10),
+                                                    title: DateFormat('yyyy-MM-dd   h:mm a').format(
+                                                        DateTime.parse(provider.checkInList[index]['clockIn'])
+                                                    ),
                                                     fontSize: 1.6.h,
                                                     fontWeight: FontWeight.w600,color: Theme
                                                     .of(context)
@@ -163,8 +174,9 @@ class CheckInScreen extends StatelessWidget {
                                                 AppText(
                                                     title:provider
                                                         .checkInList[index]['clockOut'] != null ?
-                                                    provider
-                                                        .checkInList[index]['clockOut'].substring(0, 10) : 'Remaining check out time',
+                                                    DateFormat('yyyy-MM-dd   h:mm a').format(
+                                                        DateTime.parse(provider.checkInList[index]['clockOut'])
+                                                    ) : 'Remaining check out time',
                                                     fontSize: 1.6.h,
                                                     fontWeight: FontWeight.w600,
                                                     color: Theme

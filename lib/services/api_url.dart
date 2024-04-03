@@ -12,6 +12,8 @@ class ApiUrl{
 
   static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
 
+  static String contactUpdateUrl(int id) => '${baseUrl}contacts/$id';
+
   static String relatedContactsListUrl = '${baseUrl}related-contacts';
 
   static String trackingInfoUrl = '${baseUrl}tracking-info';
@@ -24,8 +26,6 @@ class ApiUrl{
 
 
   static String checkInListUrl(int id) => '${baseUrl}attendance/user/$id';
-
-
 
   static String checkInUrl = '${baseUrl}attendance';
   static String checkOutUrl(int id) => '${baseUrl}attendance/$id';

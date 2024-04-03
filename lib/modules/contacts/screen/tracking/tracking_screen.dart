@@ -10,7 +10,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/tracking/components/add_notes_dailog.dart';
 import 'package:digital_lync/modules/tracking/components/bottomsheet.dart';
 import 'package:digital_lync/modules/tracking/components/map_dailog_box.dart';
-import 'package:digital_lync/modules/contacts/provider/tracking_provider.dart';
+import 'package:digital_lync/modules/contacts/provider/tracking_contacts_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -106,8 +106,7 @@ class TrackingContactScreen extends StatelessWidget {
                           }),
                       SizedBox(height: 1.h,),
                       Column(
-                        children: List.generate(
-                            provider.trackingInfoNotesList.length, (index) {
+                        children: List.generate(provider.trackingInfoNotesList.length, (index) {
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 1.h),
                             child: Container(
@@ -153,9 +152,7 @@ class TrackingContactScreen extends StatelessWidget {
                                             maxLines: 3,
                                             textOverflow:
                                             TextOverflow.ellipsis,
-                                            title: provider
-                                                .trackingInfoNotesList[
-                                            index]['description'],
+                                            title: provider.trackingInfoNotesList[index]['description'],
                                           ),
                                         )
                                       ],

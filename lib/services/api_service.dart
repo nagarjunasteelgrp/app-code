@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/global.dart';
-
 import 'api_url.dart';
 import 'package:http/http.dart' as http;
-
 
 class ApiServices {
 
@@ -87,8 +85,41 @@ class ApiServices {
       Uri.parse(ApiUrl.contactDetailsUrl(id)),
       headers:  await getHeaders(),
     );
+    print("CONTACT DETAILS STATUS CODE : ${response.request}");
     print("CONTACT DETAILS STATUS CODE : ${response.statusCode}");
     print("CONTACT DETAILS BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> contactUpdate({
+    String? personName,
+    String? companyName,
+    String? email,
+    String? phone,
+    String? contactType,
+    String? taxId,
+    String? address,
+    String? description,
+    int? userId,
+    int? contactUserId,
+  }) async {
+    final response = await http.put(
+      Uri.parse(ApiUrl.contactUpdateUrl(contactUserId!)),
+      headers:  await getHeaders(),
+      body: jsonEncode({
+        "personName": personName,
+        "companyName": companyName,
+        "phone": phone,
+        "email": email,
+        "taxId": taxId,
+        "contactType": contactType,
+        "address": address,
+        "description": description,
+        "userId": userId,
+      }),
+    );
+    print("CREATE CONTACT STATUS CODE : ${response.statusCode}");
+    print("CREATE CONTACT BODY : ${response.body}");
     return response;
   }
 

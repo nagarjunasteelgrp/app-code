@@ -21,10 +21,20 @@ class ContactProvider extends ChangeNotifier {
   bool isLoading = false;
   bool isAddContactButton = false;
   String? selectedValue;
+
   List dropDown = [
     "customer",
-    "admin"
+    "fabricator",
+    "dealer",
   ];
+
+  bool _isListReversed = false;
+  bool get isListReversed => _isListReversed;
+
+  void toggleListOrder() {
+    _isListReversed = !_isListReversed;
+    notifyListeners();
+  }
 
   toggleSelected(bool value) {
     isSelected = value;

@@ -12,7 +12,7 @@ class LoginProvider extends ChangeNotifier {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  bool isLoading = false;
   bool isChecked = false;
 
   void toggleCheckbox() {
@@ -41,8 +41,12 @@ class LoginProvider extends ChangeNotifier {
     }
     notifyListeners();
     try {
+      isLoading = true;
+      notifyListeners();
       var logResponse = await apiServices.login(email: emailController.text, password: passwordController.text);
       if (logResponse.statusCode == 200) {
+        isLoading = false;
+        notifyListeners();
         var response = jsonDecode(logResponse.body);
         print("LOGIN SUCCESS : ${response['token']}");
         print("LOGIN SUCCESS : ${response['userInfo']['userId']}");
@@ -56,11 +60,14 @@ class LoginProvider extends ChangeNotifier {
         passwordController.clear();
         Get.toNamed(RoutesName.HOME);
       } else {
+        isLoading = false;
+        notifyListeners();
         var response = jsonDecode(logResponse.body);
         print("LOGIN ERROR : ${response['message']}");
         showAppSnackBar(type: 'Error', context: context, title: response['message']);
       }
     } catch (e) {
+      isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
       print("LOGIN E : $e");

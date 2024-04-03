@@ -1,10 +1,6 @@
-import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
-import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
+import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/routes/routes_path.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
@@ -109,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 1.w),
                       Consumer<LoginProvider>(builder: (context, provider, _) {
-                        return Center(
+                        return provider.isLoading ? const Center(child: SpinKitLoader()) : Center(
                           child: appButton(
                             width: 80.w,
                             child: AppText(

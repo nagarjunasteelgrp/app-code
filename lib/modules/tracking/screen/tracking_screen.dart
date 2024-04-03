@@ -1,10 +1,8 @@
-import 'package:digital_lync/common/app_bar.dart';
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
-import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/tracking/components/add_notes_dailog.dart';
 import 'package:digital_lync/modules/tracking/components/bottomsheet.dart';
 import 'package:digital_lync/modules/tracking/components/map_dailog_box.dart';
@@ -30,6 +28,7 @@ class TrackingScreen extends StatelessWidget {
       child: Scaffold(
         body: Consumer<TrackingProvider>(
             builder: (context, provider, child) {
+              print("IMAGE LIST IN PROVIDER:-----${provider.trackingInfoImagesList}");
               return provider.isLoading == false ?
               SingleChildScrollView(
                 child: Padding(
@@ -40,9 +39,11 @@ class TrackingScreen extends StatelessWidget {
                       appOutlineButton(
                           context: context,
                           onTap: () {
-                            showMapDialog(context);
-                            if (!provider.geoLocationBtn) {
-                              provider.geoLocationBtn = true;
+                            if(provider.trackingInfoId == 0){
+                              showMapDialog(context);
+                              if (!provider.geoLocationBtn) {
+                                provider.geoLocationBtn = true;
+                              }
                             }
                           },
                           height: 5.5.h,
@@ -80,16 +81,7 @@ class TrackingScreen extends StatelessWidget {
                                 context: context,
                                 onTap: () =>
                                 provider.trackingInfoId != 0  ?
-                                contactBottomSheet(context,
-                                    cameraOnTap: () {
-                                      provider.getImage(
-                                          context, ImageSource.camera);
-                                      Get.back();
-                                    }, galleryOnTap: () {
-                                      provider.getImage(
-                                          context, ImageSource.gallery);
-                                      Get.back();
-                                    })
+                                contactBottomSheet(context,provider)
                                 : {},
                                 height: 5.5.h,
                                 radius: 1.h,

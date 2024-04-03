@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,6 @@ class TrackingProvider extends ChangeNotifier {
         icon: BitmapDescriptor.defaultMarker,
         markerId: MarkerId(latLng.toString()),
         position: latLng,
-
         onTap: () {
           print(address);
         },
@@ -89,14 +87,24 @@ class TrackingProvider extends ChangeNotifier {
 
   Future getImage(BuildContext context,ImageSource source) async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: source);
-    if (pickedImage != null) {
-      image = File(pickedImage.path);
-      await trackingImages(context);
-      notifyListeners();
-    } else {
-      print('No image selected.');
-    }
+    final pickedImage = await picker.pickImage(source: source).then((value) {
+      if (value != null) {
+        image = File(value.path);
+
+        if(image != null){
+           trackingImages(context);
+
+
+        }
+        notifyListeners();
+
+      } else {
+        print('No image selected.');
+      }
+
+    });
+
+
     notifyListeners();
   }
 
@@ -178,29 +186,36 @@ class TrackingProvider extends ChangeNotifier {
 
 
   Future<void> trackingImages(BuildContext context) async {
+    print("TRACKING IMAGES 1: $trackingInfoId");
+    print("TRACKING IMAGES 2: $image");
+
     isLoading = true;
     notifyListeners();
     FocusScope.of(context).unfocus();
-    notifyListeners();
     try {
       if (image != null) {
-        var logResponse = await apiServices.trackingImages(
+         await apiServices.trackingImages(
           trackingInfoId: trackingInfoId!,
           image: image!,
-        );
-        if (logResponse.statusCode == 201) {
-          var response = jsonDecode(logResponse.body);
-          showAppSnackBar(type: 'success', context: context, title: response['message']);
-          isLoading = false;
-          trackingInfoAPI();
-          notifyListeners();
-        } else {
-          var response = jsonDecode(logResponse.body);
-          isLoading = false;
-          notifyListeners();
-          print("TRACKING IMAGES ERROR : ${logResponse.body}");
-          showAppSnackBar(type: 'Error', context: context, title: response['message']);
-        }
+        ).then((value) async {
+          print("trackingImages:-----------------$value");
+          if (value.statusCode == 201) {
+            Get.back();
+            isLoading = false;
+            notifyListeners();
+            var response = jsonDecode(value.body);
+            print("TRACKING IMAGES RESPONSE : ${value.body}");
+            showAppSnackBar(type: 'success', context: context, title: response['message']);
+            trackingInfoAPI();
+            notifyListeners();
+          } else {
+            var response = jsonDecode(value.body);
+            isLoading = false;
+            notifyListeners();
+            print("TRACKING IMAGES ERROR : ${value.body}");
+            showAppSnackBar(type: 'Error', context: context, title: response['message']);
+          }
+        });
       }
     } catch (e) {
       isLoading = false;
@@ -212,7 +227,7 @@ class TrackingProvider extends ChangeNotifier {
 
 
   Future trackingInfoAPI() async {
-    print("ITS WORKING AFTER NOTES:--------");
+    print("ITS WORKING AFTER NOTES:--------$trackingInfoId");
     try {
       isLoading = true;
       notifyListeners();
@@ -223,7 +238,7 @@ class TrackingProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         markers.clear();
         var responseData = jsonDecode(response.body);
-        print("responseData:---------------1 ${responseData}");
+        print("responseData:---------------1 ${responseData['trackingInfo']['trackingImages']}");
         trackingInfoNotesList = responseData['trackingInfo']['trackingNotes'];
         trackingInfoImagesList = responseData['trackingInfo']['trackingImages'];
         print("responseData:---------------2 ${responseData}");

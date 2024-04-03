@@ -53,7 +53,9 @@ class ActivitiesScreen extends StatelessWidget {
               ),
               SizedBox(height: 3.h),
                      Expanded(
-                       child: provider.isLoading ? Center(child: SpinKitLoader()) :SingleChildScrollView(
+                       child: provider.isLoading ? Center(child: SpinKitLoader()) : provider.taskList.length < 0 ? Center(
+                         child: AppText(title: Constants.result_not_found,),
+                       ) : SingleChildScrollView(
                          child: Column(
                           children: List.generate(
                               provider.taskList.length, (index) {

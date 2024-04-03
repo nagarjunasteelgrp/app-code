@@ -13,11 +13,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double titleFontSize; // Added font size parameter
   final double? elevation; // Added font size parameter
   VoidCallback? onTap;
+  VoidCallback? onTapLogo;
    CommonAppBar({
     super.key,
     this.title,
     this.elevation,
     this.onTap,
+     this.onTapLogo,
     this.leadingArrow = false,
     this.titleFontSize = 20, // Default font size
     this.actions,
@@ -28,10 +30,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: elevation ?? 1,
       leading: leadingArrow == false
-          ? Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: Transform.scale(
-                scale: 0.5, child: SvgPicture.asset(AppAssets.APP_PROFILE_SVG)),
+          ? GestureDetector(
+        onTap: onTapLogo,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Transform.scale(
+                  scale: 0.5, child: SvgPicture.asset(AppAssets.APP_PROFILE_SVG)),
+            ),
           )
           : GestureDetector(
         onTap: onTap,

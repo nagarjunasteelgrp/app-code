@@ -3,6 +3,7 @@ import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
@@ -56,25 +57,30 @@ class ContactScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          Column(
-                            children: [
-                              appCircleIcon(
-                                  context: context,
-                                  colors: Theme.of(context).colorScheme.scrim,
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      AppAssets.APP_SORT_ARROW_SVG,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 0.7.h,
-                              ),
-                              AppText(
-                                title: Constants.sort,
-                                fontWeight: FontWeight.w500,
-                              )
-                            ],
+                          GestureDetector(
+                            onTap: (){
+                              contactProvider.toggleListOrder();
+                            },
+                            child: Column(
+                              children: [
+                                appCircleIcon(
+                                    context: context,
+                                    colors: Theme.of(context).colorScheme.scrim,
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        AppAssets.APP_SORT_ARROW_SVG,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    )),
+                                SizedBox(
+                                  height: 0.7.h,
+                                ),
+                                AppText(
+                                  title: Constants.sort,
+                                  fontWeight: FontWeight.w500,
+                                )
+                              ],
+                            ),
                           ),
                           Consumer<ContactProvider>(builder: (context, provider, _) {
                             return  GestureDetector(
@@ -133,15 +139,26 @@ class ContactScreen extends StatelessWidget {
                       height: 1.5.h,
                     ),
                     Consumer<ContactProvider>(builder: (context, provider, _) {
-                      return Column(
+                      return provider.contactList.length < 0 ? Padding(
+                        padding: EdgeInsets.only(top: 30.h),
+                        child: Center(
+                          child: AppText(title: Constants.result_not_found,),
+                        ),
+                      ) : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(provider.contactList.length, (index) {
+                          final contactIndex = provider.isListReversed
+                          ? provider.contactList.length - 1 - index
+                              : index;
+                          final contact = provider.contactList[contactIndex];
                           return Column(
                             children: [
                               InkWell(
                                 onTap: (){
                                   Get.toNamed(RoutesName.CONTACTS_LIST , arguments: {
-                                    'id': provider.contactList[index]['id'],
+                                    'id': contact['id'],
+                                  })!.then((value) {
+                                    provider.listOfContacts();
                                   });
                                 },
                                 child: SizedBox(
@@ -204,7 +221,7 @@ class ContactScreen extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 AppText(
-                                                    title: provider.contactList[index]['companyName'],
+                                                    title: contact['companyName'],
                                                     fontSize: 1.6.h,
                                                     fontWeight: FontWeight.w600,
                                                     color: Theme.of(context)
@@ -214,7 +231,7 @@ class ContactScreen extends StatelessWidget {
                                                   height: 0.8.h,
                                                 ),
                                                 AppText(
-                                                    title: provider.contactList[index]['personName'],
+                                                    title: contact['personName'],
                                                     fontSize: 1.6.h,
                                                     fontWeight: FontWeight.w600,
                                                     color: Theme.of(context)
@@ -224,7 +241,7 @@ class ContactScreen extends StatelessWidget {
                                                   height: 0.8.h,
                                                 ),
                                                 AppText(
-                                                  title: provider.contactList[index]['contactType'],
+                                                  title: contact['contactType'],
                                                   fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -232,7 +249,7 @@ class ContactScreen extends StatelessWidget {
                                                   height: 0.8.h,
                                                 ),
                                                 AppText(
-                                                  title: provider.contactList[index]['phone'],
+                                                  title: contact['phone'],
                                                   fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -240,7 +257,7 @@ class ContactScreen extends StatelessWidget {
                                                   height: 0.8.h,
                                                 ),
                                                 AppText(
-                                                  title: provider.contactList[index]['email'],
+                                                  title: contact['email'],
                                                   fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w600,
                                                 ),

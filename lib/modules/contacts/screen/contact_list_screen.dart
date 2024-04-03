@@ -144,6 +144,8 @@ class ContactListScreen extends StatelessWidget {
                         onTap: (){
                           Get.toNamed(RoutesName.CONTACT_DETAILS,arguments: {
                             'id': provider.contactId,
+                          })!.then((value) {
+                            provider.contactDetailsAPI();
                           });
                         },
                         child: Row(

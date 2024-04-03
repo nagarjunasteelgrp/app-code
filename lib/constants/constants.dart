@@ -45,5 +45,7 @@ class Constants {
   static const String use_Camera = 'Use Camera';
   static const String select_from_gallery = 'Select From Gallery';
   static const String add_notes = 'Add Notes';
+  static const String attendance = 'Attendance';
+  static const String result_not_found = 'Result Not Found';
 
 }

@@ -1,4 +1,5 @@
 import 'package:digital_lync/common/app_bar.dart';
+import 'package:digital_lync/constants/app_logout.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/activities/screen/activities_screen.dart';
@@ -24,6 +25,9 @@ class HomeScreen extends StatelessWidget {
         Provider.of<ContactProvider>(context).isSelected ? false : true : false,
         onTap: (){
          Provider.of<ContactProvider>(context,listen: false).toggleSelected(true);
+        },
+        onTapLogo: (){
+        showLogOutDialog(context);
         },
       ),
       body: Consumer<HomeProvider>(builder: (context, value, _) {

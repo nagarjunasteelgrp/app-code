@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import 'modules/contacts/provider/tracking_provider.dart';
+import 'modules/contacts/provider/tracking_contacts_provider.dart';
 
 void main() async {
 
