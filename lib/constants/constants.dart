@@ -47,5 +47,6 @@ class Constants {
   static const String add_notes = 'Add Notes';
   static const String attendance = 'Attendance';
   static const String result_not_found = 'Result Not Found';
+  static const String tasks = 'Tasks';
 
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +9,6 @@ class CheckInProvider extends ChangeNotifier{
 
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
-  var userId;
   List checkInList = [];
   var userCheckInTimeStamp;
   bool checkInStatus = true;
@@ -26,8 +26,6 @@ class CheckInProvider extends ChangeNotifier{
   }
 
   getUserId() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    userId = sharedPreferences.getInt('user_id')!;
     checkInListAPI(userId);
   }
 
@@ -87,7 +85,8 @@ class CheckInProvider extends ChangeNotifier{
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         checkInListAPI(userId);
-        Get.back();
+        checkInStatus = true;
+        // Get.back();
         print("CHECK OUT DETAILS: $responseData");
         notifyListeners();
       } else {

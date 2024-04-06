@@ -35,5 +35,7 @@ class AppAssets {
   static const String APP_CONTACTS_SVG = 'assets/svg/contacts.svg';
   static const String APP_TRACKING_SVG = 'assets/svg/tracking_2.svg';
   static const String APP_CHECKING_SVG = 'assets/svg/check_in_2.svg';
+  static const String APP_LOGO_SVG = 'assets/svg/app_logo.svg';
+  static const String APP_UPLOAD_DOC_SVG = 'assets/svg/uploadDoc.svg';
 
 }

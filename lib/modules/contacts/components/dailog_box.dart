@@ -79,6 +79,46 @@ void showContactDialog(BuildContext context,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         AppText(
+                            title: Constants.contact_Type,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 1.5.h),
+                        SizedBox(height: 0.5.h),
+                        dropdownWidget(
+                          context: context,
+                          value: provider.selectedValue
+                              .toString(),
+                          items: [
+                        //   DropdownMenuItem<String>(
+                        //     value: '',
+                        //   child: AppText(title: '--Select--'),
+                        // ),
+                            ...List.generate(
+                                provider.dropDown.length,
+                                    (index) {
+                                  var data =
+                                  provider.dropDown[index];
+                                  var value =
+                                  data.toString();
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.5.w),
+                                      child: AppText(
+                                        title: data,
+                                      ),
+                                    ),
+                                  );
+                                })
+                          ],
+                          onChanged: (newValue) {
+                            provider.dropDownSelectedValue(newValue);
+                            provider.contactTypeController = TextEditingController(text: newValue);
+                          },
+                        ),
+                        SizedBox(height: 1.5.h),
+                        AppText(
                             title: Constants.company_Name,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
@@ -111,54 +151,12 @@ void showContactDialog(BuildContext context,
                         appTextfield(context: context,controller: provider.emailController,),
                         SizedBox(height: 1.5.h),
                         AppText(
-                            title: Constants.contact_Type,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
-                        SizedBox(height: 0.5.h),
-                        dropdownWidget(
-                          context: context,
-                          value: provider.selectedValue
-                              .toString(),
-                          items: List.generate(
-                              provider.dropDown.length,
-                                  (index) {
-                                var data =
-                                provider.dropDown[index];
-                                var value =
-                                data.toString();
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0.5.w),
-                                    child: AppText(
-                                      title: data,
-                                    ),
-                                  ),
-                                );
-                              }),
-                          onChanged: (newValue) {
-                            provider.dropDownSelectedValue(newValue);
-                            provider.contactTypeController = TextEditingController(text: newValue ?? 'customer');
-                          },
-                        ),
-                        SizedBox(height: 1.5.h),
-                        AppText(
                             title: Constants.address,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextfield(context: context,controller: provider.addressController,),
-                        SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.tax_ID,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
-                        SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.taxIdController,),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.description,
@@ -171,6 +169,8 @@ void showContactDialog(BuildContext context,
                     ),
                   ),
                   appDivider(context: context),
+                  Center(child: AppText(title: provider.resMessage,color: Theme.of(context).colorScheme.error,)),
+                  SizedBox(height: 2.h,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
                     child:  (provider.isAddContactButton == false) ?  Row(

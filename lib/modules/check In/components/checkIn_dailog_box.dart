@@ -34,7 +34,7 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(
-                              title: 'Total Date:',
+                              title: 'Date:',
                             ),AppText(
                               title: 'Current Time:',
                             )

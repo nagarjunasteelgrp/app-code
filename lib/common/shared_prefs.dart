@@ -52,5 +52,25 @@ class SharedPrefers {
     return prefs.getString('user_username');
   }
 
+  Future<void> saveEmpIdPrefs(int empId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('empId', empId);
+  }
+
+  Future<int?> getEmpIdPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('empId');
+  }
+
+  Future<void> saveRolePrefs(int role) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('role', role);
+  }
+
+  Future<int?> getRolePrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('role');
+  }
+
 
 }

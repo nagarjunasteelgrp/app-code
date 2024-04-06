@@ -15,6 +15,7 @@ class MenuTile extends StatelessWidget {
   int index;
   Color color;
   double? iconHeight;
+
   MenuTile(
       {super.key,
       required this.icon,
@@ -26,7 +27,7 @@ class MenuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(builder: (context, value, _) {
-      return GestureDetector(
+      return InkWell(
         onTap: () {
           value.setSelectedIndex(index);
         },

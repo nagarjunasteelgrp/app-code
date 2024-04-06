@@ -44,6 +44,7 @@ class ApiServices {
       Uri.parse(ApiUrl.createContactUrl),
       headers:  await getHeaders(),
       body: jsonEncode({
+        "userId": userId,
         "personName": personName,
         "companyName": companyName,
         "email": email,
@@ -59,15 +60,6 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> listOfContact() async {
-    final response = await http.get(
-      Uri.parse(ApiUrl.listOfContactUrl),
-      headers:  await getHeaders(),
-    );
-    print("LIST OF CONTACT STATUS CODE : ${response.statusCode}");
-    print("LIST OF CONTACT BODY : ${response.body}");
-    return response;
-  }
 
   Future<http.Response> listOfRelatedContact() async {
     final response = await http.get(
@@ -88,6 +80,17 @@ class ApiServices {
     print("CONTACT DETAILS STATUS CODE : ${response.request}");
     print("CONTACT DETAILS STATUS CODE : ${response.statusCode}");
     print("CONTACT DETAILS BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> contactListAPI({required String type}) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.contactListUrl(userId!,type)),
+      headers:  await getHeaders(),
+    );
+    print("CONTACT LIST STATUS CODE : ${response.request}");
+    print("CONTACT LIST STATUS CODE : ${response.statusCode}");
+    print("CONTACT LIST BODY : ${response.body}");
     return response;
   }
 
@@ -135,13 +138,18 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> trackingInfo({double? latitude, double? longitude,String? address,int? userId}) async {
-    print("TRACKING MAP:-----1 ${latitude} : ${longitude} : ${address}");
+  Future<http.Response> trackingInfo({double? latitude, double? longitude,String? address,int? dealerId}) async {
+    print("TRACKING MAP:-----1 ${latitude} : ${longitude} : ${address} : ${dealerId}");
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
       headers:  await getHeaders(),
-      body: jsonEncode({"latitude": latitude,"longitude": longitude,"address": address,
-      "userId": userId
+      body: jsonEncode({
+        "latitude": latitude,
+        "longitude": longitude,
+        "address": address,
+        "trackingType": "captured",
+      "userId": userId,
+        "dealerId": dealerId
       }),
     );
     print("TRACKING INFO STATUS CODE : ${response.request}");
@@ -151,15 +159,31 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.autoTrackingUrl),
+      headers:  await getHeaders(),
+      body: jsonEncode({"latitude": latitude,"longitude": longitude,"address": address,"trackingType": "auto" , "userId": userId
+      }),
+    );
+    print("SALES PERSON INFO STATUS CODE : ${response.request}");
+    print("SALES PERSON INFO STATUS CODE : ${response.body}");
+    print("SALES PERSON INFO STATUS CODE : ${response.statusCode}");
+    print("SALES PERSON INFO BODY : ${response.body}");
+    return response;
+  }
+
   Future<http.Response> trackingImages({
     required int trackingInfoId,
     required File image,
+    required String imageType,
   }) async {
+    print("TRACKING MAP:-----===== ${trackingInfoId} : ${image} : ${imageType} ");
     var headers = await getHeaders();
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(ApiUrl.trackingImageUrl));
+    var request = http.MultipartRequest('POST',Uri.parse(ApiUrl.trackingImageUrl));
     request.headers.addAll(headers);
     request.fields['trackingInfoId'] = trackingInfoId.toString();
+    request.fields['type'] = imageType.toString();
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);

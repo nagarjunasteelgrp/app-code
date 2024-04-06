@@ -1,4 +1,3 @@
-import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
@@ -8,7 +7,6 @@ import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/check%20In/components/checkIn_dailog_box.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';

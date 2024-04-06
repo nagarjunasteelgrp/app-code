@@ -48,8 +48,8 @@ class ContactDetailsProvider extends ChangeNotifier{
 
   ContactDetailsProvider() {
     contactId = Get.arguments['id'] ?? '';
-    selectedValue = dropDown.first;
     print("CONTACTS DETAILS: $contactId");
+    selectedValue = dropDown.first;
     notifyListeners();
       contactDetailsAPI();
 

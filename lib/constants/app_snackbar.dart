@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

@@ -7,6 +7,7 @@ import 'package:digital_lync/modules/contacts/screen/new_task_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/related%20contacts/related_contact_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/tracking/tracking_screen.dart';
 import 'package:digital_lync/modules/home/screen/home_screen.dart';
+import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,7 @@ class RouteNavigation {
     GetPage(name: RoutesName.HOME, page: () => const HomeScreen()),
     GetPage(name: RoutesName.CONTACTS_LIST, page: () => const ContactListScreen()),
     GetPage(name: RoutesName.CONTACT_DETAILS, page: () => const ContactDetailsScreen()),
-    GetPage(name: RoutesName.TRACKING, page: () => const TrackingContactScreen()),
+    GetPage(name: RoutesName.TRACKING, page: () => const TrackingScreen()),
     GetPage(name: RoutesName.NEW_TASK, page: () => const NewTaskScreen()),
     GetPage(name: RoutesName.RESET_EMAIL, page: () => const ResetEmailScreen()),
     GetPage(name: RoutesName.RELATED_CONTACT, page: () => const RelatedContactScreen()),

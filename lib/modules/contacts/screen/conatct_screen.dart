@@ -1,9 +1,11 @@
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
+import 'package:digital_lync/common/app_dropdown_button_contacts.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
+import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
 ContactProvider contactProvider = ContactProvider();
 class ContactScreen extends StatelessWidget {
   const ContactScreen({super.key});
@@ -113,31 +116,39 @@ class ContactScreen extends StatelessWidget {
                       ),
                     ),
                     appDivider(context: context,vertical: 0.6.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2.w),
-                      child: Row(
-                        children: [
-                          appCircleIcon(
-                            context: context,
-                            colors: Theme.of(context).colorScheme.primary,
-                            radius: 0.5.h,
-                            height: 8.w,
-                            width: 8.w,
-                            child: SvgPicture.asset(AppAssets.APP_CONTACTS_SVG,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                          SizedBox(width: 2.w),
-                          AppText(
-                              title: Constants.contacts,
-                              fontSize: 1.8.h,
-                              fontWeight: FontWeight.w500,
-                              ),
-                        ],
-                      ),
+    Consumer<ContactProvider>(builder: (context, provider, _) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 1.5.h),
+        child: dropdownContactsWidget(
+          title: 'Type',
+          context: context,
+          value: provider.selectedValue
+              .toString(),
+          items: List.generate(
+              provider.dropDown.length,
+                  (index) {
+                var data = provider.dropDown[index];
+                var value = data.toString();
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 0.5.w),
+                    child: AppText(
+                      title: data,
                     ),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
+                  ),
+                );
+              }),
+          onChanged: (newValue) {
+            provider.dropDownSelectedValue(newValue);
+            provider.contactTypeController = TextEditingController(text: newValue ?? 'customer');
+            provider.listOfContacts();
+          },
+        ),
+      );
+    }),
+                    SizedBox(height: 1.h),
                     Consumer<ContactProvider>(builder: (context, provider, _) {
                       return provider.contactList.length < 0 ? Padding(
                         padding: EdgeInsets.only(top: 30.h),
@@ -151,137 +162,60 @@ class ContactScreen extends StatelessWidget {
                           ? provider.contactList.length - 1 - index
                               : index;
                           final contact = provider.contactList[contactIndex];
-                          return Column(
-                            children: [
-                              InkWell(
-                                onTap: (){
-                                  Get.toNamed(RoutesName.CONTACTS_LIST , arguments: {
-                                    'id': contact['id'],
-                                  })!.then((value) {
-                                    provider.listOfContacts();
-                                  });
-                                },
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                                    child: Column(
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 1.5.h,vertical: 0.5.h),
+                            child:Column(
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    print("provider.contactList[contactIndex]:-1 ${provider.contactList[contactIndex]['id']}");
+                                    print("provider.contactList[contactIndex]:-2 ${ contact['id']}");
+                                    Get.toNamed(RoutesName.TRACKING ,arguments: {
+                                      'id': contact['id'],
+                                      'companyName': contact['companyName'],
+                                      'contactType': contact['contactType'],
+                                    });
+                                    trackingProvider.contactTypeId = contact['id'];
+                                    trackingProvider.contactTypeCompanyName = contact['companyName'];
+                                    trackingProvider.contactTypeName = contact['contactType'];
+                                    trackingProvider.trackingInfoAPI();
+                                    // Get.toNamed(RoutesName.CONTACTS_LIST , arguments: {
+                                    //   'id': contact['id'],
+                                    // })!.then((value) {
+                                    //   provider.listOfContacts();
+                                    // });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(1.h),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
+                                      borderRadius: BorderRadius.circular(1.h),
+                                    ),
+                                    child: Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                AppText(
-                                                  title: '${Constants.company_Name} :',
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: '${Constants.person_Name} :',
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: '${Constants.contact_Type} :',
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: '${Constants.phone_Number} :',
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: '${Constants.email_Id} :',
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              width: 2.w,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                AppText(
-                                                    title: contact['companyName'],
-                                                    fontSize: 1.6.h,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                    title: contact['personName'],
-                                                    fontSize: 1.6.h,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: contact['contactType'],
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: contact['phone'],
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                                AppText(
-                                                  title: contact['email'],
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.8.h,
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                        Container(
+                                          padding: EdgeInsets.all(1.5.h),
+                                          child: Icon(Icons.person),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(1.5.h),
+                                              border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.5))
+                                          ),
                                         ),
+                                        SizedBox(width: 2.h),
+                                        AppText(title: contact['personName'],fontSize: 2.h,),
+                                        Spacer(),
+                                        Icon(Icons.arrow_forward_ios_rounded),
                                       ],
                                     ),
                                   ),
                                 ),
-                              ),
-                              index == provider.contactList.length - 1 ? SizedBox() : appDivider(context: context),
-                            ],
+                              ],
+                            ),
+
                           );
                         }),
                       );
                     }),
-                    SizedBox(
-                      height: 2.h,
-                    ),
                   ],
                 ),
               ),

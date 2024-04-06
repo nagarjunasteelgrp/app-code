@@ -1,3 +1,5 @@
+import 'package:digital_lync/constants/global.dart';
+
 class ApiUrl{
 
   static String baseUrl = 'https://crm.murali.world/api/v1/';
@@ -8,18 +10,21 @@ class ApiUrl{
 
   static String createContactUrl = '${baseUrl}contacts';
 
-  static String listOfContactUrl = '${baseUrl}contacts';
-
   static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
 
   static String contactUpdateUrl(int id) => '${baseUrl}contacts/$id';
 
+  static String contactListUrl(int id,String type) => '${baseUrl}contacts?userId=$id&contactType=$type';
+
   static String relatedContactsListUrl = '${baseUrl}related-contacts';
 
-  static String trackingInfoUrl = '${baseUrl}tracking-info';
+  static String trackingInfoUrl = '${baseUrl}activities';
   static String trackingNotesUrl = '${baseUrl}tracking-notes';
   static String trackingImageUrl = '${baseUrl}tracking-images';
-  static String trackingInfoListUrl(int id) => '${baseUrl}tracking-info/$id';
+  static String trackingInfoListUrl(int dealerId) => '${baseUrl}activities?dealerId=$dealerId';
+
+
+  static String autoTrackingUrl = '${baseUrl}activities';
 
 
   static String getTaskListUrl(int id) => '${baseUrl}tasks/user/$id';

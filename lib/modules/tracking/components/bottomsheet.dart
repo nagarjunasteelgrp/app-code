@@ -2,6 +2,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
+import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,18 +36,14 @@ void contactBottomSheet(BuildContext context,TrackingProvider trackingProviders)
                   Consumer<TrackingProvider>(builder: (BuildContext context, provider, Widget? child) {
                     return  GestureDetector(
                         onTap: (){
-                          trackingProviders.getImage(
-                              context, ImageSource.camera);
+                          trackingProviders.getImage(context, ImageSource.camera);
                         },
                         child: AppText(title: Constants.use_Camera,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h));
                   },)  ,
-
                   SizedBox(height: 1.3.h),
                   GestureDetector(
-                      onTap: (){
-                        trackingProviders.getImage(
-                            context, ImageSource.gallery);
-
+                      onTap: ()  {
+                        trackingProviders.getImage(context, ImageSource.gallery);
                       },
                       child: AppText(title: Constants.select_from_gallery,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h)),
                 ],

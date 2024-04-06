@@ -1,5 +1,6 @@
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
+import 'package:digital_lync/main.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -83,25 +84,17 @@ class LoginScreen extends StatelessWidget {
                           ),
                         );
                       }),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Consumer<LoginProvider>(
-                              builder: (context, value, child) {
-                            return const CommonCheckbox(label: "Remember Me");
-                          }),
-                          TextButton(
-                            onPressed: () {
-                              Get.toNamed(RoutesName.RESET_EMAIL);
-                            },
-                            child: AppText(
-                                title: "Recover Password",
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inverseSurface),
-                          )
-                        ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 1.2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Consumer<LoginProvider>(
+                                builder: (context, value, child) {
+                              return const CommonCheckbox(label: "Remember Me");
+                            }),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 1.w),
                       Consumer<LoginProvider>(builder: (context, provider, _) {

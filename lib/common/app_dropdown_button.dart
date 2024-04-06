@@ -2,18 +2,26 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-Widget dropdownWidget(
-    {required BuildContext context, required String value, items, onChanged,
-      width}) {
+Widget dropdownWidget({
+  required BuildContext context,
+  required String value,
+  String? hintValue,
+  required List<DropdownMenuItem<String>> items,
+  required Function(String?) onChanged,
+  double? width,
+}) {
   return Container(
-    width: width ??double.infinity,
+    width: width ?? double.infinity,
     padding: EdgeInsets.symmetric(horizontal: 2.0.w),
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.onSurface,
-        borderRadius: BorderRadius.circular(1.5.w),
-        border: Border.all(color: Theme.of(context).colorScheme.onSecondary,width: 0.5)),
+      borderRadius: BorderRadius.circular(1.5.w),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSecondary,
+        width: 0.5,
+      ),
+    ),
     child: DropdownButton<String>(
-
       iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
       iconDisabledColor: Theme.of(context).colorScheme.onSecondary,
       isExpanded: true,
@@ -22,9 +30,9 @@ Widget dropdownWidget(
       focusColor: Theme.of(context).colorScheme.background,
       borderRadius: BorderRadius.circular(1.0.w),
       dropdownColor: Theme.of(context).colorScheme.background,
-
-      hint: AppText(
-          title: value,
+      hint: Text(
+        hintValue ?? "--Select--",
+        style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
       ),
       icon: Icon(
         Icons.keyboard_arrow_down_rounded,
@@ -35,3 +43,4 @@ Widget dropdownWidget(
     ),
   );
 }
+

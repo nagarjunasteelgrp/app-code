@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:digital_lync/common/shared_prefs.dart';
 import 'package:digital_lync/constants/app_snackbar.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,7 +56,10 @@ class LoginProvider extends ChangeNotifier {
         await sharedPrefers.saveUserEmailPrefs(response['userInfo']['email'].toString());
         await sharedPrefers.saveUserPhoneNoPrefs(response['userInfo']['mobile'].toString());
         await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['username'].toString());
+        await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['empId'].toString());
+        await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['role'].toString());
         showAppSnackBar(type: 'success', context: context, title: response['message']);
+        personalDetails();
         emailController.clear();
         passwordController.clear();
         Get.toNamed(RoutesName.HOME);

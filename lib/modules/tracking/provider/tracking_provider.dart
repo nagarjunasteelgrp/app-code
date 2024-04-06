@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/app_snackbar.dart';
+import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart'as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class TrackingProvider extends ChangeNotifier {
 
@@ -23,10 +26,15 @@ class TrackingProvider extends ChangeNotifier {
   String address = '';
   bool _geoLocationBtn = false;
   int trackingInfoId = 0;
-  List trackingInfoNotesList = [];
-  List trackingInfoImagesList = [];
   LatLng? initialPosition;
   int? userId;
+  dynamic contactTypeId;
+  String? contactTypeCompanyName;
+  String? contactTypeName;
+  List trackingInfoList = [];
+  String? imageType;
+  String? selectedFileName;
+  File? filePath;
 
   bool get geoLocationBtn => _geoLocationBtn;
 
@@ -51,6 +59,13 @@ class TrackingProvider extends ChangeNotifier {
   }
 
   TrackingProvider() {
+    notifyListeners();
+    contactTypeId = Get.arguments['id'] ?? '';
+    print("TRACKING ID: $contactTypeId");
+    contactTypeCompanyName = Get.arguments['companyName'] ?? '';
+    print("TRACKING COMPANY NAME: $contactTypeCompanyName");
+    contactTypeName = Get.arguments['contactType'] ?? '';
+    print("TRACKING TYPE NAME: $contactTypeName");
     getUserId();
     trackingInfoAPI();
     getMapData();
@@ -85,27 +100,106 @@ class TrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+   openFileExplorer(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc'],
+    );
+    if (result != null) {
+      filePath = File(result.files.single.path!);
+      selectedFileName = result.files.single.name;
+      if(filePath != null){
+        return trackingImages(context).then((response) {
+          if(response.statusCode == 201){
+            print("RESPONSE :++++++ 1");
+            var res = jsonDecode(response.body);
+            print("RESPONSE :++++++ 2 $res");
+            showAppSnackBar(type: 'success', context: context, title: res['message']);
+            trackingInfoAPI();
+            notifyListeners();
+          }else{
+            var res = jsonDecode(response.body);
+            showAppSnackBar(
+                type: 'Error', context: context, title: res['message']);
+            notifyListeners();
+          }
+          });
+      }
+    }
+  }
+
   Future getImage(BuildContext context,ImageSource source) async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: source).then((value) {
       if (value != null) {
         image = File(value.path);
-
         if(image != null){
-           trackingImages(context);
-
-
+          isLoading = true;
+          notifyListeners();
+           trackingImages(context).then((response) {
+             if(response.statusCode == 201){
+               var res = jsonDecode(response.body);
+               showAppSnackBar(
+                   type: 'success', context: context, title: res['message']);
+               trackingInfoAPI();
+               notifyListeners();
+               Get.back();
+               isLoading = false;
+               notifyListeners();
+             }else{
+               var res = jsonDecode(response.body);
+               showAppSnackBar(
+                   type: 'Error', context: context, title: res['message']);
+               isLoading = false;
+               notifyListeners();
+               Get.back();
+             }
+           });
         }
         notifyListeners();
-
       } else {
         print('No image selected.');
       }
-
     });
-
-
     notifyListeners();
+  }
+
+
+  Future<void> trackingMap(BuildContext context) async {
+    isLoading = true;
+    notifyListeners();
+    FocusScope.of(context).unfocus();
+    notifyListeners();
+    try {
+      print("TRACKING MAP ADDRESS 1: $latitude");
+      print("TRACKING MAP ADDRESS 2: $longitude");
+      print("TRACKING MAP ADDRESS 3: $address");
+      print("TRACKING MAP ADDRESS 4: $contactTypeId");
+      var logResponse = await apiServices.trackingInfo(latitude: latitude,longitude: longitude,address: address,dealerId: contactTypeId);
+      if (logResponse.statusCode == 201) {
+        isLoading = false;
+        notifyListeners();
+        var response = jsonDecode(logResponse.body);
+        print("TRACKING MAP RESPONSE : $response");
+        trackingInfoId = response['activity']['id'];
+        showAppSnackBar(type: 'success', context: context, title: response['message']);
+        addNotesController.clear();
+        trackingInfoAPI();
+        notifyListeners();
+        Get.back();
+      } else {
+        isLoading = false;
+        notifyListeners();
+        var response = jsonDecode(logResponse.body);
+        print("TRACKING MAP ERROR : ${response['message']}");
+        showAppSnackBar(type: 'Error', context: context, title: response['message']);
+      }
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      print("TRACKING MAP E : $e");
+    }
   }
 
   Future<void> trackingAddNotes(BuildContext context) async {
@@ -146,122 +240,68 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
+   trackingImages(BuildContext context) async {
+      return await apiServices.trackingImages(
+          trackingInfoId: trackingInfoId!,
+          image: (imageType == "image") ? image! : filePath!,
+          imageType: imageType!,
+        );
+  }
 
-  Future<void> trackingMap(BuildContext context) async {
-    isLoading = true;
-    notifyListeners();
-    FocusScope.of(context).unfocus();
+
+  Future trackingInfoAPI() async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      var response = await apiServices.trackingInfoList(id: contactTypeId!);
+      if (response.statusCode == 200) {
+        markers.clear();
+        var responseData = jsonDecode(response.body);
+        trackingInfoList = responseData['activity'];
+      } else {
+        // var responseData = jsonDecode(response.body);
+        // return responseData;
+        print("CONTACTS DETAILS Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Exception:------- $e");
+      return false;
+    }  finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+
+  Future<void> autoTrackingInfo(latitude,longitude,address) async {
     notifyListeners();
     try {
-      print("TRACKING MAP ADDRESS 1: $latitude");
-      print("TRACKING MAP ADDRESS 2: $longitude");
-      print("TRACKING MAP ADDRESS 3: $address");
-      print("TRACKING MAP ADDRESS 4: $userId");
-      var logResponse = await apiServices.trackingInfo(latitude: latitude,longitude: longitude,address: address,userId: userId);
+      print("AUTO TRACKING INFO MAP ADDRESS 1: $latitude");
+      print("AUTO TRACKING INFO MAP ADDRESS 2: $longitude");
+      print("AUTO TRACKING INFO MAP ADDRESS 3: $address");
+      print("AUTO TRACKING INFO MAP ADDRESS 4: $userId");
+      var logResponse = await apiServices.autoTrackingAPI(latitude: latitude,longitude: longitude,address: address);
       if (logResponse.statusCode == 201) {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        print("TRACKING MAP RESPONSE : $response");
-        trackingInfoId = response['trackingInfo']['id'];
-        showAppSnackBar(type: 'success', context: context, title: response['message']);
-        addNotesController.clear();
-        trackingInfoAPI();
+        latitude = response['trackingInfo']['latitude'] ?? 0.0;
+        longitude = response['trackingInfo']['longitude'] ?? 0.0;
+        print("AUTO TRACKING MAP RESPONSE : $response");
         notifyListeners();
         Get.back();
       } else {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        print("TRACKING MAP ERROR : ${response['message']}");
-        showAppSnackBar(type: 'Error', context: context, title: response['message']);
+        print("AUTO TRACKING MAP ERROR : ${response['message']}");
+        // showAppSnackBar(type: 'Error', context: context, title: response['message']);
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      // showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
       print("TRACKING MAP E : $e");
-    }
-  }
-
-
-  Future<void> trackingImages(BuildContext context) async {
-    print("TRACKING IMAGES 1: $trackingInfoId");
-    print("TRACKING IMAGES 2: $image");
-
-    isLoading = true;
-    notifyListeners();
-    FocusScope.of(context).unfocus();
-    try {
-      if (image != null) {
-         await apiServices.trackingImages(
-          trackingInfoId: trackingInfoId!,
-          image: image!,
-        ).then((value) async {
-          print("trackingImages:-----------------$value");
-          if (value.statusCode == 201) {
-            Get.back();
-            isLoading = false;
-            notifyListeners();
-            var response = jsonDecode(value.body);
-            print("TRACKING IMAGES RESPONSE : ${value.body}");
-            showAppSnackBar(type: 'success', context: context, title: response['message']);
-            trackingInfoAPI();
-            notifyListeners();
-          } else {
-            var response = jsonDecode(value.body);
-            isLoading = false;
-            notifyListeners();
-            print("TRACKING IMAGES ERROR : ${value.body}");
-            showAppSnackBar(type: 'Error', context: context, title: response['message']);
-          }
-        });
-      }
-    } catch (e) {
-      isLoading = false;
-      notifyListeners();
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("TRACKING IMAGES E : $e");
-    }
-  }
-
-
-  Future trackingInfoAPI() async {
-    print("ITS WORKING AFTER NOTES:--------$trackingInfoId");
-    try {
-      isLoading = true;
-      notifyListeners();
-      var response = await apiServices.trackingInfoList(id:
-      trackingInfoId
-      // 18
-      );
-      if (response.statusCode == 200) {
-        markers.clear();
-        var responseData = jsonDecode(response.body);
-        print("responseData:---------------1 ${responseData['trackingInfo']['trackingImages']}");
-        trackingInfoNotesList = responseData['trackingInfo']['trackingNotes'];
-        trackingInfoImagesList = responseData['trackingInfo']['trackingImages'];
-        print("responseData:---------------2 ${responseData}");
-        latitude = responseData['trackingInfo']['latitude'] ?? 0.0;
-        longitude = responseData['trackingInfo']['longitude'] ?? 0.0;
-        initialPosition = LatLng(latitude ?? 0.0, longitude ?? 0.0);
-        print("responseData:---------------3 ${responseData}");
-        address = responseData['trackingInfo']['address'];
-        markers.add({
-          'marker_id' : markers.length+1,
-          'latitude': double.parse(responseData['trackingInfo']['latitude'].toString()),
-          'longitude': double.parse(responseData['trackingInfo']['longitude'].toString()),
-        });
-        animateCamera(double.parse(responseData['trackingInfo']['latitude'].toString()), double.parse(responseData['trackingInfo']['longitude'].toString()));
-        notifyListeners();
-      } else {
-        print("CONTACTS DETAILS Error: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("Exception: $e");
-    }  finally {
-      isLoading = false;
-      notifyListeners();
     }
   }
 
