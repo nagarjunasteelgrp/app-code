@@ -16,7 +16,6 @@ import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 1.h),
                       Consumer<LoginProvider>(builder: (context, value, _) {
-                        return appTextfield(
+                        return appTextField(
                           controller: value.emailController,
                             context: context);
                       }),
@@ -63,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 1.h),
                       Consumer<LoginProvider>(builder: (context, value, _) {
-                        return appTextfield(
+                        return appTextField(
                           controller: value.passwordController,
                           context: context,
                           obscureText: value.obscureText,

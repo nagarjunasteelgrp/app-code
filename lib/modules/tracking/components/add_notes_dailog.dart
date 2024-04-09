@@ -32,7 +32,7 @@ void showAddNotesDialog(BuildContext context,
                       title: Constants.add_notes,
                     ),
                     SizedBox(height: 1.h),
-                    appTextfield(context: context,maxLines: 5,controller: provider.addNotesController),
+                    appTextField(context: context,maxLines: 5,controller: provider.addNotesController),
                     SizedBox(height: 1.h),
                    provider.isLoading == false ? appButton(
                       context: context, onTap: (){

@@ -1,18 +1,13 @@
 import 'package:digital_lync/common/app_bar.dart';
-import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
-import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/components/contact_topbar.dart';
 import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
-import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +57,7 @@ class ContactDetailsScreen extends StatelessWidget {
            ),
            appDivider(context: context,vertical: 1.h),
              Expanded(
-               child: (provider.isLoading) ? Center(
+               child: (provider.isLoading) ? const Center(
                  child: SpinKitLoader(),
                ) : SingleChildScrollView(
                  child: Column(

@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-Widget appTextfield(
+Widget appTextField(
     {required BuildContext context,
     String? hint,
     String? label,
     double? borderRadius,
-    bool? isdense,
-    hight,
+    bool? isDense,
+    height,
     color,
     image,
     maxLines,
     keyboardType,
     validator,
     title,
-    minline,
+    minLine,
     controller,
     suffixIcon,
     obscureText,
@@ -25,13 +25,13 @@ Widget appTextfield(
     readOnly,
     onTap,
     inputFormatters,
-    horizontalpadding,
-    verticalpading,
+    horizontalPadding,
+    verticalPadding,
     onEditingComplete,
     textInputAction,
     Border? border,
     onChanged,
-    backgroundcolor,
+    backgroundColor,
     enabledBorder,
     focusedBorder,
     focusedErrorBorder,
@@ -56,7 +56,7 @@ Widget appTextfield(
       fillColor: Theme.of(context).colorScheme.onSurface,
       filled: true,
       isDense: true,
-      contentPadding: EdgeInsets.symmetric(vertical: verticalpading ?? 1.6.h,horizontal: 2.5.w),
+      contentPadding: EdgeInsets.symmetric(vertical: verticalPadding ?? 1.6.h,horizontal: 2.5.w),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
         borderSide:

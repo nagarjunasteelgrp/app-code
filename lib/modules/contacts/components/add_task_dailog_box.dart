@@ -84,7 +84,7 @@ void showAddTaskDialog(BuildContext context) {
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context),
+                        appTextField(context: context),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: "Related to",
@@ -92,7 +92,7 @@ void showAddTaskDialog(BuildContext context) {
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context),
+                        appTextField(context: context),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: "Due Date",
@@ -100,7 +100,7 @@ void showAddTaskDialog(BuildContext context) {
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context),
+                        appTextField(context: context),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: "Assigned to*",
@@ -108,7 +108,7 @@ void showAddTaskDialog(BuildContext context) {
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context),
+                        appTextField(context: context),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: "Status",
@@ -116,7 +116,7 @@ void showAddTaskDialog(BuildContext context) {
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(
+                        appTextField(
                             context: context,
                             suffixIcon: Icon(
                               Icons.keyboard_arrow_down_rounded,

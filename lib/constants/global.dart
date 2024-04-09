@@ -11,6 +11,8 @@ String? username;
 int? userId;
 String? userEmail;
 dynamic userPhone;
+String? empId;
+String? address;
 
 Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -19,12 +21,16 @@ Future<Map<String, String>> getHeaders() async {
     return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
 
-personalDetails() async {
+Future personalDetails() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  username = prefs.getString("user_username");
-  userId = prefs.getInt("user_id");
-  userEmail = prefs.getString("user_email");
-  userPhone = prefs.getString("user_phoneNo");
+  token = prefs.getString("token");
+  print("TOKEN OF CUSTqq :$token");
+  username = prefs.getString("username");
+  userId = prefs.getInt("userId");
+  print("USERID:------$userId");
+  userEmail = prefs.getString("email");
+  userPhone = prefs.getString("mobile");
+  empId = prefs.getString("empId");
 }
 
 
@@ -32,26 +38,25 @@ getMapData() async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   latitude = prefs.getDouble("latitude");
   longitude = prefs.getDouble("longitude");
-  print("getMapData Latitude: $latitude, getMapData Longitude: $longitude");
+  address = prefs.getString("address");
+  print("getMapData Latitude: $latitude, getMapData Longitude: $longitude getMapData Address: $address");
 }
 
-void getCurrentLocation() async {
+Future getCurrentLocation() async {
   try {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     _currentPosition = position;
     print('Latitude: ${_currentPosition.latitude}, Longitude: ${_currentPosition.longitude}');
-
     List<Placemark> placemarks = await placemarkFromCoordinates(
         _currentPosition.latitude, _currentPosition.longitude);
-
     Placemark placemark = placemarks[0];
-    String address = "${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}";
-
-    print('Address: $address');
-
+    String addresss = "${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}";
+    print('Address::--- $address');
+  address = addresss;
     trackingProvider.autoTrackingInfo(
         _currentPosition.latitude, _currentPosition.longitude, address);
+    return address;
   } catch (e) {
     print("Error: $e");
   }

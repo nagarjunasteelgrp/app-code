@@ -14,62 +14,62 @@ class SharedPrefers {
 
   Future<void> saveUserIdPrefs(int userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('user_id', userId);
+    await prefs.setInt('userId', userId);
   }
 
   Future<int?> getUserIdPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id');
+    return prefs.getInt('userId');
   }
 
-  Future<void> saveUserEmailPrefs(String token) async {
+  Future<void> saveUserEmailPrefs(String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_email', token);
+    await prefs.setString('email', email);
   }
 
   Future<String?> getUserEmailPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_email');
+    return prefs.getString('email');
   }
 
-  Future<void> saveUserPhoneNoPrefs(String token) async {
+  Future<void> saveUserPhoneNoPrefs(String mobile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_phoneNo', token);
+    await prefs.setString('mobile', mobile);
   }
 
   Future<String?> getUserPhoneNoPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_phoneNo');
+    return prefs.getString('mobile');
   }
 
-  Future<void> saveUserUsernamePrefs(String token) async {
+  Future<void> saveUserUsernamePrefs(String username) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_username', token);
+    await prefs.setString('username', username);
   }
 
   Future<String?> getUserUsernamePrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_username');
+    return prefs.getString('username');
   }
 
-  Future<void> saveEmpIdPrefs(int empId) async {
+  Future<void> saveEmpIdPrefs(String empId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('empId', empId);
+    await prefs.setString('empId', empId);
   }
 
-  Future<int?> getEmpIdPrefs() async {
+  Future<String?> getEmpIdPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('empId');
+    return prefs.getString('empId');
   }
 
-  Future<void> saveRolePrefs(int role) async {
+  Future<void> saveRolePrefs(String role) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('role', role);
+    await prefs.setString('role', role);
   }
 
-  Future<int?> getRolePrefs() async {
+  Future<String?> getRolePrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('role');
+    return prefs.getString('role');
   }
 
 

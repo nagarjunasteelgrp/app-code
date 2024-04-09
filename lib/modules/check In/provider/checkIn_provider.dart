@@ -3,7 +3,6 @@ import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckInProvider extends ChangeNotifier{
 
@@ -20,20 +19,20 @@ class CheckInProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
   CheckInProvider(){
-    getUserId();
+    print("CHECK IN LIST API:---4");
+    checkInListAPI();
   }
 
-  getUserId() async {
-    checkInListAPI(userId);
-  }
 
-  Future checkInListAPI(userId) async {
+   checkInListAPI() async {
+    print("CHECK IN LIST API:---1");
     try {
       isLoading = true;
+      print("CHECK IN LIST API:---2");
       notifyListeners();
-      var response = await apiServices.checkInList(id: userId);
+      var response = await apiServices.checkInList();
+      print("CHECK IN LIST API:---3");
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         checkInList = responseData["attendance"];
@@ -43,11 +42,12 @@ class CheckInProvider extends ChangeNotifier{
         print("CHECK IN DETAILS Error: ${response.statusCode}");
       }
     } catch (e) {
-      print("Exception: $e");
+      print("Exceptionss.....: $e");
     }  finally {
       isLoading = false;
       notifyListeners();
     }
+    notifyListeners();
   }
 
   Future<void> checkInAPI() async {
@@ -59,7 +59,7 @@ class CheckInProvider extends ChangeNotifier{
         var responseData = jsonDecode(response.body);
         userCheckInTimeStamp = responseData["attendance"]['clockIn'];
         checkInId = responseData['attendance']['id'];
-        checkInListAPI(userId);
+        checkInListAPI();
         Get.back();
         print("CHECK IN DETAILS: $responseData");
         notifyListeners();
@@ -84,9 +84,9 @@ class CheckInProvider extends ChangeNotifier{
       var response = await apiServices.checkOutAPI(checkInId: checkInId,userId: userId,checkInTime: userCheckInTimeStamp);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        checkInListAPI(userId);
+        checkInListAPI();
         checkInStatus = true;
-        // Get.back();
+        Get.back();
         print("CHECK OUT DETAILS: $responseData");
         notifyListeners();
       } else {
@@ -99,6 +99,4 @@ class CheckInProvider extends ChangeNotifier{
       notifyListeners();
     }
   }
-
-
 }

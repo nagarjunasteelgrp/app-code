@@ -56,13 +56,14 @@ class LoginProvider extends ChangeNotifier {
         await sharedPrefers.saveUserEmailPrefs(response['userInfo']['email'].toString());
         await sharedPrefers.saveUserPhoneNoPrefs(response['userInfo']['mobile'].toString());
         await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['username'].toString());
-        await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['empId'].toString());
-        await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['role'].toString());
+        await sharedPrefers.saveEmpIdPrefs(response['userInfo']['empId'].toString());
+        await sharedPrefers.saveRolePrefs(response['userInfo']['role'].toString());
         showAppSnackBar(type: 'success', context: context, title: response['message']);
-        personalDetails();
+        await personalDetails();
+        notifyListeners();
         emailController.clear();
         passwordController.clear();
-        Get.toNamed(RoutesName.HOME);
+        Get.offNamed(RoutesName.HOME);
       } else {
         isLoading = false;
         notifyListeners();

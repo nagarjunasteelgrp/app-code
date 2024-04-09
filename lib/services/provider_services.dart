@@ -27,5 +27,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => CurrentLocationProvider()),
   ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
   ChangeNotifierProvider(create: (context) => CheckInProvider()),
-  ChangeNotifierProvider(create: (context) => TrackingProvider()),
+  ChangeNotifierProvider(create: (context) => TrackingProvider(CurrentLocationProvider())),
 ];

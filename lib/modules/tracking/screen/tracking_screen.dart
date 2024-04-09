@@ -1,21 +1,16 @@
-import 'dart:convert';
-
 import 'package:digital_lync/common/app_bar.dart';
 import 'package:digital_lync/common/app_button.dart';
-import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
-import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
+import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/tracking/components/add_notes_dailog.dart';
 import 'package:digital_lync/modules/tracking/components/bottomsheet.dart';
 import 'package:digital_lync/modules/tracking/components/map_dailog_box.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,7 +18,7 @@ import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-TrackingProvider trackingProvider = TrackingProvider();
+TrackingProvider trackingProvider = TrackingProvider(CurrentLocationProvider());
 
 class TrackingScreen extends StatelessWidget {
   const TrackingScreen({super.key});
@@ -31,339 +26,336 @@ class TrackingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: trackingProvider,
-      child: Scaffold(
-        appBar: CommonAppBar(
-          title: username.toString(),
-          leadingArrow: true,
-          actions: [],
-          onTap: () {
-            Get.back();
-          },
-        ),
-        body: Consumer<TrackingProvider>(
-            builder: (context, provider, child) {
-              print("IMAGE LIST IN PROVIDER:-----${provider.contactTypeCompanyName}");
-              return provider.isLoading == false ?
-              SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 2.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(1.5.h),
-                          border: Border.all(color: Theme.of(context).colorScheme.onBackground),
-                        ),
+ value: CurrentLocationProvider(),
+  child: ChangeNotifierProvider.value(
+        value: trackingProvider,
+        child: Scaffold(
+          appBar: CommonAppBar(
+            title: username.toString(),
+            leadingArrow: true,
+            actions: [],
+            onTap: () {
+              Get.back();
+            },
+          ),
+          body:Consumer<TrackingProvider>(
+                  builder: (context, provider, child) {
+                    return provider.isLoading == false ?
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AppText(title: provider.contactTypeCompanyName,fontWeight: FontWeight.bold,fontSize: 2.h,),
-                            SizedBox(height: 1.h),
-                            Row(
-                              children: [
-                              AppText(title: 'Contact Type :'),
-                              SizedBox(width: 1.h),
-                              AppText(title: provider.contactTypeName),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 2.h),
-                      appOutlineButton(
-                          context: context,
-                          onTap: () {
-                            // if(provider.trackingInfoId == 0){
-                              showMapDialog(context);
-                              if (!provider.geoLocationBtn) {
-                                provider.geoLocationBtn = true;
-                              // }
-                            }
-                          },
-                          height: 5.5.h,
-                          radius: 1.h,
-                          width: double.infinity,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  AppAssets.APP_GEO_LOCATIONS_SVG,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary),
-                              SizedBox(width: 2.w),
-                              AppText(
-                                title: 'Capture geo location',
-                                color: Theme.of(context).colorScheme.primary,
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 2.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(1.5.h),
+                                border: Border.all(color: Theme.of(context).colorScheme.onBackground),
                               ),
-                            ],
-                          )),
-
-                      SizedBox(height: 2.h),
-                         Consumer<TrackingProvider>(
-                          builder: (context, provider, child) {
-                            return provider.trackingInfoList.length < 0 ? SizedBox() : Column(
-                              children: List.generate(provider.trackingInfoList.length, (index) {
-                                print("provider.trackingInfoList: ${provider.trackingInfoList[index]['latitude']}");
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 1.h, vertical: 2.h),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(1.h),
-                                        boxShadow:[
-                                          BoxShadow(
-                                            color:  Theme.of(context).colorScheme.onSecondary.withOpacity(0.1),
-                                            spreadRadius: 2,
-                                            blurRadius: 10,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.1),
-                                      border: Border.all(color: Theme.of(context).colorScheme.secondary)
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppText(title: provider.contactTypeCompanyName,fontWeight: FontWeight.bold,fontSize: 2.h,),
+                                  SizedBox(height: 1.h),
+                                  Row(
+                                    children: [
+                                    AppText(title: 'Contact Type :'),
+                                    SizedBox(width: 1.h),
+                                    AppText(title: provider.contactTypeName),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            appOutlineButton(
+                                context: context,
+                                onTap: () {
+                                  address != null ? showMapDialog(context) :  null;
+                                    if (!provider.geoLocationBtn) {
+                                      provider.geoLocationBtn = true;
+                                  }
+                                },
+                                height: 5.5.h,
+                                radius: 1.h,
+                                width: double.infinity,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                        AppAssets.APP_GEO_LOCATIONS_SVG,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary ),
+                                    SizedBox(width: 2.w),
+                                    AppText(
+                                      title: 'Capture geo location',
+                                      color:  Theme.of(context).colorScheme.primary,
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(provider.trackingInfoList[index]['address'] ?? ""),
-                                        SizedBox(height: 1.h,),
-                                        SizedBox(
-                                          height: 200, // Adjust height as needed
-                                          child: GoogleMap(
-                                            initialCameraPosition: CameraPosition(
-                                              target: LatLng(provider.trackingInfoList[index]['latitude'], provider.trackingInfoList[index]['longitude']),
-                                              zoom: 15,
-                                            ),
-                                            zoomControlsEnabled: false,
-                                            compassEnabled: false,
-                                            myLocationButtonEnabled: false,
-                                            mapToolbarEnabled: false,
-                                            mapType: MapType.normal,
-                                            markers: {
-                                              Marker(
-                                                markerId: MarkerId(provider.trackingInfoList[index]['address']),
-                                                position: LatLng(provider.trackingInfoList[index]['latitude'], provider.trackingInfoList[index]['longitude']),
-                                                infoWindow: InfoWindow(title: provider.trackingInfoList[index]['address']),
-                                              ),
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(height: 2.h),
-                                        appOutlineButton(
-                                            context: context,
-                                            onTap: () {
-                                              provider.trackingInfoId = provider.trackingInfoList[index]['id'];
-                                              provider.trackingInfoId != 0 ? showAddNotesDialog(context) : SizedBox();
-                                            },
-                                            height: 5.5.h,
-                                            radius: 1.h,
-                                            width: double.infinity,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset(AppAssets.APP_ADD_NOTES_SVG,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary
-                                                ),
-                                                SizedBox(width: 2.w),
-                                                AppText(
-                                                  title: 'Add Notes',
-                                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  ],
+                                )),
+                            SizedBox(height: 2.h),
+                               Consumer<TrackingProvider>(
+                                builder: (context, provider, child) {
+                                  return provider.trackingInfoList.length < 0 ? const SizedBox() : Column(
+                                    children: List.generate(provider.trackingInfoList.length, (index) {
+                                      print("provider.trackingInfoList: ${provider.trackingInfoList[index]['latitude']}");
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 2.h),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 1.h, vertical: 2.h),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(1.h),
+                                              boxShadow:[
+                                                BoxShadow(
+                                                  color:  Theme.of(context).colorScheme.onSecondary.withOpacity(0.1),
+                                                  spreadRadius: 2,
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 2),
                                                 ),
                                               ],
-                                            )),
-                                     Column(
-                                       children: List.generate(provider.trackingInfoList[index]['trackingNotes'].length, (notesIndex) {
-                                         return Padding(
-                                           padding: EdgeInsets.symmetric(vertical: 1.h),
-                                           child: Container(
-                                             width: double.infinity,
-                                             decoration: BoxDecoration(
-                                               border: Border.all(
-                                                   color: Theme.of(context)
-                                                       .colorScheme
-                                                       .onSecondary),
-                                               borderRadius: BorderRadius.circular(1.h),
-                                             ),
-                                             child: Padding(
-                                               padding: EdgeInsets.symmetric(
-                                                   horizontal: 1.w, vertical: 1.h),
-                                               child: Row(
-                                                 crossAxisAlignment:
-                                                 CrossAxisAlignment.start,
-                                                 children: [
-                                                   SvgPicture.asset(
-                                                       AppAssets.APP_ADD_NOTES_SVG,
-                                                       color: Theme.of(context)
-                                                           .colorScheme
-                                                           .secondary),
-                                                   SizedBox(
-                                                     width: 2.w,
-                                                   ),
-                                                   Column(
-                                                     crossAxisAlignment:
-                                                     CrossAxisAlignment.start,
-                                                     children: [
-                                                       SizedBox(
-                                                         height: 0.5.h,
-                                                       ),
-                                                       AppText(
-                                                         title: 'Note:',
-                                                         color: Theme.of(context)
-                                                             .colorScheme
-                                                             .onSecondary,
-                                                       ),
-                                                       SizedBox(
-                                                         child: AppText(
-                                                           maxLines: 3,
-                                                           textOverflow:
-                                                           TextOverflow.ellipsis,
-                                                           title: provider.trackingInfoList[index]['trackingNotes'][notesIndex]['description'] ?? "",
-                                                         ),
-                                                       )
-                                                     ],
-                                                   ),
-                                                 ],
-                                               ),
-                                             ),
-                                           ),
-                                         );
-                                       }),
-                                     ),
-                                        SizedBox(height: 1.5.h),
-                                        Consumer<TrackingProvider>(
-                                            builder: (context, provider, child) {
-                                              return appButton(
+                                            color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.1),
+                                            border: Border.all(color: Theme.of(context).colorScheme.secondary)
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(provider.trackingInfoList[index]['address'] ?? ""),
+                                              SizedBox(height: 1.h,),
+                                              SizedBox(
+                                                height: 200, // Adjust height as needed
+                                                child: GoogleMap(
+                                                  initialCameraPosition: CameraPosition(
+                                                    target: LatLng(provider.trackingInfoList[index]['latitude'], provider.trackingInfoList[index]['longitude']),
+                                                    zoom: 15,
+                                                  ),
+                                                  zoomControlsEnabled: false,
+                                                  compassEnabled: false,
+                                                  myLocationButtonEnabled: false,
+                                                  mapToolbarEnabled: false,
+                                                  mapType: MapType.normal,
+                                                  markers: {
+                                                    Marker(
+                                                      markerId: MarkerId(provider.trackingInfoList[index]['address']),
+                                                      position: LatLng(provider.trackingInfoList[index]['latitude'], provider.trackingInfoList[index]['longitude']),
+                                                      infoWindow: InfoWindow(title: provider.trackingInfoList[index]['address']),
+                                                    ),
+                                                  },
+                                                ),
+                                              ),
+                                              SizedBox(height: 2.h),
+                                              appOutlineButton(
                                                   context: context,
                                                   onTap: () {
                                                     provider.trackingInfoId = provider.trackingInfoList[index]['id'];
-                                                    if (provider.trackingInfoList[index]['id'] != 0) {
-                                                      contactBottomSheet(context,provider);
-                                                      provider.imageType = 'image';
+                                                    provider.trackingInfoId != 0 ? showAddNotesDialog(context) : const SizedBox();
+                                                  },
+                                                  height: 5.5.h,
+                                                  radius: 1.h,
+                                                  width: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SvgPicture.asset(AppAssets.APP_ADD_NOTES_SVG,
+                                                          color: Theme.of(context)
+                                                              .colorScheme
+                                                              .onPrimary
+                                                      ),
+                                                      SizedBox(width: 2.w),
+                                                      AppText(
+                                                        title: 'Add Notes',
+                                                        color: Theme.of(context).colorScheme.onPrimary,
+                                                      ),
+                                                    ],
+                                                  )),
+                                           Column(
+                                             children: List.generate(provider.trackingInfoList[index]['trackingNotes'].length, (notesIndex) {
+                                               return Padding(
+                                                 padding: EdgeInsets.symmetric(vertical: 1.h),
+                                                 child: Container(
+                                                   width: double.infinity,
+                                                   decoration: BoxDecoration(
+                                                     border: Border.all(
+                                                         color: Theme.of(context).colorScheme.onSecondary),
+                                                     borderRadius: BorderRadius.circular(1.h),
+                                                   ),
+                                                   child: Padding(
+                                                     padding: EdgeInsets.symmetric(
+                                                         horizontal: 1.w, vertical: 1.h),
+                                                     child: Row(
+                                                       crossAxisAlignment:
+                                                       CrossAxisAlignment.start,
+                                                       children: [
+                                                         SvgPicture.asset(
+                                                             AppAssets.APP_ADD_NOTES_SVG,
+                                                             color: Theme.of(context)
+                                                                 .colorScheme
+                                                                 .secondary),
+                                                         SizedBox(
+                                                           width: 2.w,
+                                                         ),
+                                                         Column(
+                                                           crossAxisAlignment:
+                                                           CrossAxisAlignment.start,
+                                                           children: [
+                                                             SizedBox(
+                                                               height: 0.5.h,
+                                                             ),
+                                                             AppText(
+                                                               title: 'Note:',
+                                                               color: Theme.of(context)
+                                                                   .colorScheme
+                                                                   .onSecondary,
+                                                             ),
+                                                             SizedBox(
+                                                               child: AppText(
+                                                                 maxLines: 3,
+                                                                 textOverflow:
+                                                                 TextOverflow.ellipsis,
+                                                                 title: provider.trackingInfoList[index]['trackingNotes'][notesIndex]['description'] ?? "",
+                                                               ),
+                                                             )
+                                                           ],
+                                                         ),
+                                                       ],
+                                                     ),
+                                                   ),
+                                                 ),
+                                               );
+                                             }),
+                                           ),
+                                              SizedBox(height: 1.5.h),
+                                              Consumer<TrackingProvider>(
+                                                  builder: (context, provider, child) {
+                                                    return appButton(
+                                                        context: context,
+                                                        onTap: () {
+                                                          provider.trackingInfoId = provider.trackingInfoList[index]['id'];
+                                                          if (provider.trackingInfoList[index]['id'] != 0) {
+                                                            contactBottomSheet(context,provider);
+                                                            provider.imageType = 'image';
+                                                          }
+                                                        },
+                                                        height: 5.5.h,
+                                                        radius: 1.h,
+                                                        width: double.infinity,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                                AppAssets.APP_CAPTURE_IMAGE_SVG,
+                                                                color: Theme.of(context)
+                                                                    .colorScheme
+                                                                    .background),
+                                                            SizedBox(width: 2.w),
+                                                            AppText(
+                                                              title: 'Capture image',
+                                                              color: Theme.of(context)
+                                                                  .colorScheme
+                                                                  .background,
+                                                            ),
+                                                          ],
+                                                        ));
+                                                  }),
+                                              SizedBox(height: 1.h),
+                                              appOutlineButton(
+                                                  context: context,
+                                                  onTap: () {
+                                                    provider.trackingInfoId = provider.trackingInfoList[index]['id'];
+                                                    if (provider.trackingInfoId != 0) {
+                                                      provider.imageType = 'document';
+                                                      provider.openFileExplorer(context);
                                                     }
                                                   },
                                                   height: 5.5.h,
                                                   radius: 1.h,
                                                   width: double.infinity,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      SvgPicture.asset(
-                                                          AppAssets.APP_CAPTURE_IMAGE_SVG,
+                                                      SvgPicture.asset(AppAssets.APP_UPLOAD_DOC_SVG,
                                                           color: Theme.of(context)
                                                               .colorScheme
-                                                              .background),
+                                                              .onPrimary),
                                                       SizedBox(width: 2.w),
                                                       AppText(
-                                                        title: 'Capture image',
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .background,
+                                                        title: 'Upload Document',
+                                                        color: Theme.of(context).colorScheme.onPrimary,
                                                       ),
                                                     ],
-                                                  ));
-                                            }),
-                                        SizedBox(height: 1.h),
-                                        appOutlineButton(
-                                            context: context,
-                                            onTap: () {
-                                              provider.trackingInfoId = provider.trackingInfoList[index]['id'];
-                                              if (provider.trackingInfoId != 0) {
-                                                provider.imageType = 'document';
-                                                provider.openFileExplorer(context);
-                                              }
-                                            },
-                                            height: 5.5.h,
-                                            radius: 1.h,
-                                            width: double.infinity,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset(AppAssets.APP_UPLOAD_DOC_SVG,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary),
-                                                SizedBox(width: 2.w),
-                                                AppText(
-                                                  title: 'Upload Document',
-                                                  color: Theme.of(context).colorScheme.onPrimary,
-                                                ),
-                                              ],
-                                            )),
-                                        SizedBox(height: 2.h),
-                                        Column(
-                                          children: List.generate(provider.trackingInfoList[index]['trackingImages'].length, (imageIndex) {
-                                            return Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
+                                                  )),
+                                              SizedBox(height: 2.h),
+                                              Column(
+                                                children: List.generate(provider.trackingInfoList[index]['trackingImages'].length, (imageIndex) {
+                                                  return Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
 
-                                                AppText(
-                                                  title: provider.trackingInfoList[index]['trackingImages'][imageIndex]['type'] == "image" ? 'Images' : 'Pdf',
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSecondary,
-                                                ),
-                                                SizedBox(height: 0.5.h),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(vertical: 1.h),
-                                                  child: provider.trackingInfoList[index]['trackingImages'][imageIndex]['type'] == "image"
-                                                      ? Container(
-                                                    height: 25.h,
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onBackground
-                                                          .withOpacity(0.3),
-                                                      border: DashedBorder
-                                                          .fromBorderSide(
-                                                        dashLength: 10,
-                                                        side: BorderSide(
-                                                          color: Theme.of(context)
-                                                              .colorScheme
-                                                              .secondary
-                                                              .withOpacity(0.4),
-                                                          width: 2,
-                                                        ),
+                                                      AppText(
+                                                        title: provider.trackingInfoList[index]['trackingImages'][imageIndex]['type'] == "image" ? 'Images' : 'Pdf',
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onSecondary,
                                                       ),
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          1.h),
-                                                    ),
-                                                    child: Image.network(
-                                                        provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc']!,
-                                                        fit: BoxFit.fill),
-                                                  ) :
-                                                  AppText(title: provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc'] ),
-                                                ),
-                                              ],
-                                            );
-                                          }),
+                                                      SizedBox(height: 0.5.h),
+                                                      Padding(
+                                                        padding: EdgeInsets.symmetric(vertical: 1.h),
+                                                        child: provider.trackingInfoList[index]['trackingImages'][imageIndex]['type'] == "image"
+                                                            ? Container(
+                                                          height: 25.h,
+                                                          width: double.infinity,
+                                                          decoration: BoxDecoration(
+                                                            color: Theme.of(context)
+                                                                .colorScheme
+                                                                .onBackground
+                                                                .withOpacity(0.3),
+                                                            border: DashedBorder
+                                                                .fromBorderSide(
+                                                              dashLength: 10,
+                                                              side: BorderSide(
+                                                                color: Theme.of(context)
+                                                                    .colorScheme
+                                                                    .secondary
+                                                                    .withOpacity(0.4),
+                                                                width: 2,
+                                                              ),
+                                                            ),
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                1.h),
+                                                          ),
+                                                          child: Image.network(
+                                                              provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc']!,
+                                                              fit: BoxFit.fill),
+                                                        ) :
+                                                        AppText(title: provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc'] ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                }),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
-                            );
-                          }),
-                    ],
-                  ),
-                ),
-              )
-                  : const Center(
-                child: SpinKitLoader(),
-              );
-            }),
+                                      );
+                                    }),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    )
+                        : const Center(
+                      child: SpinKitLoader(),
+                    );
+                  })
+        ),
       ),
-    );
+);
   }
 }
 

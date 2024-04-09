@@ -65,6 +65,7 @@ void showContactDialog(BuildContext context,
                       ),
                       IconButton(
                         onPressed: () {
+                          provider.resMessage = '';
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.close,
@@ -89,10 +90,6 @@ void showContactDialog(BuildContext context,
                           value: provider.selectedValue
                               .toString(),
                           items: [
-                        //   DropdownMenuItem<String>(
-                        //     value: '',
-                        //   child: AppText(title: '--Select--'),
-                        // ),
                             ...List.generate(
                                 provider.dropDown.length,
                                     (index) {
@@ -124,7 +121,7 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.companyNameController,),
+                        appTextField(context: context,controller: provider.companyNameController,),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.person_Name,
@@ -132,7 +129,7 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.personNameController,),
+                        appTextField(context: context,controller: provider.personNameController,),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.phone_Number,
@@ -140,7 +137,7 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.phoneNumberController,),
+                        appTextField(context: context,controller: provider.phoneNumberController,keyboardType: TextInputType.phone),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.email,
@@ -148,7 +145,7 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.emailController,),
+                        appTextField(context: context,controller: provider.emailController,keyboardType: TextInputType.emailAddress),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.address,
@@ -156,7 +153,7 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.addressController,),
+                        appTextField(context: context,controller: provider.addressController,),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.description,
@@ -164,19 +161,20 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextfield(context: context,controller: provider.descriptionController,),
+                        appTextField(context: context,controller: provider.descriptionController,),
                       ],
                     ),
                   ),
                   appDivider(context: context),
-                  Center(child: AppText(title: provider.resMessage,color: Theme.of(context).colorScheme.error,)),
-                  SizedBox(height: 2.h,),
+                 provider.resMessage == '' ? SizedBox() : Center(child: AppText(title: provider.resMessage,color: Theme.of(context).colorScheme.error,)) ,
+                  provider.resMessage == '' ? SizedBox() :  SizedBox(height: 2.h,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
                     child:  (provider.isAddContactButton == false) ?  Row(
                       children: [
                         Expanded(child: GestureDetector(
                           onTap: (){
+                            provider.resMessage = '';
                             Get.back();
                           },
                           child: Center(

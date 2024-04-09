@@ -50,7 +50,7 @@ class ResetEmailScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 1.h),
                       Consumer<ResetEmailProvider>(builder: (context, value, _) {
-                        return appTextfield(
+                        return appTextField(
                             controller: value.resetEmailController,
                             context: context);
                       }),

@@ -12,6 +12,9 @@ class HomeProvider extends ChangeNotifier{
 
   HomeProvider(){
 
+     personalDetails();
+     notifyListeners();
+
   }
 
 

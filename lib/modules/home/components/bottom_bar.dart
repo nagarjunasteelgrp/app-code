@@ -14,69 +14,69 @@ class AppBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: checkInProvider,
-      child: Consumer<CheckInProvider>(
-        builder: (context, provider, _) {
-          return Consumer<HomeProvider>(
-            builder: (context, value, _) {
-              return BottomNavigationBar(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  elevation: 5.h,
-                  currentIndex: value.selectedIndex,
-                  showUnselectedLabels: true,
-                  selectedItemColor: Theme.of(context).colorScheme.onError,
-                  unselectedItemColor: Theme.of(context).colorScheme.secondary,
-                  onTap: (values) {
-                    value.setSelectedIndex(values);
-                  },
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        AppAssets.APP_CONTACTS_SVG,
-                        height: 3.h,
-                        color: value.selectedIndex == 0
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
+        value: checkInProvider,
+        child: Consumer<CheckInProvider>(
+          builder: (context, provider, _) {
+            return Consumer<HomeProvider>(
+              builder: (context, value, _) {
+                return BottomNavigationBar(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    elevation: 5.h,
+                    currentIndex: value.selectedIndex,
+                    showUnselectedLabels: true,
+                    selectedItemColor: Theme.of(context).colorScheme.onError,
+                    unselectedItemColor: Theme.of(context).colorScheme.secondary,
+                    onTap: (values) {
+                      value.setSelectedIndex(values);
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          AppAssets.APP_CONTACTS_SVG,
+                          height: 3.h,
+                          color: value.selectedIndex == 0
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
+                        label: Constants.contacts,
                       ),
-                      label: Constants.contacts,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        AppAssets.APP_ACTIVITIES_SVG,
-                        height: 3.h,
-                        color: value.selectedIndex == 1
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
+                      BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          AppAssets.APP_ACTIVITIES_SVG,
+                          height: 3.h,
+                          color: value.selectedIndex == 1
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
+                        label: Constants.tasks,
                       ),
-                      label: Constants.tasks,
-                    ),
-                    BottomNavigationBarItem(
-                      icon:  provider.checkInStatus ?SvgPicture.asset(
-                        height: 3.h,
-                        color: value.selectedIndex == 2
+                      BottomNavigationBarItem(
+                        icon:  provider.checkInStatus ?SvgPicture.asset(
+                          height: 3.h,
+                          color: value.selectedIndex == 2
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                          AppAssets.APP_CHECKING_SVG,
+                        ) : Icon(Icons.login , color: value.selectedIndex == 2
                             ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
-                        AppAssets.APP_CHECKING_SVG,
-                      ) : Icon(Icons.login , color: value.selectedIndex == 2
-                          ? Theme.of(context).colorScheme.onError
-                          : Theme.of(context).colorScheme.secondary),
-                      label: provider.checkInStatus ? Constants.checkIn : Constants.checkOut,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Image.asset(
-                        color: value.selectedIndex == 3
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
-                        AppAssets.MENU,
-                        height: 3.h,
+                            : Theme.of(context).colorScheme.secondary),
+                        label: provider.checkInStatus ? Constants.checkIn : Constants.checkOut,
                       ),
-                      label: Constants.menu,
-                    ),
-                  ]);
-            },
-          );
-        }
-      )
-    );
+                      BottomNavigationBarItem(
+                        icon: Image.asset(
+                          color: value.selectedIndex == 3
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                          AppAssets.MENU,
+                          height: 3.h,
+                        ),
+                        label: Constants.menu,
+                      ),
+                    ]);
+              },
+            );
+          }
+        )
+      );
   }
 }

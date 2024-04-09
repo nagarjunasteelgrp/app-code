@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/app_snackbar.dart';
+import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:file_picker/file_picker.dart';
@@ -10,20 +11,23 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart'as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../constants/global.dart';
 
 
 class TrackingProvider extends ChangeNotifier {
-
+  CurrentLocationProvider currentLocationProvider;
   ApiServices apiServices = ApiServices();
   TextEditingController addNotesController = TextEditingController();
   GoogleMapController? mapController;
-  double? latitude ;
-  double? longitude ;
+  // double? latitude ;
+  // double? longitude ;
   bool isLoading = false;
   File? image;
   List markers = [];
-  String address = '';
+  // String address = '';
   bool _geoLocationBtn = false;
   int trackingInfoId = 0;
   LatLng? initialPosition;
@@ -58,24 +62,25 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  TrackingProvider() {
-    notifyListeners();
+  TrackingProvider(this.currentLocationProvider) {
+    intialData();
     contactTypeId = Get.arguments['id'] ?? '';
     print("TRACKING ID: $contactTypeId");
     contactTypeCompanyName = Get.arguments['companyName'] ?? '';
     print("TRACKING COMPANY NAME: $contactTypeCompanyName");
     contactTypeName = Get.arguments['contactType'] ?? '';
     print("TRACKING TYPE NAME: $contactTypeName");
-    getUserId();
     trackingInfoAPI();
-    getMapData();
     notifyListeners();
   }
 
-  getUserId() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    userId = sharedPreferences.getInt('user_id')!;
-  }
+intialData()async{
+  currentLocationProvider.getUserLocation();
+  print("ADRESSS.......$address");
+  print("Latitude.......$latitude");
+  print("Longitude.......$longitude");
+   notifyListeners();
+}
 
   void addMarker(LatLng latLng, String address) {
     print("address: $address");
@@ -90,13 +95,6 @@ class TrackingProvider extends ChangeNotifier {
         },
       ),
     );
-    notifyListeners();
-  }
-
-  getMapData() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    latitude = prefs.getDouble("latitude");
-    longitude = prefs.getDouble("longitude");
     notifyListeners();
   }
 
@@ -163,7 +161,6 @@ class TrackingProvider extends ChangeNotifier {
     });
     notifyListeners();
   }
-
 
   Future<void> trackingMap(BuildContext context) async {
     isLoading = true;

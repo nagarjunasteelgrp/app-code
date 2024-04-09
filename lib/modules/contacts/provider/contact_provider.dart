@@ -3,6 +3,7 @@ import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/constants/validation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:digital_lync/services/api_service.dart';
 
@@ -15,6 +16,7 @@ class ContactProvider extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   bool isSelected = true;
   List contactList = [];
@@ -23,12 +25,34 @@ class ContactProvider extends ChangeNotifier {
   String? selectedValue;
   bool isExpanded = false;
   var resMessage;
+  List<dynamic> filteredContactList = [];
+  List<dynamic> displayList = [];
 
   List dropDown = [
     "dealer",
     "customer",
     "fabricator",
   ];
+
+  String _searchQuery = '';
+
+  String get searchQuery => _searchQuery;
+
+  void updateSearchQuery(String newQuery) {
+    _searchQuery = newQuery;
+    print("_SearchQuery: $_searchQuery");
+    notifyListeners();
+  }
+
+  void searchContacts(String query) {
+    updateSearchQuery(query);
+    filteredContactList = contactList.where((contact) {
+      print("filteredContactList: $filteredContactList");
+      // print("")
+      return contact['companyName'].toLowerCase().contains(query.toLowerCase());
+    }).toList();
+    notifyListeners();
+  }
 
   bool _isListReversed = false;
   bool get isListReversed => _isListReversed;
@@ -55,6 +79,7 @@ class ContactProvider extends ChangeNotifier {
 
 
   Future<void> listOfContacts() async {
+    print("SELECTED VALUE:-- $selectedValue");
     try {
       isLoading = true;
       notifyListeners();
@@ -85,60 +110,33 @@ class ContactProvider extends ChangeNotifier {
     String address = addressController.text.trim();
     String description = descriptionController.text.trim();
 
-    print("Company Name : $companyName");
-    print("Person Name : $personName");
-    print("Phone Number : $phoneNumber");
-    print("Email Id : $emailId");
-    print("Contact Type : $contactType");
-    print("Address : $address");
-    print("Description : $description");
-
     if (companyName.isEmpty) {
-      showAppSnackBar(
-          context: context, title: 'Please enter your companyName.');
       resMessage = "Please enter your companyName.";
       return;
     }
     if (personName.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your personName.');
       resMessage = "Please enter your personName.";
       return;
     }
     if (phoneNumber.isEmpty) {
-      showAppSnackBar(
-          context: context, title: 'Please enter your phoneNumber.');
       resMessage = "Please enter your phoneNumber.";
       return;
     } else if (phoneNumber.length != 10) {
-      showAppSnackBar(
-          context: context,
-          title: 'Please enter a valid 10-digit phoneNumber.');
       resMessage = "Please enter a valid 10-digit phoneNumber.";
       return;
     }
     if (emailId.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your email.');
       resMessage = "Please enter your email.";
       return;
     } else if (!Validation.isValidEmail(emailController.text.trim())) {
-      showAppSnackBar(
-          context: context, title: 'Please enter a valid email address.');
       resMessage = "Please enter a valid email address.";
       return;
     }
-    if (contactType.isEmpty) {
-      showAppSnackBar(context: context, title: 'select your contactType.');
-      resMessage = "select your contactType.";
-      return;
-    }
     if (address.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your address.');
       resMessage = "Please enter your address.";
       return;
     }
     if (description.isEmpty) {
-      showAppSnackBar(
-          context: context, title: 'Please enter your description.');
       resMessage = "Please enter your description.";
       return;
     }
@@ -160,7 +158,7 @@ class ContactProvider extends ChangeNotifier {
         var responseBody = jsonDecode(logResponse.body);
         showAppSnackBar(
             type: 'success', context: context, title: responseBody['message']);
-        resMessage = responseBody['message'];
+        resMessage = '';
         companyNameController.clear();
         personNameController.clear();
         contactTypeController.clear();
@@ -176,8 +174,8 @@ class ContactProvider extends ChangeNotifier {
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
         print("LOGIN ERROR : ${responseBody['message']}");
-        showAppSnackBar(
-            type: 'Error', context: context, title: responseBody['message']);
+        // showAppSnackBar(
+        //     type: 'Error', context: context, title: responseBody['message']);
         resMessage = responseBody['message'];
         Get.back();
       }

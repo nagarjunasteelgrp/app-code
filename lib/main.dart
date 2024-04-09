@@ -48,6 +48,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    getHeaders();
+    personalDetails();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CurrentLocationProvider>(context, listen: false).getUserLocation();
     });
@@ -55,10 +57,6 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-    var token;
-    getToken().then((value) {
-      token = value;
-    });
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(

@@ -25,7 +25,8 @@ class CheckInScreen extends StatelessWidget {
       child: Scaffold(
         body: Consumer<CheckInProvider>(
             builder: (context, provider, child) {
-              return Column(
+              print("provider.checkInList.length:-${provider.checkInList.length}");
+              return  provider.isLoading ? Center(child: SpinKitLoader()) : Column(
                 children: [
                   SizedBox(height: 3.h),
                   Padding(
@@ -77,8 +78,7 @@ class CheckInScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 3.h),
                   Expanded(
-                    child:
-                    provider.isLoading ? Center(child: SpinKitLoader()) : provider.checkInList.length < 0 ? Center(
+                    child: provider.checkInList.length < 0 ? Center(
               child: AppText(title: Constants.result_not_found,),
               ) : SingleChildScrollView(
                       child: Column(

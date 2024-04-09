@@ -26,7 +26,7 @@ class ResetEmailProvider extends ChangeNotifier {
         print("RESET EMAIL SUCCESS : ${response['token']}");
         resetEmailController.clear();
         showAppSnackBar(type: 'success', context: context, title: response['message'],);
-        Get.toNamed(RoutesName.LOGIN);
+        Get.offNamed(RoutesName.LOGIN);
       } else {
         var response = jsonDecode(logResponse.body);
         print("RESET EMAIL ERROR : ${response['message']}");

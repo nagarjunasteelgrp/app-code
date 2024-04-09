@@ -213,9 +213,10 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> checkInList({required int id}) async {
+  Future<http.Response> checkInList() async {
+    print("USERID......$userId");
     final response = await http.get(
-      Uri.parse(ApiUrl.checkInListUrl(id)),
+      Uri.parse(ApiUrl.checkInListUrl(userId!)),
       headers:  await getHeaders(),
     );
     print("CHECK IN OF LIST STATUS CODE : ${response.statusCode}");
@@ -238,6 +239,7 @@ class ApiServices {
   }
   
   Future<http.Response> checkOutAPI({required int checkInId , int? userId, dynamic checkInTime}) async {
+    print("checkInId :----- ${checkInId} userId : ${userId} checkInTime : ${checkInTime}");
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers:  await getHeaders(),
