@@ -270,37 +270,5 @@ intialData()async{
   }
 
 
-  Future<void> autoTrackingInfo(latitude,longitude,address) async {
-    notifyListeners();
-    try {
-      print("AUTO TRACKING INFO MAP ADDRESS 1: $latitude");
-      print("AUTO TRACKING INFO MAP ADDRESS 2: $longitude");
-      print("AUTO TRACKING INFO MAP ADDRESS 3: $address");
-      print("AUTO TRACKING INFO MAP ADDRESS 4: $userId");
-      var logResponse = await apiServices.autoTrackingAPI(latitude: latitude,longitude: longitude,address: address);
-      if (logResponse.statusCode == 201) {
-        isLoading = false;
-        notifyListeners();
-        var response = jsonDecode(logResponse.body);
-        latitude = response['trackingInfo']['latitude'] ?? 0.0;
-        longitude = response['trackingInfo']['longitude'] ?? 0.0;
-        print("AUTO TRACKING MAP RESPONSE : $response");
-        notifyListeners();
-        Get.back();
-      } else {
-        isLoading = false;
-        notifyListeners();
-        var response = jsonDecode(logResponse.body);
-        print("AUTO TRACKING MAP ERROR : ${response['message']}");
-        // showAppSnackBar(type: 'Error', context: context, title: response['message']);
-      }
-    } catch (e) {
-      isLoading = false;
-      notifyListeners();
-      // showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("TRACKING MAP E : $e");
-    }
-  }
-
 
 }

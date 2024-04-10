@@ -94,6 +94,7 @@ class ApiServices {
     return response;
   }
 
+
   Future<http.Response> contactUpdate({
     String? personName,
     String? companyName,
@@ -163,7 +164,12 @@ class ApiServices {
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers:  await getHeaders(),
-      body: jsonEncode({"latitude": latitude,"longitude": longitude,"address": address,"trackingType": "auto" , "userId": userId
+      body: jsonEncode({
+        "latitude": latitude,
+        "longitude": longitude,
+        "address": address,
+        "trackingType": "auto",
+        "userId": userId
       }),
     );
     print("SALES PERSON INFO STATUS CODE : ${response.request}");

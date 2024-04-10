@@ -13,7 +13,6 @@ class CheckInProvider extends ChangeNotifier{
   bool checkInStatus = true;
   var checkInId;
 
-
   set checkInStatusBtn(bool value) {
     checkInStatus = value;
     notifyListeners();

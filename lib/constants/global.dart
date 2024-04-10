@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
+import 'package:digital_lync/services/api_service.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? token;
@@ -42,24 +48,28 @@ getMapData() async{
   print("getMapData Latitude: $latitude, getMapData Longitude: $longitude getMapData Address: $address");
 }
 
-Future getCurrentLocation() async {
+Future<dynamic> getCurrentLocation() async {
   try {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
-    _currentPosition = position;
-    print('Latitude: ${_currentPosition.latitude}, Longitude: ${_currentPosition.longitude}');
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-        _currentPosition.latitude, _currentPosition.longitude);
-    Placemark placemark = placemarks[0];
-    String addresss = "${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}";
-    print('Address::--- $address');
-  address = addresss;
-    trackingProvider.autoTrackingInfo(
-        _currentPosition.latitude, _currentPosition.longitude, address);
-    return address;
+    await getHeaders();
+    if (userId != null) {
+      ApiServices apiServices = ApiServices();
+      print("GET CURRENT LOCATION.................2");
+      var logResponse = await apiServices.autoTrackingAPI(
+          latitude: latitude, longitude: longitude, address: address);
+      if (logResponse.statusCode == 201) {
+        var response = jsonDecode(logResponse.body);
+        latitude = response['trackingInfo']['latitude'] ?? 0.0;
+        longitude = response['trackingInfo']['longitude'] ?? 0.0;
+        print("AUTO TRACKING MAP RESPONSE : $response");
+      } else {
+        var response = jsonDecode(logResponse.body);
+        print("AUTO TRACKING MAP ERROR : ${response['message']}");
+      }
+      return address;
+    }
+    print("USERID:------$userId");
   } catch (e) {
-    print("Error: $e");
+    print("Error-----: $e");
   }
 }
-
 
