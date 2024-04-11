@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/validation.dart';
 import 'package:digital_lync/routes/routes_path.dart';

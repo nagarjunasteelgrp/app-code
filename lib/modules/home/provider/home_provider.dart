@@ -11,10 +11,9 @@ class HomeProvider extends ChangeNotifier{
   }
 
   HomeProvider(){
-
+    getHeaders();
      personalDetails();
      notifyListeners();
-
   }
 
 

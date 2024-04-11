@@ -1,6 +1,7 @@
 import 'package:digital_lync/common/app_bar.dart';
 import 'package:digital_lync/constants/app_logout.dart';
 import 'package:digital_lync/constants/global.dart';
+import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
@@ -35,6 +36,8 @@ class HomeScreen extends StatelessWidget {
             bool isConfirmed = await AppDialog.showDialog(context,
                 title: 'Logout', message: 'Are you sure you want to logout?');
             if (isConfirmed) {
+              Provider.of<LoginProvider>(context, listen: false).emailController.clear();
+              Provider.of<LoginProvider>(context, listen: false).passwordController.clear();
               sharedPreferences.clear();
               Get.offNamed(RoutesName.LOGIN);
             }

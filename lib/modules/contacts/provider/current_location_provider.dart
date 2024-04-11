@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
+import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,7 @@ import '../../../constants/global.dart';
 class CurrentLocationProvider extends ChangeNotifier {
   Position? userLocation;
   final LocationService locationService = LocationService();
+  ApiServices apiServices = ApiServices();
 
   CurrentLocationProvider() {
     getUserLocation();
@@ -20,10 +24,9 @@ class CurrentLocationProvider extends ChangeNotifier {
     try {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       userLocation = await locationService.determinePosition();
-      List<Placemark> placemarks = await placemarkFromCoordinates(userLocation!.latitude, userLocation!.longitude);
-      Placemark placemark = placemarks[0];
-       address = "${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}";
-      print("Address :--- $address");
+      List<Placemark> placeMarks = await placemarkFromCoordinates(userLocation!.latitude, userLocation!.longitude);
+      Placemark placeMark = placeMarks[0];
+       address = "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
       if (kDebugMode) {
         print("userLocation :1 ${userLocation!.latitude}");
       }
@@ -38,7 +41,6 @@ class CurrentLocationProvider extends ChangeNotifier {
       longitude = sharedPreferences.getDouble("longitude");
       address = sharedPreferences.getString("address") ?? '';
 
-
       notifyListeners();
     } catch (e) {
       if (kDebugMode) {
@@ -46,4 +48,6 @@ class CurrentLocationProvider extends ChangeNotifier {
       }
     }
   }
+
+
 }

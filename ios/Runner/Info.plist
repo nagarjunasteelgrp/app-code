@@ -37,6 +37,14 @@
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+        <string>Photo Library Access Warning</string>
+        <key>NSCameraUsageDescription</key>
+        <string>Camera Access Warning</string>
+		<key>BGTaskSchedulerPermittedIdentifiers</key>
+        <array>
+            <string>dev.flutter.background.refresh</string>
+        </array>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>

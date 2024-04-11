@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'api_url.dart';
 import 'package:http/http.dart' as http;
 
@@ -128,7 +129,7 @@ class ApiServices {
   }
 
 
-  Future<http.Response> trackingNotes({String? description ,int? trackingInfoId}) async {
+  Future<http.Response> trackingNotes({String? description,int? trackingInfoId}) async {
     final response = await http.post(
       Uri.parse(ApiUrl.trackingNotesUrl),
       headers:  await getHeaders(),
@@ -161,6 +162,9 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString("token");
+    userId = prefs.getInt("userId");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers:  await getHeaders(),
@@ -184,7 +188,6 @@ class ApiServices {
     required File image,
     required String imageType,
   }) async {
-    print("TRACKING MAP:-----===== ${trackingInfoId} : ${image} : ${imageType} ");
     var headers = await getHeaders();
     var request = http.MultipartRequest('POST',Uri.parse(ApiUrl.trackingImageUrl));
     request.headers.addAll(headers);

@@ -6,6 +6,7 @@ import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
@@ -29,6 +30,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<void> login(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
     FocusScope.of(context).unfocus();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
@@ -51,6 +53,7 @@ class LoginProvider extends ChangeNotifier {
         var response = jsonDecode(logResponse.body);
         print("LOGIN SUCCESS : ${response['token']}");
         print("LOGIN SUCCESS : ${response['userInfo']['userId']}");
+        // await prefs.setInt('userId', response['userInfo']['userId']);
         await sharedPrefers.saveTokenToPrefs(response['token']);
         await sharedPrefers.saveUserIdPrefs(response['userInfo']['userId']);
         await sharedPrefers.saveUserEmailPrefs(response['userInfo']['email'].toString());
@@ -59,11 +62,9 @@ class LoginProvider extends ChangeNotifier {
         await sharedPrefers.saveEmpIdPrefs(response['userInfo']['empId'].toString());
         await sharedPrefers.saveRolePrefs(response['userInfo']['role'].toString());
         showAppSnackBar(type: 'success', context: context, title: response['message']);
+        Get.offNamed(RoutesName.HOME);
         await personalDetails();
         notifyListeners();
-        emailController.clear();
-        passwordController.clear();
-        Get.offNamed(RoutesName.HOME);
       } else {
         isLoading = false;
         notifyListeners();
