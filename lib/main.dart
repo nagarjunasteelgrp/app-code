@@ -76,22 +76,10 @@ Future<void> onStart(ServiceInstance service) async {
   Timer.periodic(const Duration(hours: 2), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
+        CurrentLocationProvider locationProvider = CurrentLocationProvider();
+        await locationProvider.getUserLocation();
         getHeaders();
         personalDetails();
-        // flutterLocalNotificationsPlugin.show(
-        //   notificationId, 'COOL SERVICE', 'Awesome ${DateTime.now()}',
-        //   const NotificationDetails(
-        //     android: AndroidNotificationDetails(
-        //       notificationChannelId,
-        //       'MY FOREGROUND SERVICE',
-        //       icon: 'ic_bg_service_small',
-        //       ongoing: true,
-        //       importance: Importance.high,
-        //     ),
-        //   ),
-        // );
-        // print("ON START CALLED................5");
-        //
       }
     }
   });

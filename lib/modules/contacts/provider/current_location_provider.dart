@@ -1,15 +1,10 @@
-import 'dart:convert';
-
-import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../constants/global.dart';
 
 class CurrentLocationProvider extends ChangeNotifier {
   Position? userLocation;
