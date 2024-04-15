@@ -7,6 +7,7 @@ import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/provider_services.dart';
 import 'package:digital_lync/services/theme_service.dart';
+import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -39,8 +40,9 @@ const notificationChannelId = 'my_foreground';
 
 
 Future<void> initializeService() async {
-  getHeaders();
-  personalDetails();
+  // getHeaders();
+  // personalDetails();
+  await DisableBatteryOptimization.isAutoStartEnabled;
   final service = FlutterBackgroundService();
   service.isRunning();
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -54,8 +56,7 @@ Future<void> initializeService() async {
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   await service.configure(iosConfiguration: IosConfiguration(
       autoStart: true,
-    onForeground: onStart,
-      ),
+    onForeground: onStart),
       androidConfiguration: AndroidConfiguration(
         autoStart: true,
         isForegroundMode: true,

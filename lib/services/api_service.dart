@@ -162,12 +162,13 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
+    print("AUTO TRACKING API..........${latitude} : ${longitude} : ${address} : ${userId}");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token");
     userId = prefs.getInt("userId");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
       body: jsonEncode({
         "latitude": latitude,
         "longitude": longitude,
