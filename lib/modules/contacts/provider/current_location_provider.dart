@@ -1,3 +1,4 @@
+import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
@@ -16,20 +17,22 @@ class CurrentLocationProvider extends ChangeNotifier {
   }
 
   Future<void> getUserLocation() async {
+    print("GET USER LOCATION CALLED....1");
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      userLocation = await locationService.determinePosition();
-      List<Placemark> placeMarks = await placemarkFromCoordinates(userLocation!.latitude, userLocation!.longitude);
+      print("GET USER LOCATION CALLED....2");
+      // userLocation = await locationService.determinePosition();
+      print("GET USER LOCATION CALLED....3");
+      BackgroundLocation.getLocationUpdates((location) async {
+        print("GET UPDATE LOCATION.........${location.latitude} ${location.longitude}");
+      List<Placemark> placeMarks = await placemarkFromCoordinates(location.latitude!.toDouble(), location.longitude!.toDouble());
+      print("GET USER LOCATION CALLED....4");
       Placemark placeMark = placeMarks[0];
        address = "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
-      if (kDebugMode) {
-        print("userLocation :1 ${userLocation!.latitude}");
-      }
-      if (kDebugMode) {
-        print("userLocation :2 ${userLocation!.longitude}");
-      }
-      sharedPreferences.setDouble("latitude", userLocation!.latitude);
-      sharedPreferences.setDouble("longitude", userLocation!.longitude);
+        print("userLocation :1 ${location.latitude!.toDouble()}");
+        print("userLocation :2 ${location.longitude!.toDouble()}");
+      sharedPreferences.setDouble("latitude", location.latitude!.toDouble());
+      sharedPreferences.setDouble("longitude", location.longitude!.toDouble());
       sharedPreferences.setString("address", address!);
 
       latitude = sharedPreferences.getDouble("latitude");
@@ -37,7 +40,9 @@ class CurrentLocationProvider extends ChangeNotifier {
       address = sharedPreferences.getString("address") ?? '';
 
       notifyListeners();
+      });
     } catch (e) {
+      print("getUserLocation ERROR : $e");
       if (kDebugMode) {
         print(e);
       }

@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'dart:ui';
+import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
@@ -23,6 +22,12 @@ void main() async {
 
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
  await initializeService();
+ BackgroundLocation.startLocationService();
+ BackgroundLocation.setAndroidNotification(
+   title: "Nagarjuna Steel",
+   message: "App is up and running",
+   icon: "@mipmap/ic_launcher",
+ );
  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
    statusBarColor: Colors.transparent,
@@ -30,61 +35,13 @@ void main() async {
  SystemChrome.setPreferredOrientations([
    DeviceOrientation.portraitUp,
  ]);
- await Future.delayed(const Duration(seconds: 2));
+ // await Future.delayed(const Duration(seconds: 2));
  FlutterNativeSplash.remove();
   runApp(MultiProvider(providers: providers,
     child: const MyApp()));
 }
 const notificationChannelId = 'my_foreground';
   const notificationId = 10181;
-
-
-Future<void> initializeService() async {
-  // getHeaders();
-  // personalDetails();
-  await DisableBatteryOptimization.isAutoStartEnabled;
-  final service = FlutterBackgroundService();
-  service.isRunning();
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    notificationChannelId,
-    'MY FOREGROUND SERVICE',
-    description:
-    'App is up and running',
-    importance: Importance.low,
-  );
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
-  await service.configure(iosConfiguration: IosConfiguration(
-      autoStart: true,
-    onForeground: onStart),
-      androidConfiguration: AndroidConfiguration(
-        autoStart: true,
-        isForegroundMode: true,
-        onStart: onStart,
-        notificationChannelId: notificationChannelId,
-        initialNotificationTitle: 'Nagarjuna Steel',
-        initialNotificationContent: 'App is up and running',
-        foregroundServiceNotificationId: notificationId,
-      ),
-  );
-}
-
-
-@pragma('vm:entry-point')
-Future<void> onStart(ServiceInstance service) async {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  DartPluginRegistrant.ensureInitialized();
-  Timer.periodic(const Duration(hours: 2), (timer) async {
-    if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        CurrentLocationProvider locationProvider = CurrentLocationProvider();
-        await locationProvider.getUserLocation();
-        getHeaders();
-        personalDetails();
-      }
-    }
-  });
-}
 
 
 class MyApp extends StatefulWidget {

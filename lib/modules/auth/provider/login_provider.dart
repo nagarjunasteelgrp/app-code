@@ -63,7 +63,7 @@ class LoginProvider extends ChangeNotifier {
         await sharedPrefers.saveRolePrefs(response['userInfo']['role'].toString());
         showAppSnackBar(type: 'success', context: context, title: response['message']);
         Get.offNamed(RoutesName.HOME);
-        await personalDetails();
+        await personalDetailsPref();
         notifyListeners();
       } else {
         isLoading = false;
