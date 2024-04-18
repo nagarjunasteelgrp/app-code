@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
-  SharedPrefers sharedPrefers = SharedPrefers();
+  // SharedPrefers sharedPrefers = SharedPrefers();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -30,7 +30,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<void> login(BuildContext context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+
     FocusScope.of(context).unfocus();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
@@ -46,32 +46,32 @@ class LoginProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      var logResponse = await apiServices.login(email: emailController.text, password: passwordController.text);
-      if (logResponse.statusCode == 200) {
-        isLoading = false;
-        notifyListeners();
-        var response = jsonDecode(logResponse.body);
-        print("LOGIN SUCCESS : ${response['token']}");
-        print("LOGIN SUCCESS : ${response['userInfo']['userId']}");
-        // await prefs.setInt('userId', response['userInfo']['userId']);
-        await sharedPrefers.saveTokenToPrefs(response['token']);
-        await sharedPrefers.saveUserIdPrefs(response['userInfo']['userId']);
-        await sharedPrefers.saveUserEmailPrefs(response['userInfo']['email'].toString());
-        await sharedPrefers.saveUserPhoneNoPrefs(response['userInfo']['mobile'].toString());
-        await sharedPrefers.saveUserUsernamePrefs(response['userInfo']['username'].toString());
-        await sharedPrefers.saveEmpIdPrefs(response['userInfo']['empId'].toString());
-        await sharedPrefers.saveRolePrefs(response['userInfo']['role'].toString());
-        showAppSnackBar(type: 'success', context: context, title: response['message']);
-        Get.offNamed(RoutesName.HOME);
-        await personalDetailsPref();
-        notifyListeners();
-      } else {
-        isLoading = false;
-        notifyListeners();
-        var response = jsonDecode(logResponse.body);
-        print("LOGIN ERROR : ${response['message']}");
-        showAppSnackBar(type: 'Error', context: context, title: response['message']);
-      }
+       await apiServices.login(email: emailController.text, password: passwordController.text).then((value)async{
+         isLoading = false;
+         notifyListeners();
+        var response = jsonDecode(value.body);
+        if (value.statusCode == 200) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          print("LOGIN SUCCESS : ${response['token']}");
+          prefs.setString('token', response['token']);
+          prefs.setInt('userId', response['userInfo']['userId']);
+          prefs.setString('email', response['userInfo']['email'].toString());
+          prefs.setString('mobile', response['userInfo']['mobile'].toString());
+          prefs.setString('username', response['userInfo']['username'].toString());
+          prefs.setString('empId', response['userInfo']['empId'].toString());
+          prefs.setString('role', response['userInfo']['role'].toString());
+          prefs.setBool('isLoginIn',   true);
+          showAppSnackBar(type: 'success', context: context, title: response['message']);
+          personalDetails();
+          getHeaders();
+          notifyListeners();
+          Get.offNamed(RoutesName.HOME);
+        } else {
+          print("LOGIN ERROR : ${response['message']}");
+          showAppSnackBar(type: 'Error', context: context, title: response['message']);
+        }
+      });
+
     } catch (e) {
       isLoading = false;
       notifyListeners();

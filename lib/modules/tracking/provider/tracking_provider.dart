@@ -75,10 +75,15 @@ class TrackingProvider extends ChangeNotifier {
   }
 
 intialData()async{
-  currentLocationProvider.getUserLocation();
-  print("ADRESSS.......$address");
+
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      latitude = sharedPreferences.getDouble("latitude");
+      longitude = sharedPreferences.getDouble("longitude");
+      addressPlacement = sharedPreferences.getString("address") ?? '';
+  print("ADRESSS.......$addressPlacement");
   print("Latitude.......$latitude");
   print("Longitude.......$longitude");
+
    notifyListeners();
 }
 
@@ -170,9 +175,9 @@ intialData()async{
     try {
       print("TRACKING MAP ADDRESS 1: $latitude");
       print("TRACKING MAP ADDRESS 2: $longitude");
-      print("TRACKING MAP ADDRESS 3: $address");
+      print("TRACKING MAP ADDRESS 3: $addressPlacement");
       print("TRACKING MAP ADDRESS 4: $contactTypeId");
-      var logResponse = await apiServices.trackingInfo(latitude: latitude,longitude: longitude,address: address,dealerId: contactTypeId);
+      var logResponse = await apiServices.trackingInfo(latitude: latitude,longitude: longitude,address: addressPlacement,dealerId: contactTypeId);
       if (logResponse.statusCode == 201) {
         isLoading = false;
         notifyListeners();

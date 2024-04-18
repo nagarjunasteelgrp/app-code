@@ -72,7 +72,8 @@ class TrackingScreen extends StatelessWidget {
                             appOutlineButton(
                                 context: context,
                                 onTap: () {
-                                  address != null ? showMapDialog(context) :  null;
+                                  print("TAP ADRESS...$addressPlacement");
+                                  addressPlacement != null ? showMapDialog(context) :  null;
                                     if (!provider.geoLocationBtn) {
                                       provider.geoLocationBtn = true;
                                   }

@@ -19,6 +19,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return ChangeNotifierProvider.value(
       value: HomeProvider(),
       child: Scaffold(
@@ -32,13 +34,12 @@ class HomeScreen extends StatelessWidget {
           },
           onTapLogo: () async {
             checkInProvider.checkInStatus ? null : checkInProvider.checkOutAPI();
-            SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-            bool isConfirmed = await AppDialog.showDialog(context,
-                title: 'Logout', message: 'Are you sure you want to logout?');
-            if (isConfirmed) {
-              Provider.of<LoginProvider>(context, listen: false).emailController.clear();
+    bool isConfirmed = await AppDialog.showDialog(context,
+    title: 'Logout', message: 'Are you sure you want to logout?');
+    if (isConfirmed) {
+      Provider.of<HomeProvider>(context, listen: false).prefsClear();
+    Provider.of<LoginProvider>(context, listen: false).emailController.clear();
               Provider.of<LoginProvider>(context, listen: false).passwordController.clear();
-              sharedPreferences.clear();
               Get.offNamed(RoutesName.LOGIN);
             }
           },

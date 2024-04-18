@@ -6,12 +6,8 @@ import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/provider_services.dart';
 import 'package:digital_lync/services/theme_service.dart';
-import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +15,7 @@ import 'package:sizer/sizer.dart';
 
 
 void main() async {
-
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
- await initializeService();
  BackgroundLocation.startLocationService();
  BackgroundLocation.setAndroidNotification(
    title: "Nagarjuna Steel",
@@ -54,8 +48,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    getHeaders();
     personalDetails();
+    getHeaders();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CurrentLocationProvider>(context, listen: false).getUserLocation();
     });
@@ -72,8 +66,7 @@ class _MyAppState extends State<MyApp> {
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
           initialRoute:
-          token != null ? RoutesName.HOME :
-          RoutesName.LOGIN,
+         (token != '' && token != null) ? RoutesName.HOME : RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );
       },

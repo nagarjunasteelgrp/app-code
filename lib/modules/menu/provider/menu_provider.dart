@@ -1,4 +1,5 @@
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:flutter/foundation.dart';
 
 class MenuProvider extends ChangeNotifier {
@@ -9,4 +10,11 @@ class MenuProvider extends ChangeNotifier {
     {'icon': '', 'title': Constants.tracking},
     {'icon': '', 'title': Constants.menu},
   ];
+
+  MenuProvider() {
+    personalDetails();
+    getHeaders();
+    notifyListeners();
+  }
+
 }

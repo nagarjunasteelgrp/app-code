@@ -40,9 +40,9 @@ void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
                       color: Theme.of(context).colorScheme.onSecondary,
                     ),
                     SizedBox(height: 0.5.h),
-                    (address != "")
+                    (addressPlacement != "")
                         ? AppText(
-                      title: address,
+                      title: addressPlacement,
                       color: Theme.of(context).colorScheme.secondary,
                       textOverflow: TextOverflow.ellipsis,
                       maxLines: 5,

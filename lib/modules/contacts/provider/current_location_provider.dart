@@ -28,16 +28,18 @@ class CurrentLocationProvider extends ChangeNotifier {
       List<Placemark> placeMarks = await placemarkFromCoordinates(location.latitude!.toDouble(), location.longitude!.toDouble());
       print("GET USER LOCATION CALLED....4");
       Placemark placeMark = placeMarks[0];
-       address = "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
+     dynamic address = "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
         print("userLocation :1 ${location.latitude!.toDouble()}");
         print("userLocation :2 ${location.longitude!.toDouble()}");
+        print("userLocation :3 ${address}");
       sharedPreferences.setDouble("latitude", location.latitude!.toDouble());
       sharedPreferences.setDouble("longitude", location.longitude!.toDouble());
-      sharedPreferences.setString("address", address!);
+      sharedPreferences.setString("address", address);
 
       latitude = sharedPreferences.getDouble("latitude");
       longitude = sharedPreferences.getDouble("longitude");
-      address = sharedPreferences.getString("address") ?? '';
+      addressPlacement = sharedPreferences.getString("address") ?? '';
+      print("ADRESSS $addressPlacement");
 
       notifyListeners();
       });
