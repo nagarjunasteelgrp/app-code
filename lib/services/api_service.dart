@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/global.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'api_url.dart';
 import 'package:http/http.dart' as http;
 
@@ -202,7 +201,6 @@ class ApiServices {
     final response = await http.get(
       Uri.parse(ApiUrl.trackingInfoListUrl(id)),
       headers:  await getHeaders(),
-      // headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
     );
     print("TRACKING OF LIST STATUS CODE : ${response.statusCode}");
     print("TRACKING OF LIST BODY : ${response.body}");

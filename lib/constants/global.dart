@@ -20,11 +20,11 @@ dynamic userPhone;
 String? empId;
 String? addressPlacement;
 ApiServices apiServices = ApiServices();
-bool? isLoginIn;
+bool isService = false;
 
 Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    token = sharedPreferences.getString("token") ?? '';
+ token = sharedPreferences.getString("token") ?? '';
     print("TOKEN...1 $token");
   userId = sharedPreferences.getInt("userId") ?? 0;
     return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
@@ -63,16 +63,14 @@ Future<dynamic> getCurrentLocation() async {
 Future<void> onStart(ServiceInstance service) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   DartPluginRegistrant.ensureInitialized();
-  Timer.periodic(const Duration(hours: 2), (timer) async {
+  Timer.periodic(const Duration(hours: 1), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
         print("service is running.......................");
+        print("............");
         CurrentLocationProvider locationProvider = CurrentLocationProvider();
         await locationProvider.getUserLocation();
         await getMapData();
-        print("TOKEN...2 $token");
-        isLoginIn = prefs.getBool("isLoginIn");
-        print("ISLOGIN.............${isLoginIn}");
         await getCurrentLocation();
       }
     }
@@ -86,11 +84,13 @@ getMapData() async{
   addressPlacement = prefs.getString("address");
 }
 
-Future<void> initializeService() async {
-  print("here......................................................................");
+Future<void> initializeService(isService) async {
+  print("here...................................................................... $isService");
   await DisableBatteryOptimization.isAutoStartEnabled;
   final service = FlutterBackgroundService();
+  if(isService == true){
   service.isRunning();
+  }
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     notificationChannelId,
     'MY FOREGROUND SERVICE',
@@ -101,11 +101,11 @@ Future<void> initializeService() async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   await service.configure(iosConfiguration: IosConfiguration(
-      autoStart: true,
+      autoStart: isService,
       onForeground: onStart),
     androidConfiguration: AndroidConfiguration(
-      autoStart: true,
-      isForegroundMode: true,
+      autoStart: isService,
+      isForegroundMode: isService,
       onStart: onStart,
       notificationChannelId: notificationChannelId,
       initialNotificationTitle: 'Nagarjuna Steel',

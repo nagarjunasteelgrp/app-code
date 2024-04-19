@@ -18,21 +18,20 @@ class HomeProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
   initState() async {
-     print("TOKEN....................$token");
-     if(token != '' && token != null) {
-    await initializeService();
+     if(token != '') {
+    await initializeService(true);
     notifyListeners();
      }
   }
 
-  prefsClear() async {
+  prefsClear(context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print('SharedPrefs Instance: $sharedPreferences'); // Check if sharedPreferences instance is correctly obtained
-    await sharedPreferences.remove("isLoginIn");
     await sharedPreferences.clear();
-    print('SharedPreferences Cleared');
+    token = "";
+    await initializeService(false);
+    print("SharedPreferences Cleared........................${sharedPreferences.getString('token')}");
+   await initState();
     notifyListeners();
   }
 

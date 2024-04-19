@@ -236,13 +236,14 @@ class ContactScreen extends StatelessWidget {
                                                 BorderRadius.circular(1.h),
                                           ),
                                           child: Row(
+                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
                                                 padding: EdgeInsets.all(1.5.h),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            1.5.h),
+                                                    BorderRadius.circular(
+                                                        1.5.h),
                                                     border: Border.all(
                                                         color: Theme.of(context)
                                                             .colorScheme
@@ -250,11 +251,13 @@ class ContactScreen extends StatelessWidget {
                                                             .withOpacity(0.5))),
                                                 child: const Icon(Icons.person),
                                               ),
+
                                               SizedBox(width: 2.h),
-                                              AppText(
-                                                title: contact['companyName'],
-                                                fontSize: 2.h,
-                                              ),
+                                              Flexible(child: Text(contact['companyName'],style: TextStyle(fontSize: 2.h)),),
+                                              // AppText(
+                                              //   title:
+                                              //   fontSize: 2.h,
+                                              // ),
                                               const Spacer(),
                                               const Icon(Icons
                                                   .arrow_forward_ios_rounded),

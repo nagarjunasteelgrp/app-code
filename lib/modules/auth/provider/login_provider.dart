@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:digital_lync/common/shared_prefs.dart';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -10,12 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
-  // SharedPrefers sharedPrefers = SharedPrefers();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
   bool isChecked = false;
+
 
   void toggleCheckbox() {
     isChecked = !isChecked;
@@ -53,14 +52,13 @@ class LoginProvider extends ChangeNotifier {
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           print("LOGIN SUCCESS : ${response['token']}");
-          prefs.setString('token', response['token']);
+         prefs.setString('token', response['token']);
           prefs.setInt('userId', response['userInfo']['userId']);
           prefs.setString('email', response['userInfo']['email'].toString());
           prefs.setString('mobile', response['userInfo']['mobile'].toString());
           prefs.setString('username', response['userInfo']['username'].toString());
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
-          prefs.setBool('isLoginIn',   true);
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           personalDetails();
           getHeaders();

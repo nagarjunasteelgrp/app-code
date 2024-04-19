@@ -1,9 +1,5 @@
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
-import 'package:digital_lync/main.dart';
-import 'package:digital_lync/routes/routes_path.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +14,9 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider.value(
+  value: LoginProvider(),
+  child: Scaffold(
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -62,6 +60,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 1.h),
                       Consumer<LoginProvider>(builder: (context, value, _) {
+
                         return appTextField(
                           controller: value.passwordController,
                           context: context,
@@ -122,6 +121,7 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+);
   }
 }

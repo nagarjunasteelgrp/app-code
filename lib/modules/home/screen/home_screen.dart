@@ -12,7 +12,6 @@ import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,7 +36,7 @@ class HomeScreen extends StatelessWidget {
     bool isConfirmed = await AppDialog.showDialog(context,
     title: 'Logout', message: 'Are you sure you want to logout?');
     if (isConfirmed) {
-      Provider.of<HomeProvider>(context, listen: false).prefsClear();
+      Provider.of<HomeProvider>(context, listen: false).prefsClear(context);
     Provider.of<LoginProvider>(context, listen: false).emailController.clear();
               Provider.of<LoginProvider>(context, listen: false).passwordController.clear();
               Get.offNamed(RoutesName.LOGIN);
