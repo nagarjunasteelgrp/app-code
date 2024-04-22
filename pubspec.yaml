@@ -58,6 +58,8 @@ dependencies:
   file_picker: ^8.0.0+1
   disable_battery_optimization: ^1.1.1
   background_location: ^0.13.0
+  flutter_background:
+  wakelock_plus: ^1.2.4
 
 dev_dependencies:
   flutter_test:

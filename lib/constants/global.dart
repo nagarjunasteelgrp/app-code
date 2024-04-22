@@ -20,7 +20,6 @@ dynamic userPhone;
 String? empId;
 String? addressPlacement;
 ApiServices apiServices = ApiServices();
-bool isService = false;
 
 Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -61,9 +60,8 @@ Future<dynamic> getCurrentLocation() async {
 
 @pragma('vm:entry-point')
 Future<void> onStart(ServiceInstance service) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   DartPluginRegistrant.ensureInitialized();
-  Timer.periodic(const Duration(hours: 1), (timer) async {
+  Timer.periodic(const Duration(minutes: 15), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
         print("service is running.......................");
@@ -84,7 +82,10 @@ getMapData() async{
   addressPlacement = prefs.getString("address");
 }
 
-Future<void> initializeService(isService) async {
+Future<void> initializeService(value) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool? isService;
+  isService = prefs.getBool("isService") ?? false;
   print("here...................................................................... $isService");
   await DisableBatteryOptimization.isAutoStartEnabled;
   final service = FlutterBackgroundService();

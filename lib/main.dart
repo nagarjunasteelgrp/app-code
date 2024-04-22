@@ -1,6 +1,5 @@
 import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
@@ -45,17 +45,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  String? tokens;
+
   @override
   void initState() {
-    personalDetails();
-    getHeaders();
+    getToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CurrentLocationProvider>(context, listen: false).getUserLocation();
     });
     super.initState();
   }
+
+ getToken() async {
+   SharedPreferences preferences = await SharedPreferences.getInstance();
+   print("preferences.getString(""):- 1 ${preferences.getString("token")}");
+   tokens = preferences.getString("token") ?? '';
+   print("preferences.getString(""):- 2 ${tokens}");
+ }
   @override
   Widget build(BuildContext context) {
+    getToken();
+    print("token//////////// $tokens");
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
@@ -65,7 +76,7 @@ class _MyAppState extends State<MyApp> {
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
           initialRoute:
-         (token != '' && token != null) ? RoutesName.HOME : RoutesName.LOGIN,
+         (tokens != '' && tokens != null) ? RoutesName.HOME : RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );
       },

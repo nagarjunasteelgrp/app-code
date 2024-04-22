@@ -6,11 +6,13 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/routes/routes_path.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -238,29 +240,43 @@ class ContactScreen extends StatelessWidget {
                                           child: Row(
                                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Container(
-                                                padding: EdgeInsets.all(1.5.h),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        1.5.h),
-                                                    border: Border.all(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary
-                                                            .withOpacity(0.5))),
-                                                child: const Icon(Icons.person),
+                                              Expanded(
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      padding: EdgeInsets.all(1.5.h),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              1.5.h),
+                                                          border: Border.all(
+                                                              color: Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary
+                                                                  .withOpacity(0.5))),
+                                                      child: const Icon(Icons.person),
+                                                    ),
+
+                                                    SizedBox(width: 2.h),
+                                                    Flexible(child: Text(contact['companyName'],style: TextStyle(fontSize: 2.h))),
+                                                  ],
+                                                ),
                                               ),
 
-                                              SizedBox(width: 2.h),
-                                              Flexible(child: Text(contact['companyName'],style: TextStyle(fontSize: 2.h)),),
                                               // AppText(
                                               //   title:
                                               //   fontSize: 2.h,
                                               // ),
-                                              const Spacer(),
-                                              const Icon(Icons
-                                                  .arrow_forward_ios_rounded),
+                                              // const Spacer(),
+                                              SizedBox(width: 2.h),
+                                              Center(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons
+                                                        .arrow_forward_ios_rounded),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),

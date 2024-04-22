@@ -1,6 +1,8 @@
 import 'package:digital_lync/constants/global.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class HomeProvider extends ChangeNotifier{
 
@@ -19,8 +21,15 @@ class HomeProvider extends ChangeNotifier{
   }
 
   initState() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
      if(token != '') {
-    await initializeService(true);
+    await initializeService(sharedPreferences.setBool('isService', true));
+    await WakelockPlus.enable();
+    FlutterBackground.initialize(
+      androidConfig: FlutterBackgroundAndroidConfig()
+    );
+    await FlutterBackground.hasPermissions;
+    // await FlutterBackground.enableBackgroundExecution();
     notifyListeners();
      }
   }
@@ -28,10 +37,8 @@ class HomeProvider extends ChangeNotifier{
   prefsClear(context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
-    token = "";
-    await initializeService(false);
+    await initializeService(sharedPreferences.setBool('isService', false));
     print("SharedPreferences Cleared........................${sharedPreferences.getString('token')}");
-   await initState();
     notifyListeners();
   }
 
