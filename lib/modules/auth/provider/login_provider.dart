@@ -62,6 +62,7 @@ class LoginProvider extends ChangeNotifier {
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           personalDetails();
           getHeaders();
+
           notifyListeners();
           Get.offNamed(RoutesName.HOME);
         } else {

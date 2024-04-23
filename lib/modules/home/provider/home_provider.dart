@@ -17,7 +17,19 @@ class HomeProvider extends ChangeNotifier{
     initState();
     personalDetails();
     getHeaders();
+    getAddress();
     notifyListeners();
+  }
+
+
+  getAddress()async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    latitude = sharedPreferences.getDouble("latitude");
+    longitude = sharedPreferences.getDouble("longitude");
+    addressPlacement = sharedPreferences.getString("address") ?? '';
+    Future.delayed(Duration(seconds: 2),() async {
+      await getCurrentLocation();
+    });
   }
 
   initState() async {

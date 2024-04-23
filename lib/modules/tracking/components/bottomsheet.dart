@@ -23,7 +23,7 @@ void contactBottomSheet(BuildContext context,TrackingProvider trackingProviders)
         return ChangeNotifierProvider.value(
           value: trackingProvider,
           child: SizedBox(
-            height: 15.h,
+            height: 12.h,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.h),
               child: Column(
@@ -40,12 +40,12 @@ void contactBottomSheet(BuildContext context,TrackingProvider trackingProviders)
                         },
                         child: AppText(title: Constants.use_Camera,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h));
                   },)  ,
-                  SizedBox(height: 1.3.h),
-                  GestureDetector(
-                      onTap: ()  {
-                        trackingProviders.getImage(context, ImageSource.gallery);
-                      },
-                      child: AppText(title: Constants.select_from_gallery,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h)),
+                  // SizedBox(height: 1.3.h),
+                  // GestureDetector(
+                  //     onTap: ()  {
+                  //       trackingProviders.getImage(context, ImageSource.gallery);
+                  //     },
+                  //     child: AppText(title: Constants.select_from_gallery,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h)),
                 ],
               ),
             ),
