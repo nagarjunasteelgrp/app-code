@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -28,7 +29,6 @@ void main() async {
  SystemChrome.setPreferredOrientations([
    DeviceOrientation.portraitUp,
  ]);
- // await Future.delayed(const Duration(seconds: 2));
  FlutterNativeSplash.remove();
   runApp(MultiProvider(providers: providers,
     child: const MyApp()));
@@ -57,16 +57,17 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+
  getToken() async {
    SharedPreferences preferences = await SharedPreferences.getInstance();
    print("preferences.getString(""):- 1 ${preferences.getString("token")}");
    tokens = preferences.getString("token") ?? '';
    print("preferences.getString(""):- 2 ${tokens}");
  }
+
   @override
   Widget build(BuildContext context) {
     getToken();
-    print("token//////////// $tokens");
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(

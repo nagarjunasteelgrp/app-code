@@ -41,6 +41,7 @@ Future<Map<String, String>> getHeaders() async {
 }
 
 Future<dynamic> getCurrentLocation() async {
+  print("CHECKING.......................4 ");
   try {
       var logResponse = await apiServices.autoTrackingAPI(
           latitude: latitude, longitude: longitude, address: addressPlacement);
@@ -61,7 +62,7 @@ Future<dynamic> getCurrentLocation() async {
 @pragma('vm:entry-point')
 Future<void> onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
-  Timer.periodic(const Duration(minutes: 15), (timer) async {
+  Timer.periodic(const Duration(minutes: 5), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
         print("service is running.......................");

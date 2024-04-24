@@ -161,6 +161,7 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
+    print("CHECKING.......................5");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),

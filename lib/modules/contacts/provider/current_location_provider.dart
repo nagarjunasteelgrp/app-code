@@ -17,16 +17,20 @@ class CurrentLocationProvider extends ChangeNotifier {
   }
 
   Future<void> getUserLocation() async {
+    print("GET USER LOCATION...................1");
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
+      print("GET USER LOCATION...................2");
       // userLocation = await locationService.determinePosition();
       BackgroundLocation.getLocationUpdates((location) async {
+        print("GET USER LOCATION...................3");
       List<Placemark> placeMarks = await placemarkFromCoordinates(location.latitude!.toDouble(), location.longitude!.toDouble());
       Placemark placeMark = placeMarks[0];
      dynamic address = "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
-        print("userLocation :1 ${location.latitude!.toDouble()}");
-        print("userLocation :2 ${location.longitude!.toDouble()}");
-        print("userLocation :3 ${address}");
+        print("GET USER LOCATION..................${location.latitude!.toDouble()} ");
+        print("GET USER LOCATION.......... :1 ${location.latitude!.toDouble()}");
+        print("GET USER LOCATION.......... :2 ${location.longitude!.toDouble()}");
+        print("GET USER LOCATION.......... :3 ${address}");
       sharedPreferences.setDouble("latitude", location.latitude!.toDouble());
       sharedPreferences.setDouble("longitude", location.longitude!.toDouble());
       sharedPreferences.setString("address", address);
@@ -36,11 +40,13 @@ class CurrentLocationProvider extends ChangeNotifier {
       notifyListeners();
       });
     } catch (e) {
+      print("GET USER LOCATION.......... ERROR MESSAGE......${e.toString()}");
       if (kDebugMode) {
         print(e);
       }
     }
   }
+
 
 
 }
