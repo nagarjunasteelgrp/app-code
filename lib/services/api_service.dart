@@ -140,7 +140,6 @@ class ApiServices {
   }
 
   Future<http.Response> trackingInfo({double? latitude, double? longitude,String? address,int? dealerId}) async {
-    print("TRACKING MAP:-----1 ${latitude} : ${longitude} : ${address} : ${dealerId}");
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
       headers:  await getHeaders(),
@@ -161,7 +160,6 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
-    print("CHECKING.......................5");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),
@@ -219,7 +217,6 @@ class ApiServices {
   }
 
   Future<http.Response> checkInList() async {
-    print("USERID......$userId");
     final response = await http.get(
       Uri.parse(ApiUrl.checkInListUrl(userId!)),
       headers:  await getHeaders(),
@@ -244,7 +241,6 @@ class ApiServices {
   }
   
   Future<http.Response> checkOutAPI({required int checkInId , int? userId, dynamic checkInTime}) async {
-    print("checkInId :----- ${checkInId} userId : ${userId} checkInTime : ${checkInTime}");
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers:  await getHeaders(),

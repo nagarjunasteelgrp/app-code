@@ -4,10 +4,8 @@ import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
-import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 

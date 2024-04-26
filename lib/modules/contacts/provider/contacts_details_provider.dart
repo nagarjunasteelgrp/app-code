@@ -5,7 +5,6 @@ import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ContactDetailsProvider extends ChangeNotifier{
@@ -39,20 +38,16 @@ class ContactDetailsProvider extends ChangeNotifier{
     "dealer",
   ];
 
-
   dropDownSelectedValue (newValue) {
     selectedValue = newValue;
     notifyListeners();
   }
 
-
   ContactDetailsProvider() {
     contactId = Get.arguments['id'] ?? '';
-    print("CONTACTS DETAILS: $contactId");
     selectedValue = dropDown.first;
     notifyListeners();
       contactDetailsAPI();
-
   }
 
   Future<void> contactDetailsAPI() async {
@@ -62,7 +57,6 @@ class ContactDetailsProvider extends ChangeNotifier{
       var response = await apiServices.contactDetails(id: contactId!);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        print("CONTACTS List DETAILS: $responseData");
         if (responseData is Map && responseData.isNotEmpty) {
           companyName = responseData['companyName'];
           personName = responseData['personName'];
@@ -82,14 +76,11 @@ class ContactDetailsProvider extends ChangeNotifier{
           taxIdController.text = taxId!;
           descriptionController.text = description!;
         } else {
-          print("Empty or invalid response data.");
         }
         notifyListeners();
       } else {
-        print("CONTACTS DETAILS Error: ${response.statusCode}");
       }
     } catch (e) {
-      print("Exception: $e");
     } finally {
       isLoading = false;
       notifyListeners();
@@ -106,15 +97,6 @@ class ContactDetailsProvider extends ChangeNotifier{
     String taxId = taxIdController.text.trim();
     String address = addressController.text.trim();
     String description = descriptionController.text.trim();
-
-    print("Company Name : $companyName");
-    print("Person Name : $personName");
-    print("Phone Number : $phoneNumber");
-    print("Email Id : $emailId");
-    print("Contact Type : $contactType");
-    print("Tax Id : $taxId");
-    print("Address : $address");
-    print("Description : $description");
 
     if (companyName.isEmpty) {
       showAppSnackBar(
@@ -161,7 +143,6 @@ class ContactDetailsProvider extends ChangeNotifier{
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
      var userId = prefs.getInt('user_id');
-     print("USER ID : $userId && CONTACT USER ID : $contactUserId");
       var logResponse = await apiServices.contactUpdate(
         personName: personName,
         companyName: companyName,
@@ -187,7 +168,6 @@ class ContactDetailsProvider extends ChangeNotifier{
          isLoading = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
-        print("LOGIN ERROR : ${responseBody['message']}");
         showAppSnackBar(
             type: 'Error', context: context, title: responseBody['message']);
         Get.back();
@@ -196,7 +176,6 @@ class ContactDetailsProvider extends ChangeNotifier{
        isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("LOGIN E : $e");
     }
   }
 

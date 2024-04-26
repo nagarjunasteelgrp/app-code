@@ -24,7 +24,6 @@ ApiServices apiServices = ApiServices();
 Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
  token = sharedPreferences.getString("token") ?? '';
-    print("TOKEN...1 $token");
   userId = sharedPreferences.getInt("userId") ?? 0;
     return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
@@ -41,7 +40,6 @@ Future<Map<String, String>> getHeaders() async {
 }
 
 Future<dynamic> getCurrentLocation() async {
-  print("CHECKING.......................4 ");
   try {
       var logResponse = await apiServices.autoTrackingAPI(
           latitude: latitude, longitude: longitude, address: addressPlacement);
@@ -51,11 +49,9 @@ Future<dynamic> getCurrentLocation() async {
         longitude = response['activity']['longitude'] ?? 0.0;
       } else {
         var response = jsonDecode(logResponse.body);
-        print("AUTO TRACKING MAP ERROR : ${response['message']}");
       }
       return addressPlacement;
   } catch (e) {
-    print("Error-----: $e");
   }
 }
 
@@ -66,7 +62,6 @@ Future<void> onStart(ServiceInstance service) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
         print("service is running.......................");
-        print("............");
         CurrentLocationProvider locationProvider = CurrentLocationProvider();
         await locationProvider.getUserLocation();
         await getMapData();
@@ -87,7 +82,6 @@ Future<void> initializeService(value) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool? isService;
   isService = prefs.getBool("isService") ?? false;
-  print("here...................................................................... $isService");
   await DisableBatteryOptimization.isAutoStartEnabled;
   final service = FlutterBackgroundService();
   if(isService == true){

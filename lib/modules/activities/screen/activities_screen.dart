@@ -1,4 +1,3 @@
-import 'package:digital_lync/common/app_bar.dart';
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
@@ -6,10 +5,8 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/activities/provider/activities_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -53,7 +50,7 @@ class ActivitiesScreen extends StatelessWidget {
               ),
               SizedBox(height: 3.h),
                      Expanded(
-                       child: provider.isLoading ? Center(child: SpinKitLoader()) : provider.taskList.length < 0 ? Center(
+                       child: provider.isLoading ? const Center(child: SpinKitLoader()) : provider.taskList.length < 0 ? Center(
                          child: AppText(title: Constants.result_not_found,),
                        ) : SingleChildScrollView(
                          child: Column(

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -60,9 +59,7 @@ class _MyAppState extends State<MyApp> {
 
  getToken() async {
    SharedPreferences preferences = await SharedPreferences.getInstance();
-   print("preferences.getString(""):- 1 ${preferences.getString("token")}");
    tokens = preferences.getString("token") ?? '';
-   print("preferences.getString(""):- 2 ${tokens}");
  }
 
   @override

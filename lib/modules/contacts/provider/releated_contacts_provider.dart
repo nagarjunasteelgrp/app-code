@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 
 class RelatedContactProvider extends ChangeNotifier{
 
-
   bool isLoading = false;
   List relatedContactList = [];
   ApiServices apiServices = ApiServices();
@@ -13,7 +12,6 @@ class RelatedContactProvider extends ChangeNotifier{
       listOfRelatedContacts();
   }
 
-
   Future<void> listOfRelatedContacts() async {
     try {
       isLoading = true;
@@ -21,19 +19,14 @@ class RelatedContactProvider extends ChangeNotifier{
       var response = await apiServices.listOfRelatedContact();
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        print("LIST OF RELATED CONTACTS : ${responseData}");
         List contacts = responseData;
         relatedContactList = contacts;
         notifyListeners();
       } else {
-        print("Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("Exception: $e");
     }finally {
       isLoading = false;
       notifyListeners();
     }
   }
-
 }

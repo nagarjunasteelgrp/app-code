@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/constants/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,15 +39,12 @@ class ContactProvider extends ChangeNotifier {
 
   void updateSearchQuery(String newQuery) {
     _searchQuery = newQuery;
-    print("_SearchQuery: $_searchQuery");
     notifyListeners();
   }
 
   void searchContacts(String query) {
     updateSearchQuery(query);
     filteredContactList = contactList.where((contact) {
-      print("filteredContactList: $filteredContactList");
-      // print("")
       return contact['companyName'].toLowerCase().contains(query.toLowerCase());
     }).toList();
     notifyListeners();
@@ -79,21 +75,18 @@ class ContactProvider extends ChangeNotifier {
 
 
   Future<void> listOfContacts() async {
-    print("SELECTED VALUE:-- $selectedValue");
+    contactList.clear();
     try {
       isLoading = true;
       notifyListeners();
       var response = await apiServices.contactListAPI(type: selectedValue.toString());
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        print("LIST OF RELATED CONTACTS : ${responseData}");
         contactList = responseData['contacts'];
         notifyListeners();
       } else {
-        print("Error: ${response.statusCode}");
       }
     } catch (e) {
-      print("Exception: $e");
     }finally {
       isLoading = false;
       notifyListeners();
@@ -173,7 +166,6 @@ class ContactProvider extends ChangeNotifier {
         isAddContactButton = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
-        print("LOGIN ERROR : ${responseBody['message']}");
         // showAppSnackBar(
         //     type: 'Error', context: context, title: responseBody['message']);
         resMessage = responseBody['message'];
@@ -183,8 +175,6 @@ class ContactProvider extends ChangeNotifier {
       isAddContactButton = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("LOGIN E : $e");
     }
   }
-
 }

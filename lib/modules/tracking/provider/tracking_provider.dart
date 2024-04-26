@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/app_snackbar.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
-import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,24 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart'as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../constants/global.dart';
-
 
 class TrackingProvider extends ChangeNotifier {
   CurrentLocationProvider currentLocationProvider;
   ApiServices apiServices = ApiServices();
   TextEditingController addNotesController = TextEditingController();
   GoogleMapController? mapController;
-  // double? latitude ;
-  // double? longitude ;
   bool isLoading = false;
   File? image;
   List markers = [];
-  // String address = '';
   bool _geoLocationBtn = false;
   int trackingInfoId = 0;
   LatLng? initialPosition;
@@ -52,8 +44,6 @@ class TrackingProvider extends ChangeNotifier {
   }
 
   void animateCamera(double lat, double lng) {
-    print("lat: $lat");
-    print("lng: $lng");
     if (mapController != null) {
       mapController!.animateCamera(
         CameraUpdate.newLatLngZoom(LatLng(lat, lng), 15),
@@ -65,38 +55,27 @@ class TrackingProvider extends ChangeNotifier {
   TrackingProvider(this.currentLocationProvider) {
     intialData();
     contactTypeId = Get.arguments['id'] ?? '';
-    print("TRACKING ID: $contactTypeId");
     contactTypeCompanyName = Get.arguments['companyName'] ?? '';
-    print("TRACKING COMPANY NAME: $contactTypeCompanyName");
     contactTypeName = Get.arguments['contactType'] ?? '';
-    print("TRACKING TYPE NAME: $contactTypeName");
     trackingInfoAPI();
     notifyListeners();
   }
 
 intialData()async{
-
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       latitude = sharedPreferences.getDouble("latitude");
       longitude = sharedPreferences.getDouble("longitude");
       addressPlacement = sharedPreferences.getString("address") ?? '';
-  print("ADRESSS.......$addressPlacement");
-  print("Latitude.......$latitude");
-  print("Longitude.......$longitude");
-
    notifyListeners();
 }
 
   void addMarker(LatLng latLng, String address) {
-    print("address: $address");
-    print("latLng: $latLng");
     markers.add(
       Marker(
         icon: BitmapDescriptor.defaultMarker,
         markerId: MarkerId(latLng.toString()),
         position: latLng,
         onTap: () {
-          print(address);
         },
       ),
     );
@@ -114,9 +93,7 @@ intialData()async{
       if(filePath != null){
         return trackingImages(context).then((response) {
           if(response.statusCode == 201){
-            print("RESPONSE :++++++ 1");
             var res = jsonDecode(response.body);
-            print("RESPONSE :++++++ 2 $res");
             showAppSnackBar(type: 'success', context: context, title: res['message']);
             trackingInfoAPI();
             notifyListeners();
@@ -173,16 +150,11 @@ intialData()async{
     FocusScope.of(context).unfocus();
     notifyListeners();
     try {
-      print("TRACKING MAP ADDRESS 1: $latitude");
-      print("TRACKING MAP ADDRESS 2: $longitude");
-      print("TRACKING MAP ADDRESS 3: $addressPlacement");
-      print("TRACKING MAP ADDRESS 4: $contactTypeId");
       var logResponse = await apiServices.trackingInfo(latitude: latitude,longitude: longitude,address: addressPlacement,dealerId: contactTypeId);
       if (logResponse.statusCode == 201) {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        print("TRACKING MAP RESPONSE : $response");
         trackingInfoId = response['activity']['id'];
         showAppSnackBar(type: 'success', context: context, title: response['message']);
         addNotesController.clear();
@@ -193,14 +165,12 @@ intialData()async{
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        print("TRACKING MAP ERROR : ${response['message']}");
         showAppSnackBar(type: 'Error', context: context, title: response['message']);
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("TRACKING MAP E : $e");
     }
   }
 
@@ -221,24 +191,19 @@ intialData()async{
         notifyListeners();
         var response = jsonDecode(logResponse.body);
         showAppSnackBar(type: 'success', context: context, title: response['message']);
-        print("TRACKING NOTES RESPONSE :----------------1");
-        print("TRACKING NOTES RESPONSE :----------------2");
         addNotesController.clear();
-        print("TRACKING NOTES RESPONSE :----------------3");
         trackingInfoAPI();
         Get.back();
       } else {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        print("TRACKING NOTES ERROR : ${response['message']}");
         showAppSnackBar(type: 'Error', context: context, title: response['message']);
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("TRACKING NOTES E : $e");
     }
   }
 
@@ -261,12 +226,8 @@ intialData()async{
         var responseData = jsonDecode(response.body);
         trackingInfoList = responseData['activity'];
       } else {
-        // var responseData = jsonDecode(response.body);
-        // return responseData;
-        print("CONTACTS DETAILS Error: ${response.statusCode}");
       }
     } catch (e) {
-      print("Exception:------- $e");
       return false;
     }  finally {
       isLoading = false;

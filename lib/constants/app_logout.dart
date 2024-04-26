@@ -6,7 +6,6 @@ import 'package:sizer/sizer.dart';
 
 class AppDialog {
   AppDialog._();
-
   static Future<bool> showDialog(BuildContext context,
       {String? title, String? message}) async {
     return await showCupertinoDialog(

@@ -19,29 +19,21 @@ class CheckInProvider extends ChangeNotifier{
   }
 
   CheckInProvider(){
-    print("CHECK IN LIST API:---4");
     checkInListAPI();
   }
 
 
    checkInListAPI() async {
-    print("CHECK IN LIST API:---1");
     try {
       isLoading = true;
-      print("CHECK IN LIST API:---2");
       notifyListeners();
       var response = await apiServices.checkInList();
-      print("CHECK IN LIST API:---3");
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         checkInList = responseData["attendance"];
-        print("CHECK IN INFO List DETAILS: $checkInList");
         notifyListeners();
       } else {
-        print("CHECK IN DETAILS Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("Exceptionss.....: $e");
     }  finally {
       isLoading = false;
       notifyListeners();
@@ -60,13 +52,10 @@ class CheckInProvider extends ChangeNotifier{
         checkInId = responseData['attendance']['id'];
         checkInListAPI();
         Get.back();
-        print("CHECK IN DETAILS: $responseData");
         notifyListeners();
       } else {
-        print("CHECK IN Error: ${response.statusCode}");
       }
     } catch (e) {
-      print("Exception: $e");
     } finally {
       isLoading = false;
       notifyListeners();
@@ -74,9 +63,6 @@ class CheckInProvider extends ChangeNotifier{
   }
 
   Future<void> checkOutAPI() async {
-    print("checkInId :- $checkInId");
-    print("userId :- $userId");
-    print("userCheckInTimeStamp :- $userCheckInTimeStamp");
     try {
       isLoading = true;
       notifyListeners();
@@ -86,13 +72,9 @@ class CheckInProvider extends ChangeNotifier{
         checkInListAPI();
         checkInStatus = true;
         Get.back();
-        print("CHECK OUT DETAILS: $responseData");
         notifyListeners();
       } else {
-        print("CHECK IN Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("Exception: $e");
     } finally {
       isLoading = false;
       notifyListeners();

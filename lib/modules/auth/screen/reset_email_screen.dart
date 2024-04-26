@@ -1,9 +1,5 @@
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/modules/auth/provider/reset_email_provider.dart';
-import 'package:digital_lync/routes/routes_path.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +7,6 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/constants/app_assets.dart';
-import 'package:digital_lync/modules/auth/components/check_box.dart';
-import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 
 class ResetEmailScreen extends StatelessWidget {
   const ResetEmailScreen({super.key});

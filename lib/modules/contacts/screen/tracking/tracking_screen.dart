@@ -40,10 +40,6 @@ class TrackingContactScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [Consumer<TrackingCurrentLocationProvider>(
                           builder: (context, provider, child) {
-                            print(
-                                "TrackingCurrentLocationProvider Latitude: ${provider.latitude}");
-                            print(
-                                "TrackingCurrentLocationProvider Longitude: ${provider.longitude}");
                             return  Column(
                               crossAxisAlignment:
                               CrossAxisAlignment.start,

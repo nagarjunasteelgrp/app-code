@@ -4,7 +4,6 @@ class Constants {
   static const String APP_NAME = 'Nagarjuna Steel';
   static const  String GoogleMapKey = 'AIzaSyB6P55VaSsCmcFlxWNVwetPXqEFZzwTeKI';
   static const String PACKAGE_NAME = 'com.digital.lync.app';
-
   static const String contacts = 'Contacts';
   static const String activities = 'Activities';
   static const String actives = 'Actives';
@@ -48,5 +47,4 @@ class Constants {
   static const String attendance = 'Attendance';
   static const String result_not_found = 'Result Not Found';
   static const String tasks = 'Tasks';
-
 }

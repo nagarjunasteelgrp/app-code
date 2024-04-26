@@ -10,6 +10,7 @@ import 'package:digital_lync/modules/tracking/components/add_notes_dailog.dart';
 import 'package:digital_lync/modules/tracking/components/bottomsheet.dart';
 import 'package:digital_lync/modules/tracking/components/map_dailog_box.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class TrackingScreen extends StatelessWidget {
           appBar: CommonAppBar(
             title: username.toString(),
             leadingArrow: true,
-            actions: [],
+            actions: const [],
             onTap: () {
               Get.back();
             },
@@ -72,7 +73,6 @@ class TrackingScreen extends StatelessWidget {
                             appOutlineButton(
                                 context: context,
                                 onTap: () {
-                                  print("TAP ADRESS...$addressPlacement");
                                   addressPlacement != null ? showMapDialog(context) :  null;
                                     if (!provider.geoLocationBtn) {
                                       provider.geoLocationBtn = true;
@@ -101,7 +101,6 @@ class TrackingScreen extends StatelessWidget {
                                 builder: (context, provider, child) {
                                   return provider.trackingInfoList.length < 0 ? const SizedBox() : Column(
                                     children: List.generate(provider.trackingInfoList.length, (index) {
-                                      print("provider.trackingInfoList: ${provider.trackingInfoList[index]['latitude']}");
                                       return Padding(
                                         padding: EdgeInsets.symmetric(vertical: 2.h),
                                         child: Container(
@@ -184,24 +183,19 @@ class TrackingScreen extends StatelessWidget {
                                                    child: Padding(
                                                      padding: EdgeInsets.symmetric(
                                                          horizontal: 1.w, vertical: 1.h),
-                                                     child: Row(
-                                                       crossAxisAlignment:
-                                                       CrossAxisAlignment.start,
+                                                     child: Column(
+                                                       mainAxisAlignment: MainAxisAlignment.start,
+                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                        children: [
-                                                         SvgPicture.asset(
-                                                             AppAssets.APP_ADD_NOTES_SVG,
-                                                             color: Theme.of(context)
-                                                                 .colorScheme
-                                                                 .secondary),
-                                                         SizedBox(
-                                                           width: 2.w,
-                                                         ),
-                                                         Column(
-                                                           crossAxisAlignment:
-                                                           CrossAxisAlignment.start,
+                                                         Row(
                                                            children: [
+                                                             SvgPicture.asset(
+                                                                 AppAssets.APP_ADD_NOTES_SVG,
+                                                                 color: Theme.of(context)
+                                                                     .colorScheme
+                                                                     .secondary),
                                                              SizedBox(
-                                                               height: 0.5.h,
+                                                               width: 2.w,
                                                              ),
                                                              AppText(
                                                                title: 'Note:',
@@ -209,15 +203,14 @@ class TrackingScreen extends StatelessWidget {
                                                                    .colorScheme
                                                                    .onSecondary,
                                                              ),
-                                                             SizedBox(
-                                                               child: AppText(
-                                                                 maxLines: 3,
-                                                                 textOverflow:
-                                                                 TextOverflow.ellipsis,
-                                                                 title: provider.trackingInfoList[index]['trackingNotes'][notesIndex]['description'] ?? "",
-                                                               ),
-                                                             )
                                                            ],
+                                                         ),
+                                                         SizedBox(
+                                                           height: 0.7.h,
+                                                         ),
+                                                         Padding(
+                                                           padding: EdgeInsets.only(left: 0.7.w),
+                                                           child: Text(provider.trackingInfoList[index]['trackingNotes'][notesIndex]['description'] ?? "",),
                                                          ),
                                                        ],
                                                      ),

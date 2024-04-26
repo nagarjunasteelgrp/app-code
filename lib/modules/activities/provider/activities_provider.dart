@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,6 @@ class ActivitiesProvider extends ChangeNotifier {
 
 
   ActivitiesProvider(){
-    print("USERID:--------");
     getUserId();
   }
 
@@ -31,13 +28,10 @@ class ActivitiesProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         taskList = responseData["tasks"];
-        print("TASK INFO List DETAILS: $taskList");
         notifyListeners();
       } else {
-        print("TASK DETAILS Error: ${response.statusCode}");
       }
     } catch (e) {
-      print("Exception: $e");
     }  finally {
       isLoading = false;
       notifyListeners();

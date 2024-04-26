@@ -7,7 +7,6 @@ import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/modules/contacts/provider/tracking_contacts_provider.dart';
 
 void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
   showDialog(

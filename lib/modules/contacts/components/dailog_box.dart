@@ -29,7 +29,6 @@ void showContactDialog(BuildContext context,
           insetAnimationCurve: Curves.bounceIn,
           backgroundColor: Theme.of(context).colorScheme.background,
           child: Consumer<ContactProvider>(builder: (context, provider, _) {
-            print("DROPDOWN VALUE:-------${provider.selectedValue}");
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -166,8 +165,8 @@ void showContactDialog(BuildContext context,
                     ),
                   ),
                   appDivider(context: context),
-                 provider.resMessage == '' ? SizedBox() : Center(child: AppText(title: provider.resMessage,color: Theme.of(context).colorScheme.error,)) ,
-                  provider.resMessage == '' ? SizedBox() :  SizedBox(height: 2.h,),
+                 provider.resMessage == '' ? const SizedBox() : Center(child: AppText(title: provider.resMessage,color: Theme.of(context).colorScheme.error,)) ,
+                  provider.resMessage == '' ? const SizedBox() :  SizedBox(height: 2.h,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
                     child:  (provider.isAddContactButton == false) ?  Row(
@@ -220,7 +219,7 @@ void showContactDialog(BuildContext context,
                           ),
                         ),),
                       ],
-                    ) : Center(
+                    ) : const Center(
                       child: SpinKitLoader(),
                     ),
                   ),
@@ -229,7 +228,6 @@ void showContactDialog(BuildContext context,
               ),
             );
           }),
-
         ),
       );
     },

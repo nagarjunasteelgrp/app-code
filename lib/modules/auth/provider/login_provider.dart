@@ -60,13 +60,11 @@ class LoginProvider extends ChangeNotifier {
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
           showAppSnackBar(type: 'success', context: context, title: response['message']);
-          personalDetails();
-          getHeaders();
-
+          await personalDetails();
+          await getHeaders();
           notifyListeners();
           Get.offNamed(RoutesName.HOME);
         } else {
-          print("LOGIN ERROR : ${response['message']}");
           showAppSnackBar(type: 'Error', context: context, title: response['message']);
         }
       });
@@ -75,7 +73,6 @@ class LoginProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
-      print("LOGIN E : $e");
     }
   }
 

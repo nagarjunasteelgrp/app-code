@@ -20,13 +20,13 @@ class CheckInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    checkInProvider.checkInListAPI();
     return ChangeNotifierProvider.value(
       value: checkInProvider,
       child: Scaffold(
         body: Consumer<CheckInProvider>(
             builder: (context, provider, child) {
-              print("provider.checkInList.length:-${provider.checkInList.length}");
-              return  provider.isLoading ? Center(child: SpinKitLoader()) : Column(
+              return  provider.isLoading ? const Center(child: SpinKitLoader()) : Column(
                 children: [
                   SizedBox(height: 3.h),
                   Padding(
@@ -87,7 +87,7 @@ class CheckInScreen extends StatelessWidget {
                                 return Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(left: 5.h),
+                                      padding: EdgeInsets.only(left: 2.h),
                                       child: Row(
                                         children: [
                                           Column(

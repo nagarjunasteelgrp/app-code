@@ -1,14 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart'as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingCurrentLocationProvider extends ChangeNotifier {
@@ -33,8 +27,6 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   }
 
   void animateCamera(double lat, double lng) {
-    print("lat: $lat");
-    print("lng: $lng");
     if (mapController != null) {
       mapController!.animateCamera(
         CameraUpdate.newLatLngZoom(LatLng(lat, lng), 15),
@@ -51,8 +43,6 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   }
 
   void addMarker(LatLng latLng, String address) {
-    print("address: $address");
-    print("latLng: $latLng");
     markers.add(
       Marker(
         icon: BitmapDescriptor.defaultMarker,
@@ -101,15 +91,10 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
         animateCamera(double.parse(responseData['trackingInfo']['latitude'].toString()), double.parse(responseData['trackingInfo']['longitude'].toString()));
         notifyListeners();
       } else {
-        print("CONTACTS DETAILS Error: ${response.statusCode}");
       }
-    } catch (e) {
-      print("Exception: $e");
     }  finally {
       isLoading = false;
       notifyListeners();
     }
   }
-
-
 }

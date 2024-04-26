@@ -8,7 +8,6 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/details/conatct_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,6 @@ void showContactUpdateDialog(BuildContext context,
           insetAnimationCurve: Curves.bounceIn,
           backgroundColor: Theme.of(context).colorScheme.background,
           child: Consumer<ContactDetailsProvider>(builder: (context, provider, _) {
-            print("DROPDOWN VALUE:-------${provider.selectedValue}");
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -232,7 +230,6 @@ void showContactUpdateDialog(BuildContext context,
               ),
             );
           }),
-
         ),
       );
     },

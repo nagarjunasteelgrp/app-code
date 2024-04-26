@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 class AppAssets {
-  // ======================= IMAGES ===================================
 
+  // ======================= IMAGES ===================================
   static const String APP_LOGO = 'assets/images/app_logo.png';
   static const String CHEACK_IN = 'assets/images/checkIn.png';
   static const String CHEACK_IN_2 = 'assets/images/check_in_2.png';
@@ -37,5 +37,4 @@ class AppAssets {
   static const String APP_CHECKING_SVG = 'assets/svg/check_in_2.svg';
   static const String APP_LOGO_SVG = 'assets/svg/app_logo.svg';
   static const String APP_UPLOAD_DOC_SVG = 'assets/svg/uploadDoc.svg';
-
 }

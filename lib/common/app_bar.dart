@@ -2,7 +2,6 @@ import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'app_text.dart';
 
@@ -10,8 +9,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
   final bool leadingArrow;
-  final double titleFontSize; // Added font size parameter
-  final double? elevation; // Added font size parameter
+  final double titleFontSize;
+  final double? elevation;
   VoidCallback? onTap;
   VoidCallback? onTapLogo;
    CommonAppBar({
@@ -21,7 +20,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onTap,
      this.onTapLogo,
     this.leadingArrow = false,
-    this.titleFontSize = 20, // Default font size
+    this.titleFontSize = 20,
     this.actions,
   });
 
