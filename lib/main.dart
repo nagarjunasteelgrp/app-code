@@ -16,8 +16,8 @@ import 'package:sizer/sizer.dart';
 void main() async {
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
  BackgroundLocation.startLocationService();
- BackgroundLocation.setAndroidNotification(
-   title: "Nagarjuna Steel",
+  BackgroundLocation.setAndroidNotification(
+   title: "Background Nagarjuna Steel",
    message: "App is up and running",
    icon: "@mipmap/ic_launcher",
  );
@@ -60,11 +60,11 @@ class _MyAppState extends State<MyApp> {
  getToken() async {
    SharedPreferences preferences = await SharedPreferences.getInstance();
    tokens = preferences.getString("token") ?? '';
+   print("TOKENS...........MAIN FILE   $tokens");
  }
 
   @override
   Widget build(BuildContext context) {
-    getToken();
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
@@ -73,8 +73,7 @@ class _MyAppState extends State<MyApp> {
           title: Constants.APP_NAME,
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
-          initialRoute:
-         (tokens != '' && tokens != null) ? RoutesName.HOME : RoutesName.LOGIN,
+          initialRoute: (tokens != '') ? RoutesName.HOME : RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );
       },

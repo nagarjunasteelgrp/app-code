@@ -21,6 +21,8 @@ String? empId;
 String? addressPlacement;
 ApiServices apiServices = ApiServices();
 
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
 Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
  token = sharedPreferences.getString("token") ?? '';
@@ -52,6 +54,7 @@ Future<dynamic> getCurrentLocation() async {
       }
       return addressPlacement;
   } catch (e) {
+    print(e);
   }
 }
 
@@ -61,7 +64,6 @@ Future<void> onStart(ServiceInstance service) async {
   Timer.periodic(const Duration(minutes: 5), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
-        print("service is running.......................");
         CurrentLocationProvider locationProvider = CurrentLocationProvider();
         await locationProvider.getUserLocation();
         await getMapData();
@@ -78,15 +80,11 @@ getMapData() async{
   addressPlacement = prefs.getString("address");
 }
 
-Future<void> initializeService(value) async {
+Future<void> initializeService(Future<void> isService) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool? isService;
-  isService = prefs.getBool("isService") ?? false;
+  bool isService = prefs.getBool("isService") ?? false;
   await DisableBatteryOptimization.isAutoStartEnabled;
   final service = FlutterBackgroundService();
-  if(isService == true){
-  service.isRunning();
-  }
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     notificationChannelId,
     'MY FOREGROUND SERVICE',
@@ -94,18 +92,23 @@ Future<void> initializeService(value) async {
     'App is up and running',
     importance: Importance.low,
   );
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  if(isService == true){
+    service.isRunning();
+  }
+
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
-  await service.configure(iosConfiguration: IosConfiguration(
+ await service.configure(
+   iosConfiguration: IosConfiguration(
       autoStart: isService,
-      onForeground: onStart),
+      onForeground: onStart
+ ),
     androidConfiguration: AndroidConfiguration(
       autoStart: isService,
       isForegroundMode: isService,
       onStart: onStart,
-      notificationChannelId: notificationChannelId,
       initialNotificationTitle: 'Nagarjuna Steel',
       initialNotificationContent: 'App is up and running',
+      notificationChannelId: notificationChannelId,
       foregroundServiceNotificationId: notificationId,
     ),
   );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_path.dart';

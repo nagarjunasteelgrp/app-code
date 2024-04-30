@@ -16,7 +16,7 @@ import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => LoginProvider()),
-  ChangeNotifierProvider(create: (context) => HomeProvider()),
+  // ChangeNotifierProvider(create: (context) => HomeProvider()),
   ChangeNotifierProvider(create: (context) => MenuProvider()),
   ChangeNotifierProvider(create: (context) => ContactProvider()),
   ChangeNotifierProvider(create: (context) => ContactDetailsProvider()),

@@ -94,7 +94,6 @@ class ApiServices {
     return response;
   }
 
-
   Future<http.Response> contactUpdate({
     String? personName,
     String? companyName,
@@ -126,7 +125,6 @@ class ApiServices {
     print("CREATE CONTACT BODY : ${response.body}");
     return response;
   }
-
 
   Future<http.Response> trackingNotes({String? description,int? trackingInfoId}) async {
     final response = await http.post(
@@ -160,6 +158,7 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
+    print("latitude : $latitude longitude : $longitude address : $address");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),
@@ -255,6 +254,4 @@ class ApiServices {
     print("CHECK OUT  BODY : ${response.body}");
     return response;
   }
-
-
 }

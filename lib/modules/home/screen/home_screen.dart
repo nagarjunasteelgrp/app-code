@@ -19,14 +19,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-    return ChangeNotifierProvider.value(
+    return ChangeNotifierProvider(
+  create: (BuildContext context) => HomeProvider(),
+  child: ChangeNotifierProvider.value(
       value: HomeProvider(),
-      child: Scaffold(
+      child: Consumer<HomeProvider>(
+  builder: (context, provider, child) {
+  return Scaffold(
         appBar: CommonAppBar(
           title:  username != null ? '${empId} (${username.toString()})': '',
-          elevation: Provider.of<HomeProvider>(context).selectedIndex == 3 ? 0 : 1,
-          leadingArrow: Provider.of<HomeProvider>(context).selectedIndex == 0 ?
+          elevation: provider.selectedIndex == 3 ? 0 : 1,
+          leadingArrow: provider.selectedIndex == 0 ?
           Provider.of<ContactProvider>(context).isSelected ? false : true : false,
           onTap: (){
             Provider.of<ContactProvider>(context,listen: false).toggleSelected(true);
@@ -53,7 +56,10 @@ class HomeScreen extends StatelessWidget {
               : const SizedBox();
         }),
         bottomNavigationBar: const AppBottomBar(),
-      ),
-    );
+      );
+  },
+),
+    ),
+);
   }
 }
