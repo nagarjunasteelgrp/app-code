@@ -11,7 +11,9 @@ import 'package:digital_lync/routes/routes_path.dart';
 import 'package:get/get.dart';
 
 class RouteNavigation {
+
   static final routes = [
+
     GetPage(name: RoutesName.LOGIN, page: () => const LoginScreen()),
     GetPage(name: RoutesName.HOME, page: () => const HomeScreen()),
     GetPage(name: RoutesName.CONTACTS_LIST, page: () => const ContactListScreen()),

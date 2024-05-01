@@ -158,7 +158,7 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
-    print("latitude : $latitude longitude : $longitude address : $address");
+    print("latitude : $latitude longitude : $longitude address : $address userId : $userId");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),

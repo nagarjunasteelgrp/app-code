@@ -60,6 +60,7 @@ class LoginProvider extends ChangeNotifier {
           prefs.setString('username', response['userInfo']['username'].toString());
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
+          prefs.setBool('isLogin', true);
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           await personalDetails();
           await getHeaders();

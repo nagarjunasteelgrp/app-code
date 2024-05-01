@@ -45,7 +45,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  String? tokens;
+  bool? isLogin;
 
   @override
   void initState() {
@@ -56,15 +56,16 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-
  getToken() async {
    SharedPreferences preferences = await SharedPreferences.getInstance();
-   tokens = preferences.getString("token") ?? '';
-   print("TOKENS...........MAIN FILE   $tokens");
+     isLogin = preferences.getBool("isLogin") ?? false;
+   print("TOKENS...........MAIN FILE $isLogin");
  }
 
   @override
   Widget build(BuildContext context) {
+    getToken();
+    print("TOKEN IN BUILD ... $isLogin");
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
@@ -73,7 +74,7 @@ class _MyAppState extends State<MyApp> {
           title: Constants.APP_NAME,
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
-          initialRoute: (tokens != '') ? RoutesName.HOME : RoutesName.LOGIN,
+          initialRoute: isLogin == true ? RoutesName.HOME : RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );
       },

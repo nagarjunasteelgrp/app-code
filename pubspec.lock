@@ -223,7 +223,7 @@ packages:
     source: hosted
     version: "5.0.2"
   flutter_background_service_android:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_background_service_android
       sha256: "4998b3d191a04f36f720eff69d3905f384b91e1f92b3dd74aca4ffb5670f38dc"

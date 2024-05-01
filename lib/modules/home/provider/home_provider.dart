@@ -4,6 +4,8 @@ import 'package:digital_lync/modules/contacts/provider/current_location_provider
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background/flutter_background.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -11,6 +13,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 class HomeProvider extends ChangeNotifier{
 
   int selectedIndex = 3;
+
 
    void setSelectedIndex(int index) {
     selectedIndex = index;
@@ -37,6 +40,7 @@ class HomeProvider extends ChangeNotifier{
           latitude = await sharedPreferences.getDouble("latitude");
           longitude = await sharedPreferences.getDouble("longitude");
           addressPlacement = await sharedPreferences.getString("address") ?? '';
+          print('yes.................');
           getCurrentLocation();
           notifyListeners();
         });
@@ -47,12 +51,8 @@ class HomeProvider extends ChangeNotifier{
   initState() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
      if(token != '') {
-
     await initializeService(sharedPreferences.setBool('isService', true));
     await WakelockPlus.enable();
-    FlutterBackground.initialize(
-      androidConfig: FlutterBackgroundAndroidConfig()
-    );
     await FlutterBackground.hasPermissions;
     // await FlutterBackground.enableBackgroundExecution();
     notifyListeners();
@@ -61,19 +61,17 @@ class HomeProvider extends ChangeNotifier{
 
   prefsClear(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await BackgroundLocation.stopLocationService();
-    // await FlutterBackground.disableBackgroundExecution();
-    // BackgroundLocation.
-    await  prefs.remove("token");
-    await  prefs.remove("username");
-    await  prefs.remove("userId");
-    await  prefs.remove("email");
-    await  prefs.remove("mobile");
-    await  prefs.remove("empId");
-    await flutterLocalNotificationsPlugin.cancelAll();
+      prefs.remove("token");
+      prefs.remove("username");
+      prefs.remove("userId");
+      prefs.remove("email");
+      prefs.remove("mobile");
+      prefs.remove("empId");
+    prefs.setBool('isLogin', false);
+    serviceInitialize.invoke("stopService");
     await initializeService(prefs.setBool('isService', false));
+    await BackgroundLocation.stopLocationService();
     // await prefs.clear();
-    await prefs.reload();
     print("SharedPreferences Cleared........................${prefs.getString('token')}");
     print("SharedPreferences Cleared........................${prefs.getDouble('latitude')}");
     notifyListeners();
