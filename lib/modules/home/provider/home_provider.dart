@@ -70,7 +70,7 @@ class HomeProvider extends ChangeNotifier{
     prefs.setBool('isLogin', false);
     serviceInitialize.invoke("stopService");
     await initializeService(prefs.setBool('isService', false));
-    await BackgroundLocation.stopLocationService();
+     BackgroundLocation.stopLocationService();
     // await prefs.clear();
     print("SharedPreferences Cleared........................${prefs.getString('token')}");
     print("SharedPreferences Cleared........................${prefs.getDouble('latitude')}");

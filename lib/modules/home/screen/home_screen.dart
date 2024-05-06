@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
             Provider.of<ContactProvider>(context,listen: false).toggleSelected(true);
           },
           onTapLogo: () async {
-            checkInProvider.checkInStatus ? null : checkInProvider.checkOutAPI();
+            // checkInProvider.checkInStatus ? null : checkInProvider.checkOutAPI();
     bool isConfirmed = await AppDialog.showDialog(context,
     title: 'Logout', message: 'Are you sure you want to logout?');
     if (isConfirmed) {
