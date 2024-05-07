@@ -114,10 +114,11 @@ class ContactProvider extends ChangeNotifier {
     if (phoneNumber.isEmpty) {
       resMessage = "Please enter your phoneNumber.";
       return;
-    } else if (phoneNumber.length != 10) {
-      resMessage = "Please enter a valid 10-digit phoneNumber.";
-      return;
     }
+    // else if (phoneNumber.length != 10) {
+    //   resMessage = "Please enter a valid 10-digit phoneNumber.";
+    //   return;
+    // }
     if (emailId.isEmpty) {
       resMessage = "Please enter your email.";
       return;

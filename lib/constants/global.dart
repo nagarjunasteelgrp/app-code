@@ -37,6 +37,7 @@ Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
  token = sharedPreferences.getString("token") ?? '';
   userId = sharedPreferences.getInt("userId") ?? 0;
+print("USER ID : $userId");
     return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
 

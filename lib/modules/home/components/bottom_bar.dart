@@ -51,7 +51,7 @@ class AppBottomBar extends StatelessWidget {
                           label: Constants.tasks,
                         ),
                         BottomNavigationBarItem(
-                          icon:  provider.checkInStatus ?SvgPicture.asset(
+                          icon:checkInStatus ?SvgPicture.asset(
                             height: 3.h,
                             color: value.selectedIndex == 2
                                 ? Theme.of(context).colorScheme.onError
@@ -60,7 +60,7 @@ class AppBottomBar extends StatelessWidget {
                           ) : Icon(Icons.login , color: value.selectedIndex == 2
                               ? Theme.of(context).colorScheme.onError
                               : Theme.of(context).colorScheme.secondary),
-                          label: provider.checkInStatus ? Constants.checkIn : Constants.checkOut,
+                          label: checkInStatus ? Constants.checkIn : Constants.checkOut,
                         ),
                         BottomNavigationBarItem(
                           icon: Image.asset(

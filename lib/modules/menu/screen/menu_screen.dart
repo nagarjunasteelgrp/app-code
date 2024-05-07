@@ -45,7 +45,7 @@ class MenuScreen extends StatelessWidget {
                   iconHeight: 3.5.h,
                   icon: AppAssets.APP_CHECKING_SVG,
             // Icon(Icons.login
-                  title: provider.checkInStatus ? Constants.checkIn : Constants.checkOut,
+                  title: checkInStatus? Constants.checkIn : Constants.checkOut,
                   index: 2,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),

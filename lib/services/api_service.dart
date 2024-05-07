@@ -240,6 +240,7 @@ class ApiServices {
   }
   
   Future<http.Response> checkOutAPI({required int checkInId , int? userId, dynamic checkInTime}) async {
+    print("----------------------");
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers:  await getHeaders(),

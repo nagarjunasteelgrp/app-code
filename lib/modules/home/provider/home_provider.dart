@@ -4,11 +4,11 @@ import 'package:digital_lync/modules/contacts/provider/current_location_provider
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background/flutter_background.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+
+import '../../check In/provider/checkIn_provider.dart';
 
 class HomeProvider extends ChangeNotifier{
 
@@ -21,8 +21,11 @@ class HomeProvider extends ChangeNotifier{
   }
 
   HomeProvider(){
+    getShardPrefrencesData();
+
      print("Home Provider............");
     permissionAcessPhone();
+
     initState();
     personalDetails();
     getHeaders();
