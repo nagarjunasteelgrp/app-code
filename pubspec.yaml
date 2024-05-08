@@ -61,6 +61,7 @@ dependencies:
   flutter_background:
   wakelock_plus: ^1.2.4
   permission_handler: ^11.3.1
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

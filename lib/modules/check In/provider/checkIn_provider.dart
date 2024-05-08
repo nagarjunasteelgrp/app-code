@@ -21,7 +21,6 @@ class CheckInProvider extends ChangeNotifier{
   String? userCheckInTimeStamp;
   int? checkInId;
 
-
   CheckInProvider(){
     getShardPrefrencesData();
     checkInListAPI();
@@ -35,7 +34,6 @@ class CheckInProvider extends ChangeNotifier{
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         checkInList = responseData["attendance"];
-
         notifyListeners();
       } else {
       }
@@ -55,8 +53,6 @@ class CheckInProvider extends ChangeNotifier{
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
         // userCheckInTimeStamp = responseData["attendance"]['clockIn'];
-
-
         print("responseData['attendance']['id'] :${responseData['attendance']['id']}");
         print("responseData['attendance']['id'] :${userCheckInTimeStamp}");
         print("responseData['attendance']['id'] :${userCheckInTimeStamp.runtimeType}");

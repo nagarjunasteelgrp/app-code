@@ -190,6 +190,7 @@ class ApiServices {
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
+    print("TRACKING IMAGES STATUS CODE REQUEST: ${response.request}");
     print("TRACKING IMAGES STATUS CODE : ${response.statusCode}");
     print("TRACKING IMAGES BODY : ${response.body}");
     return response;
@@ -200,6 +201,7 @@ class ApiServices {
       Uri.parse(ApiUrl.trackingInfoListUrl(id)),
       headers:  await getHeaders(),
     );
+    print("TRACKING OF LIST REQUEST CODE : ${response.request}");
     print("TRACKING OF LIST STATUS CODE : ${response.statusCode}");
     print("TRACKING OF LIST BODY : ${response.body}");
     return response;
