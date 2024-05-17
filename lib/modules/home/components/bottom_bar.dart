@@ -32,9 +32,19 @@ class AppBottomBar extends StatelessWidget {
                       items: [
                         BottomNavigationBarItem(
                           icon: SvgPicture.asset(
-                            AppAssets.APP_CONTACTS_SVG,
+                            AppAssets.APP_DASHBOARD_SVG,
                             height: 3.h,
                             color: value.selectedIndex == 0
+                                ? Theme.of(context).colorScheme.onError
+                                : Theme.of(context).colorScheme.secondary,
+                          ),
+                          label: Constants.dashboard,
+                        ),
+                        BottomNavigationBarItem(
+                          icon: SvgPicture.asset(
+                            AppAssets.APP_CONTACTS_SVG,
+                            height: 3.h,
+                            color: value.selectedIndex == 1
                                 ? Theme.of(context).colorScheme.onError
                                 : Theme.of(context).colorScheme.secondary,
                           ),
@@ -44,7 +54,7 @@ class AppBottomBar extends StatelessWidget {
                           icon: SvgPicture.asset(
                             AppAssets.APP_ACTIVITIES_SVG,
                             height: 3.h,
-                            color: value.selectedIndex == 1
+                            color: value.selectedIndex == 2
                                 ? Theme.of(context).colorScheme.onError
                                 : Theme.of(context).colorScheme.secondary,
                           ),
@@ -53,7 +63,7 @@ class AppBottomBar extends StatelessWidget {
                         BottomNavigationBarItem(
                           icon:checkInStatus ?SvgPicture.asset(
                             height: 3.h,
-                            color: value.selectedIndex == 2
+                            color: value.selectedIndex == 3
                                 ? Theme.of(context).colorScheme.onError
                                 : Theme.of(context).colorScheme.secondary,
                             AppAssets.APP_CHECKING_SVG,
@@ -64,7 +74,7 @@ class AppBottomBar extends StatelessWidget {
                         ),
                         BottomNavigationBarItem(
                           icon: Image.asset(
-                            color: value.selectedIndex == 3
+                            color: value.selectedIndex == 4
                                 ? Theme.of(context).colorScheme.onError
                                 : Theme.of(context).colorScheme.secondary,
                             AppAssets.MENU,

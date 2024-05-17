@@ -219,7 +219,7 @@ class ApiServices {
 
   Future<http.Response> checkInList() async {
     final response = await http.get(
-      Uri.parse(ApiUrl.checkInListUrl(userId!)),
+      Uri.parse(ApiUrl.checkInListUrl(userId ?? 0)),
       headers:  await getHeaders(),
     );
     print("CHECK IN OF LIST STATUS CODE : ${response.statusCode}");

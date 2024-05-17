@@ -22,12 +22,10 @@ String? addressPlacement;
 ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
 
-
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'notificationChannelId',
   'Nagarjuna Steel',
-  description:
-  'App is up and running',
+  description: 'App is up and running',
   importance: Importance.low,
 );
 
@@ -99,6 +97,7 @@ Future<void> onStart(ServiceInstance service) async {
       );
     }
   }
+
   Timer.periodic(const Duration(minutes: 5), (timer) async {
     print("SERVICE STARTED..........................4");
     if (service is AndroidServiceInstance) {

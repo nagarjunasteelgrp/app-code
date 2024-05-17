@@ -1,5 +1,4 @@
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
-import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +7,6 @@ import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/constants.dart';
-
-import '../provider/checkIn_provider.dart';
 
 void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
   showDialog(

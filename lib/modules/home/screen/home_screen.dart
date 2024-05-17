@@ -5,6 +5,7 @@ import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
+import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:digital_lync/modules/home/components/bottom_bar.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:digital_lync/modules/menu/screen/menu_screen.dart';
@@ -47,12 +48,12 @@ class HomeScreen extends StatelessWidget {
           },
         ),
         body: Consumer<HomeProvider>(builder: (context, value, _) {
-          return value.selectedIndex == 3
+          return value.selectedIndex == 4
               ? const MenuScreen()
-              : value.selectedIndex == 0
+              : value.selectedIndex == 1
               ? const ContactScreen()
-              : value.selectedIndex == 2 ? const CheckInScreen()
-          // : value.selectedIndex == 1 ? const ActivitiesScreen()
+              : value.selectedIndex == 3 ? const CheckInScreen()
+          : value.selectedIndex == 0 ? const DashBoardScreen()
               : const SizedBox();
         }),
         bottomNavigationBar: const AppBottomBar(),

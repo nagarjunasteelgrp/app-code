@@ -12,7 +12,7 @@ import '../../check In/provider/checkIn_provider.dart';
 
 class HomeProvider extends ChangeNotifier{
 
-  int selectedIndex = 3;
+  int selectedIndex = 4;
 
 
    void setSelectedIndex(int index) {
@@ -22,13 +22,11 @@ class HomeProvider extends ChangeNotifier{
 
   HomeProvider(){
     getShardPrefrencesData();
-
      print("Home Provider............");
     permissionAcessPhone();
-
-    initState();
     personalDetails();
     getHeaders();
+    initState();
     notifyListeners();
   }
 
@@ -43,13 +41,13 @@ class HomeProvider extends ChangeNotifier{
           latitude = await sharedPreferences.getDouble("latitude");
           longitude = await sharedPreferences.getDouble("longitude");
           addressPlacement = await sharedPreferences.getString("address") ?? '';
+          notifyListeners();
           print('yes.................');
           getCurrentLocation();
           notifyListeners();
         });
       }
   }
-
 
   initState() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
