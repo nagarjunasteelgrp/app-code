@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -59,9 +60,11 @@ class LoginProvider extends ChangeNotifier {
           prefs.setString('username', response['userInfo']['username'].toString());
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
+          prefs.setBool('isLogin', true);
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           await personalDetails();
           await getHeaders();
+          BackgroundLocation.startLocationService();
           notifyListeners();
           Get.offNamed(RoutesName.HOME);
         } else {

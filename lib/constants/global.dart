@@ -20,11 +20,22 @@ dynamic userPhone;
 String? empId;
 String? addressPlacement;
 ApiServices apiServices = ApiServices();
+final serviceInitialize = FlutterBackgroundService();
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'notificationChannelId',
+  'Nagarjuna Steel',
+  description: 'App is up and running',
+  importance: Importance.low,
+);
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
  token = sharedPreferences.getString("token") ?? '';
   userId = sharedPreferences.getInt("userId") ?? 0;
+print("USER ID : $userId");
     return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
 
@@ -40,7 +51,9 @@ Future<Map<String, String>> getHeaders() async {
 }
 
 Future<dynamic> getCurrentLocation() async {
+  print("GET CURRENT LOCATION CALLED..............1");
   try {
+    print("GET CURRENT LOCATION CALLED..............2  ${latitude} ${longitude} ${addressPlacement}");
       var logResponse = await apiServices.autoTrackingAPI(
           latitude: latitude, longitude: longitude, address: addressPlacement);
       if (logResponse.statusCode == 201) {
@@ -52,16 +65,43 @@ Future<dynamic> getCurrentLocation() async {
       }
       return addressPlacement;
   } catch (e) {
+    print("GET CURRENT LOCATION CALLED..............3 ${e.toString()}");
+    print(e);
   }
 }
 
 @pragma('vm:entry-point')
 Future<void> onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
+  print("SERVICE STARTED..........................1");
+  service.on('stopService').listen((event) {
+    print("SERVICE STARTED..........................2");
+    service.stopSelf();
+  });
+
+  if (service is AndroidServiceInstance) {
+    print("SERVICE STARTED..........................3");
+    if (await service.isForegroundService()) {
+      flutterLocalNotificationsPlugin.show(
+        notificationId,
+        'Nagarjuna Steel',
+        'App is up and running',
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'my_foreground',
+            'MY FOREGROUND SERVICE',
+            icon: '@mipmap/ic_launcher',
+            ongoing: true,
+          ),
+        ),
+      );
+    }
+  }
+
   Timer.periodic(const Duration(minutes: 5), (timer) async {
+    print("SERVICE STARTED..........................4");
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
-        print("service is running.......................");
         CurrentLocationProvider locationProvider = CurrentLocationProvider();
         await locationProvider.getUserLocation();
         await getMapData();
@@ -78,34 +118,29 @@ getMapData() async{
   addressPlacement = prefs.getString("address");
 }
 
-Future<void> initializeService(value) async {
+Future<void> initializeService(Future<void> isService) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool? isService;
-  isService = prefs.getBool("isService") ?? false;
+  bool isService = prefs.getBool("isService") ?? false;
   await DisableBatteryOptimization.isAutoStartEnabled;
-  final service = FlutterBackgroundService();
+
   if(isService == true){
-  service.isRunning();
+    // serviceInitialize.startService();
+    serviceInitialize.isRunning();
   }
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    notificationChannelId,
-    'MY FOREGROUND SERVICE',
-    description:
-    'App is up and running',
-    importance: Importance.low,
-  );
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
-  await service.configure(iosConfiguration: IosConfiguration(
+ await serviceInitialize.configure(
+   iosConfiguration: IosConfiguration(
       autoStart: isService,
-      onForeground: onStart),
+      onForeground: onStart,
+ ),
     androidConfiguration: AndroidConfiguration(
       autoStart: isService,
       isForegroundMode: isService,
       onStart: onStart,
-      notificationChannelId: notificationChannelId,
-      initialNotificationTitle: 'Nagarjuna Steel',
-      initialNotificationContent: 'App is up and running',
+      initialNotificationTitle: channel.name,
+      initialNotificationContent: channel.description!,
+      notificationChannelId: channel.id,
       foregroundServiceNotificationId: notificationId,
     ),
   );

@@ -27,6 +27,9 @@ class ThemeServices {
         scrim: AppColors.YELLOW_COLOR,
         inversePrimary: AppColors.GREEN_COLOR,
         inverseSurface: AppColors.PURPLE_COLOR,
+        onPrimaryContainer: AppColors.AMBER,
+        onInverseSurface: AppColors.LIGHT_GREEN_SEC,
+        outline: AppColors.PURPLE_SEC_COLOR,
       ),
 
       inputDecorationTheme: const InputDecorationTheme(

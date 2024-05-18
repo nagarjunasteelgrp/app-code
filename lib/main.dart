@@ -15,9 +15,10 @@ import 'package:sizer/sizer.dart';
 
 void main() async {
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
- BackgroundLocation.startLocationService();
- BackgroundLocation.setAndroidNotification(
-   title: "Nagarjuna Steel",
+
+ await BackgroundLocation.startLocationService();
+  BackgroundLocation.setAndroidNotification(
+   title: "Background Nagarjuna Steel",
    message: "App is up and running",
    icon: "@mipmap/ic_launcher",
  );
@@ -45,7 +46,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  String? tokens;
+  bool? isLogin;
 
   @override
   void initState() {
@@ -56,15 +57,16 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-
  getToken() async {
    SharedPreferences preferences = await SharedPreferences.getInstance();
-   tokens = preferences.getString("token") ?? '';
+     isLogin = preferences.getBool("isLogin") ?? false;
+   print("TOKENS...........MAIN FILE $isLogin");
  }
 
   @override
   Widget build(BuildContext context) {
     getToken();
+    print("TOKEN IN BUILD ... $isLogin");
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
@@ -73,8 +75,7 @@ class _MyAppState extends State<MyApp> {
           title: Constants.APP_NAME,
           themeMode: ThemeMode.light,
           theme: ThemeServices.getLightTheme(),
-          initialRoute:
-         (tokens != '' && tokens != null) ? RoutesName.HOME : RoutesName.LOGIN,
+          initialRoute: isLogin == true ? RoutesName.HOME : RoutesName.LOGIN,
           getPages: RouteNavigation.routes,
         );
       },

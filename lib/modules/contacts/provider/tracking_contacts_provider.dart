@@ -36,8 +36,7 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   }
 
   TrackingCurrentLocationProvider() {
-      trackingInfoAPI();
-
+    trackingInfoAPI();
     getMapData();
     notifyListeners();
   }

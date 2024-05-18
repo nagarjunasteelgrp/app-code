@@ -110,7 +110,8 @@ intialData()async{
 
   Future getImage(BuildContext context,ImageSource source) async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: source).then((value) {
+  await picker.pickImage(source: source).then((value) {
+
       if (value != null) {
         image = File(value.path);
         if(image != null){
@@ -119,8 +120,7 @@ intialData()async{
            trackingImages(context).then((response) {
              if(response.statusCode == 201){
                var res = jsonDecode(response.body);
-               showAppSnackBar(
-                   type: 'success', context: context, title: res['message']);
+               showAppSnackBar(type: 'success', context: context, title: res['message']);
                trackingInfoAPI();
                notifyListeners();
                Get.back();
@@ -225,7 +225,10 @@ intialData()async{
         markers.clear();
         var responseData = jsonDecode(response.body);
         trackingInfoList = responseData['activity'];
-      } else {
+        isLoading = false;
+        notifyListeners();
+      }else{
+        isLoading = false;
       }
     } catch (e) {
       return false;

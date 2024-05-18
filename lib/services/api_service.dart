@@ -94,7 +94,6 @@ class ApiServices {
     return response;
   }
 
-
   Future<http.Response> contactUpdate({
     String? personName,
     String? companyName,
@@ -126,7 +125,6 @@ class ApiServices {
     print("CREATE CONTACT BODY : ${response.body}");
     return response;
   }
-
 
   Future<http.Response> trackingNotes({String? description,int? trackingInfoId}) async {
     final response = await http.post(
@@ -160,6 +158,7 @@ class ApiServices {
   }
 
   Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
+    print("latitude : $latitude longitude : $longitude address : $address userId : $userId");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),
@@ -191,6 +190,7 @@ class ApiServices {
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
+    print("TRACKING IMAGES STATUS CODE REQUEST: ${response.request}");
     print("TRACKING IMAGES STATUS CODE : ${response.statusCode}");
     print("TRACKING IMAGES BODY : ${response.body}");
     return response;
@@ -201,6 +201,7 @@ class ApiServices {
       Uri.parse(ApiUrl.trackingInfoListUrl(id)),
       headers:  await getHeaders(),
     );
+    print("TRACKING OF LIST REQUEST CODE : ${response.request}");
     print("TRACKING OF LIST STATUS CODE : ${response.statusCode}");
     print("TRACKING OF LIST BODY : ${response.body}");
     return response;
@@ -218,7 +219,7 @@ class ApiServices {
 
   Future<http.Response> checkInList() async {
     final response = await http.get(
-      Uri.parse(ApiUrl.checkInListUrl(userId!)),
+      Uri.parse(ApiUrl.checkInListUrl(userId ?? 0)),
       headers:  await getHeaders(),
     );
     print("CHECK IN OF LIST STATUS CODE : ${response.statusCode}");
@@ -241,6 +242,7 @@ class ApiServices {
   }
   
   Future<http.Response> checkOutAPI({required int checkInId , int? userId, dynamic checkInTime}) async {
+    print("----------------------");
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers:  await getHeaders(),
@@ -255,6 +257,4 @@ class ApiServices {
     print("CHECK OUT  BODY : ${response.body}");
     return response;
   }
-
-
 }

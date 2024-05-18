@@ -26,7 +26,7 @@ class CheckInScreen extends StatelessWidget {
       child: Scaffold(
         body: Consumer<CheckInProvider>(
             builder: (context, provider, child) {
-              return  provider.isLoading ? const Center(child: SpinKitLoader()) : Column(
+              return  provider. isLoading? const Center(child: SpinKitLoader()) : Column(
                 children: [
                   SizedBox(height: 3.h),
                   Padding(
@@ -67,9 +67,9 @@ class CheckInScreen extends StatelessWidget {
                          child: Row(
                            mainAxisAlignment: MainAxisAlignment.center,
                            children: [
-                             AppText(title: provider.checkInStatus ? Constants.checkIn : Constants.checkOut),
+                             AppText(title: checkInStatus ? Constants.checkIn : Constants.checkOut),
                              SizedBox(width: 1.h),
-                             provider.checkInStatus ? SizedBox() :  Icon(Icons.login)
+                            checkInStatus ? SizedBox() :  Icon(Icons.login)
                            ],
                          ),
                        ),
