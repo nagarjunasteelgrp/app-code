@@ -30,4 +30,10 @@ class AppColors {
 
   static const Color BLACK_COLOR = Color(0xff000000);  //
 
+  static const Color PURPLE_SEC_COLOR = Color(0xff5570F1);  //
+
+  static const Color LIGHT_GREEN_SEC = Color(0xff00E096);  //
+
+  static const Color AMBER = Color(0xffFF9E33);  //
+
 }

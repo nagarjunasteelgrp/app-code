@@ -57,11 +57,11 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                         ? appButton(
                       context: context,
                       onTap: () {
-                        provider.checkInStatus == true ? provider.checkInAPI() : provider.checkOutAPI();
-                        provider.checkInStatusBtn = !provider.checkInStatus;
+                      checkInStatus == true ? provider.checkInAPI() : provider.checkOutAPI();
+                        // provider.checkInStatusBtn = !provider.checkInStatus;
                       },
                       child: AppText(
-                        title: provider.checkInStatus ? Constants.checkIn : Constants.checkOut,
+                        title: checkInStatus ? Constants.checkIn : Constants.checkOut,
                         color: Theme.of(context).colorScheme.background,
                       ),
                       radius: 0.8.h,

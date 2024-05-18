@@ -21,15 +21,19 @@ class CurrentLocationProvider extends ChangeNotifier {
     try {
       // userLocation = await locationService.determinePosition();
       BackgroundLocation.getLocationUpdates((location) async {
+        print("GET LOCATION UPDATES :- ${location.latitude} ${location.longitude} ${location.accuracy}");
       List<Placemark> placeMarks = await placemarkFromCoordinates(location.latitude!.toDouble(), location.longitude!.toDouble());
+      notifyListeners();
       Placemark placeMark = placeMarks[0];
-     dynamic address = "${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
+     dynamic address = "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
+     print("address : $address");
       sharedPreferences.setDouble("latitude", location.latitude!.toDouble());
       sharedPreferences.setDouble("longitude", location.longitude!.toDouble());
       sharedPreferences.setString("address", address);
       latitude = sharedPreferences.getDouble("latitude");
       longitude = sharedPreferences.getDouble("longitude");
       addressPlacement = sharedPreferences.getString("address") ?? '';
+      print("addressPlacement : ${addressPlacement}");
       notifyListeners();
       });
     } catch (e) {
