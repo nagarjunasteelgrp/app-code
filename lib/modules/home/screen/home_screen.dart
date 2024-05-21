@@ -9,6 +9,7 @@ import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:digital_lync/modules/home/components/bottom_bar.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:digital_lync/modules/menu/screen/menu_screen.dart';
+import 'package:digital_lync/modules/task/screen/task_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,7 +55,7 @@ class HomeScreen extends StatelessWidget {
               ? const ContactScreen()
               : value.selectedIndex == 3 ? const CheckInScreen()
           : value.selectedIndex == 0 ? const DashBoardScreen()
-              : const SizedBox();
+              : value.selectedIndex == 2 ? const TaskScreen() : const SizedBox();
         }),
         bottomNavigationBar: const AppBottomBar(),
       );

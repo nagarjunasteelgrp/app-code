@@ -52,8 +52,8 @@ print("USER ID : $userId");
 
 Future<dynamic> getCurrentLocation() async {
   print("GET CURRENT LOCATION CALLED..............1");
+  print("GET CURRENT LOCATION CALLED..............2  ${latitude} ${longitude} ${addressPlacement}");
   try {
-    print("GET CURRENT LOCATION CALLED..............2  ${latitude} ${longitude} ${addressPlacement}");
       var logResponse = await apiServices.autoTrackingAPI(
           latitude: latitude, longitude: longitude, address: addressPlacement);
       if (logResponse.statusCode == 201) {
@@ -104,7 +104,7 @@ Future<void> onStart(ServiceInstance service) async {
       if (await service.isForegroundService()) {
         CurrentLocationProvider locationProvider = CurrentLocationProvider();
         await locationProvider.getUserLocation();
-        await getMapData();
+        // await getMapData();
         await getCurrentLocation();
       }
     }

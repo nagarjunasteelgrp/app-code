@@ -35,7 +35,7 @@ class MenuScreen extends StatelessWidget {
                   iconHeight: 3.5.h,
                   icon: AppAssets.APP_CONTACTS_SVG,
                   title: Constants.contacts,
-                  index: 0,
+                  index: 1,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 SizedBox(
@@ -46,7 +46,7 @@ class MenuScreen extends StatelessWidget {
                   icon: AppAssets.APP_CHECKING_SVG,
             // Icon(Icons.login
                   title: checkInStatus? Constants.checkIn : Constants.checkOut,
-                  index: 2,
+                  index: 3,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 SizedBox(
@@ -56,7 +56,7 @@ class MenuScreen extends StatelessWidget {
                   iconHeight: 3.5.h,
                   icon: AppAssets.APP_ACTIVITIES_SVG,
                   title: Constants.tasks,
-                  index: 1,
+                  index: 2,
                   color: Theme.of(context).colorScheme.error,
                 ),
                 SizedBox(
@@ -66,7 +66,7 @@ class MenuScreen extends StatelessWidget {
                   iconHeight: 3.5.h,
                   icon: AppAssets.APP_DASHBOARD_SVG,
                   title: Constants.dashboard,
-                  index: 3,
+                  index: 0,
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ],

@@ -16,7 +16,7 @@ import 'package:sizer/sizer.dart';
 void main() async {
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
- await BackgroundLocation.startLocationService();
+ // await BackgroundLocation.startLocationService();
   BackgroundLocation.setAndroidNotification(
    title: "Background Nagarjuna Steel",
    message: "App is up and running",
