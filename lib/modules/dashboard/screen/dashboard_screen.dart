@@ -1,6 +1,7 @@
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/modules/dashboard/components/widget_pieChart.dart';
+import 'package:digital_lync/modules/dashboard/components/lineChart.dart';
+import 'package:digital_lync/modules/dashboard/components/reportCard.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
@@ -33,7 +34,7 @@ class DashBoardScreen extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 5,
-                        offset: Offset(0, 1),
+                        offset: const Offset(0, 1),
                       ),
                     ],
                   ),
@@ -56,6 +57,8 @@ class DashBoardScreen extends StatelessWidget {
                               return InkWell(
                                 onTap: (){
                                   Provider.of<DashboardProvider>(context, listen: false).selectedIndex = index;
+                                  provider.updateDateRange();
+                                  provider.myProgressAPI();
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 2.h),
@@ -81,47 +84,29 @@ class DashBoardScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 1.h,),
                       appDivider(context: context,colors: Theme.of(context).colorScheme.secondary,vertical: 0.5.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 1.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Column(
+                      Consumer<DashboardProvider>(
+                        builder: (context, value, child) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              AppText(title: '22',fontWeight: FontWeight.bold,),
-                              SizedBox(height: 0.5.h),
-                              AppText(title: 'No. of Visits',color: Theme.of(context).colorScheme.onSecondary,),
+                              reportCard(color: Theme.of(context).colorScheme.onInverseSurface,title: 'Total Applications',noOfTile: value.myProgressAPIResponse.isNotEmpty ? value.myProgressAPIResponse[0]['totalNoOfContacts'].toString() : ''),
+                              reportCard(color: Theme.of(context).colorScheme.onPrimaryContainer,title: "Today's Visits",noOfTile: value.myProgressAPIResponse.isNotEmpty ? value.myProgressAPIResponse[0]['visitsCount'].toString() : ''),
                             ],
-                          ),
-                            Dash(
-                                direction: Axis.vertical,
-                                length: 60,
-                                dashLength: 3,
-                                dashColor: Theme.of(context).colorScheme.secondary),
-                            Column(
-                              children: [
-                                AppText(title: '10',fontWeight: FontWeight.bold,),
-                                SizedBox(height: 0.5.h),
-                                AppText(title: 'New Contacts',color: Theme.of(context).colorScheme.onSecondary,),
-                              ],
-                            ),
-                            Dash(
-                                direction: Axis.vertical,
-                                length: 60,
-                                dashLength: 3,
-                                dashColor: Theme.of(context).colorScheme.secondary),
-                            Column(
-                              children: [
-                                AppText(title: '7 hrs',fontWeight: FontWeight.bold,),
-                                SizedBox(height: 0.5.h),
-                                AppText(title: 'Working hours',color: Theme.of(context).colorScheme.onSecondary,),
-                              ],
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
-                      appDivider(context: context,colors: Theme.of(context).colorScheme.secondary,vertical: 0.5.h,),
-                      Center(child: AppText(title: 'Total No of Contacts 200',fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.onSecondary,letterSpacing: 0.5,)),
+                      SizedBox(height: 1.5.h),
+                      Consumer<DashboardProvider>(
+                        builder: (context, value, child) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              reportCard(color: Theme.of(context).colorScheme.error,title: 'New Enrollments',noOfTile: value.myProgressAPIResponse.isNotEmpty ? value.myProgressAPIResponse[0]['tasksCount'].toString() : ''),
+                              reportCard(color: Theme.of(context).colorScheme.outline,title: 'Attendance',noOfTile: value.myProgressAPIResponse.isNotEmpty ? "${value.myProgressAPIResponse[0]['presentCount'].toString()}/${value.myProgressAPIResponse[0]['totalUsers'].toString()}" : ''),
+                            ],
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -138,7 +123,7 @@ class DashBoardScreen extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 5,
-                    offset: Offset(0, 1),
+                    offset: const Offset(0, 1),
                   ),
                 ],
               ),child: Column(
@@ -159,7 +144,7 @@ class DashBoardScreen extends StatelessWidget {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 1,
                               blurRadius: 5,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                             ),
                           ],
                         ),
@@ -211,7 +196,8 @@ class DashBoardScreen extends StatelessWidget {
                     }),
                   ],
                 ),
-                pieChartWidget(context),
+                SizedBox(height: 1.h,),
+                LineChartWidget(),
                 SizedBox(height: 1.h,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -260,6 +246,7 @@ class DashBoardScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 2.h),
               ],
             ),),
               ],

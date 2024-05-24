@@ -98,7 +98,7 @@ Future<void> onStart(ServiceInstance service) async {
     }
   }
 
-  Timer.periodic(const Duration(minutes: 5), (timer) async {
+  Timer.periodic(const Duration(minutes: 1), (timer) async {
     print("SERVICE STARTED..........................4");
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {

@@ -1,3 +1,7 @@
+
+
+import 'dart:async';
+
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
@@ -14,6 +18,7 @@ class CurrentLocationProvider extends ChangeNotifier {
   CurrentLocationProvider() {
     getUserLocation();
   }
+
 
   Future<void> getUserLocation() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -65,3 +70,4 @@ class CurrentLocationProvider extends ChangeNotifier {
     }
   }
 }
+

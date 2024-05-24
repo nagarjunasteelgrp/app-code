@@ -12,7 +12,7 @@ import '../../check In/provider/checkIn_provider.dart';
 
 class HomeProvider extends ChangeNotifier{
 
-  int selectedIndex = 4;
+  int selectedIndex = 0;
 
 
    void setSelectedIndex(int index) {

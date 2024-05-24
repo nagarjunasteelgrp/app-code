@@ -29,7 +29,6 @@ class ActivitiesProvider extends ChangeNotifier {
         var responseData = jsonDecode(response.body);
         taskList = responseData["tasks"];
         notifyListeners();
-      } else {
       }
     } catch (e) {
     }  finally {

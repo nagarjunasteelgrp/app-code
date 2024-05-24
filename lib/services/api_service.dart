@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/global.dart';
+import 'package:intl/intl.dart';
 import 'api_url.dart';
 import 'package:http/http.dart' as http;
 
@@ -257,4 +258,30 @@ class ApiServices {
     print("CHECK OUT  BODY : ${response.body}");
     return response;
   }
+
+
+  Future<http.Response> myProgressAPI({dynamic startDate , dynamic endDate}) async {
+    print("myProgressAPI---------------------- $userId  ||  ${startDate}  ||  $endDate");
+    final response = await http.get(Uri.parse(ApiUrl.myProgressUrl(userId!,startDate, endDate)),
+      headers:  await getHeaders(),
+    );
+    print("MY PROGRESS  STATUS CODE : ${response.request}");
+    print("MY PROGRESS  STATUS CODE : ${response.body}");
+    print("MY PROGRESS  STATUS CODE : ${response.statusCode}");
+    print("MY PROGRESS  BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response>taskAPI() async {
+    print("taskAPI---------------------- $userId");
+    final response = await http.get(Uri.parse(ApiUrl.taskUrl(userId!)),
+      headers:  await getHeaders(),
+    );
+    print("TASK STATUS CODE : ${response.request}");
+    print("TASK STATUS CODE : ${response.body}");
+    print("TASK STATUS CODE : ${response.statusCode}");
+    print("TASK BODY : ${response.body}");
+    return response;
+  }
+
 }
