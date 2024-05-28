@@ -42,6 +42,8 @@ class ApiUrl{
 
   static String taskUrl(int id) => '${baseUrl}communications/user/$id';
 
+  static String newEnrollmentUrl(String filter) => '${baseUrl}web-statistics/new-enrollment?filter=$filter';
+
 
 
 }

@@ -7,6 +7,7 @@ class TaskProvider extends ChangeNotifier {
 
   bool isLoading = false;
   List taskAPIResponse = [];
+  String? dateTime;
 
   TaskProvider (){
     taskAPI();

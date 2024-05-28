@@ -1,4 +1,5 @@
 import 'package:digital_lync/common/app_bar.dart';
+import 'package:digital_lync/common/app_exit_pop.dart';
 import 'package:digital_lync/constants/app_logout.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
@@ -21,47 +22,50 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return ChangeNotifierProvider(
-  create: (BuildContext context) => HomeProvider(),
-  child: ChangeNotifierProvider.value(
-      value: HomeProvider(),
-      child: Consumer<HomeProvider>(
-  builder: (context, provider, child) {
-  return Scaffold(
-        appBar: CommonAppBar(
-          title:  username != null ? '${empId} (${username.toString()})': '',
-          elevation: provider.selectedIndex == 3 ? 0 : 1,
-          leadingArrow: provider.selectedIndex == 0 ?
-          Provider.of<ContactProvider>(context).isSelected ? false : true : false,
-          onTap: (){
-            Provider.of<ContactProvider>(context,listen: false).toggleSelected(true);
-          },
-          onTapLogo: () async {
-            // checkInProvider.checkInStatus ? null : checkInProvider.checkOutAPI();
-    bool isConfirmed = await AppDialog.showDialog(context,
-    title: 'Logout', message: 'Are you sure you want to logout?');
-    if (isConfirmed) {
-      Provider.of<HomeProvider>(context, listen: false).prefsClear(context);
-    Provider.of<LoginProvider>(context, listen: false).emailController.clear();
-              Provider.of<LoginProvider>(context, listen: false).passwordController.clear();
-              Get.offNamed(RoutesName.LOGIN);
-            }
-          },
-        ),
-        body: Consumer<HomeProvider>(builder: (context, value, _) {
-          return value.selectedIndex == 4
-              ? const MenuScreen()
-              : value.selectedIndex == 1
-              ? const ContactScreen()
-              : value.selectedIndex == 3 ? const CheckInScreen()
-          : value.selectedIndex == 0 ? const DashBoardScreen()
-              : value.selectedIndex == 2 ? const TaskScreen() : const SizedBox();
-        }),
-        bottomNavigationBar: const AppBottomBar(),
-      );
-  },
-),
-    ),
-);
+    return WillPopScope(
+      onWillPop: () => showExitPopup(context),
+      child: ChangeNotifierProvider(
+        create: (BuildContext context) => HomeProvider(),
+        child: ChangeNotifierProvider.value(
+        value: HomeProvider(),
+        child: Consumer<HomeProvider>(
+        builder: (context, provider, child) {
+        return Scaffold(
+          appBar: CommonAppBar(
+            title:  username != null ? '${empId} (${username.toString()})': '',
+            elevation: provider.selectedIndex == 3 ? 0 : 1,
+            leadingArrow: provider.selectedIndex == 0 ?
+            Provider.of<ContactProvider>(context).isSelected ? false : true : false,
+            onTap: (){
+              Provider.of<ContactProvider>(context,listen: false).toggleSelected(true);
+            },
+            onTapLogo: () async {
+              // checkInProvider.checkInStatus ? null : checkInProvider.checkOutAPI();
+      bool isConfirmed = await AppDialog.showDialog(context,
+      title: 'Logout', message: 'Are you sure you want to logout?');
+      if (isConfirmed) {
+        Provider.of<HomeProvider>(context, listen: false).prefsClear(context);
+      Provider.of<LoginProvider>(context, listen: false).emailController.clear();
+                Provider.of<LoginProvider>(context, listen: false).passwordController.clear();
+                Get.offNamed(RoutesName.LOGIN);
+              }
+            },
+          ),
+          body: Consumer<HomeProvider>(builder: (context, value, _) {
+            return value.selectedIndex == 4
+                ? const MenuScreen()
+                : value.selectedIndex == 1
+                ? const ContactScreen()
+                : value.selectedIndex == 3 ? const CheckInScreen()
+            : value.selectedIndex == 0 ? const DashBoardScreen()
+                : value.selectedIndex == 2 ? const TaskScreen() : const SizedBox();
+          }),
+          bottomNavigationBar: const AppBottomBar(),
+        );
+        },
+      ),
+      ),
+      ),
+    );
   }
 }

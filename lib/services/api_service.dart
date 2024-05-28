@@ -284,4 +284,16 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response>newEnrollmentAPI({String? filter}) async {
+    print("NEW ENROLLMENT---------------------- $userId");
+    final response = await http.get(Uri.parse(ApiUrl.newEnrollmentUrl(filter!)),
+      headers:  await getHeaders(),
+    );
+    print("NEW ENROLLMENT STATUS CODE : ${response.request}");
+    print("NEW ENROLLMENT STATUS CODE : ${response.body}");
+    print("NEW ENROLLMENT STATUS CODE : ${response.statusCode}");
+    print("NEW ENROLLMENT BODY : ${response.body}");
+    return response;
+  }
+
 }

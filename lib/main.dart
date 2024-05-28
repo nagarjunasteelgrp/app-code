@@ -1,5 +1,7 @@
 import 'package:background_location/background_location.dart';
+import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -46,38 +48,49 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  bool? isLogin;
-
   @override
   void initState() {
-    getToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CurrentLocationProvider>(context, listen: false).getUserLocation();
     });
     super.initState();
   }
 
- getToken() async {
-   SharedPreferences preferences = await SharedPreferences.getInstance();
-     isLogin = preferences.getBool("isLogin") ?? false;
-   print("TOKENS...........MAIN FILE $isLogin");
- }
+  Future<bool> getToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool isLogin = preferences.getBool("isLogin") ?? false;
+    print("TOKENS...........MAIN FILE $isLogin");
+    return isLogin;
+  }
 
   @override
   Widget build(BuildContext context) {
-    getToken();
-    print("TOKEN IN BUILD ... $isLogin");
-    return Sizer(
-      builder: (context, orientation, deviceType) {
-        return GetMaterialApp(
-          navigatorKey: Get.key,
-          debugShowCheckedModeBanner: false,
-          title: Constants.APP_NAME,
-          themeMode: ThemeMode.light,
-          theme: ThemeServices.getLightTheme(),
-          initialRoute: isLogin == true ? RoutesName.HOME : RoutesName.LOGIN,
-          getPages: RouteNavigation.routes,
-        );
+    return FutureBuilder<bool>(
+      future: getToken(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(child: Container(child: CircularProgressIndicator())),
+            ),
+          );
+        } else {
+          bool isLogin = snapshot.data ?? false;
+          print("TOKEN IN BUILD ... $isLogin");
+          return Sizer(
+            builder: (context, orientation, deviceType) {
+              return GetMaterialApp(
+                navigatorKey: Get.key,
+                debugShowCheckedModeBanner: false,
+                title: Constants.APP_NAME,
+                themeMode: ThemeMode.light,
+                theme: ThemeServices.getLightTheme(),
+                initialRoute: isLogin ? RoutesName.HOME : RoutesName.LOGIN,
+                getPages: RouteNavigation.routes,
+              );
+            },
+          );
+        }
       },
     );
   }
