@@ -2,7 +2,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-Widget reportCard ({Color? color, String? title, dynamic noOfTile}){
+Widget reportCard ({Color? color, String? title, String? noOfTile}){
   return Container(
     width: 19.h,
     padding: EdgeInsets.symmetric(vertical: 2.5.h,horizontal: 1.5.h),

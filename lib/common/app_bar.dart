@@ -49,14 +49,14 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: actions ??
           [
-            SvgPicture.asset(AppAssets.APP_SEARCH_SVG),
-            SizedBox(
-              width: 1.5.h,
-            ),
-            SvgPicture.asset(AppAssets.APP_NOTIFICATION_SVG),
-            SizedBox(
-              width: 1.5.h,
-            ),
+            // SvgPicture.asset(AppAssets.APP_SEARCH_SVG),
+            // SizedBox(
+            //   width: 1.5.h,
+            // ),
+            // SvgPicture.asset(AppAssets.APP_NOTIFICATION_SVG),
+            // SizedBox(
+            //   width: 1.5.h,
+            // ),
           ],
     );
   }

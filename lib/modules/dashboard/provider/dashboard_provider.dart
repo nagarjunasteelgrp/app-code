@@ -11,7 +11,7 @@ class DashboardProvider extends ChangeNotifier{
   dynamic endDate;
   dynamic startDate;
   int get selectedIndex => _selectedIndex;
-  List<dynamic> myProgressAPIResponse = [];
+  dynamic myProgressAPIResponse;
   List? newEnrollmentAPIResponse;
   String filter = 'week';
   List<SalesData> fabricatorsChartData = [];
@@ -108,7 +108,7 @@ class DashboardProvider extends ChangeNotifier{
         var responseData = jsonDecode(response.body);
         print("value.statusCode MY PROGRESS:1 ${response.body}");
         if (responseData != null && responseData is Map) {
-          myProgressAPIResponse = [responseData];
+          myProgressAPIResponse = responseData;
           isLoading = false;
           print("value.statusCode MY PROGRESS:2 ${myProgressAPIResponse}");
         } else {

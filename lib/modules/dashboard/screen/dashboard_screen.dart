@@ -4,9 +4,11 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/dashboard/components/dashboard_dropDown.dart';
 import 'package:digital_lync/modules/dashboard/components/lineChart.dart';
 import 'package:digital_lync/modules/dashboard/components/myProgress_list.dart';
+import 'package:digital_lync/modules/dashboard/components/pie_chart.dart';
 import 'package:digital_lync/modules/dashboard/components/reportCard.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -54,21 +56,48 @@ class DashBoardScreen extends StatelessWidget {
                       myProgressList(provider),
                       SizedBox(height: 1.h,),
                       appDivider(context: context,colors: Theme.of(context).colorScheme.secondary,vertical: 0.5.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          reportCard(color: Theme.of(context).colorScheme.onInverseSurface,title: 'Total Applications',noOfTile: provider.myProgressAPIResponse.isNotEmpty ? provider.myProgressAPIResponse[0]['totalNoOfContacts'].toString() : ''),
-                          reportCard(color: Theme.of(context).colorScheme.onPrimaryContainer,title: "Today's Visits",noOfTile: provider.myProgressAPIResponse.isNotEmpty ? provider.myProgressAPIResponse[0]['visitsCount'].toString() : ''),
-                        ],
-                      ),
                       SizedBox(height: 1.5.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          reportCard(color: Theme.of(context).colorScheme.error,title: 'New Enrollments',noOfTile: provider.myProgressAPIResponse.isNotEmpty ? provider.myProgressAPIResponse[0]['tasksCount'].toString() : ''),
-                          reportCard(color: Theme.of(context).colorScheme.outline,title: 'Attendance',noOfTile: provider.myProgressAPIResponse.isNotEmpty ? "${provider.myProgressAPIResponse[0]['presentCount'].toString()}/${provider.myProgressAPIResponse[0]['totalUsers'].toString()}" : ''),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 1.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                AppText(title: provider.myProgressAPIResponse['noOfVisits'].toString(),fontWeight: FontWeight.bold,),
+                                SizedBox(height: 0.5.h),
+                                AppText(title: 'No. of Visits',color: Theme.of(context).colorScheme.onSecondary,),
+                              ],
+                            ),
+                            Dash(
+                                direction: Axis.vertical,
+                                length: 60,
+                                dashLength: 3,
+                                dashColor: Theme.of(context).colorScheme.secondary),
+                            Column(
+                              children: [
+                                AppText(title: provider.myProgressAPIResponse['newContacts'].toString(),fontWeight: FontWeight.bold,),
+                                SizedBox(height: 0.5.h),
+                                AppText(title: 'New Contacts',color: Theme.of(context).colorScheme.onSecondary,),
+                              ],
+                            ),
+                            Dash(
+                                direction: Axis.vertical,
+                                length: 60,
+                                dashLength: 3,
+                                dashColor: Theme.of(context).colorScheme.secondary),
+                            Column(
+                              children: [
+                                AppText(title: '${provider.myProgressAPIResponse['workingHours'].toString()} hrs',fontWeight: FontWeight.bold,),
+                                SizedBox(height: 0.5.h),
+                                AppText(title: 'Working hours',color: Theme.of(context).colorScheme.onSecondary,),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
+                      appDivider(context: context,colors: Theme.of(context).colorScheme.secondary,vertical: 0.5.h,),
+                      Center(child: AppText(title: 'Total No of Contacts ${provider.myProgressAPIResponse['totalNoOfContacts'].toString()}',fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.onSecondary,letterSpacing: 0.5,)),
                     ],
                   ),
                 ),
@@ -90,9 +119,10 @@ class DashBoardScreen extends StatelessWidget {
                     ],
                   ),child: Column(
                   children: [
-                    dashBoardProvider(context,provider),
+                    dashBoardDropDown(context,provider),
                     SizedBox(height: 1.h,),
-                    LineChartWidget(provider: provider),
+                    pieChartWidget(context),
+                    // LineChartWidget(provider: provider),
                     SizedBox(height: 1.h,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,6 +174,7 @@ class DashBoardScreen extends StatelessWidget {
                     SizedBox(height: 2.h),
                   ],
                 ),),
+                SizedBox(height: 2.h),
               ],
                         ),
             ) : Align(

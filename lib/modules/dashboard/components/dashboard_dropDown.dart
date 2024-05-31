@@ -1,13 +1,9 @@
-
-
-
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-Widget dashBoardProvider (BuildContext context , DashboardProvider provider) {
+Widget dashBoardDropDown (BuildContext context , DashboardProvider provider) {
   return  Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [

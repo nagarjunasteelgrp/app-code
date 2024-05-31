@@ -21,29 +21,27 @@ class ApiUrl{
   static String relatedContactsListUrl = '${baseUrl}related-contacts';
 
   static String trackingInfoUrl = '${baseUrl}activities';
-  static String trackingNotesUrl = '${baseUrl}tracking-notes';
-  static String trackingImageUrl = '${baseUrl}tracking-images';
-  static String trackingInfoListUrl(int dealerId) => '${baseUrl}activities?dealerId=$dealerId';
 
+  static String trackingNotesUrl = '${baseUrl}tracking-notes';
+
+  static String trackingImageUrl = '${baseUrl}tracking-images';
+
+  static String trackingInfoListUrl(int dealerId) => '${baseUrl}activities?dealerId=$dealerId';
 
   static String autoTrackingUrl = '${baseUrl}activities';
 
-
   static String getTaskListUrl(int id) => '${baseUrl}tasks/user/$id';
-
 
   static String checkInListUrl(int id) => '${baseUrl}attendance/user/$id';
 
   static String checkInUrl = '${baseUrl}attendance';
+
   static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
 
-
-  static String myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}web-statistics/report?userId=$id&fromDate=$endDate&toDate=$startDate';
+  static String myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
 
   static String taskUrl(int id) => '${baseUrl}communications/user/$id';
 
   static String newEnrollmentUrl(String filter) => '${baseUrl}web-statistics/new-enrollment?filter=$filter';
-
-
 
 }
