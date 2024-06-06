@@ -10,6 +10,7 @@ import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:digital_lync/modules/home/components/bottom_bar.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:digital_lync/modules/menu/screen/menu_screen.dart';
+import 'package:digital_lync/modules/task/screen/tabbar_view_screen.dart';
 import 'package:digital_lync/modules/task/screen/task_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,8 @@ class HomeScreen extends StatelessWidget {
         builder: (context, provider, child) {
         return Scaffold(
           appBar: CommonAppBar(
-            title:  username != null ? '${empId} (${username.toString()})': '',
+            // title:  username != null ? '${empId} (${username.toString()})': '',
+            title:  username != null ? username.toString(): '',
             elevation: provider.selectedIndex == 3 ? 0 : 1,
             leadingArrow: provider.selectedIndex == 0 ?
             Provider.of<ContactProvider>(context).isSelected ? false : true : false,
@@ -58,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                 ? const ContactScreen()
                 : value.selectedIndex == 3 ? const CheckInScreen()
             : value.selectedIndex == 0 ? const DashBoardScreen()
-                : value.selectedIndex == 2 ? const TaskScreen() : const SizedBox();
+                : value.selectedIndex == 2 ? const TabbarViewScreen() : const SizedBox();
           }),
           bottomNavigationBar: const AppBottomBar(),
         );

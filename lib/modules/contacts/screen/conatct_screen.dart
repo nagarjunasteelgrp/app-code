@@ -42,28 +42,28 @@ class ContactScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Column(
-                            children: [
-                              appCircleIcon(
-                                  context: context,
-                                  colors: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      AppAssets.APP_FILTER_SVG,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 0.7.h,
-                              ),
-                              AppText(
-                                title: Constants.filter,
-                                fontWeight: FontWeight.w500,
-                              )
-                            ],
-                          ),
+                          // Column(
+                          //   children: [
+                          //     appCircleIcon(
+                          //         context: context,
+                          //         colors: Theme.of(context)
+                          //             .colorScheme
+                          //             .inversePrimary,
+                          //         child: Center(
+                          //           child: SvgPicture.asset(
+                          //             AppAssets.APP_FILTER_SVG,
+                          //             color: Theme.of(context).primaryColor,
+                          //           ),
+                          //         )),
+                          //     SizedBox(
+                          //       height: 0.7.h,
+                          //     ),
+                          //     AppText(
+                          //       title: Constants.filter,
+                          //       fontWeight: FontWeight.w500,
+                          //     )
+                          //   ],
+                          // ),
                           GestureDetector(
                             onTap: () {
                               contactProvider.toggleListOrder();

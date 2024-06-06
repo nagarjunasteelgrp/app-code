@@ -274,7 +274,7 @@ class ApiServices {
 
   Future<http.Response>taskAPI() async {
     print("taskAPI---------------------- $userId");
-    final response = await http.get(Uri.parse(ApiUrl.taskUrl(userId!)),
+    final response = await http.get(Uri.parse(ApiUrl.taskUrl(userId ?? 0)),
       headers:  await getHeaders(),
     );
     print("TASK STATUS CODE : ${response.request}");
@@ -284,15 +284,42 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response>newEnrollmentAPI({String? filter}) async {
-    print("NEW ENROLLMENT---------------------- $userId");
-    final response = await http.get(Uri.parse(ApiUrl.newEnrollmentUrl(filter!)),
+  Future<http.Response>overallEnrollmentAPI({String? period}) async {
+    print("OVERALL ENROLLMENT---------------------- $userId");
+    final response = await http.get(Uri.parse(ApiUrl.overallEnrollmentUrl(period!)),
       headers:  await getHeaders(),
     );
-    print("NEW ENROLLMENT STATUS CODE : ${response.request}");
-    print("NEW ENROLLMENT STATUS CODE : ${response.body}");
-    print("NEW ENROLLMENT STATUS CODE : ${response.statusCode}");
-    print("NEW ENROLLMENT BODY : ${response.body}");
+    print("OVERALL ENROLLMENT STATUS CODE : ${response.request}");
+    print("OVERALL ENROLLMENT STATUS CODE : ${response.body}");
+    print("OVERALL ENROLLMENT STATUS CODE : ${response.statusCode}");
+    print("OVERALL ENROLLMENT BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> statusUpdateAPI({String? status,int? statusId}) async {
+    print("STATUS UPDATE---------------------- $status &&  $statusId");
+    final response = await http.patch(Uri.parse(ApiUrl.statusUpdateUrl(statusId!)),
+      headers:  await getHeaders(),
+      body: jsonEncode({
+        "status": status,
+      }),
+    );
+
+    print("UPDATE STATUS CODE : ${response.statusCode}");
+    print("UPDATE STATUS BODY : ${response.body}");
+    return response;
+  }
+
+
+  Future<http.Response>taskByUserIdAPI() async {
+    print("TASK BY USERID---------------------- $userId");
+    final response = await http.get(Uri.parse(ApiUrl.taskByUserIdUrl(userId!)),
+      headers:  await getHeaders(),
+    );
+    print("TASK BY USERID STATUS CODE : ${response.request}");
+    print("TASK BY USERID STATUS CODE : ${response.body}");
+    print("TASK BY USERID STATUS CODE : ${response.statusCode}");
+    print("TASK BY USERID BODY : ${response.body}");
     return response;
   }
 

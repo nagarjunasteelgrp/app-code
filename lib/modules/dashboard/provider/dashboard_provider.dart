@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:digital_lync/constants/global.dart';
-import 'package:digital_lync/modules/dashboard/components/lineChart.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -14,10 +13,10 @@ class DashboardProvider extends ChangeNotifier{
   dynamic myProgressAPIResponse;
   List? newEnrollmentAPIResponse;
   String filter = 'week';
-  List<SalesData> fabricatorsChartData = [];
-  List<SalesData> dealerChartData = [];
-  List<SalesData> customerChartData = [];
-  String? dayName;
+  num fabricatorsSum = 0;
+  num dealerSum = 0;
+  num customerSum = 0;
+  num overallEnrollmentSum = 0;
 
   set selectedIndex(int index) {
     _selectedIndex = index;
@@ -34,7 +33,7 @@ class DashboardProvider extends ChangeNotifier{
   String? selectedValue;
 
   DashboardProvider() {
-    newEnrollmentAPI(filter);
+    overallEnrollmentAPI('today');
     final now = DateTime.now();
     final formatter = DateFormat('yyyy-MM-dd');
     startDate = formatter.format(now);
@@ -45,16 +44,22 @@ class DashboardProvider extends ChangeNotifier{
   }
 
   List dropDown = [
+    'TODAY',
     'WEEK',
     'MONTH',
     'YEAR',
   ];
 
   dropDownSelectedValue (newValue) {
+    dealerSum = 0;
+    customerSum = 0;
+    fabricatorsSum = 0;
+    overallEnrollmentSum = 0;
+    print("NEW VALUE:- $overallEnrollmentSum");
     selectedValue = newValue;
     print("SELECTED VALUE:- $selectedValue");
     filter = newValue.toLowerCase();
-    newEnrollmentAPI(filter);
+    overallEnrollmentAPI(filter);
     notifyListeners();
   }
 
@@ -127,42 +132,46 @@ class DashboardProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> newEnrollmentAPI(filter) async {
+  Future<void> overallEnrollmentAPI(period) async {
     try {
+      isLoading = true;
       notifyListeners();
-      dayName = "";
-      final response = await apiServices.newEnrollmentAPI(filter: filter);
+      final response = await apiServices.overallEnrollmentAPI(period: period);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         if (responseData != null) {
+          isLoading = false;
           newEnrollmentAPIResponse = responseData;
-          fabricatorsChartData.clear();
-          dealerChartData.clear();
-          customerChartData.clear();
           print("value.statusCode newEnrollmentAPI:2 $newEnrollmentAPIResponse");
-          for (int i = 0; i < newEnrollmentAPIResponse!.length; i++) {
-            var dataPoint = newEnrollmentAPIResponse![i];
-            dayName = filter == "week" ? dataPoint['dayName'] : filter == "month" ? dataPoint['type'] : filter == "year" ? dataPoint['monthName'] != null ? dataPoint['monthName'] : dataPoint['type'] : '';
-            print("CHART DATA:---------------$dayName");
-            int fabricatorsCount = int.parse(dataPoint['fabricatorsCount'].toString());
-            int customersCount = int.parse(dataPoint['customersCount'].toString());
-            int dealersCount = int.parse(dataPoint['dealersCount'].toString());
-            fabricatorsChartData.add(SalesData(dayName!, fabricatorsCount.toDouble()));
-            dealerChartData.add(SalesData(dayName!, dealersCount.toDouble()));
-            customerChartData.add(SalesData(dayName!, customersCount.toDouble()));
-            print("CHART DATA1:---------------$fabricatorsChartData");
-            print("CHART DATA2:---------------$dealerChartData");
-            print("CHART DATA3:---------------$customerChartData");
+          for (var data in newEnrollmentAPIResponse!) {
+            if (data['fabricatorCount'] != null && double.tryParse(data['fabricatorCount'].toString()) != null) {
+              fabricatorsSum += double.parse(data['fabricatorCount'].toString());
+            }
+            if (data['dealerCount'] != null && double.tryParse(data['dealerCount'].toString()) != null) {
+              dealerSum += double.parse(data['dealerCount'].toString());
+            }
+            if (data['customerCount'] != null && double.tryParse(data['customerCount'].toString()) != null) {
+              customerSum += double.parse(data['customerCount'].toString());
+            }
           }
+          overallEnrollmentSum = fabricatorsSum + dealerSum + customerSum;
+          print("Overall Enrollment Sum: $overallEnrollmentSum");
+          print("Fabricators Sum: $fabricatorsSum");
+          print("Dealers Sum: $dealerSum");
+          print("Customers Sum: $customerSum");
+          notifyListeners();
         } else {
+          isLoading = false;
           print("value.statusCode newEnrollmentAPI:3 $responseData");
           newEnrollmentAPIResponse = [];
         }
       } else {
+        isLoading = false;
         newEnrollmentAPIResponse = [];
         print("value.statusCode newEnrollmentAPI: ${response.statusCode}");
       }
     } catch (e) {
+      isLoading = false;
       print("Error fetching progress data newEnrollmentAPI: =1 $e");
     } finally {
       notifyListeners();

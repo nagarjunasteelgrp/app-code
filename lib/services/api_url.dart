@@ -2,8 +2,8 @@ import 'package:digital_lync/constants/global.dart';
 
 class ApiUrl{
 
-  static String baseUrl = 'https://api.dev1.nagarjunacrm.com/api/v1/';
-  // static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
+  static String baseUrls = 'https://api.dev1.nagarjunacrm.com/api/v1/';
+  static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
 
 
   static String loginUrl = '${baseUrl}users/login';
@@ -38,10 +38,14 @@ class ApiUrl{
 
   static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
 
-  static String myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
+  static String myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrls}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
 
-  static String taskUrl(int id) => '${baseUrl}communications/user/$id';
+  static String taskUrl(int id) => '${baseUrls}communications/user/$id';
 
-  static String newEnrollmentUrl(String filter) => '${baseUrl}web-statistics/new-enrollment?filter=$filter';
+  static String overallEnrollmentUrl(String period) => '${baseUrls}web-statistics/over-all-enrollment?period=$period';
+
+  static String statusUpdateUrl(int statusId) => '${baseUrls}tasks/$statusId/status';
+
+  static String taskByUserIdUrl(int userId) => '${baseUrls}tasks?userId=$userId';
 
 }

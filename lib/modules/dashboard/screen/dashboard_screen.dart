@@ -2,10 +2,8 @@ import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/dashboard/components/dashboard_dropDown.dart';
-import 'package:digital_lync/modules/dashboard/components/lineChart.dart';
 import 'package:digital_lync/modules/dashboard/components/myProgress_list.dart';
 import 'package:digital_lync/modules/dashboard/components/pie_chart.dart';
-import 'package:digital_lync/modules/dashboard/components/reportCard.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
@@ -25,7 +23,8 @@ class DashBoardScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Consumer<DashboardProvider>(
           builder: (context, provider, child) {
-          return provider.isLoading == false ?  SingleChildScrollView(
+          return provider.isLoading == true ?  Align(
+            alignment: Alignment.center,child: SpinKitLoader() ,) : SingleChildScrollView(
               child: Column(
               children: [
                 SizedBox(height: 3.h),
@@ -64,7 +63,7 @@ class DashBoardScreen extends StatelessWidget {
                           children: [
                             Column(
                               children: [
-                                AppText(title: provider.myProgressAPIResponse['noOfVisits'].toString(),fontWeight: FontWeight.bold,),
+                                AppText(title: provider.myProgressAPIResponse != null ? provider.myProgressAPIResponse['noOfVisits'].toString() : '0',fontWeight: FontWeight.bold,),
                                 SizedBox(height: 0.5.h),
                                 AppText(title: 'No. of Visits',color: Theme.of(context).colorScheme.onSecondary,),
                               ],
@@ -76,7 +75,7 @@ class DashBoardScreen extends StatelessWidget {
                                 dashColor: Theme.of(context).colorScheme.secondary),
                             Column(
                               children: [
-                                AppText(title: provider.myProgressAPIResponse['newContacts'].toString(),fontWeight: FontWeight.bold,),
+                                AppText(title: provider.myProgressAPIResponse != null ?provider.myProgressAPIResponse['newContacts'].toString() : '0',fontWeight: FontWeight.bold,),
                                 SizedBox(height: 0.5.h),
                                 AppText(title: 'New Contacts',color: Theme.of(context).colorScheme.onSecondary,),
                               ],
@@ -88,7 +87,7 @@ class DashBoardScreen extends StatelessWidget {
                                 dashColor: Theme.of(context).colorScheme.secondary),
                             Column(
                               children: [
-                                AppText(title: '${provider.myProgressAPIResponse['workingHours'].toString()} hrs',fontWeight: FontWeight.bold,),
+                                AppText(title: provider.myProgressAPIResponse != null ?'${provider.myProgressAPIResponse['workingHours'].toString()} hrs' : '0 hrs',fontWeight: FontWeight.bold,),
                                 SizedBox(height: 0.5.h),
                                 AppText(title: 'Working hours',color: Theme.of(context).colorScheme.onSecondary,),
                               ],
@@ -97,7 +96,7 @@ class DashBoardScreen extends StatelessWidget {
                         ),
                       ),
                       appDivider(context: context,colors: Theme.of(context).colorScheme.secondary,vertical: 0.5.h,),
-                      Center(child: AppText(title: 'Total No of Contacts ${provider.myProgressAPIResponse['totalNoOfContacts'].toString()}',fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.onSecondary,letterSpacing: 0.5,)),
+                      Center(child: AppText(title: 'Total No of Contacts ${provider.myProgressAPIResponse != null ? provider.myProgressAPIResponse['totalNoOfContacts'].toString() : '0'}',fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.onSecondary,letterSpacing: 0.5,)),
                     ],
                   ),
                 ),
@@ -121,7 +120,7 @@ class DashBoardScreen extends StatelessWidget {
                   children: [
                     dashBoardDropDown(context,provider),
                     SizedBox(height: 1.h,),
-                    pieChartWidget(context),
+                    pieChart(provider: provider),
                     // LineChartWidget(provider: provider),
                     SizedBox(height: 1.h,),
                     Row(
@@ -177,8 +176,7 @@ class DashBoardScreen extends StatelessWidget {
                 SizedBox(height: 2.h),
               ],
                         ),
-            ) : Align(
-            alignment: Alignment.center,child: SpinKitLoader() ,);
+            );
           },
         ),
         ),

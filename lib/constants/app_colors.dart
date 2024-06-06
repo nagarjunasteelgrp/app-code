@@ -36,4 +36,8 @@ class AppColors {
 
   static const Color AMBER = Color(0xffFF9E33);  //
 
+  static const Color LIGHT_GREY = Color(0xffF2F4F7);
+
+  static const Color YELLOW = Color(0xffFCB159);
+
 }

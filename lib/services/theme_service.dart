@@ -30,6 +30,8 @@ class ThemeServices {
         onPrimaryContainer: AppColors.AMBER,
         onInverseSurface: AppColors.LIGHT_GREEN_SEC,
         outline: AppColors.PURPLE_SEC_COLOR,
+        onSecondaryContainer: AppColors.LIGHT_GREY,
+          onSurfaceVariant: AppColors.YELLOW,
       ),
 
       inputDecorationTheme: const InputDecorationTheme(
