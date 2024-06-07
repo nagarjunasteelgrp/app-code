@@ -323,4 +323,18 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response> sendMessage({String? message}) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.sendMessageUrl),
+      headers:  await getHeaders(),
+      body: jsonEncode({
+        "userId": userId,
+        "message": message
+      }),
+    );
+    print("SEND MESSAGE STATUS CODE : ${response.statusCode}");
+    print("SEND MESSAGE BODY : ${response.body}");
+    return response;
+  }
+
 }

@@ -25,16 +25,6 @@ class TaskScreen extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: taskProvider,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            messageDialogBox(context);
-          },
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: SvgPicture.asset(AppAssets.APP_MESSAGE_SVG),
-          ),
-        ),
         body: Consumer<TaskProvider>(
           builder: (context, provider, child) {
             return provider.isLoading == false
@@ -102,11 +92,10 @@ class TaskScreen extends StatelessWidget {
                               Column(
                                 children: List.generate(
                                     value.filteredTaskAPIResponse.length, (index) {
-                                  final dateTimeString =
-                                      value.filteredTaskAPIResponse[index]['createdAt'];
+                                  final dateTimeString = value.filteredTaskAPIResponse[index]['createdAt'];
                                   final dateTime = DateTime.parse(dateTimeString);
                                   value.dateTime = DateFormat('dd-MM-yyyy hh:mm a')
-                                      .format(dateTime);
+                                      .format(dateTime.toLocal() );
                                   return taskContainerUI(
                                     onTap: (){
                                       value.statusId = value.filteredTaskAPIResponse[index]['id'];

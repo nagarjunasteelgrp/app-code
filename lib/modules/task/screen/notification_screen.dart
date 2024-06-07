@@ -22,16 +22,6 @@ class NotificationScreen extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: TaskProvider(),
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            messageDialogBox(context);
-          },
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: SvgPicture.asset(AppAssets.APP_MESSAGE_SVG),
-          ),
-        ),
         body: Consumer<TaskProvider>(
           builder: (context, provider, child) {
             return provider.isLoading == false
@@ -49,7 +39,7 @@ class NotificationScreen extends StatelessWidget {
                             value.notificationAPIResponse[index]['createdAt'];
                             final dateTime = DateTime.parse(dateTimeString);
                             value.dateTime = DateFormat('dd-MM-yyyy hh:mm a')
-                                .format(dateTime);
+                                .format(dateTime.toLocal());
                             return taskContainerUI(
                               onTap: (){
                                 // taskStatusDailogBox(context);

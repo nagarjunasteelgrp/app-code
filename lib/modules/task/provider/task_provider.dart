@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TaskProvider extends ChangeNotifier {
 
+  TextEditingController sendMessageController = TextEditingController();
   bool isLoading = false;
   List notificationAPIResponse = [];
   List taskAPIResponse = [];
@@ -61,6 +64,24 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> sendMessage() async {
+    print("SEND MESSAGE---------------------- ${sendMessageController.text} && ${userId}");
+    try {
+      isLoading = true;
+      notifyListeners();
+      var response = await apiServices.sendMessage(message: sendMessageController.text);
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+        print("RESPONSE DATA:---- $responseData");
+        print("Send Message : ${notificationAPIResponse}");
+        notifyListeners();
+      } else {}
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> statusUpdateAPI(statusId) async {
     try {
       isLoading = true;
@@ -95,6 +116,7 @@ class TaskProvider extends ChangeNotifier {
         if (responseData != null) {
           taskAPIResponse = responseData['tasks'];
            filteredTaskAPIResponse = taskAPIResponse;
+           print("FILTERED TASK API RESPONSE:- $filteredTaskAPIResponse");
           isLoading = false;
           notifyListeners();
         } else {
