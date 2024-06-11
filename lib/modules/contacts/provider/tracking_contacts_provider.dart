@@ -21,7 +21,6 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   LatLng? initialPosition;
 
 
-
   void setMapController(GoogleMapController controller) {
     mapController = controller;
   }
@@ -47,7 +46,6 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
         icon: BitmapDescriptor.defaultMarker,
         markerId: MarkerId(latLng.toString()),
         position: latLng,
-
         onTap: () {
           print(address);
         },

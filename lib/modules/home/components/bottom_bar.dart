@@ -67,7 +67,7 @@ class AppBottomBar extends StatelessWidget {
                                 ? Theme.of(context).colorScheme.onError
                                 : Theme.of(context).colorScheme.secondary,
                             AppAssets.APP_CHECKING_SVG,
-                          ) : Icon(Icons.login , color: value.selectedIndex == 2
+                          ) : Icon(Icons.login , color: value.selectedIndex == 3
                               ? Theme.of(context).colorScheme.onError
                               : Theme.of(context).colorScheme.secondary),
                           label: checkInStatus ? Constants.checkIn : Constants.checkOut,

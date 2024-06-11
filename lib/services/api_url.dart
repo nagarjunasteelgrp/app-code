@@ -2,8 +2,8 @@ import 'package:digital_lync/constants/global.dart';
 
 class ApiUrl{
 
-  static String baseUrl = 'https://api.dev1.nagarjunacrm.com/api/v1/';
-  // static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
+  // static String baseUrl = 'https://api.dev1.nagarjunacrm.com/api/v1/';
+  static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
 
 
   static String loginUrl = '${baseUrl}users/login';
@@ -40,11 +40,11 @@ class ApiUrl{
 
 
 
-  static String myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
+  static String   myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
 
   static String taskUrl(int id) => '${baseUrl}communications/user/$id';
 
-  static String overallEnrollmentUrl(String period) => '${baseUrl}web-statistics/over-all-enrollment?period=$period';
+  static String overallEnrollmentUrl(String period, int id) => '${baseUrl}web-statistics/over-all-enrollment?period=$period&userId=$id';
 
   static String statusUpdateUrl(int statusId) => '${baseUrl}tasks/$statusId/status';
 

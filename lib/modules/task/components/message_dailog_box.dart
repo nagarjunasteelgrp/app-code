@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:digital_lync/common/app_button.dart';
+import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
@@ -58,7 +59,7 @@ void messageDialogBox(BuildContext context) {
               SizedBox(height: 2.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
-                child: Row(
+                child: provider.isLoading == true ? Center(child: SpinKitLoader()) : Row(
                   children: [
                     Flexible(
                       child: appOutlineButton(

@@ -55,9 +55,7 @@ class DashboardProvider extends ChangeNotifier{
     customerSum = 0;
     fabricatorsSum = 0;
     overallEnrollmentSum = 0;
-    print("NEW VALUE:- $overallEnrollmentSum");
     selectedValue = newValue;
-    print("SELECTED VALUE:- $selectedValue");
     filter = newValue.toLowerCase();
     overallEnrollmentAPI(filter);
     notifyListeners();
@@ -136,7 +134,7 @@ class DashboardProvider extends ChangeNotifier{
     try {
       isLoading = true;
       notifyListeners();
-      final response = await apiServices.overallEnrollmentAPI(period: period);
+      final response = await apiServices.overallEnrollmentAPI(filter: period);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         if (responseData != null) {

@@ -65,6 +65,7 @@ class TaskProvider extends ChangeNotifier {
   }
 
   Future<void> sendMessage() async {
+    notifyListeners();
     print("SEND MESSAGE---------------------- ${sendMessageController.text} && ${userId}");
     try {
       isLoading = true;

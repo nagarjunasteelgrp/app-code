@@ -284,9 +284,9 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response>overallEnrollmentAPI({String? period}) async {
+  Future<http.Response>overallEnrollmentAPI({String? filter}) async {
     print("OVERALL ENROLLMENT---------------------- $userId");
-    final response = await http.get(Uri.parse(ApiUrl.overallEnrollmentUrl(period!)),
+    final response = await http.get(Uri.parse(ApiUrl.overallEnrollmentUrl(filter! , userId ?? 0)),
       headers:  await getHeaders(),
     );
     print("OVERALL ENROLLMENT STATUS CODE : ${response.request}");
@@ -332,6 +332,7 @@ class ApiServices {
         "message": message
       }),
     );
+    print("SEND MESSAGE STATUS CODE : ${response.request}");
     print("SEND MESSAGE STATUS CODE : ${response.statusCode}");
     print("SEND MESSAGE BODY : ${response.body}");
     return response;
