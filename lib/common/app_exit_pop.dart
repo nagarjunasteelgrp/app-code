@@ -30,14 +30,14 @@ Future<bool> showExitPopup(context) async{
                       child: appButton(context: context, onTap: () {
                         print('yes selected');
                         exit(0);
-                      },child: AppText(title: 'Yes',),height: 5.h),
+                      },child: AppText(title: 'Yes',color: Colors.white,),height: 5.h),
                     ),
                     SizedBox(width: 15),
                     Expanded(
                         child: appButton(context: context, onTap: () {
                           print('no selected');
                           Navigator.of(context).pop();
-                        },child: AppText(title: 'No',),height: 5.h))
+                        },child: AppText(title: 'No',color: Colors.white),height: 5.h))
                   ],
                 )
               ],

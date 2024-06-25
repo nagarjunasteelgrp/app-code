@@ -36,6 +36,8 @@ class ApiServices {
     String? companyName,
     String? email,
     String? phone,
+    String? phone2,
+    String? landline,
     String? contactType,
     String? taxId,
     String? address,
@@ -50,6 +52,8 @@ class ApiServices {
         "companyName": companyName,
         "email": email,
         "phone": phone,
+        "phone2": phone2,
+        "landline": landline,
         "contactType": contactType,
         "taxId": taxId,
         "address": address,
@@ -309,7 +313,6 @@ class ApiServices {
     print("UPDATE STATUS BODY : ${response.body}");
     return response;
   }
-
 
   Future<http.Response>taskByUserIdAPI() async {
     print("TASK BY USERID---------------------- $userId");

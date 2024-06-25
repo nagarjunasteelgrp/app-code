@@ -12,6 +12,8 @@ class ContactProvider extends ChangeNotifier {
   TextEditingController personNameController = TextEditingController();
   TextEditingController contactTypeController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController phoneNumber2Controller = TextEditingController();
+  TextEditingController landlineController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -98,6 +100,8 @@ class ContactProvider extends ChangeNotifier {
     String companyName = companyNameController.text.trim();
     String personName = personNameController.text.trim();
     String phoneNumber = phoneNumberController.text.trim();
+    String phoneNumber2 = phoneNumber2Controller.text.trim();
+    String landLine = landlineController.text.trim();
     String emailId = emailController.text.trim();
     String contactType = contactTypeController.text.trim();
     String address = addressController.text.trim();
@@ -115,6 +119,7 @@ class ContactProvider extends ChangeNotifier {
       resMessage = "Please enter your phoneNumber.";
       return;
     }
+
     // else if (phoneNumber.length != 10) {
     //   resMessage = "Please enter a valid 10-digit phoneNumber.";
     //   return;
@@ -142,6 +147,8 @@ class ContactProvider extends ChangeNotifier {
         companyName: companyName,
         email: emailId,
         phone: phoneNumber,
+        phone2: phoneNumber2,
+        landline: landLine,
         contactType: contactType.isNotEmpty ? contactType : 'dealer',
         address: address,
         description: description,
@@ -157,6 +164,8 @@ class ContactProvider extends ChangeNotifier {
         personNameController.clear();
         contactTypeController.clear();
         phoneNumberController.clear();
+        phoneNumber2Controller.clear();
+        landlineController.clear();
         emailController.clear();
         addressController.clear();
         descriptionController.clear();

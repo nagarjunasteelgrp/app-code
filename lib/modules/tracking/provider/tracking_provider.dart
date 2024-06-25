@@ -7,6 +7,7 @@ import 'package:digital_lync/services/api_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,11 +17,13 @@ class TrackingProvider extends ChangeNotifier {
   CurrentLocationProvider currentLocationProvider;
   ApiServices apiServices = ApiServices();
   TextEditingController addNotesController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   GoogleMapController? mapController;
   bool isLoading = false;
   File? image;
   List markers = [];
   bool _geoLocationBtn = false;
+  bool isFetchingMore = false;
   int trackingInfoId = 0;
   LatLng? initialPosition;
   int? userId;
@@ -28,9 +31,13 @@ class TrackingProvider extends ChangeNotifier {
   String? contactTypeCompanyName;
   String? contactTypeName;
   List trackingInfoList = [];
+ List trackingInfoListStoreData = [];
+  int limit = 5;
+  int pager = 0;
   String? imageType;
   String? selectedFileName;
   File? filePath;
+
 
   bool get geoLocationBtn => _geoLocationBtn;
 
@@ -52,12 +59,17 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
+  trackingInfoDataPlus(){
+
+  }
+
   TrackingProvider(this.currentLocationProvider) {
     intialData();
     contactTypeId = Get.arguments['id'] ?? '';
     contactTypeCompanyName = Get.arguments['companyName'] ?? '';
     contactTypeName = Get.arguments['contactType'] ?? '';
     trackingInfoAPI();
+    onScrollForPagination();
     notifyListeners();
   }
 
@@ -222,9 +234,16 @@ intialData()async{
       notifyListeners();
       var response = await apiServices.trackingInfoList(id: contactTypeId!);
       if (response.statusCode == 200) {
-        markers.clear();
+        trackingInfoList.clear();
         var responseData = jsonDecode(response.body);
-        trackingInfoList = responseData['activity'];
+        trackingInfoListStoreData = responseData['activity'];
+        print("trackingInfoListStoreData: ${trackingInfoListStoreData.length}");
+        if(trackingInfoListStoreData.length > limit){
+        trackingInfoList = trackingInfoListStoreData.sublist(0,limit);
+        }else{
+          trackingInfoList = trackingInfoListStoreData;
+        }
+        print("trackingInfoList: ${trackingInfoList.length}");
         isLoading = false;
         notifyListeners();
       }else{
@@ -239,5 +258,31 @@ intialData()async{
   }
 
 
+  Future<void> loadMoreData() async {
+    if (isFetchingMore) return; // Avoid multiple requests
+    isFetchingMore = true;
+    notifyListeners();
+    int currentLength = trackingInfoList.length;
+    int endIndex = currentLength + limit;
 
+    if (endIndex < trackingInfoListStoreData.length) {
+      trackingInfoList.addAll(trackingInfoListStoreData.sublist(currentLength, endIndex));
+    } else {
+
+      trackingInfoList.addAll(trackingInfoListStoreData.sublist(currentLength));
+    }
+    isFetchingMore = false;
+    notifyListeners();
+  }
+
+  void onScrollForPagination() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !isFetchingMore) {
+        loadMoreData();
+      }
+    });
+  }
 }
+
+
+

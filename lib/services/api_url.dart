@@ -38,8 +38,6 @@ class ApiUrl{
 
   static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
 
-
-
   static String   myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
 
   static String taskUrl(int id) => '${baseUrl}communications/user/$id';

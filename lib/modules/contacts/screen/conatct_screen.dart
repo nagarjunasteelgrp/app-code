@@ -261,7 +261,6 @@ class ContactScreen extends StatelessWidget {
                                                   ],
                                                 ),
                                               ),
-
                                               // AppText(
                                               //   title:
                                               //   fontSize: 2.h,

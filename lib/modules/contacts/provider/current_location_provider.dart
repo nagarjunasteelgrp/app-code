@@ -19,13 +19,11 @@ class CurrentLocationProvider extends ChangeNotifier {
     getUserLocation();
   }
 
-
   Future<void> getUserLocation() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
       bool serviceEnabled;
       LocationPermission permission;
-
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         print("Location services are disabled.");

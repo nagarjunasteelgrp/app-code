@@ -97,12 +97,11 @@ Future<void> onStart(ServiceInstance service) async {
       );
     }
   }
-
+  CurrentLocationProvider locationProvider = CurrentLocationProvider();
   Timer.periodic(const Duration(minutes: 5), (timer) async {
     print("SERVICE STARTED..........................4");
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
-        CurrentLocationProvider locationProvider = CurrentLocationProvider();
         await locationProvider.getUserLocation();
         // await getMapData();
         await getCurrentLocation();
