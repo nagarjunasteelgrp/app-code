@@ -4,8 +4,10 @@ import 'package:digital_lync/common/app_dropdown_button_contacts.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
+import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
 import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
@@ -42,28 +44,6 @@ class ContactScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // Column(
-                          //   children: [
-                          //     appCircleIcon(
-                          //         context: context,
-                          //         colors: Theme.of(context)
-                          //             .colorScheme
-                          //             .inversePrimary,
-                          //         child: Center(
-                          //           child: SvgPicture.asset(
-                          //             AppAssets.APP_FILTER_SVG,
-                          //             color: Theme.of(context).primaryColor,
-                          //           ),
-                          //         )),
-                          //     SizedBox(
-                          //       height: 0.7.h,
-                          //     ),
-                          //     AppText(
-                          //       title: Constants.filter,
-                          //       fontWeight: FontWeight.w500,
-                          //     )
-                          //   ],
-                          // ),
                           GestureDetector(
                             onTap: () {
                               contactProvider.toggleListOrder();
@@ -93,7 +73,8 @@ class ContactScreen extends StatelessWidget {
                               builder: (context, provider, _) {
                             return GestureDetector(
                               onTap: () {
-                                showContactDialog(context);
+                                provider.clearData();
+                                showCreateContactDialog(context);
                               },
                               child: Column(
                                 children: [
@@ -118,7 +99,40 @@ class ContactScreen extends StatelessWidget {
                                 ],
                               ),
                             );
-                          })
+                          }),
+                          Consumer<ContactProvider>(
+                            builder: (context, provider, child) {
+                              return GestureDetector(
+                                onTap: () {
+                                  if (provider.contactId != null) {
+                                    provider.contactDetailsAPI();
+                                    showContactUpdateDialog(context,selectedValue: provider.selectedValue);
+                                  }
+                                },
+                                child: Column(
+                                  children: [
+                                    appCircleIcon(
+                                        context: context,
+                                        colors: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary,
+                                        child: Center(
+                                          child: Icon(Icons.edit,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        )),
+                                    SizedBox(
+                                      height: 0.7.h,
+                                    ),
+                                    AppText(
+                                      title: Constants.edit,
+                                      fontWeight: FontWeight.w500,
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -133,9 +147,9 @@ class ContactScreen extends StatelessWidget {
                                 size: 3.h,
                                 color: Theme.of(context).colorScheme.secondary),
                             controller: contactProvider.searchController,
-                            hint: 'Search...',
-                            onChanged: (query){
-                                provider.searchContacts(query);
+                            hint: ' Search...',
+                            onChanged: (query) {
+                              provider.searchContacts(query);
                             },
                           ),
                         );
@@ -170,14 +184,17 @@ class ContactScreen extends StatelessWidget {
                                 TextEditingController(
                                     text: newValue ?? 'customer');
                             provider.listOfContacts();
+                            provider.selectedContactIndex = -1;
+                            provider.contactId = null;
                           },
                         ),
                       );
                     }),
                     SizedBox(height: 1.h),
                     Consumer<ContactProvider>(builder: (context, provider, _) {
-                      provider.displayList = provider.searchQuery.isNotEmpty ? provider.filteredContactList : provider.contactList;
-                      print("PROVIDER LIST: ${provider.filteredContactList}");
+                      provider.displayList = provider.searchQuery.isNotEmpty
+                          ? provider.filteredContactList
+                          : provider.contactList;
                       return provider.contactList.length < 0
                           ? Padding(
                               padding: EdgeInsets.only(top: 30.h),
@@ -202,6 +219,13 @@ class ContactScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       InkWell(
+                                        onLongPress: () {
+                                          provider.contactId = contact['id'];
+                                          provider
+                                              .selectContactIndex(contactIndex);
+                                          print(
+                                              "CONTACT ID : ${provider.contactId}");
+                                        },
                                         onTap: () {
                                           Get.toNamed(RoutesName.TRACKING,
                                               arguments: {
@@ -229,10 +253,16 @@ class ContactScreen extends StatelessWidget {
                                           padding: EdgeInsets.all(1.h),
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                    .withOpacity(0.2)),
+                                                color:
+                                                    provider.selectedContactIndex ==
+                                                            contactIndex
+                                                        ? Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary
+                                                        : Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary
+                                                            .withOpacity(0.2)),
                                             borderRadius:
                                                 BorderRadius.circular(1.h),
                                           ),
@@ -243,21 +273,35 @@ class ContactScreen extends StatelessWidget {
                                                 child: Row(
                                                   children: [
                                                     Container(
-                                                      padding: EdgeInsets.all(1.5.h),
+                                                      padding:
+                                                          EdgeInsets.all(1.5.h),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
-                                                          BorderRadius.circular(
-                                                              1.5.h),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      1.5.h),
                                                           border: Border.all(
-                                                              color: Theme.of(context)
+                                                              color: provider.selectedContactIndex ==
+                                                                  contactIndex
+                                                                  ? Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary : Theme.of(
+                                                                      context)
                                                                   .colorScheme
                                                                   .secondary
-                                                                  .withOpacity(0.5))),
-                                                      child: const Icon(Icons.person),
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                      child: const Icon(
+                                                          Icons.person),
                                                     ),
-
                                                     SizedBox(width: 2.h),
-                                                    Flexible(child: Text(contact['companyName'],style: TextStyle(fontSize: 2.h))),
+                                                    Flexible(
+                                                        child: Text(
+                                                            contact[
+                                                                'companyName'],
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    2.h))),
                                                   ],
                                                 ),
                                               ),

@@ -1,4 +1,5 @@
 import 'package:digital_lync/common/app_text.dart';
+import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -95,6 +96,52 @@ class _pieChartState extends State<pieChart> {
                       child: Center(
                         child: AppText(
                           title: widget.provider.customerSum.toString(),
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 1.1.h,
+                        ),
+                      ),
+                    ),
+                    showTitle: false,
+                  ),
+                  PieChartSectionData(
+                    value: widget.provider.engineersSum.toDouble(),
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    radius: 60, // Reduced radius
+                    badgePositionPercentageOffset: 0.9,
+                    badgeWidget: Container(
+                      height: 4.h,
+                      width: 4.h,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        border: Border.all(color: Colors.white, width: 0.3.h),
+                        borderRadius: BorderRadius.circular(10.h),
+                      ),
+                      child: Center(
+                        child: AppText(
+                          title: widget.provider.engineersSum.toString(),
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 1.1.h,
+                        ),
+                      ),
+                    ),
+                    showTitle: false,
+                  ),
+                  PieChartSectionData(
+                    value: widget.provider.masonsSum.toDouble(),
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    radius: 60, // Reduced radius
+                    badgePositionPercentageOffset: 0.9,
+                    badgeWidget: Container(
+                      height: 4.h,
+                      width: 4.h,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        border: Border.all(color: Colors.white, width: 0.3.h),
+                        borderRadius: BorderRadius.circular(10.h),
+                      ),
+                      child: Center(
+                        child: AppText(
+                          title: widget.provider.masonsSum.toString(),
                           color: Theme.of(context).primaryColor,
                           fontSize: 1.1.h,
                         ),

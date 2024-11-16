@@ -15,6 +15,7 @@ class Constants {
   static const String menu = 'Menu';
   static const String dashboard = 'Dashboard';
   static const String filter = 'Filter';
+  static const String edit = 'Edit';
   static const String sort = 'Sort';
   static const String new_Contact = 'New Contact';
   static const String company_Name = 'Company Name';

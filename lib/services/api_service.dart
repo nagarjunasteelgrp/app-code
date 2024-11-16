@@ -104,26 +104,27 @@ class ApiServices {
     String? companyName,
     String? email,
     String? phone,
+    String? phone2,
+    String? landline,
     String? contactType,
-    String? taxId,
     String? address,
     String? description,
-    int? userId,
     int? contactUserId,
   }) async {
     final response = await http.put(
       Uri.parse(ApiUrl.contactUpdateUrl(contactUserId!)),
       headers:  await getHeaders(),
       body: jsonEncode({
+        "userId": userId,
         "personName": personName,
         "companyName": companyName,
-        "phone": phone,
         "email": email,
-        "taxId": taxId,
+        "phone": phone,
+        "phone2": phone2,
+        "landline": landline,
         "contactType": contactType,
         "address": address,
         "description": description,
-        "userId": userId,
       }),
     );
     print("CREATE CONTACT STATUS CODE : ${response.statusCode}");

@@ -170,6 +170,40 @@ class DashBoardScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 1.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              height: 1.5.h,
+                              width: 1.5.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6.h),
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
+                            SizedBox(width: 1.h,),
+                            AppText(title: 'Engineers',color: Theme.of(context).colorScheme.onSecondary,),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              height: 1.5.h,
+                              width: 1.5.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6.h),
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                            SizedBox(width: 1.h,),
+                            AppText(title: 'Masons',color: Theme.of(context).colorScheme.onSecondary,),
+                          ],
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 2.h),
                   ],
                 ),),

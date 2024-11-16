@@ -8,27 +8,32 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
+import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/details/conatct_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void showContactUpdateDialog(BuildContext context,
-    {VoidCallback? onTapCancel, VoidCallback? onTapSave}) {
+    {
+      String? selectedValue,
+      VoidCallback? onTapCancel, VoidCallback? onTapSave}) {
   showDialog(
     context: context,
     builder: (context) {
       return ChangeNotifierProvider.value(
-        value: contactDetailsProvider,
+        value: contactProvider,
         child: Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
           backgroundColor: Theme.of(context).colorScheme.background,
-          child: Consumer<ContactDetailsProvider>(builder: (context, provider, _) {
+          child: Consumer<ContactProvider>(builder: (context, provider, _) {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -78,6 +83,45 @@ void showContactUpdateDialog(BuildContext context,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         AppText(
+                            title: Constants.contact_Type,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 1.5.h),
+                        SizedBox(height: 0.5.h),
+                        dropdownWidget(
+                          context: context,
+                          value: provider.selectedValue
+                              .toString(),
+                          items: [
+                            ...List.generate(
+                                provider.dropDown.length,
+                                    (index) {
+                                  var data =
+                                  provider.dropDown[index];
+                                  var value =
+                                  data.toString();
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.5.w),
+                                      child: AppText(
+                                        title: data,
+                                      ),
+                                    ),
+                                  );
+                                })
+                          ],
+                          onChanged: (newValue) {
+                            print('Selected value: $newValue');
+                            provider.dropDownSelectedValue(newValue);
+                            provider.contactTypeController = TextEditingController(text: newValue ?? 'dealer');
+                            provider.selectedValue = newValue;
+                            provider.notifyListeners();
+                          },
+                        ),
+                        SizedBox(height: 1.5.h),
+                        AppText(
                             title: Constants.company_Name,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
@@ -99,7 +143,30 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.phoneNumberController,),
+                        appTextField(context: context,controller: provider.phoneNumberController,keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                            ]),
+                        SizedBox(height: 1.5.h),
+                        AppText(
+                            title: Constants.phone_Number2,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 1.5.h),
+                        SizedBox(height: 0.5.h),
+                        appTextField(context: context,controller: provider.phoneNumber2Controller,keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                            ]
+                        ),
+                        SizedBox(height: 1.5.h),
+                        AppText(
+                            title: Constants.landLine,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 1.5.h),
+                        SizedBox(height: 0.5.h),
+                        appTextField(context: context,controller: provider.landlineController,keyboardType: TextInputType.phone),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.email,
@@ -110,54 +177,12 @@ void showContactUpdateDialog(BuildContext context,
                         appTextField(context: context,controller: provider.emailController,),
                         SizedBox(height: 1.5.h),
                         AppText(
-                            title: Constants.contact_Type,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
-                        SizedBox(height: 0.5.h),
-                        dropdownWidget(
-                          context: context,
-                          value: provider.selectedValue
-                              .toString(),
-                          items: List.generate(
-                              provider.dropDown.length,
-                                  (index) {
-                                var data =
-                                provider.dropDown[index];
-                                var value =
-                                data.toString();
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0.5.w),
-                                    child: AppText(
-                                      title: data,
-                                    ),
-                                  ),
-                                );
-                              }),
-                          onChanged: (newValue) {
-                            provider.dropDownSelectedValue(newValue);
-                            provider.contactTypeController = TextEditingController(text: newValue ?? 'customer');
-                          },
-                        ),
-                        SizedBox(height: 1.5.h),
-                        AppText(
                             title: Constants.address,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context,controller: provider.addressController,),
-                        SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.tax_ID,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
-                        SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.taxIdController,),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.description,
@@ -172,7 +197,7 @@ void showContactUpdateDialog(BuildContext context,
                   appDivider(context: context),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
-                    child:  (provider.isLoading == false) ?  Row(
+                    child:  (provider.isAddContactButton == false) ?  Row(
                       children: [
                         Expanded(child: GestureDetector(
                           onTap: (){

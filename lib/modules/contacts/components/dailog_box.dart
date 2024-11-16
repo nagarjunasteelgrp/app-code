@@ -11,12 +11,13 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void showContactDialog(BuildContext context,
+void showCreateContactDialog(BuildContext context,
 {VoidCallback? onTapCancel, VoidCallback? onTapSave}) {
   showDialog(
     context: context,
@@ -136,7 +137,11 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.phoneNumberController,keyboardType: TextInputType.phone),
+                        appTextField(context: context,controller: provider.phoneNumberController,keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                            ]
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.phone_Number2,
@@ -144,7 +149,11 @@ void showContactDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.phoneNumber2Controller,keyboardType: TextInputType.phone),
+                        appTextField(context: context,controller: provider.phoneNumber2Controller,keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                            ]
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.landLine,

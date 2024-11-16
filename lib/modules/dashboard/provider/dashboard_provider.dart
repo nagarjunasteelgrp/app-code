@@ -16,6 +16,8 @@ class DashboardProvider extends ChangeNotifier{
   num fabricatorsSum = 0;
   num dealerSum = 0;
   num customerSum = 0;
+  num engineersSum = 0;
+  num masonsSum = 0;
   num overallEnrollmentSum = 0;
 
   set selectedIndex(int index) {
@@ -54,9 +56,12 @@ class DashboardProvider extends ChangeNotifier{
     dealerSum = 0;
     customerSum = 0;
     fabricatorsSum = 0;
+    engineersSum = 0;
+    masonsSum = 0;
     overallEnrollmentSum = 0;
     selectedValue = newValue;
     filter = newValue.toLowerCase();
+    print("Filter: $filter");
     overallEnrollmentAPI(filter);
     notifyListeners();
   }
@@ -151,12 +156,20 @@ class DashboardProvider extends ChangeNotifier{
             if (data['customerCount'] != null && double.tryParse(data['customerCount'].toString()) != null) {
               customerSum += double.parse(data['customerCount'].toString());
             }
+            if (data['engineersCount'] != null && double.tryParse(data['engineersCount'].toString()) != null) {
+              engineersSum += double.parse(data['engineersCount'].toString());
+            }
+            if (data['masonsCount'] != null && double.tryParse(data['masonsCount'].toString()) != null) {
+              masonsSum += double.parse(data['masonsCount'].toString());
+            }
           }
-          overallEnrollmentSum = fabricatorsSum + dealerSum + customerSum;
+          overallEnrollmentSum = fabricatorsSum + dealerSum + customerSum + engineersSum + masonsSum;
           print("Overall Enrollment Sum: $overallEnrollmentSum");
           print("Fabricators Sum: $fabricatorsSum");
           print("Dealers Sum: $dealerSum");
           print("Customers Sum: $customerSum");
+          print("Engineers Sum: $engineersSum");
+          print("Masons Sum: $masonsSum");
           notifyListeners();
         } else {
           isLoading = false;

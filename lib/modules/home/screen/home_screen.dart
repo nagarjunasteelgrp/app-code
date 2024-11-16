@@ -54,6 +54,8 @@ class HomeScreen extends StatelessWidget {
             },
           ),
           body: Consumer<HomeProvider>(builder: (context, value, _) {
+            contactProvider.selectContactIndex(-1);
+            contactProvider.contactId = null;
             return value.selectedIndex == 4
                 ? const MenuScreen()
                 : value.selectedIndex == 1

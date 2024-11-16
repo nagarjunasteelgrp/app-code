@@ -46,6 +46,7 @@ class CurrentLocationProvider extends ChangeNotifier {
 
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print("GET LOCATION UPDATES :- ${position.latitude} ${position.longitude} ${position.accuracy}");
+
       List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       notifyListeners();
       Placemark placeMark = placeMarks[0];

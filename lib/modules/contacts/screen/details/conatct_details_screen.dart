@@ -46,7 +46,7 @@ class ContactDetailsScreen extends StatelessWidget {
                AppText(title: Constants.details,fontWeight: FontWeight.w600,fontSize: 1.6.h),
                GestureDetector(
                  onTap: (){
-                   showContactUpdateDialog(context);
+
                  },
                  child: Padding(
                    padding: EdgeInsets.symmetric(horizontal: 1.0.h),

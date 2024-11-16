@@ -3,7 +3,10 @@ import 'package:digital_lync/constants/global.dart';
 class ApiUrl{
 
   // static String baseUrl = 'https://api.dev1.nagarjunacrm.com/api/v1/';
-  static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
+  // static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
+  static String baseUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
+  // static String baseUrl = 'http://192.168.29.53:3000/api/v1/';
+  // static String baseUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
 
   static String loginUrl = '${baseUrl}users/login';

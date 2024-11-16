@@ -36,6 +36,8 @@ class ContactDetailsProvider extends ChangeNotifier{
     "customer",
     "fabricator",
     "dealer",
+    "engineers",
+    "masons",
   ];
 
   dropDownSelectedValue (newValue) {
@@ -44,7 +46,7 @@ class ContactDetailsProvider extends ChangeNotifier{
   }
 
   ContactDetailsProvider() {
-    contactId = Get.arguments['id'] ?? '';
+    // contactId = Get.arguments['id'] ?? '';
     selectedValue = dropDown.first;
     notifyListeners();
       contactDetailsAPI();
@@ -149,10 +151,8 @@ class ContactDetailsProvider extends ChangeNotifier{
         email: emailId,
         phone: phoneNumber,
         contactType: contactType.isNotEmpty ? contactType : 'customer',
-        taxId: taxId,
         address: address,
         description: description,
-        userId: userId,
         contactUserId: contactUserId,
       );
       if (logResponse.statusCode == 200) {

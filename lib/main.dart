@@ -1,7 +1,5 @@
 import 'package:background_location/background_location.dart';
-import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
