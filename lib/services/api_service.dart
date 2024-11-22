@@ -6,7 +6,6 @@ import 'api_url.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
-
   Future<http.Response> login({String? email, String? password}) async {
     final response = await http.post(
       Uri.parse(ApiUrl.loginUrl),
@@ -30,7 +29,6 @@ class ApiServices {
     return response;
   }
 
-
   Future<http.Response> createContact({
     String? personName,
     String? companyName,
@@ -38,14 +36,16 @@ class ApiServices {
     String? phone,
     String? phone2,
     String? landline,
+    String? gstNumber,
     String? contactType,
     String? taxId,
     String? address,
     String? description,
   }) async {
+    print("gstNumber:--------- $gstNumber");
     final response = await http.post(
       Uri.parse(ApiUrl.createContactUrl),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
       body: jsonEncode({
         "userId": userId,
         "personName": personName,
@@ -54,6 +54,7 @@ class ApiServices {
         "phone": phone,
         "phone2": phone2,
         "landline": landline,
+        "gstNumber": gstNumber,
         "contactType": contactType,
         "taxId": taxId,
         "address": address,
@@ -65,22 +66,20 @@ class ApiServices {
     return response;
   }
 
-
   Future<http.Response> listOfRelatedContact() async {
     final response = await http.get(
       Uri.parse(ApiUrl.relatedContactsListUrl),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
     );
     print("LIST OF RELATED CONTACT STATUS CODE : ${response.statusCode}");
     print("LIST OF RELATED CONTACT BODY : ${response.body}");
     return response;
   }
 
-
   Future<http.Response> contactDetails({required int id}) async {
     final response = await http.get(
       Uri.parse(ApiUrl.contactDetailsUrl(id)),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
     );
     print("CONTACT DETAILS STATUS CODE : ${response.request}");
     print("CONTACT DETAILS STATUS CODE : ${response.statusCode}");
@@ -90,8 +89,8 @@ class ApiServices {
 
   Future<http.Response> contactListAPI({required String type}) async {
     final response = await http.get(
-      Uri.parse(ApiUrl.contactListUrl(userId!,type)),
-      headers:  await getHeaders(),
+      Uri.parse(ApiUrl.contactListUrl(userId!, type)),
+      headers: await getHeaders(),
     );
     print("CONTACT LIST STATUS CODE : ${response.request}");
     print("CONTACT LIST STATUS CODE : ${response.statusCode}");
@@ -106,6 +105,7 @@ class ApiServices {
     String? phone,
     String? phone2,
     String? landline,
+    String? gstNumber,
     String? contactType,
     String? address,
     String? description,
@@ -113,7 +113,7 @@ class ApiServices {
   }) async {
     final response = await http.put(
       Uri.parse(ApiUrl.contactUpdateUrl(contactUserId!)),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
       body: jsonEncode({
         "userId": userId,
         "personName": personName,
@@ -122,6 +122,7 @@ class ApiServices {
         "phone": phone,
         "phone2": phone2,
         "landline": landline,
+        "gstNumber": gstNumber,
         "contactType": contactType,
         "address": address,
         "description": description,
@@ -132,27 +133,34 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> trackingNotes({String? description,int? trackingInfoId}) async {
+  Future<http.Response> trackingNotes(
+      {String? description, int? trackingInfoId}) async {
     final response = await http.post(
       Uri.parse(ApiUrl.trackingNotesUrl),
-      headers:  await getHeaders(),
-      body: jsonEncode({"description": description,"trackingInfoId": trackingInfoId}),
+      headers: await getHeaders(),
+      body: jsonEncode(
+          {"description": description, "trackingInfoId": trackingInfoId}),
     );
     print("TRACKING NOTES STATUS CODE : ${response.statusCode}");
     print("TRACKING NOTES BODY : ${response.body}");
     return response;
   }
 
-  Future<http.Response> trackingInfo({double? latitude, double? longitude,String? address,int? dealerId}) async {
+  Future<http.Response> trackingInfo(
+      {double? latitude,
+      double? longitude,
+      String? address,
+      int? dealerId}) async {
+    print("latitude : $latitude longitude : $longitude address : $address userId : $userId dealerId : $dealerId");
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
       body: jsonEncode({
         "latitude": latitude,
         "longitude": longitude,
         "address": address,
         "trackingType": "captured",
-      "userId": userId,
+        "userId": userId,
         "dealerId": dealerId
       }),
     );
@@ -163,8 +171,10 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> autoTrackingAPI({double? latitude, double? longitude,String? address}) async {
-    print("latitude : $latitude longitude : $longitude address : $address userId : $userId");
+  Future<http.Response> autoTrackingAPI(
+      {double? latitude, double? longitude, String? address}) async {
+    print(
+        "latitude : $latitude longitude : $longitude address : $address userId : $userId");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),
@@ -189,7 +199,8 @@ class ApiServices {
     required String imageType,
   }) async {
     var headers = await getHeaders();
-    var request = http.MultipartRequest('POST',Uri.parse(ApiUrl.trackingImageUrl));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(ApiUrl.trackingImageUrl));
     request.headers.addAll(headers);
     request.fields['trackingInfoId'] = trackingInfoId.toString();
     request.fields['type'] = imageType.toString();
@@ -205,7 +216,7 @@ class ApiServices {
   Future<http.Response> trackingInfoList({required int id}) async {
     final response = await http.get(
       Uri.parse(ApiUrl.trackingInfoListUrl(id)),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
     );
     print("TRACKING OF LIST REQUEST CODE : ${response.request}");
     print("TRACKING OF LIST STATUS CODE : ${response.statusCode}");
@@ -216,7 +227,7 @@ class ApiServices {
   Future<http.Response> getTaskList({required int id}) async {
     final response = await http.get(
       Uri.parse(ApiUrl.getTaskListUrl(id)),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
     );
     print("GET TASK OF LIST STATUS CODE : ${response.statusCode}");
     print("GET TASK OF LIST BODY : ${response.body}");
@@ -226,36 +237,38 @@ class ApiServices {
   Future<http.Response> checkInList() async {
     final response = await http.get(
       Uri.parse(ApiUrl.checkInListUrl(userId ?? 0)),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
     );
     print("CHECK IN OF LIST STATUS CODE : ${response.statusCode}");
     print("CHECK IN OF LIST BODY : ${response.body}");
     return response;
   }
 
-
-  Future<http.Response> checkInAPI({int? userId,}) async {
+  Future<http.Response> checkInAPI({
+    int? userId,
+  }) async {
     final response = await http.post(
       Uri.parse(ApiUrl.checkInUrl),
-      headers:  await getHeaders(),
-      body: jsonEncode({
-        "userId": userId,
-        "clockIn": DateTime.now().toIso8601String()}),
+      headers: await getHeaders(),
+      body: jsonEncode(
+          {"userId": userId, "clockIn": DateTime.now().toIso8601String()}),
     );
     print("CHECK IN  STATUS CODE : ${response.statusCode}");
     print("CHECK IN  BODY : ${response.body}");
     return response;
   }
-  
-  Future<http.Response> checkOutAPI({required int checkInId , int? userId, dynamic checkInTime}) async {
+
+  Future<http.Response> checkOutAPI(
+      {required int checkInId, int? userId, dynamic checkInTime}) async {
     print("----------------------");
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
-      headers:  await getHeaders(),
+      headers: await getHeaders(),
       body: jsonEncode({
         "userId": userId,
         "clockIn": checkInTime,
-        "clockOut": DateTime.now().toIso8601String()}),
+        "clockOut": DateTime.now().toIso8601String()
+      }),
     );
     print("CHECK OUT  STATUS CODE : ${response.request}");
     print("CHECK OUT  STATUS CODE : ${response.body}");
@@ -264,11 +277,13 @@ class ApiServices {
     return response;
   }
 
-
-  Future<http.Response> myProgressAPI({dynamic startDate , dynamic endDate}) async {
-    print("myProgressAPI---------------------- $userId  ||  ${startDate}  ||  $endDate");
-    final response = await http.get(Uri.parse(ApiUrl.myProgressUrl(userId!,startDate, endDate)),
-      headers:  await getHeaders(),
+  Future<http.Response> myProgressAPI(
+      {dynamic startDate, dynamic endDate}) async {
+    print(
+        "myProgressAPI---------------------- $userId  ||  ${startDate}  ||  $endDate");
+    final response = await http.get(
+      Uri.parse(ApiUrl.myProgressUrl(userId!, startDate, endDate)),
+      headers: await getHeaders(),
     );
     print("MY PROGRESS  STATUS CODE : ${response.request}");
     print("MY PROGRESS  STATUS CODE : ${response.body}");
@@ -277,10 +292,11 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response>taskAPI() async {
+  Future<http.Response> taskAPI() async {
     print("taskAPI---------------------- $userId");
-    final response = await http.get(Uri.parse(ApiUrl.taskUrl(userId ?? 0)),
-      headers:  await getHeaders(),
+    final response = await http.get(
+      Uri.parse(ApiUrl.taskUrl(userId ?? 0)),
+      headers: await getHeaders(),
     );
     print("TASK STATUS CODE : ${response.request}");
     print("TASK STATUS CODE : ${response.body}");
@@ -289,10 +305,11 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response>overallEnrollmentAPI({String? filter}) async {
+  Future<http.Response> overallEnrollmentAPI({String? filter}) async {
     print("OVERALL ENROLLMENT---------------------- $userId");
-    final response = await http.get(Uri.parse(ApiUrl.overallEnrollmentUrl(filter! , userId ?? 0)),
-      headers:  await getHeaders(),
+    final response = await http.get(
+      Uri.parse(ApiUrl.overallEnrollmentUrl(filter!, userId ?? 0)),
+      headers: await getHeaders(),
     );
     print("OVERALL ENROLLMENT STATUS CODE : ${response.request}");
     print("OVERALL ENROLLMENT STATUS CODE : ${response.body}");
@@ -301,10 +318,11 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> statusUpdateAPI({String? status,int? statusId}) async {
+  Future<http.Response> statusUpdateAPI({String? status, int? statusId}) async {
     print("STATUS UPDATE---------------------- $status &&  $statusId");
-    final response = await http.patch(Uri.parse(ApiUrl.statusUpdateUrl(statusId!)),
-      headers:  await getHeaders(),
+    final response = await http.patch(
+      Uri.parse(ApiUrl.statusUpdateUrl(statusId!)),
+      headers: await getHeaders(),
       body: jsonEncode({
         "status": status,
       }),
@@ -315,10 +333,11 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response>taskByUserIdAPI() async {
+  Future<http.Response> taskByUserIdAPI() async {
     print("TASK BY USERID---------------------- $userId");
-    final response = await http.get(Uri.parse(ApiUrl.taskByUserIdUrl(userId!)),
-      headers:  await getHeaders(),
+    final response = await http.get(
+      Uri.parse(ApiUrl.taskByUserIdUrl(userId!)),
+      headers: await getHeaders(),
     );
     print("TASK BY USERID STATUS CODE : ${response.request}");
     print("TASK BY USERID STATUS CODE : ${response.body}");
@@ -327,19 +346,28 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response> messageFetchingAPI() async {
+    print("MESSAGE BY USERID---------------------- $userId");
+    final response = await http.get(
+      Uri.parse(ApiUrl.messageFetching(userId!)),
+      headers: await getHeaders(),
+    );
+    print("MESSAGE BY USERID STATUS CODE : ${response.request}");
+    print("MESSAGE BY USERID STATUS CODE : ${response.body}");
+    print("MESSAGE BY USERID STATUS CODE : ${response.statusCode}");
+    print("MESSAGE BY USERID BODY : ${response.body}");
+    return response;
+  }
+
   Future<http.Response> sendMessage({String? message}) async {
     final response = await http.post(
       Uri.parse(ApiUrl.sendMessageUrl),
-      headers:  await getHeaders(),
-      body: jsonEncode({
-        "userId": userId,
-        "message": message
-      }),
+      headers: await getHeaders(),
+      body: jsonEncode({"userId": userId, "message": message}),
     );
     print("SEND MESSAGE STATUS CODE : ${response.request}");
     print("SEND MESSAGE STATUS CODE : ${response.statusCode}");
     print("SEND MESSAGE BODY : ${response.body}");
     return response;
   }
-
 }

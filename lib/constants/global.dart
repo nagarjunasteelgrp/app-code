@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:digital_lync/main.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
+import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -21,6 +22,7 @@ String? empId;
 String? addressPlacement;
 ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
+TaskProvider? taskProvider;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'notificationChannelId',

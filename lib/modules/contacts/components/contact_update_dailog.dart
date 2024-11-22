@@ -20,9 +20,9 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void showContactUpdateDialog(BuildContext context,
-    {
-      String? selectedValue,
-      VoidCallback? onTapCancel, VoidCallback? onTapSave}) {
+    {String? selectedValue,
+    VoidCallback? onTapCancel,
+    VoidCallback? onTapSave}) {
   showDialog(
     context: context,
     builder: (context) {
@@ -38,13 +38,10 @@ void showContactUpdateDialog(BuildContext context,
               physics: const BouncingScrollPhysics(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment
-                        .spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
@@ -62,22 +59,22 @@ void showContactUpdateDialog(BuildContext context,
                             ),
                           ),
                           SizedBox(width: 4.w),
-                          AppText(
-                              title: 'Update Contact',
-                              fontSize: 2.h),
+                          AppText(title: 'Update Contact', fontSize: 2.h),
                         ],
                       ),
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          provider.selectedContactIndex = -1;
+                          provider.resMessage = '';
+                          Get.back();
                         },
-                        icon: Icon(Icons.close,
-                            size: 2.h),
+                        icon: Icon(Icons.close, size: 2.h),
                       )
                     ],
                   ),
-                  appDivider(context: context,vertical: 0.h),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6.w),
+                  appDivider(context: context, vertical: 0.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -90,32 +87,28 @@ void showContactUpdateDialog(BuildContext context,
                         SizedBox(height: 0.5.h),
                         dropdownWidget(
                           context: context,
-                          value: provider.selectedValue
-                              .toString(),
+                          value: provider.selectedValue.toString(),
                           items: [
-                            ...List.generate(
-                                provider.dropDown.length,
-                                    (index) {
-                                  var data =
-                                  provider.dropDown[index];
-                                  var value =
-                                  data.toString();
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 0.5.w),
-                                      child: AppText(
-                                        title: data,
-                                      ),
-                                    ),
-                                  );
-                                })
+                            ...List.generate(provider.dropDown.length, (index) {
+                              var data = provider.dropDown[index];
+                              var value = data.toString();
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 0.5.w),
+                                  child: AppText(
+                                    title: data,
+                                  ),
+                                ),
+                              );
+                            })
                           ],
                           onChanged: (newValue) {
                             print('Selected value: $newValue');
                             provider.dropDownSelectedValue(newValue);
-                            provider.contactTypeController = TextEditingController(text: newValue ?? 'dealer');
+                            provider.contactTypeController =
+                                TextEditingController(
+                                    text: newValue ?? 'dealer');
                             provider.selectedValue = newValue;
                             provider.notifyListeners();
                           },
@@ -127,7 +120,10 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.companyNameController,),
+                        appTextField(
+                          context: context,
+                          controller: provider.companyNameController,
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.person_Name,
@@ -135,7 +131,10 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.personNameController,),
+                        appTextField(
+                          context: context,
+                          controller: provider.personNameController,
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.phone_Number,
@@ -143,7 +142,10 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.phoneNumberController,keyboardType: TextInputType.phone,
+                        appTextField(
+                            context: context,
+                            controller: provider.phoneNumberController,
+                            keyboardType: TextInputType.phone,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(10),
                             ]),
@@ -154,11 +156,13 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.phoneNumber2Controller,keyboardType: TextInputType.phone,
+                        appTextField(
+                            context: context,
+                            controller: provider.phoneNumber2Controller,
+                            keyboardType: TextInputType.phone,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(10),
-                            ]
-                        ),
+                            ]),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.landLine,
@@ -166,7 +170,23 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.landlineController,keyboardType: TextInputType.phone),
+                        appTextField(
+                            context: context,
+                            controller: provider.landlineController,
+                            keyboardType: TextInputType.phone),
+                        SizedBox(height: 1.5.h),
+                        AppText(
+                            title: Constants.gstNumber,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 1.5.h),
+                        SizedBox(height: 0.5.h),
+                        appTextField(
+                            context: context,
+                            controller: provider.gstNumberController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(15),
+                            ]),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.email,
@@ -174,7 +194,10 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.emailController,),
+                        appTextField(
+                          context: context,
+                          controller: provider.emailController,
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.address,
@@ -182,7 +205,10 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.addressController,),
+                        appTextField(
+                          context: context,
+                          controller: provider.addressController,
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
                             title: Constants.description,
@@ -190,65 +216,88 @@ void showContactUpdateDialog(BuildContext context,
                             color: Theme.of(context).colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
-                        appTextField(context: context,controller: provider.descriptionController,),
+                        appTextField(
+                          context: context,
+                          controller: provider.descriptionController,
+                        ),
                       ],
                     ),
                   ),
                   appDivider(context: context),
+                  provider.resMessage == ''
+                      ? const SizedBox()
+                      : Center(
+                          child: AppText(
+                          title: provider.resMessage,
+                          color: Theme.of(context).colorScheme.error,
+                        )),
+                  provider.resMessage == ''
+                      ? const SizedBox()
+                      : SizedBox(
+                          height: 2.h,
+                        ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
-                    child:  (provider.isAddContactButton == false) ?  Row(
-                      children: [
-                        Expanded(child: GestureDetector(
-                          onTap: (){
-                            Get.back();
-                          },
-                          child: Center(
-                            child: appOutlineButton(
-                              boxColor: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground.withOpacity(0.3),
-                              width: double.infinity,
-                              height: 4.h,
-                              context: context,
-                              radius: 1.w,
-                              child: AppText(
-                                  title: Constants.cancel,
-                                  fontSize: 1.5.h,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary,
-                                  fontWeight:
-                                  FontWeight.w600),
-                            ),
+                    child: (provider.isAddContactButton == false)
+                        ? Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    provider.resMessage = '';
+                                    Get.back();
+                                  },
+                                  child: Center(
+                                    child: appOutlineButton(
+                                      boxColor: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.3),
+                                      width: double.infinity,
+                                      height: 4.h,
+                                      context: context,
+                                      radius: 1.w,
+                                      child: AppText(
+                                          title: Constants.cancel,
+                                          fontSize: 1.5.h,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 2.h,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    provider.contactUpdate(context);
+                                  },
+                                  child: Center(
+                                    child: appButton(
+                                      width: double.infinity,
+                                      height: 4.h,
+                                      context: context,
+                                      radius: 1.w,
+                                      child: AppText(
+                                          title: Constants.save,
+                                          fontSize: 1.5.h,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Center(
+                            child: SpinKitLoader(),
                           ),
-                        ),),
-                        SizedBox(width: 2.h,),
-                        Expanded(child: GestureDetector(
-                          onTap: (){
-                            provider.contactUpdate(context);
-                          },
-                          child: Center(
-                            child: appButton(
-                              width: double.infinity,
-                              height: 4.h,
-                              context: context,
-                              radius: 1.w,
-                              child: AppText(
-                                  title: Constants.save,
-                                  fontSize: 1.5.h,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .background,
-                                  fontWeight:
-                                  FontWeight.w600),
-                            ),
-                          ),
-                        ),),
-                      ],
-                    ) : Center(
-                      child: SpinKitLoader(),
-                    ),
                   ),
                   SizedBox(height: 2.h),
                 ],

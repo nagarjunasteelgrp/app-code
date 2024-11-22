@@ -2,6 +2,7 @@ import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/task/components/message_dailog_box.dart';
 import 'package:digital_lync/modules/task/components/task_container_ui.dart';
 import 'package:digital_lync/modules/task/components/task_status_dailog_box.dart';
@@ -14,14 +15,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-TaskProvider taskProvider = TaskProvider();
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    taskProvider.taskByUserIdAPI();
+    taskProvider!.taskByUserIdAPI();
     return ChangeNotifierProvider.value(
       value: taskProvider,
       child: Scaffold(

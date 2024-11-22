@@ -24,6 +24,7 @@ class Constants {
   static const String phone_Number = 'Phone Number';
   static const String phone_Number2 = 'Phone Number2';
   static const String landLine = 'LandLine';
+  static const String gstNumber = 'GST Number';
   static const String email_Id = 'Email Id';
   static const String email = 'Email';
   static const String post = 'Post';

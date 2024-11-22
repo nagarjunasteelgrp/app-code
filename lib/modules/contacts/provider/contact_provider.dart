@@ -15,6 +15,7 @@ class ContactProvider extends ChangeNotifier {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController phoneNumber2Controller = TextEditingController();
   TextEditingController landlineController = TextEditingController();
+  TextEditingController gstNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -30,7 +31,6 @@ class ContactProvider extends ChangeNotifier {
   List<dynamic> filteredContactList = [];
   List<dynamic> displayList = [];
   int? contactId;
-
   int? selectedContactIndex;
 
   void selectContactIndex(int index) {
@@ -119,6 +119,7 @@ class ContactProvider extends ChangeNotifier {
     phoneNumberController.clear();
     phoneNumber2Controller.clear();
     landlineController.clear();
+    gstNumberController.clear();
     emailController.clear();
     addressController.clear();
     descriptionController.clear();
@@ -158,6 +159,10 @@ class ContactProvider extends ChangeNotifier {
       resMessage = "Please enter a valid email address.";
       return;
     }
+    if(gstNumberController.text.length  < 15){
+      resMessage = "Please enter a valid GST number.";
+      return;
+    }
     if (address.isEmpty) {
       resMessage = "Please enter your address.";
       return;
@@ -176,6 +181,7 @@ class ContactProvider extends ChangeNotifier {
         phone: phoneNumber,
         phone2: phoneNumber2,
         landline: landLine,
+        gstNumber: gstNumberController.text,
         contactType: contactType.isNotEmpty ? contactType : 'dealer',
         address: address,
         description: description,
@@ -193,6 +199,7 @@ class ContactProvider extends ChangeNotifier {
         phoneNumberController.clear();
         phoneNumber2Controller.clear();
         landlineController.clear();
+        gstNumberController.clear();
         emailController.clear();
         addressController.clear();
         descriptionController.clear();
@@ -224,6 +231,7 @@ class ContactProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         if (responseData is Map && responseData.isNotEmpty) {
+          print("contactDetailsAPI.............. : $responseData");
           companyNameController.text = responseData['companyName'];
           personNameController.text = responseData['personName'];
           contactTypeController.text = responseData['contactType'];
@@ -232,6 +240,7 @@ class ContactProvider extends ChangeNotifier {
           addressController.text = responseData['address'];
           descriptionController.text = responseData['description'];
           landlineController.text = responseData['landline'];
+          gstNumberController.text = responseData['gstNumber'] ?? '';
           phoneNumber2Controller.text = responseData['phone2'];
         }
         notifyListeners();
@@ -246,7 +255,7 @@ class ContactProvider extends ChangeNotifier {
 
   // This API for update contact data=============================
   Future<void> contactUpdate(BuildContext context) async {
-    isAddContactButton = true;
+
     FocusScope.of(context).unfocus();
     if (companyNameController.text.isEmpty) {
       resMessage = "Please enter your companyName.";
@@ -261,6 +270,10 @@ class ContactProvider extends ChangeNotifier {
       return;
     }else if(phoneNumberController.text.length > 10){
       resMessage = "Please enter a valid 10-digit phoneNumber.";
+      return;
+    }
+    if(gstNumberController.text.length  < 15){
+      resMessage = "Please enter a valid GST number.";
       return;
     }
     if (emailController.text.isEmpty) {
@@ -278,7 +291,7 @@ class ContactProvider extends ChangeNotifier {
       resMessage = "Please enter your description.";
       return;
     }
-
+    isAddContactButton = true;
     try {
       print("contactTypeController.text............. ${contactTypeController.text}");
       var logResponse = await apiServices.contactUpdate(
@@ -288,6 +301,7 @@ class ContactProvider extends ChangeNotifier {
         phone: phoneNumberController.text,
         phone2: phoneNumber2Controller.text,
         landline: landlineController.text,
+        gstNumber: gstNumberController.text,
         contactType: contactTypeController.text,
         address: addressController.text,
         description: descriptionController.text,
@@ -297,6 +311,7 @@ class ContactProvider extends ChangeNotifier {
       if (logResponse.statusCode == 200) {
         isAddContactButton = false;
         selectedContactIndex = -1;
+        resMessage = '';
         listOfContacts();
         Get.back();
         notifyListeners();

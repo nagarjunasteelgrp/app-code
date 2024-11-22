@@ -1,6 +1,7 @@
 import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
+import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background/flutter_background.dart';
@@ -16,12 +17,14 @@ class HomeProvider extends ChangeNotifier{
 
    void setSelectedIndex(int index) {
     selectedIndex = index;
+    if(selectedIndex == 2){
+      taskProvider = TaskProvider();
+    }
     notifyListeners();
   }
 
   HomeProvider(){
     getShardPrefrencesData();
-     print("Home Provider............");
     permissionAcessPhone();
     personalDetails();
     getHeaders();

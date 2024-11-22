@@ -51,6 +51,8 @@ class ApiUrl{
 
   static String taskByUserIdUrl(int userId) => '${baseUrl}tasks?userId=$userId';
 
+  static String messageFetching(int userId) => '${baseUrl}messages?userId=$userId';
+
   static String sendMessageUrl = '${baseUrl}messages';
 
 }

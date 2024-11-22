@@ -25,41 +25,58 @@ class NotificationScreen extends StatelessWidget {
         body: Consumer<TaskProvider>(
           builder: (context, provider, child) {
             return provider.isLoading == false
-                ? provider.notificationAPIResponse.isEmpty ? Center(child: AppText(title: Constants.result_not_found,)) : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h),
-                child: Consumer<TaskProvider>(
-                  builder: (context, value, child) {
-                    return Column(
-                      children: [
-                        Column(
-                          children: List.generate(
-                              value.notificationAPIResponse.length, (index) {
-                            final dateTimeString =
-                            value.notificationAPIResponse[index]['createdAt'];
-                            final dateTime = DateTime.parse(dateTimeString);
-                            value.dateTime = DateFormat('dd-MM-yyyy hh:mm a')
-                                .format(dateTime.toLocal());
-                            return taskContainerUI(
-                              onTap: (){
-                                // taskStatusDailogBox(context);
-                              },
-                              context,
-                              colors: Theme.of(context).colorScheme.outline.withOpacity(0.8),
-                              title: value.notificationAPIResponse[index]['title'],
-                              description: value.notificationAPIResponse[index]
-                              ['description'],
-                              type: value.notificationAPIResponse[index]['titleType'],
-                              dateTime: value.dateTime,
-                            );
-                          }),
+                ? provider.notificationAPIResponse.isEmpty
+                    ? Center(
+                        child: AppText(
+                        title: Constants.result_not_found,
+                      ))
+                    : SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 2.h),
+                          child: Consumer<TaskProvider>(
+                            builder: (context, value, child) {
+                              return Column(
+                                children: [
+                                  Column(
+                                    children: List.generate(
+                                        value.notificationAPIResponse.length,
+                                        (index) {
+                                      final dateTimeString =
+                                          value.notificationAPIResponse[index]
+                                              ['createdAt'];
+                                      final dateTime =
+                                          DateTime.parse(dateTimeString);
+                                      value.dateTime =
+                                          DateFormat('dd-MM-yyyy hh:mm a')
+                                              .format(dateTime.toLocal());
+                                      return taskContainerUI(
+                                        onTap: () {
+                                          // taskStatusDailogBox(context);
+                                        },
+                                        context,
+                                        colors: Theme.of(context)
+                                            .colorScheme
+                                            .outline
+                                            .withOpacity(0.8),
+                                        title:
+                                            value.notificationAPIResponse[index]
+                                                ['title'],
+                                        description:
+                                            value.notificationAPIResponse[index]
+                                                ['description'],
+                                        type:
+                                            value.notificationAPIResponse[index]
+                                                ['titleType'],
+                                        dateTime: value.dateTime,
+                                      );
+                                    }),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                         ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            )
+                      )
                 : const Center(child: SpinKitLoader());
           },
         ),

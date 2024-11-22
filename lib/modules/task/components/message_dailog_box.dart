@@ -14,12 +14,12 @@ import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void messageDialogBox(BuildContext context) {
+void messageDialogBox(BuildContext context,TaskProvider provider) {
   showDialog(
     context: context,
     builder: (context) {
       return ChangeNotifierProvider.value(
-  value: taskProvider,
+  value: provider,
   child: Consumer<TaskProvider>(
   builder: (context, provider, child) {
   return Dialog(
@@ -87,10 +87,19 @@ void messageDialogBox(BuildContext context) {
                     Flexible(
                       child: appButton(
                         onTap: (){
-                          provider.sendMessage().then((value) => {
-                            showAppSnackBar(type: 'success', context: context, title: 'Message sent successfully.'),
-                            provider.sendMessageController.clear(),
-                          Get.back(),
+                          provider
+                              .sendMessage()
+                              .then((_) {
+                            provider.sendMessageController.clear();
+                            showAppSnackBar(
+                              type: 'success',
+                              context: context,
+                              title: 'Message sent successfully.',
+                            );
+                            return provider.messageFetching();
+                          })
+                              .then((_) {
+                            Get.back();
                           });
                         },
                         width: double.infinity,

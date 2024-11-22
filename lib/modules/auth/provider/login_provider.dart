@@ -52,7 +52,7 @@ class LoginProvider extends ChangeNotifier {
         var response = jsonDecode(value.body);
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          print("LOGIN SUCCESS : ${response['token']}");
+          print("LOGIN SUCCESS :1 ${response['token']}");
          prefs.setString('token', response['token']);
           prefs.setInt('userId', response['userInfo']['userId']);
           prefs.setString('email', response['userInfo']['email'].toString());
@@ -61,18 +61,24 @@ class LoginProvider extends ChangeNotifier {
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
           prefs.setBool('isLogin', true);
+          print("LOGIN SUCCESS :2 ${response['token']}");
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           await personalDetails();
+          print("LOGIN SUCCESS :3 ${response['token']}");
           await getHeaders();
+          print("LOGIN SUCCESS :4 ${response['token']}");
           BackgroundLocation.startLocationService();
-          notifyListeners();
+          print("LOGIN SUCCESS :5 ${response['token']}");
           Get.offNamed(RoutesName.HOME);
+          notifyListeners();
         } else {
+          print("LOGIN SUCCESS :6 ${response['token']}");
           showAppSnackBar(type: 'Error', context: context, title: response['message']);
         }
       });
 
     } catch (e) {
+      print("LOGIN SUCCESS :7 ${e.toString()}");
       isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());

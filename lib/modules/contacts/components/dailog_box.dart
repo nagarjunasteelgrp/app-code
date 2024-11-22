@@ -164,6 +164,16 @@ void showCreateContactDialog(BuildContext context,
                         appTextField(context: context,controller: provider.landlineController,keyboardType: TextInputType.phone),
                         SizedBox(height: 1.5.h),
                         AppText(
+                            title: Constants.gstNumber,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 1.5.h),
+                        SizedBox(height: 0.5.h),
+                        appTextField(context: context,controller: provider.gstNumberController, inputFormatters: [
+                          LengthLimitingTextInputFormatter(15),
+                        ]),
+                        SizedBox(height: 1.5.h),
+                        AppText(
                             title: Constants.email,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onSecondary,

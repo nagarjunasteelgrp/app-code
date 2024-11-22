@@ -19,6 +19,7 @@ class TaskProvider extends ChangeNotifier {
   dynamic status;
   int _currentIndex = 0;
   List filteredTaskAPIResponse = [];
+  List messageFetchingAPIResponse = [];
   int get currentIndex => _currentIndex;
 
   void changeIndex(int index) {
@@ -27,8 +28,10 @@ class TaskProvider extends ChangeNotifier {
   }
 
   TaskProvider (){
+    messageFetchingAPIResponse = [];
     taskAPI();
     taskByUserIdAPI();
+    messageFetching();
     selectedValue = dropDown.first;
     print("SelectValue:--- $selectedValue");
     status = selectedValue!.toLowerCase();
@@ -72,9 +75,9 @@ class TaskProvider extends ChangeNotifier {
       notifyListeners();
       var response = await apiServices.sendMessage(message: sendMessageController.text);
       if (response.statusCode == 200) {
+        await messageFetching();
         var responseData = jsonDecode(response.body);
         print("RESPONSE DATA:---- $responseData");
-        print("Send Message : ${notificationAPIResponse}");
         notifyListeners();
       } else {}
     } finally {
@@ -135,6 +138,39 @@ class TaskProvider extends ChangeNotifier {
       filteredTaskAPIResponse = [];
       isLoading = false;
     } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> messageFetching() async {
+    print("HELLO PRINTED...........1");
+    messageFetchingAPIResponse = [];
+    try {
+      isLoading = true;
+      notifyListeners();
+      final response = await apiServices.messageFetchingAPI();
+      if (response.statusCode == 200) {
+        print("HELLO PRINTED...........2");
+        var responseData = jsonDecode(response.body);
+        messageFetchingAPIResponse = responseData['messages'];
+        notifyListeners();
+        print("Message updated successfully $messageFetchingAPIResponse");
+        isLoading = false;
+        notifyListeners();
+      } else {
+        print("HELLO PRINTED...........3");
+        isLoading = false;
+        messageFetchingAPIResponse = [];
+        notifyListeners();
+        print("Failed to update status. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("HELLO PRINTED...........4");
+      isLoading = false;
+      print("Error updating status: $e");
+    } finally {
+      isLoading = false;
+      print("HELLO PRINTED...........5");
       notifyListeners();
     }
   }
