@@ -2,11 +2,11 @@ import 'package:digital_lync/constants/global.dart';
 
 class ApiUrl{
 
-  // static String baseUrl = 'https://api.dev1.nagarjunacrm.com/api/v1/';
   // static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
-  static String baseUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
-  // static String baseUrl = 'http://192.168.29.53:3000/api/v1/';
-  // static String baseUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
+  // static String baseUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
+  // static String baseUrl = 'http://192.168.29.54:3000/api/v1/';
+  // static String baseUrl = 'https://44b2-2405-201-2024-a9e8-e47b-26f7-ff46-224b.ngrok-free.app/api/v1/';
+  static String baseUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
 
   static String loginUrl = '${baseUrl}users/login';
@@ -41,17 +41,21 @@ class ApiUrl{
 
   static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
 
-  static String   myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
+  static String myProgressUrl(int id,dynamic startDate,dynamic endDate) => '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';
 
   static String taskUrl(int id) => '${baseUrl}communications/user/$id';
 
   static String overallEnrollmentUrl(String period, int id) => '${baseUrl}web-statistics/over-all-enrollment?period=$period&userId=$id';
+
+  static String overallDistanceUrl(String period, int id) => '${baseUrl}web-statistics/over-all-distance?period=$period&userId=$id';
 
   static String statusUpdateUrl(int statusId) => '${baseUrl}tasks/$statusId/status';
 
   static String taskByUserIdUrl(int userId) => '${baseUrl}tasks?userId=$userId';
 
   static String messageFetching(int userId) => '${baseUrl}messages?userId=$userId';
+
+  static String updateDisplayPictureUrl() => '${baseUrl}users/updateProfilePicture';
 
   static String sendMessageUrl = '${baseUrl}messages';
 

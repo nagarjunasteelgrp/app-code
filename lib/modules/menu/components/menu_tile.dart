@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_text.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'dialog_box_profile _pic.dart';
 
 class MenuTile extends StatelessWidget {
   String icon;
@@ -29,7 +29,16 @@ class MenuTile extends StatelessWidget {
     return Consumer<HomeProvider>(builder: (context, value, _) {
       return InkWell(
         onTap: () {
-          value.setSelectedIndex(index);
+          if (index == 4) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return profilePckDialogBox(value);
+              },
+            );
+          } else {
+            value.setSelectedIndex(index,tabIndex: false);
+          }
         },
         child: Column(
           children: [
@@ -46,10 +55,12 @@ class MenuTile extends StatelessWidget {
                         radius: 1.w,
                         height: 4.h,
                         width: 4.h,
-                        child: SvgPicture.asset(icon, height: iconHeight ?? 4.h,
-                            fit:  BoxFit.fill,
-                            color: Theme.of(context).colorScheme.background,)
-                    ),
+                        child: SvgPicture.asset(
+                          icon,
+                          height: iconHeight ?? 4.h,
+                          fit: BoxFit.fill,
+                          color: Theme.of(context).colorScheme.background,
+                        )),
                     SizedBox(
                       width: 2.w,
                     ),
@@ -62,7 +73,11 @@ class MenuTile extends StatelessWidget {
                 ),
               ),
             ),
-            appDivider(context: context ,vertical: 0.4.h, colors: Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
+            appDivider(
+                context: context,
+                vertical: 0.4.h,
+                colors:
+                    Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
           ],
         ),
       );

@@ -1,5 +1,4 @@
 import 'package:digital_lync/common/app_divider.dart';
-import 'package:digital_lync/common/app_exit_pop.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
@@ -69,6 +68,16 @@ class MenuScreen extends StatelessWidget {
                     title: Constants.dashboard,
                     index: 0,
                     color: Theme.of(context).colorScheme.primary,
+                  ),
+                  SizedBox(
+                    height: 0.2.h,
+                  ),
+                  MenuTile(
+                    iconHeight: 3.2.h,
+                    icon: AppAssets.APP_PROFILE_SVG,
+                    title: Constants.profile,
+                    index: 4,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                 ],
               );

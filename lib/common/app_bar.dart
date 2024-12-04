@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'app_text.dart';
 
@@ -13,12 +16,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? elevation;
   VoidCallback? onTap;
   VoidCallback? onTapLogo;
-   CommonAppBar({
+
+  CommonAppBar({
     super.key,
     this.title,
     this.elevation,
     this.onTap,
-     this.onTapLogo,
+    this.onTapLogo,
     this.leadingArrow = false,
     this.titleFontSize = 20,
     this.actions,
@@ -29,18 +33,36 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: elevation ?? 1,
       leading: leadingArrow == false
-          ? GestureDetector(
-        onTap: onTapLogo,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Transform.scale(
-                  scale: 0.5, child: SvgPicture.asset(AppAssets.APP_PROFILE_SVG)),
-            ),
-          )
+          ? Consumer<HomeProvider>(
+              builder: (context, provider, child) {
+                return GestureDetector(
+                  onTap: onTapLogo,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Transform.scale(
+                        scale: 0.5,
+                        child: provider.profilePicture != 'null' &&
+                                provider.profilePicture != null
+                            ? CircleAvatar(
+                                radius: 30,
+                                backgroundImage: provider.profilePicture!
+                                        .startsWith('http')
+                                    ? NetworkImage(provider.profilePicture!)
+                                    : FileImage(File(provider.profilePicture!))
+                                        as ImageProvider)
+                            : SvgPicture.asset(AppAssets.APP_PROFILE_SVG)),
+                  ),
+                );
+              },
+            )
           : GestureDetector(
-        onTap: onTap,
-        child: Icon(Icons.arrow_back_ios_new,color: Theme.of(context).colorScheme.secondary,size: 5.w,),
-      ),
+              onTap: onTap,
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Theme.of(context).colorScheme.secondary,
+                size: 5.w,
+              ),
+            ),
       title: AppText(
         title: title ?? Constants.APP_NAME,
         fontWeight: FontWeight.w600,

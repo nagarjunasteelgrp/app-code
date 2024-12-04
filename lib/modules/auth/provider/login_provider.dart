@@ -61,6 +61,7 @@ class LoginProvider extends ChangeNotifier {
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
           prefs.setBool('isLogin', true);
+          prefs.setString('profilePicture', response['userInfo']['profilePicture'].toString());
           print("LOGIN SUCCESS :2 ${response['token']}");
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           await personalDetails();

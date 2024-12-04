@@ -1,7 +1,8 @@
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/modules/dashboard/components/dashboard_dropDown.dart';
+import 'package:digital_lync/modules/dashboard/components/dashboardDropDownNewEnrollment.dart';
+import 'package:digital_lync/modules/dashboard/components/dashboardDropDownOverallDistance.dart';
 import 'package:digital_lync/modules/dashboard/components/myProgress_list.dart';
 import 'package:digital_lync/modules/dashboard/components/pie_chart.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
@@ -23,8 +24,8 @@ class DashBoardScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Consumer<DashboardProvider>(
           builder: (context, provider, child) {
-          return provider.isLoading == true ?  Align(
-            alignment: Alignment.center,child: SpinKitLoader() ,) : SingleChildScrollView(
+          return provider.isLoading == true ?  const Align(
+            alignment: Alignment.center,child: SpinKitLoader()) : SingleChildScrollView(
               child: Column(
               children: [
                 SizedBox(height: 3.h),
@@ -116,9 +117,35 @@ class DashBoardScreen extends StatelessWidget {
                         offset: const Offset(0, 1),
                       ),
                     ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      dashBoardDropDownOverallDistance(context,provider),
+                      SizedBox(height: 2.h),
+                  Center(child: AppText(title: 'Total Distance : ${provider.overallDistance} Km',fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),letterSpacing: 0.5,fontSize: 16,)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 3.h),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 1.5.h, vertical: 1.5.h),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(1.4.h),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
                   ),child: Column(
                   children: [
-                    dashBoardDropDown(context,provider),
+                    dashBoardDropDownNewEnrollment(context,provider),
                     SizedBox(height: 1.h,),
                     pieChart(provider: provider),
                     // LineChartWidget(provider: provider),

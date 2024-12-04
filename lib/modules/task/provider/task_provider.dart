@@ -17,15 +17,16 @@ class TaskProvider extends ChangeNotifier {
   String? selectedValue;
   dynamic statusId;
   dynamic status;
-  int _currentIndex = 0;
+  int? currentIndex;
   List filteredTaskAPIResponse = [];
   List messageFetchingAPIResponse = [];
-  int get currentIndex => _currentIndex;
 
-  void changeIndex(int index) {
-    _currentIndex = index;
+   dynamic changeIndex(int index) {
+    currentIndex = index;
+    print("Updated currentIndex: $currentIndex");
     notifyListeners();
   }
+
 
   TaskProvider (){
     messageFetchingAPIResponse = [];

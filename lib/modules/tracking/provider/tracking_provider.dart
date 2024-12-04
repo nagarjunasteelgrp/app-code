@@ -59,9 +59,7 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  trackingInfoDataPlus(){
-
-  }
+  trackingInfoDataPlus(){}
 
   TrackingProvider(this.currentLocationProvider) {
     intialData();
@@ -132,10 +130,10 @@ intialData()async{
            trackingImages(context).then((response) {
              if(response.statusCode == 201){
                var res = jsonDecode(response.body);
-               showAppSnackBar(type: 'success', context: context, title: res['message']);
+               // showAppSnackBar(type: 'success', context: context, title: res['message']);
                trackingInfoAPI();
                notifyListeners();
-               Get.back();
+               // Get.back();
                isLoading = false;
                notifyListeners();
              }else{

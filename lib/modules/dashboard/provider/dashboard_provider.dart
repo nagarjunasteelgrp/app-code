@@ -12,13 +12,15 @@ class DashboardProvider extends ChangeNotifier{
   int get selectedIndex => _selectedIndex;
   dynamic myProgressAPIResponse;
   List? newEnrollmentAPIResponse;
-  String filter = 'week';
+  String filterNewEnrollment = 'week';
+  String filterOverallDistance = 'week';
   num fabricatorsSum = 0;
   num dealerSum = 0;
   num customerSum = 0;
   num engineersSum = 0;
   num masonsSum = 0;
   num overallEnrollmentSum = 0;
+  num overallDistance = 0;
 
   set selectedIndex(int index) {
     _selectedIndex = index;
@@ -32,44 +34,65 @@ class DashboardProvider extends ChangeNotifier{
     'THIS YEAR',
   ];
 
-  String? selectedValue;
+  String? selectedValueNewEnrollment;
+  String? selectedValueOverallDistance;
 
   DashboardProvider() {
     overallEnrollmentAPI('today');
+    overallDistanceAPI('today');
     final now = DateTime.now();
     final formatter = DateFormat('yyyy-MM-dd');
     startDate = formatter.format(now);
     endDate = formatter.format(now.subtract(const Duration(days: 1)));
     print("RANGE DATE:------------------------  $startDate && $endDate");
     myProgressAPI();
-    selectedValue = dropDown.first;
+    selectedValueNewEnrollment = dropDownNewEnrollment.first;
+    selectedValueOverallDistance = dropDownOverallDistance.first;
   }
 
-  List dropDown = [
+  List dropDownNewEnrollment = [
+    'TODAY',
+    'WEEK',
+    'MONTH',
+    'YEAR',
+  ];
+  
+  List dropDownOverallDistance = [
     'TODAY',
     'WEEK',
     'MONTH',
     'YEAR',
   ];
 
-  dropDownSelectedValue (newValue) {
+  dropDownSelectedValueNewEnrollment (newValue) {
     dealerSum = 0;
     customerSum = 0;
     fabricatorsSum = 0;
     engineersSum = 0;
     masonsSum = 0;
     overallEnrollmentSum = 0;
-    selectedValue = newValue;
-    filter = newValue.toLowerCase();
-    print("Filter: $filter");
-    overallEnrollmentAPI(filter);
+    selectedValueNewEnrollment = newValue;
+    filterNewEnrollment = newValue.toLowerCase();
+    print("Filter: $filterNewEnrollment");
+    overallEnrollmentAPI(filterNewEnrollment);
+    notifyListeners();
+  } 
+  
+  dropDownSelectedValueOverallDistance (newValue) {
+    overallDistance = 0;
+    selectedValueOverallDistance = newValue;
+    filterOverallDistance = newValue.toLowerCase();
+    print("Filter: $filterOverallDistance");
+    overallDistanceAPI(filterOverallDistance);
     notifyListeners();
   }
+  
+  
 
   void updateDateRange() {
     final now = DateTime.now();
     final formatter = DateFormat('yyyy-MM-dd');
-    print("UPDATE RANGE SELECTED VALUE:---- $selectedValue");
+    print("UPDATE RANGE SELECTED VALUE:---- $selectedValueNewEnrollment");
     switch (_selectedIndex) {
       case 0:
         startDate = formatter.format(now);
@@ -184,6 +207,35 @@ class DashboardProvider extends ChangeNotifier{
     } catch (e) {
       isLoading = false;
       print("Error fetching progress data newEnrollmentAPI: =1 $e");
+    } finally {
+      notifyListeners();
+    }
+  }
+  
+  Future<void> overallDistanceAPI(period) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      final response = await apiServices.overallDistanceAPI(filter: period);
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+        print("overallDistanceAPI.....: $responseData");
+        if (responseData != null) {
+          isLoading = false;
+          overallDistance = responseData[0]['totalDistance'];
+          print("overallDistanceAPI.....1: $overallDistance");
+          notifyListeners();
+        } else {
+          overallDistance = 0;
+          isLoading = false;
+        }
+      } else {
+        overallDistance = 0;
+        isLoading = false;
+      }
+    } catch (e) {
+      overallDistance = 0;
+      isLoading = false;
     } finally {
       notifyListeners();
     }

@@ -318,6 +318,19 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response> overallDistanceAPI({String? filter}) async {
+    print("OVERALL DISTANCE---------------------- $userId");
+    final response = await http.get(
+      Uri.parse(ApiUrl.overallDistanceUrl(filter!, userId ?? 0)),
+      headers: await getHeaders(),
+    );
+    print("OVERALL DISTANCE STATUS CODE : ${response.request}");
+    print("OVERALL DISTANCE STATUS CODE : ${response.body}");
+    print("OVERALL DISTANCE STATUS CODE : ${response.statusCode}");
+    print("OVERALL DISTANCE BODY : ${response.body}");
+    return response;
+  }
+
   Future<http.Response> statusUpdateAPI({String? status, int? statusId}) async {
     print("STATUS UPDATE---------------------- $status &&  $statusId");
     final response = await http.patch(
@@ -357,6 +370,39 @@ class ApiServices {
     print("MESSAGE BY USERID STATUS CODE : ${response.statusCode}");
     print("MESSAGE BY USERID BODY : ${response.body}");
     return response;
+  }
+
+  Future<http.Response> updateDisplayPicture(int userId, File? imageFile) async {
+    print("UPDATING DEALER DISPLAY PICTURE FOR ID: $userId");
+
+    if (imageFile == null) {
+      throw Exception("No image file provided");
+    }
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(ApiUrl.updateDisplayPictureUrl()));
+
+      request.fields['userId'] = userId.toString();
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'profilePicture',
+        imageFile.path,
+      ));
+
+      request.headers.addAll(await getHeaders()); // Add any required headers
+
+      final response = await request.send();
+
+      final responseData = await http.Response.fromStream(response);
+
+      print("UPDATE STATUS CODE: ${response.statusCode}");
+      print("UPDATE RESPONSE: ${responseData.body}");
+
+      return responseData;
+    } catch (e) {
+      print("Error in updateDisplayPicture API: $e");
+      rethrow; // Rethrow the exception for higher-level handling if needed
+    }
   }
 
   Future<http.Response> sendMessage({String? message}) async {

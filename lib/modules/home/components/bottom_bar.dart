@@ -1,5 +1,6 @@
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
@@ -27,7 +28,7 @@ class AppBottomBar extends StatelessWidget {
                       selectedItemColor: Theme.of(context).colorScheme.onError,
                       unselectedItemColor: Theme.of(context).colorScheme.secondary,
                       onTap: (values) {
-                        value.setSelectedIndex(values);
+                        value.setSelectedIndex(values,tabIndex: false);
                       },
                       items: [
                         BottomNavigationBarItem(

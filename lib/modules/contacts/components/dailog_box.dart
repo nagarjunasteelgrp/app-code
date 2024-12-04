@@ -115,27 +115,57 @@ void showCreateContactDialog(BuildContext context,
                           },
                         ),
                         SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.company_Name,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                        Row(
+                          children: [
+                            AppText(
+                                title: Constants.company_Name,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 1.5.h),
+                            const SizedBox(width: 2),
+                            AppText(
+                                title: "*",
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 2.h),
+                          ],
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context,controller: provider.companyNameController,),
                         SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.person_Name,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                        Row(
+                          children: [
+                            AppText(
+                                title: Constants.person_Name,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 1.5.h),
+                            const SizedBox(width: 2),
+                            AppText(
+                                title: "*",
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 2.h),
+                          ],
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context,controller: provider.personNameController,),
                         SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.phone_Number,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                        Row(
+                          children: [
+                            AppText(
+                                title: Constants.phone_Number,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 1.5.h),
+                            const SizedBox(width: 2),
+                            AppText(
+                                title: "*",
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 2.h),
+                          ],
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context,controller: provider.phoneNumberController,keyboardType: TextInputType.phone,
                             inputFormatters: [
@@ -173,19 +203,39 @@ void showCreateContactDialog(BuildContext context,
                           LengthLimitingTextInputFormatter(15),
                         ]),
                         SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.email,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                        Row(
+                          children: [
+                            AppText(
+                                title: Constants.email,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 1.5.h),
+                            const SizedBox(width: 2),
+                            AppText(
+                                title: "*",
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 2.h),
+                          ],
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context,controller: provider.emailController,keyboardType: TextInputType.emailAddress),
                         SizedBox(height: 1.5.h),
-                        AppText(
-                            title: Constants.address,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                        Row(
+                          children: [
+                            AppText(
+                                title: Constants.address,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 1.5.h),
+                            const SizedBox(width: 2),
+                            AppText(
+                                title: "*",
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: 2.h),
+                          ],
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context,controller: provider.addressController,),
                         SizedBox(height: 1.5.h),

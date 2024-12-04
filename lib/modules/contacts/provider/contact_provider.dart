@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/constants/validation.dart';
+import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -123,6 +124,7 @@ class ContactProvider extends ChangeNotifier {
     emailController.clear();
     addressController.clear();
     descriptionController.clear();
+    notifyListeners();
   }
 
 
@@ -159,16 +161,14 @@ class ContactProvider extends ChangeNotifier {
       resMessage = "Please enter a valid email address.";
       return;
     }
-    if(gstNumberController.text.length  < 15){
-      resMessage = "Please enter a valid GST number.";
-      return;
+    if(gstNumberController.text.isNotEmpty){
+      if(gstNumberController.text.length  < 15){
+        resMessage = "Please enter a valid GST number.";
+        return;
+      }
     }
     if (address.isEmpty) {
       resMessage = "Please enter your address.";
-      return;
-    }
-    if (description.isEmpty) {
-      resMessage = "Please enter your description.";
       return;
     }
     isAddContactButton = true;
@@ -272,9 +272,11 @@ class ContactProvider extends ChangeNotifier {
       resMessage = "Please enter a valid 10-digit phoneNumber.";
       return;
     }
-    if(gstNumberController.text.length  < 15){
-      resMessage = "Please enter a valid GST number.";
-      return;
+    if(gstNumberController.text.isNotEmpty){
+      if(gstNumberController.text.length  < 15){
+        resMessage = "Please enter a valid GST number.";
+        return;
+      }
     }
     if (emailController.text.isEmpty) {
       resMessage = "Please enter your email.";
@@ -285,10 +287,6 @@ class ContactProvider extends ChangeNotifier {
     }
     if (addressController.text.isEmpty) {
       resMessage = "Please enter your address.";
-      return;
-    }
-    if (descriptionController.text.isEmpty) {
-      resMessage = "Please enter your description.";
       return;
     }
     isAddContactButton = true;

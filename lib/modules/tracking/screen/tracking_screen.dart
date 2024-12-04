@@ -5,6 +5,7 @@ import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/tracking/components/add_notes_dailog.dart';
@@ -12,6 +13,7 @@ import 'package:digital_lync/modules/tracking/components/bottomsheet.dart';
 import 'package:digital_lync/modules/tracking/components/map_dailog_box.dart';
 import 'package:digital_lync/modules/tracking/components/tracking_list.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -35,7 +37,7 @@ class TrackingScreen extends StatelessWidget {
             appBar: CommonAppBar(
               title: username.toString(),
               leadingArrow: true,
-              actions: const [],
+              actions: [],
               onTap: () {
                 Get.back();
               },

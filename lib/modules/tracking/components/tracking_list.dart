@@ -9,9 +9,12 @@ import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/tracking/components/google_map_com.dart';
 import 'package:digital_lync/modules/tracking/components/showDailogBox_googleMap.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +37,6 @@ class TrackingListScreen extends StatelessWidget {
                   List.generate(provider.trackingInfoList.length, (index) {
                     DateTime date = DateTime.parse(provider.trackingInfoList[index]['createdAt']);
                     String formattedDate = DateFormat('dd MMMM, yyyy').format(date).toString();
-                    print("formattedDate:-- ${formattedDate}");
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.h),
                   child: Container(
@@ -104,33 +106,53 @@ class TrackingListScreen extends StatelessWidget {
                         //     provider.trackingInfoList[index]['longitude'],
                         //     provider.trackingInfoList[index]['address']),
                         SizedBox(height: 2.h),
-                        appOutlineButton(
-                            context: context,
-                            onTap: () {
-                              provider.trackingInfoId =
-                                  provider.trackingInfoList[index]['id'];
-                              provider.trackingInfoId != 0
-                                  ? showAddNotesDialog(context)
-                                  : const SizedBox();
-                            },
-                            height: 5.5.h,
-                            radius: 1.h,
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(AppAssets.APP_ADD_NOTES_SVG,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary),
-                                SizedBox(width: 2.w),
-                                AppText(
-                                  title: 'Add Notes',
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                ),
-                              ],
-                            )),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: appOutlineButton(
+                                  context: context,
+                                  onTap: () {
+                                    provider.trackingInfoId =
+                                        provider.trackingInfoList[index]['id'];
+                                    provider.trackingInfoId != 0
+                                        ? showAddNotesDialog(context)
+                                        : const SizedBox();
+                                  },
+                                  height: 5.5.h,
+                                  radius: 1.h,
+                                  width: double.infinity,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(AppAssets.APP_ADD_NOTES_SVG,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary),
+                                      SizedBox(width: 2.w),
+                                      AppText(
+                                        title: 'Add Notes',
+                                        color:
+                                            Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                              SizedBox(width: 2.w),
+                            Expanded(
+                              child: appOutlineButton(
+                                  context: context,
+                                  onTap: () {},
+                                  height: 5.5.h,
+                                  radius: 1.h,
+                                  width: double.infinity,
+                                  child:  AppText(
+                                    title: 'Follow ups',
+                                    color:
+                                    Theme.of(context).colorScheme.onPrimary,
+                                  ),),
+                            ),
+                          ],
+                        ),
                         Column(
                           children: List.generate(
                               provider.trackingInfoList[index]['trackingNotes']
@@ -201,7 +223,8 @@ class TrackingListScreen extends StatelessWidget {
                                     provider.trackingInfoList[index]['id'];
                                 if (provider.trackingInfoList[index]['id'] !=
                                     0) {
-                                  contactBottomSheet(context, provider);
+                                  // contactBottomSheet(context, provider);
+                                  provider.getImage(context, ImageSource.camera);
                                   provider.imageType = 'image';
                                 }
                               },
