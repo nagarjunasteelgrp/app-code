@@ -27,7 +27,7 @@ class TaskScreen extends StatelessWidget {
       child: Scaffold(
         body: Consumer<TaskProvider>(
           builder: (context, provider, child) {
-            return provider.isLoading == false
+            return provider.isLoading
                 ? provider.filteredTaskAPIResponse.isEmpty ? Center(child: AppText(title: Constants.result_not_found,)) : SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -37,7 +37,6 @@ class TaskScreen extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: (){
-                                   print("------------------------------------TAP------------------------------------");
                                    showMenu(
                                        context: context,
                                        position: const RelativeRect.fromLTRB(100, 200, 20, 0),

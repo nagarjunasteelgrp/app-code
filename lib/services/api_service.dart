@@ -151,7 +151,8 @@ class ApiServices {
       double? longitude,
       String? address,
       int? dealerId}) async {
-    print("latitude : $latitude longitude : $longitude address : $address userId : $userId dealerId : $dealerId");
+    print(
+        "latitude : $latitude longitude : $longitude address : $address userId : $userId dealerId : $dealerId");
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
       headers: await getHeaders(),
@@ -372,7 +373,8 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> updateDisplayPicture(int userId, File? imageFile) async {
+  Future<http.Response> updateDisplayPicture(
+      int userId, File? imageFile) async {
     print("UPDATING DEALER DISPLAY PICTURE FOR ID: $userId");
 
     if (imageFile == null) {
@@ -380,7 +382,8 @@ class ApiServices {
     }
 
     try {
-      var request = http.MultipartRequest('POST', Uri.parse(ApiUrl.updateDisplayPictureUrl()));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(ApiUrl.updateDisplayPictureUrl()));
 
       request.fields['userId'] = userId.toString();
 
@@ -414,6 +417,67 @@ class ApiServices {
     print("SEND MESSAGE STATUS CODE : ${response.request}");
     print("SEND MESSAGE STATUS CODE : ${response.statusCode}");
     print("SEND MESSAGE BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> followUpsApi({int? dealerId,dynamic selectDate,String? notes}) async {
+    final response = await http.post(
+      Uri.parse(ApiUrl.followUpsUrl),
+      headers: await getHeaders(),
+      body: jsonEncode({
+        "dealerId": dealerId,
+        "userId": userId,
+        "followUpDate": selectDate,
+        "notes": notes,
+        "status": "pending"
+      }),
+    );
+    print("SEND FOLLOW UPS STATUS CODE : ${response.request}");
+    print("SEND FOLLOW UPS STATUS CODE : ${response.statusCode}");
+    print("SEND FOLLOW UPS BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> followUpsPutApi({int? followUpId}) async {
+    final response = await http.put(
+      Uri.parse(ApiUrl.followUpsPutUrl),
+      headers: await getHeaders(),
+      body: jsonEncode({
+        "id" : followUpId,
+        "status": "done"
+      }),
+    );
+    print("SEND FOLLOW PUT UPS STATUS CODE : ${response.request}");
+    print("SEND FOLLOW PUT UPS STATUS CODE : ${response.statusCode}");
+    print("SEND FOLLOW PUT UPS BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> followUpsByUserId(status,period) async {
+    print("TASK FOLLOW UPS USERID1---------------------- $userId");
+    print("TASK FOLLOW UPS USERID2---------------------- $status");
+    print("TASK FOLLOW UPS USERID3---------------------- $period");
+    final response = await http.get(
+      Uri.parse(ApiUrl.followUpsUrlByUserId(userId!,status,period)),
+      headers: await getHeaders(),
+    );
+    print("TASK FOLLOW UPS USERID STATUS CODE : ${response.request}");
+    print("TASK FOLLOW UPS USERID STATUS CODE : ${response.body}");
+    print("TASK FOLLOW UPS USERID STATUS CODE : ${response.statusCode}");
+    print("TASK FOLLOW UPS USERID BODY : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> followUpsByUserIdForNotification() async {
+    print("TASK FOLLOW UPS FOR NOTIFICATION USERID1---------------------- $userId");
+    final response = await http.get(
+      Uri.parse(ApiUrl.followUpsUrlByUserIdForNotification(userId!)),
+      headers: await getHeaders(),
+    );
+    print("TASK FOLLOW UPS FOR NOTIFICATION USERID STATUS CODE : ${response.request}");
+    print("TASK FOLLOW UPS FOR NOTIFICATION USERID STATUS CODE : ${response.body}");
+    print("TASK FOLLOW UPS FOR NOTIFICATION USERID STATUS CODE : ${response.statusCode}");
+    print("TASK FOLLOW UPS FOR NOTIFICATION USERID BODY : ${response.body}");
     return response;
   }
 }

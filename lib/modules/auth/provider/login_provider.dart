@@ -63,11 +63,18 @@ class LoginProvider extends ChangeNotifier {
           prefs.setBool('isLogin', true);
           prefs.setString('profilePicture', response['userInfo']['profilePicture'].toString());
           print("LOGIN SUCCESS :2 ${response['token']}");
+          followUpsForNotificationFetching();
           showAppSnackBar(type: 'success', context: context, title: response['message']);
           await personalDetails();
           print("LOGIN SUCCESS :3 ${response['token']}");
           await getHeaders();
           print("LOGIN SUCCESS :4 ${response['token']}");
+          await (followUpsDateList!.isNotEmpty) ?
+            await showNotification(
+              'Remainder',
+              'The followups scheduled with ${followUpsDateList![0]['dealerName']} will be reminded today',
+            ) : null;
+
           BackgroundLocation.startLocationService();
           print("LOGIN SUCCESS :5 ${response['token']}");
           Get.offNamed(RoutesName.HOME);

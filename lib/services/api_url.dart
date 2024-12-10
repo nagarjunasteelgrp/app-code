@@ -3,10 +3,11 @@ import 'package:digital_lync/constants/global.dart';
 class ApiUrl{
 
   // static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
-  // static String baseUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
+  static String baseUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
   // static String baseUrl = 'http://192.168.29.54:3000/api/v1/';
+  // static String baseUrl = 'http://192.168.29.75:3000/api/v1/';
   // static String baseUrl = 'https://44b2-2405-201-2024-a9e8-e47b-26f7-ff46-224b.ngrok-free.app/api/v1/';
-  static String baseUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
+  // static String baseUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
 
   static String loginUrl = '${baseUrl}users/login';
@@ -59,4 +60,11 @@ class ApiUrl{
 
   static String sendMessageUrl = '${baseUrl}messages';
 
+  static String followUpsUrl = '${baseUrl}followUp';
+
+  static String followUpsPutUrl = '${baseUrl}followUp';
+
+  static String followUpsUrlByUserId(userId,status,period) => '${baseUrl}followUp/?userId=$userId&status=$status&period=$period';
+
+  static String followUpsUrlByUserIdForNotification(userId) => '${baseUrl}followUp/?userId=$userId';
 }

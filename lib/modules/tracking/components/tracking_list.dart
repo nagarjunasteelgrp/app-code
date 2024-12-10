@@ -6,6 +6,7 @@ import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/global.dart';
+import 'package:digital_lync/modules/tracking/components/followup_dailog_box.dart';
 import 'package:digital_lync/modules/tracking/components/google_map_com.dart';
 import 'package:digital_lync/modules/tracking/components/showDailogBox_googleMap.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
@@ -141,7 +142,9 @@ class TrackingListScreen extends StatelessWidget {
                             Expanded(
                               child: appOutlineButton(
                                   context: context,
-                                  onTap: () {},
+                                  onTap: () {
+                                  followUpDialogBox(context,provider);
+                                  },
                                   height: 5.5.h,
                                   radius: 1.h,
                                   width: double.infinity,

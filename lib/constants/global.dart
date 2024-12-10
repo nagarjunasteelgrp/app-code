@@ -27,6 +27,7 @@ String? addressPlacement;
 ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
 TaskProvider? taskProvider;
+List? followUpsDateList;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'notificationChannelId',
@@ -161,3 +162,75 @@ Future<void> initializeService(Future<void> isService) async {
     ),
   );
 }
+
+
+
+Future<void> showNotification(String title, String body) async {
+  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    'reminder_channel',
+    'Reminders',
+    channelDescription: 'Channel for reminders',
+    importance: Importance.high,
+    priority: Priority.high,
+  );
+
+  const NotificationDetails notificationDetails = NotificationDetails(android: androidDetails);
+
+  await flutterLocalNotificationsPlugin.show(
+    0,
+    title,
+    body,
+    notificationDetails,
+  );
+}
+
+void initializeNotifications() async {
+  const AndroidInitializationSettings androidInitializationSettings =
+  AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const InitializationSettings initializationSettings =
+  InitializationSettings(android: androidInitializationSettings);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+}
+
+
+Future<void> followUpsForNotificationFetching() async {
+  try {
+    var response = await apiServices.followUpsByUserIdForNotification();
+    print("GET FOLLOW UPS USERID STATUS CODE1 : ${response.statusCode}");
+    print("GET FOLLOW UPS USERID STATUS CODE2 : ${response.request}");
+    print("GET FOLLOW UPS USERID STATUS CODE3 : ${response.body}");
+
+    if (response.statusCode == 200) {
+      var responseData = jsonDecode(response.body);
+      print("Follow 111Ups:---- $responseData");
+
+      // Filter the data based on current date and status "pending"
+      DateTime currentDate = DateTime.now();
+      List<Map<String, dynamic>> filteredFollowUps = [];
+
+      for (var followUp in responseData) {
+        print("Follow 222Ups:---- $followUp");
+        DateTime followUpDate = DateTime.parse(followUp["followUpDate"]);
+
+        // Compare only date part (ignoring time)
+        if (followUpDate.year == currentDate.year &&
+            followUpDate.month == currentDate.month &&
+            followUpDate.day == currentDate.day &&
+            followUp["status"] == "pending") {
+
+          filteredFollowUps.add(followUp);
+          print("filteredFollowUps Follow Ups:---- $filteredFollowUps");
+        }
+      }
+
+      // Store the filtered results
+      followUpsDateList = filteredFollowUps;
+      print("Filtered Follow Ups:---- $followUpsDateList");
+    }
+  } catch (error) {
+    print("Error fetching follow-ups: $error");
+  }
+}
+

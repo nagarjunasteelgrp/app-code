@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TaskProvider extends ChangeNotifier {
 
@@ -20,13 +21,10 @@ class TaskProvider extends ChangeNotifier {
   int? currentIndex;
   List filteredTaskAPIResponse = [];
   List messageFetchingAPIResponse = [];
-
-   dynamic changeIndex(int index) {
-    currentIndex = index;
-    print("Updated currentIndex: $currentIndex");
-    notifyListeners();
-  }
-
+  List followUpsAPIResponse = [];
+  int? followUpId;
+  String selectedDateFilter = 'today';
+  String selectedStatusFilter = 'all';
 
   TaskProvider (){
     messageFetchingAPIResponse = [];
@@ -34,8 +32,28 @@ class TaskProvider extends ChangeNotifier {
     taskByUserIdAPI();
     messageFetching();
     selectedValue = dropDown.first;
-    print("SelectValue:--- $selectedValue");
     status = selectedValue!.toLowerCase();
+    followUpsFetching();
+  }
+
+  List<String> dateFilters = ['today', 'week', 'month', 'year'];
+  List<String> statusFilters = ['all', 'pending', 'done'];
+
+  void updateDateFilter(String value) {
+    selectedDateFilter = value;
+    followUpsFetching();
+    notifyListeners();
+  }
+
+  void updateStatusFilter(String value) {
+    selectedStatusFilter = value;
+    followUpsFetching();
+    notifyListeners();
+  }
+
+  changeIndex(int index) {
+    currentIndex = index;
+    notifyListeners();
   }
 
   List dropDown = [
@@ -51,6 +69,58 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> followUpsFetching() async {
+    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
+      var response = await apiServices.followUpsByUserId(selectedStatusFilter,selectedDateFilter);
+      print("GET FOLLOW UPS USERID STATUS CODE1 : ${response.statusCode}");
+      print("GET FOLLOW UPS USERID STATUS CODE2 : ${response.request}");
+      print("GET FOLLOW UPS USERID STATUS CODE3 : ${response.body}");
+      if (response.statusCode == 200) {
+        isLoading = false;
+        var responseData = jsonDecode(response.body);
+        followUpsAPIResponse = responseData;
+        print("RESPONSE DATA:---- $followUpsAPIResponse");
+        notifyListeners();
+      } else {
+        isLoading = false;
+        notifyListeners();
+      }
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> followUpsPutUpdateAPI(context) async {
+    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
+      var response = await apiServices.followUpsPutApi(followUpId: followUpId);
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+        showAppSnackBar(type: 'success', context: context, title: responseData['message']);
+        followUpId = null;
+        followUpsFetching();
+        isLoading = false;
+        Get.back();
+        notifyListeners();
+      } else {
+        var responseData = jsonDecode(response.body);
+        showAppSnackBar(context: context, title: responseData['message']);
+        isLoading = false;
+        Get.back();
+        notifyListeners();
+      }
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> taskAPI() async {
     try {
       isLoading = true;
@@ -59,7 +129,6 @@ class TaskProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         notificationAPIResponse = responseData['communications'];
-        print("taskAPI responseData : ${notificationAPIResponse}");
         notifyListeners();
       } else {}
     } finally {
@@ -70,7 +139,6 @@ class TaskProvider extends ChangeNotifier {
 
   Future<void> sendMessage() async {
     notifyListeners();
-    print("SEND MESSAGE---------------------- ${sendMessageController.text} && ${userId}");
     try {
       isLoading = true;
       notifyListeners();
@@ -78,7 +146,6 @@ class TaskProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         await messageFetching();
         var responseData = jsonDecode(response.body);
-        print("RESPONSE DATA:---- $responseData");
         notifyListeners();
       } else {}
     } finally {
@@ -97,7 +164,6 @@ class TaskProvider extends ChangeNotifier {
         taskByUserIdAPI();
           isLoading = false;
         notifyListeners();
-          print("Status updated successfully");
       } else {
         isLoading = false;
         print("Failed to update status. Status code: ${response.statusCode}");
@@ -113,69 +179,62 @@ class TaskProvider extends ChangeNotifier {
   Future<void> taskByUserIdAPI() async {
     try {
       isLoading = true;
-      notifyListeners();
       final response = await apiServices.taskByUserIdAPI();
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        print("TASK BY USERID:--------------$responseData");
         if (responseData != null) {
           taskAPIResponse = responseData['tasks'];
            filteredTaskAPIResponse = taskAPIResponse;
-           print("FILTERED TASK API RESPONSE:- $filteredTaskAPIResponse");
           isLoading = false;
           notifyListeners();
         } else {
           taskAPIResponse = [];
           filteredTaskAPIResponse = [];
           isLoading = false;
+          notifyListeners();
         }
       } else {
         taskAPIResponse = [];
         filteredTaskAPIResponse = [];
         isLoading = false;
+        notifyListeners();
       }
     } catch (e) {
       taskAPIResponse = [];
       filteredTaskAPIResponse = [];
       isLoading = false;
+      notifyListeners();
     } finally {
+      isLoading = false;
       notifyListeners();
     }
   }
 
   Future<void> messageFetching() async {
-    print("HELLO PRINTED...........1");
     messageFetchingAPIResponse = [];
     try {
       isLoading = true;
       notifyListeners();
       final response = await apiServices.messageFetchingAPI();
       if (response.statusCode == 200) {
-        print("HELLO PRINTED...........2");
         var responseData = jsonDecode(response.body);
         messageFetchingAPIResponse = responseData['messages'];
         notifyListeners();
-        print("Message updated successfully $messageFetchingAPIResponse");
         isLoading = false;
         notifyListeners();
       } else {
-        print("HELLO PRINTED...........3");
         isLoading = false;
         messageFetchingAPIResponse = [];
         notifyListeners();
-        print("Failed to update status. Status code: ${response.statusCode}");
       }
     } catch (e) {
-      print("HELLO PRINTED...........4");
       isLoading = false;
       print("Error updating status: $e");
     } finally {
       isLoading = false;
-      print("HELLO PRINTED...........5");
       notifyListeners();
     }
   }
-
 
   void filterTasks(String status) {
     if (status == 'all') {
@@ -185,6 +244,15 @@ class TaskProvider extends ChangeNotifier {
     }
     print("FILTERED TASK API RESPONSE:- $filteredTaskAPIResponse");
     notifyListeners();
+  }
+
+  String formatDate(String date) {
+    try {
+      DateTime parsedDate = DateTime.parse(date);
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      return 'Invalid Date';
+    }
   }
 
 

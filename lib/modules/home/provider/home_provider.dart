@@ -4,7 +4,6 @@ import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
-import 'package:digital_lync/modules/task/screen/tabbar_view_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background/flutter_background.dart';
@@ -63,7 +62,7 @@ class HomeProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(
         "getProfilePicture------11 :${prefs.getString("profilePicture").runtimeType}");
-    profilePicture = prefs.getString("profilePicture") ?? null;
+    profilePicture = prefs.getString("profilePicture");
     print("getProfilePicture------1 :$profilePicture ");
     notifyListeners();
   }
@@ -82,7 +81,6 @@ class HomeProvider extends ChangeNotifier {
         longitude = await sharedPreferences.getDouble("longitude");
         addressPlacement = await sharedPreferences.getString("address") ?? '';
         notifyListeners();
-        print('yes.................');
         getCurrentLocation();
         notifyListeners();
       });

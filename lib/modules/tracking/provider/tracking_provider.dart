@@ -37,9 +37,21 @@ class TrackingProvider extends ChangeNotifier {
   String? imageType;
   String? selectedFileName;
   File? filePath;
+  String? dealerName;
 
 
   bool get geoLocationBtn => _geoLocationBtn;
+
+  DateTime? _selectedDate;
+  TextEditingController noteController = TextEditingController();
+  DateTime? get selectedDate => _selectedDate;
+
+  void updateSelectedDate(DateTime date) {
+    _selectedDate = date;
+    print("_selected Date :--- ${_selectedDate}");
+    notifyListeners();
+  }
+
 
   set geoLocationBtn(bool value) {
     _geoLocationBtn = value;
@@ -64,6 +76,7 @@ class TrackingProvider extends ChangeNotifier {
   TrackingProvider(this.currentLocationProvider) {
     intialData();
     contactTypeId = Get.arguments['id'] ?? '';
+    print("contactTypeId : $contactTypeId");
     contactTypeCompanyName = Get.arguments['companyName'] ?? '';
     contactTypeName = Get.arguments['contactType'] ?? '';
     trackingInfoAPI();
@@ -78,6 +91,37 @@ intialData()async{
       addressPlacement = sharedPreferences.getString("address") ?? '';
    notifyListeners();
 }
+
+  Future<void> followUpsAPI(context) async {
+    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
+      var response = await apiServices.followUpsApi(dealerId: contactTypeId,notes: noteController.text,selectDate: _selectedDate!.toIso8601String());
+      print("RESPONSE DATA:...1.---- ${response.body}");
+      print("RESPONSE DATA:...2.---- ${response.statusCode}");
+      print("RESPONSE DATA:...3.---- ${response.request}");
+      print("RESPONSE DATA:.....4.---- ${_selectedDate!.toIso8601String()}");
+      if (response.statusCode == 201) {
+        var responseData = jsonDecode(response.body);
+        noteController.clear();
+        _selectedDate = null;
+        showAppSnackBar(type: 'success', context: context, title: responseData['message']);
+        isLoading = false;
+        Get.back();
+        notifyListeners();
+      } else {
+        var responseData = jsonDecode(response.body);
+        showAppSnackBar(context: context, title: responseData['message']);
+        isLoading = false;
+        Get.back();
+        notifyListeners();
+      }
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 
   void addMarker(LatLng latLng, String address) {
     markers.add(
@@ -121,7 +165,6 @@ intialData()async{
   Future getImage(BuildContext context,ImageSource source) async {
     final picker = ImagePicker();
   await picker.pickImage(source: source).then((value) {
-
       if (value != null) {
         image = File(value.path);
         if(image != null){
@@ -235,7 +278,8 @@ intialData()async{
         trackingInfoList.clear();
         var responseData = jsonDecode(response.body);
         trackingInfoListStoreData = responseData['activity'];
-        print("trackingInfoListStoreData: ${trackingInfoListStoreData.length}");
+        dealerName = trackingInfoListStoreData[0]['dealer']['personName'];
+        print("trackingInfoListStoreData: ${dealerName}");
         if(trackingInfoListStoreData.length > limit){
         trackingInfoList = trackingInfoListStoreData.sublist(0,limit);
         }else{
