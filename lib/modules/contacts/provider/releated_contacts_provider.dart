@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 
-class RelatedContactProvider extends ChangeNotifier{
-
+class RelatedContactProvider extends ChangeNotifier {
   bool isLoading = false;
   List relatedContactList = [];
   ApiServices apiServices = ApiServices();
 
   RelatedContactProvider() {
-      listOfRelatedContacts();
+    listOfRelatedContacts();
   }
 
   Future<void> listOfRelatedContacts() async {
@@ -22,9 +21,8 @@ class RelatedContactProvider extends ChangeNotifier{
         List contacts = responseData;
         relatedContactList = contacts;
         notifyListeners();
-      } else {
-      }
-    }finally {
+      } else {}
+    } finally {
       isLoading = false;
       notifyListeners();
     }

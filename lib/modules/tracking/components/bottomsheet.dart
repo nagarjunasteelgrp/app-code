@@ -7,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void contactBottomSheet(BuildContext context,TrackingProvider trackingProviders) {
+void contactBottomSheet(
+    BuildContext context, TrackingProvider trackingProviders) {
   showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -27,15 +28,26 @@ void contactBottomSheet(BuildContext context,TrackingProvider trackingProviders)
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: 3.h),
-                  AppText(title: Constants.select_Image_Source,color:  Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
+                  AppText(
+                      title: Constants.select_Image_Source,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.5)),
                   SizedBox(height: 1.3.h),
-                  Consumer<TrackingProvider>(builder: (BuildContext context, provider, Widget? child) {
-                    return  GestureDetector(
-                        onTap: (){
-                          trackingProviders.getImage(context, ImageSource.camera);
-                        },
-                        child: AppText(title: Constants.use_Camera,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h));
-                  },)  ,
+                  Consumer<TrackingProvider>(
+                    builder: (BuildContext context, provider, Widget? child) {
+                      return GestureDetector(
+                          onTap: () {
+                            trackingProviders.getImage(
+                                context, ImageSource.camera);
+                          },
+                          child: AppText(
+                              title: Constants.use_Camera,
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 1.7.h));
+                    },
+                  ),
                   // SizedBox(height: 1.3.h),
                   // GestureDetector(
                   //     onTap: ()  {
@@ -48,5 +60,4 @@ void contactBottomSheet(BuildContext context,TrackingProvider trackingProviders)
           ),
         );
       });
-
 }

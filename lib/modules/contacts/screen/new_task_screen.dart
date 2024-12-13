@@ -30,7 +30,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 2.h,),
+          SizedBox(
+            height: 2.h,
+          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: Consumer<NewTaskProvider>(
@@ -41,10 +43,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   },
                   child: Row(
                     children: [
-                      AppText(
-                        title: 'My Tasks',
-                          fontSize: 1.7.h
-                      ),
+                      AppText(title: 'My Tasks', fontSize: 1.7.h),
                       Icon(
                         value.isShowTask == false
                             ? Icons.keyboard_arrow_down_rounded
@@ -57,11 +56,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               },
             ),
           ),
-        Consumer<NewTaskProvider>(builder: (context, value, _) {
-          return  value.isShowTask == true ?  appDivider(context: context,vertical: 0.0) : const SizedBox();
-        }),
-
-
+          Consumer<NewTaskProvider>(builder: (context, value, _) {
+            return value.isShowTask == true
+                ? appDivider(context: context, vertical: 0.0)
+                : const SizedBox();
+          }),
           Consumer<NewTaskProvider>(builder: (context, value, _) {
             return value.isShowTask == true
                 ? Column(
@@ -71,7 +70,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           Padding(
                             padding: EdgeInsets.only(left: 7.w),
                             child: Column(
@@ -86,7 +84,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                               ],
                             ),
                           ),
-                          appDivider(context: context,vertical: 0.0),
+                          appDivider(context: context, vertical: 0.0),
                         ],
                       );
                     }),

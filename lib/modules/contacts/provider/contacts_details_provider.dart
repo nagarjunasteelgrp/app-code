@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ContactDetailsProvider extends ChangeNotifier{
-
+class ContactDetailsProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
   TextEditingController companyNameController = TextEditingController();
   TextEditingController personNameController = TextEditingController();
@@ -40,7 +39,7 @@ class ContactDetailsProvider extends ChangeNotifier{
     "masons",
   ];
 
-  dropDownSelectedValue (newValue) {
+  dropDownSelectedValue(newValue) {
     selectedValue = newValue;
     notifyListeners();
   }
@@ -49,7 +48,7 @@ class ContactDetailsProvider extends ChangeNotifier{
     // contactId = Get.arguments['id'] ?? '';
     selectedValue = dropDown.first;
     notifyListeners();
-      contactDetailsAPI();
+    contactDetailsAPI();
   }
 
   Future<void> contactDetailsAPI() async {
@@ -77,11 +76,9 @@ class ContactDetailsProvider extends ChangeNotifier{
           addressController.text = address!;
           taxIdController.text = taxId!;
           descriptionController.text = description!;
-        } else {
-        }
+        } else {}
         notifyListeners();
-      } else {
-      }
+      } else {}
     } catch (e) {
     } finally {
       isLoading = false;
@@ -144,7 +141,7 @@ class ContactDetailsProvider extends ChangeNotifier{
     notifyListeners();
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-     var userId = prefs.getInt('user_id');
+      var userId = prefs.getInt('user_id');
       var logResponse = await apiServices.contactUpdate(
         personName: personName,
         companyName: companyName,
@@ -156,16 +153,16 @@ class ContactDetailsProvider extends ChangeNotifier{
         contactUserId: contactUserId,
       );
       if (logResponse.statusCode == 200) {
-         isLoading = false;
+        isLoading = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
         showAppSnackBar(
             type: 'success', context: context, title: responseBody['message']);
         Get.back();
-         contactDetailsAPI();
+        contactDetailsAPI();
         notifyListeners();
       } else {
-         isLoading = false;
+        isLoading = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
         showAppSnackBar(
@@ -173,10 +170,9 @@ class ContactDetailsProvider extends ChangeNotifier{
         Get.back();
       }
     } catch (e) {
-       isLoading = false;
+      isLoading = false;
       notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
     }
   }
-
 }

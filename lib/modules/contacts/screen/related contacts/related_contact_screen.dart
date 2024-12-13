@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-
 class RelatedContactScreen extends StatelessWidget {
   const RelatedContactScreen({super.key});
 
@@ -31,109 +30,122 @@ class RelatedContactScreen extends StatelessWidget {
             height: 3.h,
           ),
           contactTopBar(context: context),
-          appDivider(context: context,vertical: 1.h),
-          AppText(title: Constants.related_Contacts,fontWeight: FontWeight.w600,fontSize: 1.6.h),
-          appDivider(context: context,vertical: 1.h),
-        Consumer<RelatedContactProvider>(builder: (context, provider, _) {
+          appDivider(context: context, vertical: 1.h),
+          AppText(
+              title: Constants.related_Contacts,
+              fontWeight: FontWeight.w600,
+              fontSize: 1.6.h),
+          appDivider(context: context, vertical: 1.h),
+          Consumer<RelatedContactProvider>(builder: (context, provider, _) {
             return Expanded(
-              child: (provider.isLoading) ? const Center(
-                child: SpinKitLoader(),
-              ) : Column(
-                    children: List.generate(provider.relatedContactList.length, (index) {
-                      return  Column(
-                        children: [
-              Padding(
-                padding: EdgeInsets.only(left: 5.h),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          title: '${Constants.person_Name} :',
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                        AppText(
-                          title: '${Constants.phone_Number} :',
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                        AppText(
-                          title: '${Constants.email_Id} :',
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                        AppText(
-                          title: '${Constants.designation} :',
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                            title: provider.relatedContactList[index]['name'],
-                            fontSize: 1.6.h,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimary),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                        AppText(
-                          title: provider.relatedContactList[index]['phone'],
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                        AppText(
-                          title: provider.relatedContactList[index]['email'],
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ), AppText(
-                          title: 'Admin',
-                          fontSize: 1.6.h,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        SizedBox(
-                          height: 1.0.h,
-                        ),
-                      ],
+              child: (provider.isLoading)
+                  ? const Center(
+                      child: SpinKitLoader(),
                     )
-                  ],
-                ),
-              ),
-              appDivider(context: context,vertical: 1.h),
-                        ],
-                      );
-                    }),
-              ),
+                  : Column(
+                      children: List.generate(
+                          provider.relatedContactList.length, (index) {
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 5.h),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppText(
+                                        title: '${Constants.person_Name} :',
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                      AppText(
+                                        title: '${Constants.phone_Number} :',
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                      AppText(
+                                        title: '${Constants.email_Id} :',
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                      AppText(
+                                        title: '${Constants.designation} :',
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppText(
+                                          title:
+                                              provider.relatedContactList[index]
+                                                  ['name'],
+                                          fontSize: 1.6.h,
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                      AppText(
+                                        title: provider
+                                            .relatedContactList[index]['phone'],
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                      AppText(
+                                        title: provider
+                                            .relatedContactList[index]['email'],
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                      AppText(
+                                        title: 'Admin',
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      SizedBox(
+                                        height: 1.0.h,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            appDivider(context: context, vertical: 1.h),
+                          ],
+                        );
+                      }),
+                    ),
             );
-        } ),
+          }),
         ],
       ),
     );

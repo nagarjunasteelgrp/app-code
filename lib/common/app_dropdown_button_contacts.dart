@@ -13,7 +13,7 @@ Widget dropdownContactsWidget({
 }) {
   return Container(
     width: width ?? double.infinity,
-    padding: EdgeInsets.only(left: 3.5.w,right: 5.0.w),
+    padding: EdgeInsets.only(left: 3.5.w, right: 5.0.w),
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(1.5.w),
@@ -25,8 +25,10 @@ Widget dropdownContactsWidget({
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 1.h,),
-        AppText(title: title,fontSize: 1.5.h),
+        SizedBox(
+          height: 1.h,
+        ),
+        AppText(title: title, fontSize: 1.5.h),
         DropdownButton<String>(
           isDense: true,
           iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
@@ -46,12 +48,13 @@ Widget dropdownContactsWidget({
             size: 3.h,
           ),
           items: items,
-          style: TextStyle(fontWeight: FontWeight.w800,fontSize: 1.9.h),
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
           onChanged: onChanged,
         ),
-        SizedBox(height: 0.5.h,),
+        SizedBox(
+          height: 0.5.h,
+        ),
       ],
     ),
   );
 }
-

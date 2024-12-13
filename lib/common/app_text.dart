@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +15,7 @@ class AppText extends StatelessWidget {
   dynamic decoration;
   String? fontFamily;
   TextOverflow? textOverflow;
+
   AppText(
       {super.key,
       this.title,
@@ -37,13 +37,13 @@ class AppText extends StatelessWidget {
       title ?? '',
       textAlign: textAlign ?? TextAlign.start,
       style: GoogleFonts.lato(
-              height: height,
-              fontSize: fontSize,
-              fontWeight: fontWeight ?? FontWeight.w500,
-              color: color ?? Theme.of(context).colorScheme.secondary,
-              fontStyle: fontStyle,
-              letterSpacing: letterSpacing,
-              decoration: decoration ?? TextDecoration.none),
+          height: height,
+          fontSize: fontSize,
+          fontWeight: fontWeight ?? FontWeight.w500,
+          color: color ?? Theme.of(context).colorScheme.secondary,
+          fontStyle: fontStyle,
+          letterSpacing: letterSpacing,
+          decoration: decoration ?? TextDecoration.none),
       maxLines: maxLines,
       overflow: textOverflow ?? TextOverflow.ellipsis,
     );

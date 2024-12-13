@@ -1,7 +1,4 @@
-
-
 import 'dart:async';
-
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
@@ -44,29 +41,30 @@ class CurrentLocationProvider extends ChangeNotifier {
         return;
       }
 
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print("GET LOCATION UPDATES :- ${position.latitude} ${position.longitude} ${position.accuracy}");
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
 
-      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placeMarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       notifyListeners();
       Placemark placeMark = placeMarks[0];
-      dynamic address = "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
-      print("address : $address");
+      dynamic address =
+          "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
       sharedPreferences.setDouble("latitude", position.latitude);
       sharedPreferences.setDouble("longitude", position.longitude);
       sharedPreferences.setString("address", address);
       latitude = sharedPreferences.getDouble("latitude");
       longitude = sharedPreferences.getDouble("longitude");
       addressPlacement = sharedPreferences.getString("address") ?? '';
-      await getMapData();
+      print("latitude : $latitude");
+      print("longitude : $longitude");
       print("addressPlacement : $addressPlacement");
+      await getMapData();
       notifyListeners();
     } catch (e) {
-      print("ERROR ...: ${e.toString()}");
       if (kDebugMode) {
         print(e);
       }
     }
   }
 }
-

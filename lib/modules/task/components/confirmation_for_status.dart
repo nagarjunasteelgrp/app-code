@@ -35,63 +35,69 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                         child: AppText(
                           title: 'Are you sure you want to change the status?',
                           fontSize: 2.h,
-                           maxLines: 3,
+                          maxLines: 3,
                           fontWeight: FontWeight.bold,
                           textAlign: TextAlign.center,
                         ),
                       ),
                       SizedBox(height: 2.h),
-                  provider.isLoading == true ? const Center(child: SpinKitLoader()) : Row(
-                        children: [
-                          Expanded(
-                            child: appButton(
-                              context: context,
-                              onTap: () {
-                                provider.followUpsPutUpdateAPI(context);
-                              },
-                              width: double.infinity,
-                              height: 5.5.h,
-                              radius: 1.h,
-                              color: Theme.of(context).colorScheme.primary,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  AppText(
-                                    title: 'Yes',
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                      provider.isLoading == true
+                          ? const Center(child: SpinKitLoader())
+                          : Row(
+                              children: [
+                                Expanded(
+                                  child: appButton(
+                                    context: context,
+                                    onTap: () {
+                                      provider.followUpsPutUpdateAPI(context);
+                                    },
+                                    width: double.infinity,
+                                    height: 5.5.h,
+                                    radius: 1.h,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        AppText(
+                                          title: 'Yes',
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 2.w),
-                          Expanded(
-                            child: appButton(
-                              context: context,
-                              onTap: () {
-                                Get.back();
-                              },
-                              width: double.infinity,
-                              height: 5.5.h,
-                              radius: 1.h,
-                              color: Theme.of(context).colorScheme.primary,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  AppText(
-                                    title: 'No',
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                                ),
+                                SizedBox(width: 2.w),
+                                Expanded(
+                                  child: appButton(
+                                    context: context,
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    width: double.infinity,
+                                    height: 5.5.h,
+                                    radius: 1.h,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        AppText(
+                                          title: 'No',
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),

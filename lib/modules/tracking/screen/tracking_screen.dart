@@ -1,24 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digital_lync/common/app_bar.dart';
-import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
-import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
-import 'package:digital_lync/modules/tracking/components/add_notes_dailog.dart';
-import 'package:digital_lync/modules/tracking/components/bottomsheet.dart';
 import 'package:digital_lync/modules/tracking/components/map_dailog_box.dart';
 import 'package:digital_lync/modules/tracking/components/tracking_list.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -46,7 +38,7 @@ class TrackingScreen extends StatelessWidget {
                 Consumer<TrackingProvider>(builder: (context, provider, child) {
               return provider.isLoading == false
                   ? SingleChildScrollView(
-                controller: trackingProvider.scrollController,
+                      controller: trackingProvider.scrollController,
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 4.w, vertical: 2.h),
@@ -85,13 +77,19 @@ class TrackingScreen extends StatelessWidget {
                             SizedBox(height: 2.h),
                             appOutlineButton(
                                 context: context,
-                                onTap: () {
-                                  addressPlacement != null
-                                      ? showMapDialog(context)
-                                      : null;
-                                  if (!provider.geoLocationBtn) {
-                                    provider.geoLocationBtn = true;
-                                  }
+                                onTap: () async {
+                                  CurrentLocationProvider locationProvider =
+                                      CurrentLocationProvider();
+                                  await locationProvider
+                                      .getUserLocation()
+                                      .then((value) async {
+                                    addressPlacement != null
+                                        ? showMapDialog(context)
+                                        : null;
+                                    if (!provider.geoLocationBtn) {
+                                      provider.geoLocationBtn = true;
+                                    }
+                                  });
                                 },
                                 height: 5.5.h,
                                 radius: 1.h,
@@ -107,7 +105,8 @@ class TrackingScreen extends StatelessWidget {
                                     SizedBox(width: 2.w),
                                     AppText(
                                       title: 'Capture geo location',
-                                      color: Theme.of(context).colorScheme.primary,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                   ],
                                 )),

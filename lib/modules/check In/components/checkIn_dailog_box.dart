@@ -34,19 +34,25 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                           children: [
                             AppText(
                               title: 'Date:',
-                            ),AppText(
+                            ),
+                            AppText(
                               title: 'Current Time:',
                             )
                           ],
                         ),
-                        SizedBox(width: 4.w,),
+                        SizedBox(
+                          width: 4.w,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(
-                              title:  '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-                            ), AppText(
-                              title:  '${DateTime.now().hour}:${DateTime.now().minute}',
+                              title:
+                                  '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                            ),
+                            AppText(
+                              title:
+                                  '${DateTime.now().hour}:${DateTime.now().minute}',
                             ),
                           ],
                         )
@@ -55,22 +61,26 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                     SizedBox(height: 2.h),
                     provider.isLoading == false
                         ? appButton(
-                      context: context,
-                      onTap: () {
-                      checkInStatus == true ? provider.checkInAPI() : provider.checkOutAPI();
-                        // provider.checkInStatusBtn = !provider.checkInStatus;
-                      },
-                      child: AppText(
-                        title: checkInStatus ? Constants.checkIn : Constants.checkOut,
-                        color: Theme.of(context).colorScheme.background,
-                      ),
-                      radius: 0.8.h,
-                      width: double.infinity,
-                      height: 5.h, // Adjust button height
-                    )
+                            context: context,
+                            onTap: () {
+                              checkInStatus == true
+                                  ? provider.checkInAPI()
+                                  : provider.checkOutAPI();
+                              // provider.checkInStatusBtn = !provider.checkInStatus;
+                            },
+                            child: AppText(
+                              title: checkInStatus
+                                  ? Constants.checkIn
+                                  : Constants.checkOut,
+                              color: Theme.of(context).colorScheme.background,
+                            ),
+                            radius: 0.8.h,
+                            width: double.infinity,
+                            height: 5.h, // Adjust button height
+                          )
                         : const Center(
-                      child: SpinKitLoader(),
-                    ),
+                            child: SpinKitLoader(),
+                          ),
                   ],
                 ),
               );

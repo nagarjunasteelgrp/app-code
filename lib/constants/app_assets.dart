@@ -3,7 +3,8 @@
 class AppAssets {
 
   // ======================= IMAGES ===================================
-  static const String APP_LOGO = 'assets/images/app_logo.png';
+  // static const String APP_LOGO = 'assets/images/app_logo.png';
+  static const String APP_LOGO = 'assets/images/app_logo_n.png';
   static const String CHEACK_IN = 'assets/images/checkIn.png';
   static const String CHEACK_IN_2 = 'assets/images/check_in_2.png';
   static const String TRACKING = 'assets/images/tracking.png';

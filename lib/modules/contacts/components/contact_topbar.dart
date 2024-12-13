@@ -8,9 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-Widget contactTopBar(
-  {required BuildContext context}
-    ) {
+Widget contactTopBar({required BuildContext context}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 5.w),
     child: Row(
@@ -36,7 +34,6 @@ Widget contactTopBar(
             )
           ],
         ),
-
         Column(
           children: [
             appCircleIcon(
@@ -60,9 +57,9 @@ Widget contactTopBar(
         Column(
           children: [
             appCircleIcon(
-              onTap: (){
-                Get.toNamed(RoutesName.NEW_TASK);
-              },
+                onTap: () {
+                  Get.toNamed(RoutesName.NEW_TASK);
+                },
                 context: context,
                 colors: Theme.of(context).colorScheme.error,
                 child: Center(
@@ -86,7 +83,8 @@ Widget contactTopBar(
                 context: context,
                 colors: Theme.of(context).colorScheme.onPrimary,
                 child: Center(
-                  child: Icon(Icons.more_horiz_outlined,color: Theme.of(context).primaryColor),
+                  child: Icon(Icons.more_horiz_outlined,
+                      color: Theme.of(context).primaryColor),
                 )),
             SizedBox(
               height: 0.7.h,

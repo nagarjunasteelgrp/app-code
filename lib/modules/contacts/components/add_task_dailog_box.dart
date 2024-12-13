@@ -42,10 +42,7 @@ void showAddTaskDialog(BuildContext context) {
                         ),
                       ),
                       SizedBox(width: 4.w),
-                      AppText(
-                        title: 'New Tasks',
-                        fontSize: 2.h
-                      ),
+                      AppText(title: 'New Tasks', fontSize: 2.h),
                     ],
                   ),
                   IconButton(

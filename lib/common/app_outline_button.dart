@@ -6,7 +6,7 @@ Widget appOutlineButton(
     required BuildContext context,
     VoidCallback? onTap,
     Color? color,
-      Color? boxColor,
+    Color? boxColor,
     double? margin,
     double? width,
     double? height,

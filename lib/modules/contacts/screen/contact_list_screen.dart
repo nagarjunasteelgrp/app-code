@@ -45,7 +45,8 @@ class ContactListScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 9.h,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).colorScheme.onBackground),
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.onBackground),
                 ),
                 // color: Theme.of(context).colorScheme.onBackground,
                 child: Padding(
@@ -81,129 +82,187 @@ class ContactListScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 2.h),
-
               Expanded(
-                child:  (provider.isLoading) ?
-                const SpinKitLoader() :Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Row(
+                child: (provider.isLoading)
+                    ? const SpinKitLoader()
+                    : Column(
                         children: [
-                          Expanded(child: AppText(title: Constants.company_Name,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                          Expanded(child: AppText(title: provider.companyName,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: AppText(
+                                        title: Constants.company_Name,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 1.5.h)),
+                                Expanded(
+                                    child: AppText(
+                                        title: provider.companyName,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 1.5.h)),
+                              ],
+                            ),
+                          ),
+                          appDivider(context: context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: AppText(
+                                        title: Constants.person_Name,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 1.5.h)),
+                                Expanded(
+                                    child: AppText(
+                                        title: provider.personName,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 1.5.h)),
+                              ],
+                            ),
+                          ),
+                          appDivider(context: context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: AppText(
+                                        title: Constants.contact_Type,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 1.5.h)),
+                                Expanded(
+                                    child: AppText(
+                                        title: provider.contactType,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 1.5.h)),
+                              ],
+                            ),
+                          ),
+                          appDivider(context: context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: AppText(
+                                        title: Constants.phone_Number,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 1.5.h)),
+                                Expanded(
+                                    child: AppText(
+                                        title: provider.phoneNumber,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 1.5.h)),
+                              ],
+                            ),
+                          ),
+                          appDivider(context: context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: AppText(
+                                        title: Constants.email_Id,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 1.5.h)),
+                                Expanded(
+                                    child: AppText(
+                                        title: provider.email,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 1.5.h)),
+                              ],
+                            ),
+                          ),
+                          appDivider(context: context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(RoutesName.CONTACT_DETAILS,
+                                        arguments: {
+                                      'id': provider.contactId,
+                                    })!
+                                    .then((value) {
+                                  provider.contactDetailsAPI();
+                                });
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AppText(
+                                      title: Constants.details,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 1.5.h),
+                                  Icon(Icons.arrow_forward_ios, size: 2.h),
+                                ],
+                              ),
+                            ),
+                          ),
+                          appDivider(context: context),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AppText(
+                                      title: Constants.activities,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 1.5.h),
+                                  Icon(Icons.arrow_forward_ios, size: 2.h),
+                                ],
+                              ),
+                            ),
+                          ),
+                          appDivider(context: context),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(RoutesName.TRACKING);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AppText(
+                                      title: Constants.tracking,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 1.5.h),
+                                  Icon(Icons.arrow_forward_ios, size: 2.h),
+                                ],
+                              ),
+                            ),
+                          ),
+                          appDivider(context: context),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(RoutesName.RELATED_CONTACT);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AppText(
+                                      title: Constants.related_Contacts,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 1.5.h),
+                                  Icon(Icons.arrow_forward_ios, size: 2.h),
+                                ],
+                              ),
+                            ),
+                          ),
+                          appDivider(context: context),
                         ],
                       ),
-                    ),
-                    appDivider(context: context),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Row(
-                        children: [
-                          Expanded(child: AppText(title: Constants.person_Name,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                          Expanded(child: AppText(title: provider.personName,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                        ],
-                      ),
-                    ),
-                    appDivider(context: context),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Row(
-                        children: [
-                          Expanded(child: AppText(title: Constants.contact_Type,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                          Expanded(child: AppText(title: provider.contactType,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                        ],
-                      ),
-                    ),
-                    appDivider(context: context),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: Row(
-                        children: [
-                          Expanded(child: AppText(title: Constants.phone_Number,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                          Expanded(child: AppText(title: provider.phoneNumber,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                        ],
-                      ),
-                    ),
-                    appDivider(context: context),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      child: Row(
-                        children: [
-                          Expanded(child: AppText(title: Constants.email_Id,fontWeight: FontWeight.w500, fontSize: 1.5.h)),
-                          Expanded(child: AppText(title: provider.email,fontWeight: FontWeight.w600, fontSize: 1.5.h)),
-                        ],
-                      ),
-                    ),
-                    appDivider(context: context),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: GestureDetector(
-                        onTap: (){
-                          Get.toNamed(RoutesName.CONTACT_DETAILS,arguments: {
-                            'id': provider.contactId,
-                          })!.then((value) {
-                            provider.contactDetailsAPI();
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppText(title: Constants.details,fontWeight: FontWeight.w600, fontSize: 1.5.h),
-                            Icon(Icons.arrow_forward_ios,size: 2.h),
-                          ],
-                        ),
-                      ),
-                    ),
-                    appDivider(context: context),
-                    GestureDetector(
-                      onTap: (){},
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppText(title: Constants.activities,fontWeight: FontWeight.w600, fontSize: 1.5.h),
-                            Icon(Icons.arrow_forward_ios,size: 2.h),
-                          ],
-                        ),
-                      ),
-                    ),
-                    appDivider(context: context),
-                    GestureDetector(
-                      onTap: (){
-                        Get.toNamed(RoutesName.TRACKING);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppText(title: Constants.tracking,fontWeight: FontWeight.w600, fontSize: 1.5.h),
-                            Icon(Icons.arrow_forward_ios,size: 2.h),
-                          ],
-                        ),
-                      ),
-                    ),
-                    appDivider(context: context),
-                    GestureDetector(
-                      onTap: (){
-                        Get.toNamed(RoutesName.RELATED_CONTACT);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppText(title: Constants.related_Contacts,fontWeight: FontWeight.w600, fontSize: 1.5.h),
-                            Icon(Icons.arrow_forward_ios,size: 2.h),
-                          ],
-                        ),
-                      ),
-                    ),
-                    appDivider(context: context),
-                  ],
-                ),
               ),
             ],
           );

@@ -12,9 +12,9 @@ class ApiServices {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({"username": email, "password": password}),
     );
-    print("LOGIN URL : ${ApiUrl.loginUrl}");
-    print("LOGIN STATUS CODE : ${response.statusCode}");
-    print("LOGIN BODY : ${response.body}");
+    print("login : ${response.request}");
+    print("login : ${response.statusCode}");
+    print("login : ${response.body}");
     return response;
   }
 
@@ -24,8 +24,9 @@ class ApiServices {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({"email": email}),
     );
-    print("RESET EMAIL STATUS CODE : ${response.statusCode}");
-    print("RESET EMAIL BODY : ${response.body}");
+    print("resetEmail : ${response.request}");
+    print("resetEmail : ${response.statusCode}");
+    print("resetEmail : ${response.body}");
     return response;
   }
 
@@ -42,7 +43,6 @@ class ApiServices {
     String? address,
     String? description,
   }) async {
-    print("gstNumber:--------- $gstNumber");
     final response = await http.post(
       Uri.parse(ApiUrl.createContactUrl),
       headers: await getHeaders(),
@@ -61,8 +61,9 @@ class ApiServices {
         "description": description,
       }),
     );
-    print("CREATE CONTACT STATUS CODE : ${response.statusCode}");
-    print("CREATE CONTACT BODY : ${response.body}");
+    print("createContact : ${response.request}");
+    print("createContact : ${response.statusCode}");
+    print("createContact : ${response.body}");
     return response;
   }
 
@@ -71,8 +72,9 @@ class ApiServices {
       Uri.parse(ApiUrl.relatedContactsListUrl),
       headers: await getHeaders(),
     );
-    print("LIST OF RELATED CONTACT STATUS CODE : ${response.statusCode}");
-    print("LIST OF RELATED CONTACT BODY : ${response.body}");
+    print("listOfRelatedContact : ${response.request}");
+    print("listOfRelatedContact : ${response.statusCode}");
+    print("listOfRelatedContact : ${response.body}");
     return response;
   }
 
@@ -81,9 +83,9 @@ class ApiServices {
       Uri.parse(ApiUrl.contactDetailsUrl(id)),
       headers: await getHeaders(),
     );
-    print("CONTACT DETAILS STATUS CODE : ${response.request}");
-    print("CONTACT DETAILS STATUS CODE : ${response.statusCode}");
-    print("CONTACT DETAILS BODY : ${response.body}");
+    print("contactDetails : ${response.request}");
+    print("contactDetails : ${response.statusCode}");
+    print("contactDetails : ${response.body}");
     return response;
   }
 
@@ -92,9 +94,9 @@ class ApiServices {
       Uri.parse(ApiUrl.contactListUrl(userId!, type)),
       headers: await getHeaders(),
     );
-    print("CONTACT LIST STATUS CODE : ${response.request}");
-    print("CONTACT LIST STATUS CODE : ${response.statusCode}");
-    print("CONTACT LIST BODY : ${response.body}");
+    print("contactListAPI : ${response.request}");
+    print("contactListAPI : ${response.statusCode}");
+    print("contactListAPI : ${response.body}");
     return response;
   }
 
@@ -128,8 +130,9 @@ class ApiServices {
         "description": description,
       }),
     );
-    print("CREATE CONTACT STATUS CODE : ${response.statusCode}");
-    print("CREATE CONTACT BODY : ${response.body}");
+    print("contactUpdate : ${response.request}");
+    print("contactUpdate : ${response.statusCode}");
+    print("contactUpdate : ${response.body}");
     return response;
   }
 
@@ -141,8 +144,9 @@ class ApiServices {
       body: jsonEncode(
           {"description": description, "trackingInfoId": trackingInfoId}),
     );
-    print("TRACKING NOTES STATUS CODE : ${response.statusCode}");
-    print("TRACKING NOTES BODY : ${response.body}");
+    print("trackingNotes : ${response.request}");
+    print("trackingNotes : ${response.statusCode}");
+    print("trackingNotes : ${response.body}");
     return response;
   }
 
@@ -151,8 +155,6 @@ class ApiServices {
       double? longitude,
       String? address,
       int? dealerId}) async {
-    print(
-        "latitude : $latitude longitude : $longitude address : $address userId : $userId dealerId : $dealerId");
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
       headers: await getHeaders(),
@@ -162,20 +164,18 @@ class ApiServices {
         "address": address,
         "trackingType": "captured",
         "userId": userId,
-        "dealerId": dealerId
+        "dealerId": dealerId,
+        "time": DateTime.now().toIso8601String()
       }),
     );
-    print("TRACKING INFO STATUS CODE : 1${response.request}");
-    print("TRACKING INFO STATUS CODE : 2${response.body}");
-    print("TRACKING INFO STATUS CODE : 3${response.statusCode}");
-    print("TRACKING INFO BODY : ${response.body}");
+    print("trackingInfo : ${response.request}");
+    print("trackingInfo : ${response.statusCode}");
+    print("trackingInfo : ${response.body}");
     return response;
   }
 
   Future<http.Response> autoTrackingAPI(
       {double? latitude, double? longitude, String? address}) async {
-    print(
-        "latitude : $latitude longitude : $longitude address : $address userId : $userId");
     final response = await http.post(
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),
@@ -184,13 +184,13 @@ class ApiServices {
         "longitude": longitude,
         "address": address,
         "trackingType": "auto",
-        "userId": userId
+        "userId": userId,
+        "time": DateTime.now().toIso8601String()
       }),
     );
-    print("SALES PERSON INFO STATUS CODE : 1${response.request}");
-    print("SALES PERSON INFO STATUS CODE : 2${response.body}");
-    print("SALES PERSON INFO STATUS CODE : 3${response.statusCode}");
-    print("SALES PERSON INFO BODY : ${response.body}");
+    print("autoTrackingAPI : ${response.request}");
+    print("autoTrackingAPI : ${response.statusCode}");
+    print("autoTrackingAPI : ${response.body}");
     return response;
   }
 
@@ -208,9 +208,9 @@ class ApiServices {
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    print("TRACKING IMAGES STATUS CODE REQUEST: ${response.request}");
-    print("TRACKING IMAGES STATUS CODE : ${response.statusCode}");
-    print("TRACKING IMAGES BODY : ${response.body}");
+    print("trackingImages : ${response.request}");
+    print("trackingImages : ${response.statusCode}");
+    print("trackingImages : ${response.body}");
     return response;
   }
 
@@ -219,9 +219,9 @@ class ApiServices {
       Uri.parse(ApiUrl.trackingInfoListUrl(id)),
       headers: await getHeaders(),
     );
-    print("TRACKING OF LIST REQUEST CODE : ${response.request}");
-    print("TRACKING OF LIST STATUS CODE : ${response.statusCode}");
-    print("TRACKING OF LIST BODY : ${response.body}");
+    print("trackingInfoList : ${response.request}");
+    print("trackingInfoList : ${response.statusCode}");
+    print("trackingInfoList : ${response.body}");
     return response;
   }
 
@@ -230,8 +230,9 @@ class ApiServices {
       Uri.parse(ApiUrl.getTaskListUrl(id)),
       headers: await getHeaders(),
     );
-    print("GET TASK OF LIST STATUS CODE : ${response.statusCode}");
-    print("GET TASK OF LIST BODY : ${response.body}");
+    print("getTaskList : ${response.request}");
+    print("getTaskList : ${response.statusCode}");
+    print("getTaskList : ${response.body}");
     return response;
   }
 
@@ -240,8 +241,9 @@ class ApiServices {
       Uri.parse(ApiUrl.checkInListUrl(userId ?? 0)),
       headers: await getHeaders(),
     );
-    print("CHECK IN OF LIST STATUS CODE : ${response.statusCode}");
-    print("CHECK IN OF LIST BODY : ${response.body}");
+    print("checkInList : ${response.request}");
+    print("checkInList : ${response.statusCode}");
+    print("checkInList : ${response.body}");
     return response;
   }
 
@@ -254,14 +256,14 @@ class ApiServices {
       body: jsonEncode(
           {"userId": userId, "clockIn": DateTime.now().toIso8601String()}),
     );
-    print("CHECK IN  STATUS CODE : ${response.statusCode}");
-    print("CHECK IN  BODY : ${response.body}");
+    print("checkInAPI : ${response.request}");
+    print("checkInAPI : ${response.statusCode}");
+    print("checkInAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> checkOutAPI(
       {required int checkInId, int? userId, dynamic checkInTime}) async {
-    print("----------------------");
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers: await getHeaders(),
@@ -271,69 +273,58 @@ class ApiServices {
         "clockOut": DateTime.now().toIso8601String()
       }),
     );
-    print("CHECK OUT  STATUS CODE : ${response.request}");
-    print("CHECK OUT  STATUS CODE : ${response.body}");
-    print("CHECK OUT  STATUS CODE : ${response.statusCode}");
-    print("CHECK OUT  BODY : ${response.body}");
+    print("checkOutAPI : ${response.request}");
+    print("checkOutAPI : ${response.statusCode}");
+    print("checkOutAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> myProgressAPI(
       {dynamic startDate, dynamic endDate}) async {
-    print(
-        "myProgressAPI---------------------- $userId  ||  ${startDate}  ||  $endDate");
     final response = await http.get(
       Uri.parse(ApiUrl.myProgressUrl(userId!, startDate, endDate)),
       headers: await getHeaders(),
     );
-    print("MY PROGRESS  STATUS CODE : ${response.request}");
-    print("MY PROGRESS  STATUS CODE : ${response.body}");
-    print("MY PROGRESS  STATUS CODE : ${response.statusCode}");
-    print("MY PROGRESS  BODY : ${response.body}");
+    print("myProgressAPI : ${response.request}");
+    print("myProgressAPI : ${response.statusCode}");
+    print("myProgressAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> taskAPI() async {
-    print("taskAPI---------------------- $userId");
     final response = await http.get(
       Uri.parse(ApiUrl.taskUrl(userId ?? 0)),
       headers: await getHeaders(),
     );
-    print("TASK STATUS CODE : ${response.request}");
-    print("TASK STATUS CODE : ${response.body}");
-    print("TASK STATUS CODE : ${response.statusCode}");
-    print("TASK BODY : ${response.body}");
+    print("taskAPI : ${response.request}");
+    print("taskAPI : ${response.statusCode}");
+    print("taskAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> overallEnrollmentAPI({String? filter}) async {
-    print("OVERALL ENROLLMENT---------------------- $userId");
     final response = await http.get(
       Uri.parse(ApiUrl.overallEnrollmentUrl(filter!, userId ?? 0)),
       headers: await getHeaders(),
     );
-    print("OVERALL ENROLLMENT STATUS CODE : ${response.request}");
-    print("OVERALL ENROLLMENT STATUS CODE : ${response.body}");
-    print("OVERALL ENROLLMENT STATUS CODE : ${response.statusCode}");
-    print("OVERALL ENROLLMENT BODY : ${response.body}");
+    print("overallEnrollmentAPI : ${response.request}");
+    print("overallEnrollmentAPI : ${response.statusCode}");
+    print("overallEnrollmentAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> overallDistanceAPI({String? filter}) async {
-    print("OVERALL DISTANCE---------------------- $userId");
     final response = await http.get(
       Uri.parse(ApiUrl.overallDistanceUrl(filter!, userId ?? 0)),
       headers: await getHeaders(),
     );
-    print("OVERALL DISTANCE STATUS CODE : ${response.request}");
-    print("OVERALL DISTANCE STATUS CODE : ${response.body}");
-    print("OVERALL DISTANCE STATUS CODE : ${response.statusCode}");
-    print("OVERALL DISTANCE BODY : ${response.body}");
+    print("overallDistanceAPI : ${response.request}");
+    print("overallDistanceAPI : ${response.statusCode}");
+    print("overallDistanceAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> statusUpdateAPI({String? status, int? statusId}) async {
-    print("STATUS UPDATE---------------------- $status &&  $statusId");
     final response = await http.patch(
       Uri.parse(ApiUrl.statusUpdateUrl(statusId!)),
       headers: await getHeaders(),
@@ -341,66 +332,50 @@ class ApiServices {
         "status": status,
       }),
     );
-
-    print("UPDATE STATUS CODE : ${response.statusCode}");
-    print("UPDATE STATUS BODY : ${response.body}");
+    print("statusUpdateAPI : ${response.request}");
+    print("statusUpdateAPI : ${response.statusCode}");
+    print("statusUpdateAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> taskByUserIdAPI() async {
-    print("TASK BY USERID---------------------- $userId");
     final response = await http.get(
       Uri.parse(ApiUrl.taskByUserIdUrl(userId!)),
       headers: await getHeaders(),
     );
-    print("TASK BY USERID STATUS CODE : ${response.request}");
-    print("TASK BY USERID STATUS CODE : ${response.body}");
-    print("TASK BY USERID STATUS CODE : ${response.statusCode}");
-    print("TASK BY USERID BODY : ${response.body}");
+    print("taskByUserIdAPI : ${response.request}");
+    print("taskByUserIdAPI : ${response.statusCode}");
+    print("taskByUserIdAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> messageFetchingAPI() async {
-    print("MESSAGE BY USERID---------------------- $userId");
     final response = await http.get(
       Uri.parse(ApiUrl.messageFetching(userId!)),
       headers: await getHeaders(),
     );
-    print("MESSAGE BY USERID STATUS CODE : ${response.request}");
-    print("MESSAGE BY USERID STATUS CODE : ${response.body}");
-    print("MESSAGE BY USERID STATUS CODE : ${response.statusCode}");
-    print("MESSAGE BY USERID BODY : ${response.body}");
+    print("messageFetchingAPI : ${response.request}");
+    print("messageFetchingAPI : ${response.statusCode}");
+    print("messageFetchingAPI : ${response.body}");
     return response;
   }
 
   Future<http.Response> updateDisplayPicture(
       int userId, File? imageFile) async {
-    print("UPDATING DEALER DISPLAY PICTURE FOR ID: $userId");
-
     if (imageFile == null) {
       throw Exception("No image file provided");
     }
-
     try {
       var request = http.MultipartRequest(
           'POST', Uri.parse(ApiUrl.updateDisplayPictureUrl()));
-
       request.fields['userId'] = userId.toString();
-
       request.files.add(await http.MultipartFile.fromPath(
         'profilePicture',
         imageFile.path,
       ));
-
       request.headers.addAll(await getHeaders()); // Add any required headers
-
       final response = await request.send();
-
       final responseData = await http.Response.fromStream(response);
-
-      print("UPDATE STATUS CODE: ${response.statusCode}");
-      print("UPDATE RESPONSE: ${responseData.body}");
-
       return responseData;
     } catch (e) {
       print("Error in updateDisplayPicture API: $e");
@@ -414,13 +389,14 @@ class ApiServices {
       headers: await getHeaders(),
       body: jsonEncode({"userId": userId, "message": message}),
     );
-    print("SEND MESSAGE STATUS CODE : ${response.request}");
-    print("SEND MESSAGE STATUS CODE : ${response.statusCode}");
-    print("SEND MESSAGE BODY : ${response.body}");
+    print("sendMessage : ${response.request}");
+    print("sendMessage : ${response.statusCode}");
+    print("sendMessage : ${response.body}");
     return response;
   }
 
-  Future<http.Response> followUpsApi({int? dealerId,dynamic selectDate,String? notes}) async {
+  Future<http.Response> followUpsApi(
+      {int? dealerId, dynamic selectDate, String? notes}) async {
     final response = await http.post(
       Uri.parse(ApiUrl.followUpsUrl),
       headers: await getHeaders(),
@@ -432,9 +408,9 @@ class ApiServices {
         "status": "pending"
       }),
     );
-    print("SEND FOLLOW UPS STATUS CODE : ${response.request}");
-    print("SEND FOLLOW UPS STATUS CODE : ${response.statusCode}");
-    print("SEND FOLLOW UPS BODY : ${response.body}");
+    print("followUpsApi : ${response.request}");
+    print("followUpsApi : ${response.statusCode}");
+    print("followUpsApi : ${response.body}");
     return response;
   }
 
@@ -442,42 +418,33 @@ class ApiServices {
     final response = await http.put(
       Uri.parse(ApiUrl.followUpsPutUrl),
       headers: await getHeaders(),
-      body: jsonEncode({
-        "id" : followUpId,
-        "status": "done"
-      }),
+      body: jsonEncode({"id": followUpId, "status": "done"}),
     );
-    print("SEND FOLLOW PUT UPS STATUS CODE : ${response.request}");
-    print("SEND FOLLOW PUT UPS STATUS CODE : ${response.statusCode}");
-    print("SEND FOLLOW PUT UPS BODY : ${response.body}");
+    print("followUpsPutApi : ${response.request}");
+    print("followUpsPutApi : ${response.statusCode}");
+    print("followUpsPutApi : ${response.body}");
     return response;
   }
 
-  Future<http.Response> followUpsByUserId(status,period) async {
-    print("TASK FOLLOW UPS USERID1---------------------- $userId");
-    print("TASK FOLLOW UPS USERID2---------------------- $status");
-    print("TASK FOLLOW UPS USERID3---------------------- $period");
+  Future<http.Response> followUpsByUserId(status, period) async {
     final response = await http.get(
-      Uri.parse(ApiUrl.followUpsUrlByUserId(userId!,status,period)),
+      Uri.parse(ApiUrl.followUpsUrlByUserId(userId!, status, period)),
       headers: await getHeaders(),
     );
-    print("TASK FOLLOW UPS USERID STATUS CODE : ${response.request}");
-    print("TASK FOLLOW UPS USERID STATUS CODE : ${response.body}");
-    print("TASK FOLLOW UPS USERID STATUS CODE : ${response.statusCode}");
-    print("TASK FOLLOW UPS USERID BODY : ${response.body}");
+    print("followUpsByUserId : ${response.request}");
+    print("followUpsByUserId : ${response.statusCode}");
+    print("followUpsByUserId : ${response.body}");
     return response;
   }
 
   Future<http.Response> followUpsByUserIdForNotification() async {
-    print("TASK FOLLOW UPS FOR NOTIFICATION USERID1---------------------- $userId");
     final response = await http.get(
       Uri.parse(ApiUrl.followUpsUrlByUserIdForNotification(userId!)),
       headers: await getHeaders(),
     );
-    print("TASK FOLLOW UPS FOR NOTIFICATION USERID STATUS CODE : ${response.request}");
-    print("TASK FOLLOW UPS FOR NOTIFICATION USERID STATUS CODE : ${response.body}");
-    print("TASK FOLLOW UPS FOR NOTIFICATION USERID STATUS CODE : ${response.statusCode}");
-    print("TASK FOLLOW UPS FOR NOTIFICATION USERID BODY : ${response.body}");
+    print("followUpsByUserIdForNotification : ${response.request}");
+    print("followUpsByUserIdForNotification : ${response.statusCode}");
+    print("followUpsByUserIdForNotification : ${response.body}");
     return response;
   }
 }

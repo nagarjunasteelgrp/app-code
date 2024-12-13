@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
@@ -7,6 +8,7 @@ import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background/flutter_background.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -19,9 +21,7 @@ class HomeProvider extends ChangeNotifier {
   void setSelectedIndex(int index, {bool tabIndex = false}) {
     selectedIndex = index;
     if (selectedIndex == 2) {
-      // if (tabIndex == false) {
-        taskProvider = TaskProvider();
-      // }
+      taskProvider = TaskProvider();
     }
     notifyListeners();
   }
@@ -46,13 +46,20 @@ class HomeProvider extends ChangeNotifier {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var responseData = jsonDecode(response.body);
         prefs.setString('profilePicture', responseData['profilePicture']);
-        print("Dealer display picture updated successfully: ${response.body}");
+        showAppSnackBar(
+            type: 'success',
+            context: Get.context!,
+            title: responseData['message']);
       } else {
-        print(
-            "Failed to update dealer display picture. Status code: ${response.statusCode}");
+        var responseData = jsonDecode(response.body);
+        showAppSnackBar(
+            type: 'Error',
+            context: Get.context!,
+            title: responseData['message']);
       }
     } catch (e) {
-      print("Error in updateDealerProfile: $e");
+      showAppSnackBar(
+          type: 'Error', context: Get.context!, title: e.toString());
     } finally {
       notifyListeners();
     }
@@ -60,10 +67,7 @@ class HomeProvider extends ChangeNotifier {
 
   getProfilePicture() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(
-        "getProfilePicture------11 :${prefs.getString("profilePicture").runtimeType}");
     profilePicture = prefs.getString("profilePicture");
-    print("getProfilePicture------1 :$profilePicture ");
     notifyListeners();
   }
 
@@ -106,15 +110,12 @@ class HomeProvider extends ChangeNotifier {
     prefs.remove("email");
     prefs.remove("mobile");
     prefs.remove("empId");
+    followUpsDateList = [];
     prefs.setBool('isLogin', false);
     serviceInitialize.invoke("stopService");
     await initializeService(prefs.setBool('isService', false));
     // BackgroundLocation.stopLocationService();
     // await prefs.clear();
-    print(
-        "SharedPreferences Cleared........................${prefs.getString('token')}");
-    print(
-        "SharedPreferences Cleared........................${prefs.getDouble('latitude')}");
     notifyListeners();
   }
 }

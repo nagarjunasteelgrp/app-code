@@ -9,8 +9,7 @@ class ActivitiesProvider extends ChangeNotifier {
   var userId;
   List taskList = [];
 
-
-  ActivitiesProvider(){
+  ActivitiesProvider() {
     getUserId();
   }
 
@@ -31,11 +30,9 @@ class ActivitiesProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-    }  finally {
+    } finally {
       isLoading = false;
       notifyListeners();
     }
   }
-
-
 }

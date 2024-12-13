@@ -6,12 +6,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingCurrentLocationProvider extends ChangeNotifier {
-
   ApiServices apiServices = ApiServices();
   TextEditingController addNotesController = TextEditingController();
   GoogleMapController? mapController;
-  double? latitude ;
-  double? longitude ;
+  double? latitude;
+
+  double? longitude;
+
   bool isLoading = false;
   List markers = [];
   String address = '';
@@ -19,7 +20,6 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   List trackingInfoNotesList = [];
   List trackingInfoImagesList = [];
   LatLng? initialPosition;
-
 
   void setMapController(GoogleMapController controller) {
     mapController = controller;
@@ -46,15 +46,13 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
         icon: BitmapDescriptor.defaultMarker,
         markerId: MarkerId(latLng.toString()),
         position: latLng,
-        onTap: () {
-          print(address);
-        },
+        onTap: () {},
       ),
     );
     notifyListeners();
   }
 
-  getMapData() async{
+  getMapData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     latitude = prefs.getDouble("latitude");
     longitude = prefs.getDouble("longitude");
@@ -63,11 +61,11 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
 
   Future trackingInfoAPI() async {
     try {
-        isLoading = true;
+      isLoading = true;
       notifyListeners();
-      var response = await apiServices.trackingInfoList(id: // trackingInfoId!
-        3
-      );
+      var response = await apiServices.trackingInfoList(
+          id: // trackingInfoId!
+              3);
       if (response.statusCode == 200) {
         markers.clear();
         var responseData = jsonDecode(response.body);
@@ -81,15 +79,18 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
 
         address = responseData['trackingInfo']['address'];
         markers.add({
-          'marker_id' : markers.length+1,
-          'latitude': double.parse(responseData['trackingInfo']['latitude'].toString()),
-          'longitude': double.parse(responseData['trackingInfo']['longitude'].toString()),
+          'marker_id': markers.length + 1,
+          'latitude':
+              double.parse(responseData['trackingInfo']['latitude'].toString()),
+          'longitude': double.parse(
+              responseData['trackingInfo']['longitude'].toString()),
         });
-        animateCamera(double.parse(responseData['trackingInfo']['latitude'].toString()), double.parse(responseData['trackingInfo']['longitude'].toString()));
+        animateCamera(
+            double.parse(responseData['trackingInfo']['latitude'].toString()),
+            double.parse(responseData['trackingInfo']['longitude'].toString()));
         notifyListeners();
-      } else {
-      }
-    }  finally {
+      } else {}
+    } finally {
       isLoading = false;
       notifyListeners();
     }

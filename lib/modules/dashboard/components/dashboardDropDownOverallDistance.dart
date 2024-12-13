@@ -3,11 +3,17 @@ import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart'
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-Widget dashBoardDropDownOverallDistance (BuildContext context , DashboardProvider provider) {
-  return  Row(
+Widget dashBoardDropDownOverallDistance(
+    BuildContext context, DashboardProvider provider) {
+  return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      AppText(title: 'Overall Distance',fontWeight: FontWeight.bold,letterSpacing: 0.4,fontSize: 1.8.h,),
+      AppText(
+        title: 'Overall Distance',
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0.4,
+        fontSize: 1.8.h,
+      ),
       Container(
         width: 12.h,
         height: 3.8.h,
@@ -38,13 +44,16 @@ Widget dashBoardDropDownOverallDistance (BuildContext context , DashboardProvide
               dropdownColor: Theme.of(context).colorScheme.background,
               hint: Text(
                 "--Select--",
-                style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               ),
               icon: Icon(
-                Icons.keyboard_arrow_down_rounded,color: Theme.of(context).colorScheme.inverseSurface,
+                Icons.keyboard_arrow_down_rounded,
+                color: Theme.of(context).colorScheme.inverseSurface,
                 size: 3.h,
               ),
-              items: List.generate(provider.dropDownOverallDistance.length, (index) {
+              items: List.generate(provider.dropDownOverallDistance.length,
+                  (index) {
                 var data = provider.dropDownOverallDistance[index];
                 var value = data.toString();
                 return DropdownMenuItem<String>(
@@ -52,13 +61,15 @@ Widget dashBoardDropDownOverallDistance (BuildContext context , DashboardProvide
                   child: Padding(
                     padding: EdgeInsets.only(left: 0.5.w),
                     child: AppText(
-                      title:
-                      "${data[0].toUpperCase()}${data.substring(1)}",fontSize: 1.5.h,color: Theme.of(context).colorScheme.inverseSurface,fontWeight: FontWeight.bold,
+                      title: "${data[0].toUpperCase()}${data.substring(1)}",
+                      fontSize: 1.5.h,
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 );
               }),
-              style: TextStyle(fontWeight: FontWeight.w800,fontSize: 1.9.h),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
               onChanged: (newValue) {
                 provider.dropDownSelectedValueOverallDistance(newValue);
               },

@@ -34,7 +34,7 @@ class ApiUrl{
 
   static String autoTrackingUrl = '${baseUrl}activities';
 
-  static String getTaskListUrl(int id) => '${baseUrl}tasks/user/$id';
+  static String getTaskListUrl(int id) => '${baseUrl}task/user/$id';
 
   static String checkInListUrl(int id) => '${baseUrl}attendance/user/$id';
 
@@ -50,9 +50,9 @@ class ApiUrl{
 
   static String overallDistanceUrl(String period, int id) => '${baseUrl}web-statistics/over-all-distance?period=$period&userId=$id';
 
-  static String statusUpdateUrl(int statusId) => '${baseUrl}tasks/$statusId/status';
+  static String statusUpdateUrl(int statusId) => '${baseUrl}task/$statusId/status';
 
-  static String taskByUserIdUrl(int userId) => '${baseUrl}tasks?userId=$userId';
+  static String taskByUserIdUrl(int userId) => '${baseUrl}task?userId=$userId';
 
   static String messageFetching(int userId) => '${baseUrl}messages?userId=$userId';
 
@@ -66,5 +66,5 @@ class ApiUrl{
 
   static String followUpsUrlByUserId(userId,status,period) => '${baseUrl}followUp/?userId=$userId&status=$status&period=$period';
 
-  static String followUpsUrlByUserIdForNotification(userId) => '${baseUrl}followUp/?userId=$userId';
+  static String followUpsUrlByUserIdForNotification(userId) => '${baseUrl}followUp/?userId=$userId&status=pending&period=today';
 }

@@ -1,17 +1,20 @@
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-Widget taskStatusDropDown (BuildContext context , TaskProvider provider) {
+Widget taskStatusDropDown(BuildContext context, TaskProvider provider) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      AppText(title: 'Task Status',),
-      SizedBox(height: 0.5.h,),
+      AppText(
+        title: 'Task Status',
+      ),
+      SizedBox(
+        height: 0.5.h,
+      ),
       Container(
-       width: double.infinity,
+        width: double.infinity,
         height: 4.h,
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).colorScheme.onBackground),
@@ -32,10 +35,12 @@ Widget taskStatusDropDown (BuildContext context , TaskProvider provider) {
               dropdownColor: Theme.of(context).colorScheme.background,
               hint: Text(
                 "--Select--",
-                style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               ),
               icon: Icon(
-                Icons.keyboard_arrow_down_rounded,color: Theme.of(context).colorScheme.inverseSurface,
+                Icons.keyboard_arrow_down_rounded,
+                color: Theme.of(context).colorScheme.inverseSurface,
                 size: 3.h,
               ),
               items: List.generate(provider.dropDown.length, (index) {
@@ -46,13 +51,15 @@ Widget taskStatusDropDown (BuildContext context , TaskProvider provider) {
                   child: Padding(
                     padding: EdgeInsets.only(left: 0.5.w),
                     child: AppText(
-                      title:
-                      "${data[0].toUpperCase()}${data.substring(1)}",fontSize: 1.5.h,color: Theme.of(context).colorScheme.secondary,fontWeight: FontWeight.bold,
+                      title: "${data[0].toUpperCase()}${data.substring(1)}",
+                      fontSize: 1.5.h,
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 );
               }),
-              style: TextStyle(fontWeight: FontWeight.w800,fontSize: 1.9.h),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
               onChanged: (newValue) {
                 provider.dropDownSelectedValue(newValue);
               },

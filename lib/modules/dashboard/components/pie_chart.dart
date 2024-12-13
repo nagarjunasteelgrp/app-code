@@ -1,15 +1,13 @@
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
-import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class pieChart extends StatefulWidget {
   DashboardProvider provider;
-   pieChart({super.key,required this.provider});
+
+  pieChart({super.key, required this.provider});
 
   @override
   State<pieChart> createState() => _pieChartState();
@@ -18,9 +16,6 @@ class pieChart extends StatefulWidget {
 class _pieChartState extends State<pieChart> {
   @override
   Widget build(BuildContext context) {
-    print("PIE CHART:-------------------${double.parse(widget.provider.dealerSum.toString())}");
-    print("PIE CHART:-------------------${widget.provider.fabricatorsSum.toDouble()}");
-    print("PIE CHART:-------------------${widget.provider.customerSum.toDouble()}");
     return Center(
       child: SizedBox(
         height: 30.h,
@@ -37,7 +32,8 @@ class _pieChartState extends State<pieChart> {
                   PieChartSectionData(
                     value: widget.provider.dealerSum.toDouble(),
                     color: Theme.of(context).colorScheme.outline,
-                    radius: 60, // Reduced radius
+                    radius: 60,
+                    // Reduced radius
                     badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
                       height: 4.h,
@@ -60,7 +56,8 @@ class _pieChartState extends State<pieChart> {
                   PieChartSectionData(
                     value: widget.provider.fabricatorsSum.toDouble(),
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    radius: 60, // Reduced radius
+                    radius: 60,
+                    // Reduced radius
                     badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
                       height: 4.h,
@@ -83,7 +80,8 @@ class _pieChartState extends State<pieChart> {
                   PieChartSectionData(
                     value: widget.provider.customerSum.toDouble(),
                     color: Theme.of(context).colorScheme.onInverseSurface,
-                    radius: 60, // Reduced radius
+                    radius: 60,
+                    // Reduced radius
                     badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
                       height: 4.h,
@@ -106,7 +104,8 @@ class _pieChartState extends State<pieChart> {
                   PieChartSectionData(
                     value: widget.provider.engineersSum.toDouble(),
                     color: Theme.of(context).colorScheme.onPrimary,
-                    radius: 60, // Reduced radius
+                    radius: 60,
+                    // Reduced radius
                     badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
                       height: 4.h,
@@ -129,7 +128,8 @@ class _pieChartState extends State<pieChart> {
                   PieChartSectionData(
                     value: widget.provider.masonsSum.toDouble(),
                     color: Theme.of(context).colorScheme.onSecondary,
-                    radius: 60, // Reduced radius
+                    radius: 60,
+                    // Reduced radius
                     badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
                       height: 4.h,
@@ -156,10 +156,17 @@ class _pieChartState extends State<pieChart> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AppText(title: '${widget.provider.overallEnrollmentSum}',fontWeight: FontWeight.bold,fontSize: 14.sp,),
+                  AppText(
+                    title: '${widget.provider.overallEnrollmentSum}',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
+                  ),
                   AppText(
                     title: 'Total Enrollment',
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.5),
                     fontSize: 8.sp,
                     fontWeight: FontWeight.bold,
                   ),

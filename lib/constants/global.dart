@@ -48,7 +48,7 @@ Future<Map<String, String>> getHeaders() async {
     sharedPreferences.remove("userId");
     token = '';
     Navigator.push(
-        Get.context!, MaterialPageRoute(builder: (context) =>  LoginScreen()));
+        Get.context!, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
   return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
@@ -65,23 +65,19 @@ personalDetails() async {
 }
 
 Future<dynamic> getCurrentLocation() async {
-  print("GET CURRENT LOCATION CALLED..............1");
-  print(
-      "GET CURRENT LOCATION CALLED..............2  ${latitude} ${longitude} ${addressPlacement}");
   try {
     var logResponse = await apiServices.autoTrackingAPI(
         latitude: latitude, longitude: longitude, address: addressPlacement);
+    print("logResponse : ${logResponse.body}");
     if (logResponse.statusCode == 201) {
       var response = jsonDecode(logResponse.body);
       latitude = response['activity']['latitude'] ?? 0.0;
       longitude = response['activity']['longitude'] ?? 0.0;
-    } else {
-      var response = jsonDecode(logResponse.body);
     }
     return addressPlacement;
   } catch (e) {
-    print("GET CURRENT LOCATION CALLED..............3 ${e.toString()}");
-    print(e);
+    // showAppSnackBar(
+    //     context: Get.context!, title: 'Error', subtitle: e.toString());
   }
 }
 
@@ -113,13 +109,15 @@ Future<void> onStart(ServiceInstance service) async {
     }
   }
   CurrentLocationProvider locationProvider = CurrentLocationProvider();
-  Timer.periodic(const Duration(minutes: 5), (timer) async {
+  Timer.periodic(const Duration(minutes: 1), (timer) async {
     print("SERVICE STARTED..........................4");
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
-        await locationProvider.getUserLocation();
+        await locationProvider.getUserLocation().then((value) async {
+          await getCurrentLocation();
+        });
         // await getMapData();
-        await getCurrentLocation();
+
       }
     }
   });
@@ -163,8 +161,6 @@ Future<void> initializeService(Future<void> isService) async {
   );
 }
 
-
-
 Future<void> showNotification(String title, String body) async {
   const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
     'reminder_channel',
@@ -174,7 +170,8 @@ Future<void> showNotification(String title, String body) async {
     priority: Priority.high,
   );
 
-  const NotificationDetails notificationDetails = NotificationDetails(android: androidDetails);
+  const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidDetails);
 
   await flutterLocalNotificationsPlugin.show(
     0,
@@ -186,51 +183,22 @@ Future<void> showNotification(String title, String body) async {
 
 void initializeNotifications() async {
   const AndroidInitializationSettings androidInitializationSettings =
-  AndroidInitializationSettings('@mipmap/ic_launcher');
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
   const InitializationSettings initializationSettings =
-  InitializationSettings(android: androidInitializationSettings);
+      InitializationSettings(android: androidInitializationSettings);
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
-
 Future<void> followUpsForNotificationFetching() async {
   try {
     var response = await apiServices.followUpsByUserIdForNotification();
-    print("GET FOLLOW UPS USERID STATUS CODE1 : ${response.statusCode}");
-    print("GET FOLLOW UPS USERID STATUS CODE2 : ${response.request}");
-    print("GET FOLLOW UPS USERID STATUS CODE3 : ${response.body}");
-
     if (response.statusCode == 200) {
       var responseData = jsonDecode(response.body);
-      print("Follow 111Ups:---- $responseData");
-
-      // Filter the data based on current date and status "pending"
-      DateTime currentDate = DateTime.now();
-      List<Map<String, dynamic>> filteredFollowUps = [];
-
-      for (var followUp in responseData) {
-        print("Follow 222Ups:---- $followUp");
-        DateTime followUpDate = DateTime.parse(followUp["followUpDate"]);
-
-        // Compare only date part (ignoring time)
-        if (followUpDate.year == currentDate.year &&
-            followUpDate.month == currentDate.month &&
-            followUpDate.day == currentDate.day &&
-            followUp["status"] == "pending") {
-
-          filteredFollowUps.add(followUp);
-          print("filteredFollowUps Follow Ups:---- $filteredFollowUps");
-        }
-      }
-
-      // Store the filtered results
-      followUpsDateList = filteredFollowUps;
-      print("Filtered Follow Ups:---- $followUpsDateList");
+      followUpsDateList = responseData;
     }
   } catch (error) {
     print("Error fetching follow-ups: $error");
   }
 }
-

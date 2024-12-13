@@ -43,14 +43,16 @@ class ResetEmailScreen extends StatelessWidget {
                         fontSize: 1.8.h,
                       ),
                       SizedBox(height: 1.h),
-                      Consumer<ResetEmailProvider>(builder: (context, value, _) {
+                      Consumer<ResetEmailProvider>(
+                          builder: (context, value, _) {
                         return appTextField(
                             controller: value.resetEmailController,
                             context: context);
                       }),
 
                       SizedBox(height: 2.h),
-                      Consumer<ResetEmailProvider>(builder: (context, provider, _) {
+                      Consumer<ResetEmailProvider>(
+                          builder: (context, provider, _) {
                         return Center(
                           child: appButton(
                             width: 80.w,
@@ -59,7 +61,7 @@ class ResetEmailScreen extends StatelessWidget {
                                 fontSize: 2.h,
                                 fontWeight: FontWeight.w700,
                                 color:
-                                Theme.of(context).colorScheme.background),
+                                    Theme.of(context).colorScheme.background),
                             context: context,
                             onTap: () {
                               provider.resetEmail(context);

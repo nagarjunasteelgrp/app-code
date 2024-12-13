@@ -5,39 +5,33 @@ import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
-import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/tracking/components/followup_dailog_box.dart';
-import 'package:digital_lync/modules/tracking/components/google_map_com.dart';
 import 'package:digital_lync/modules/tracking/components/showDailogBox_googleMap.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import 'add_notes_dailog.dart';
-import 'bottomsheet.dart';
 
 class TrackingListScreen extends StatelessWidget {
   const TrackingListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TrackingProvider>(
-        builder: (context, provider, child) {
+    return Consumer<TrackingProvider>(builder: (context, provider, child) {
       return provider.trackingInfoList.length < 0
           ? const SizedBox()
           : Column(
               children:
                   List.generate(provider.trackingInfoList.length, (index) {
-                    DateTime date = DateTime.parse(provider.trackingInfoList[index]['createdAt']);
-                    String formattedDate = DateFormat('dd MMMM, yyyy').format(date).toString();
+                DateTime date = DateTime.parse(
+                    provider.trackingInfoList[index]['createdAt']);
+                String formattedDate =
+                    DateFormat('dd MMMM, yyyy').format(date).toString();
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.h),
                   child: Container(
@@ -66,33 +60,47 @@ class TrackingListScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
-                          onTap: (){
-                            showMapDialogGoogleMap(context,provider.trackingInfoList[index]['latitude'],provider.trackingInfoList[index]['longitude'],provider.trackingInfoList[index]['address'] ?? "");
+                          onTap: () {
+                            showMapDialogGoogleMap(
+                                context,
+                                provider.trackingInfoList[index]['latitude'],
+                                provider.trackingInfoList[index]['longitude'],
+                                provider.trackingInfoList[index]['address'] ??
+                                    "");
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               appCircleIcon(
-                                  context: context,
-                                  colors: Theme.of(context).colorScheme.onPrimary.withOpacity(0.1),
-                                  radius: 2.w,
-                                  height: 5.h,
-                                  width: 5.h,
-                                  child:
-                                SvgPicture.asset(
+                                context: context,
+                                colors: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary
+                                    .withOpacity(0.1),
+                                radius: 2.w,
+                                height: 5.h,
+                                width: 5.h,
+                                child: SvgPicture.asset(
                                     AppAssets.APP_GEO_LOCATIONS_SVG,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                               ),
                               SizedBox(width: 2.w),
                               Flexible(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    AppText(title: formattedDate.toString(),fontWeight: FontWeight.w600,),
-                                    AppText(title:provider.trackingInfoList[index]['address'] ?? "",maxLines: 10,),
+                                    AppText(
+                                      title: formattedDate.toString(),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    AppText(
+                                      title: provider.trackingInfoList[index]
+                                              ['address'] ??
+                                          "",
+                                      maxLines: 10,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -102,10 +110,6 @@ class TrackingListScreen extends StatelessWidget {
                         SizedBox(
                           height: 1.h,
                         ),
-                        // googleMapCom(
-                        //     provider.trackingInfoList[index]['latitude'],
-                        //     provider.trackingInfoList[index]['longitude'],
-                        //     provider.trackingInfoList[index]['address']),
                         SizedBox(height: 2.h),
                         Row(
                           children: [
@@ -125,34 +129,37 @@ class TrackingListScreen extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SvgPicture.asset(AppAssets.APP_ADD_NOTES_SVG,
+                                      SvgPicture.asset(
+                                          AppAssets.APP_ADD_NOTES_SVG,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onPrimary),
                                       SizedBox(width: 2.w),
                                       AppText(
                                         title: 'Add Notes',
-                                        color:
-                                            Theme.of(context).colorScheme.onPrimary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
                                       ),
                                     ],
                                   )),
                             ),
-                              SizedBox(width: 2.w),
+                            SizedBox(width: 2.w),
                             Expanded(
                               child: appOutlineButton(
-                                  context: context,
-                                  onTap: () {
-                                  followUpDialogBox(context,provider);
-                                  },
-                                  height: 5.5.h,
-                                  radius: 1.h,
-                                  width: double.infinity,
-                                  child:  AppText(
-                                    title: 'Follow ups',
-                                    color:
-                                    Theme.of(context).colorScheme.onPrimary,
-                                  ),),
+                                context: context,
+                                onTap: () {
+                                  followUpDialogBox(context, provider);
+                                },
+                                height: 5.5.h,
+                                radius: 1.h,
+                                width: double.infinity,
+                                child: AppText(
+                                  title: 'Follow ups',
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -227,7 +234,8 @@ class TrackingListScreen extends StatelessWidget {
                                 if (provider.trackingInfoList[index]['id'] !=
                                     0) {
                                   // contactBottomSheet(context, provider);
-                                  provider.getImage(context, ImageSource.camera);
+                                  provider.getImage(
+                                      context, ImageSource.camera);
                                   provider.imageType = 'image';
                                 }
                               },
@@ -287,8 +295,6 @@ class TrackingListScreen extends StatelessWidget {
                           children: List.generate(
                               provider.trackingInfoList[index]['trackingImages']
                                   .length, (imageIndex) {
-                            print(
-                                "provider.trackingInfoList[index]:---${provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc']!}");
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

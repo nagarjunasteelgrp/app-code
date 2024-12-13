@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -14,7 +13,7 @@ Widget appTextField(
     color,
     image,
     maxLines,
-      maxlength,
+    maxlength,
     keyboardType,
     validator,
     title,
@@ -58,7 +57,8 @@ Widget appTextField(
       fillColor: Theme.of(context).colorScheme.onSurface,
       filled: true,
       isDense: true,
-      contentPadding: EdgeInsets.symmetric(vertical: verticalPadding ?? 1.6.h,horizontal: 2.5.w),
+      contentPadding: EdgeInsets.symmetric(
+          vertical: verticalPadding ?? 1.6.h, horizontal: 2.5.w),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
         borderSide:
@@ -74,8 +74,7 @@ Widget appTextField(
           borderSide: Theme.of(context)
               .inputDecorationTheme
               .focusedErrorBorder!
-              .borderSide
-          ),
+              .borderSide),
       errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 3.w),
           borderSide:

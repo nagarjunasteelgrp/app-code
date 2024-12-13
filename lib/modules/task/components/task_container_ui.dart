@@ -7,7 +7,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-Widget taskContainerUI(BuildContext context, {required Color colors, String? type, String? title, String? description, dynamic dateTime, required VoidCallback onTap}) {
+Widget taskContainerUI(BuildContext context,
+    {required Color colors,
+    String? type,
+    String? title,
+    String? description,
+    dynamic dateTime,
+    required VoidCallback onTap}) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 1.2.h, horizontal: 4.w),
     child: InkWell(
@@ -40,8 +46,8 @@ Widget taskContainerUI(BuildContext context, {required Color colors, String? typ
                 type == 'Notification'
                     ? AppAssets.APP_NOTIFICATION_SVG
                     : type == 'Meeting'
-                    ? AppAssets.APP_MEETING_SVG
-                    : AppAssets.APP_TASK_ICON_SVG,
+                        ? AppAssets.APP_MEETING_SVG
+                        : AppAssets.APP_TASK_ICON_SVG,
                 color: Theme.of(context).primaryColor,
               ),
             ),

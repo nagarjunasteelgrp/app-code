@@ -31,7 +31,7 @@ class TrackingProvider extends ChangeNotifier {
   String? contactTypeCompanyName;
   String? contactTypeName;
   List trackingInfoList = [];
- List trackingInfoListStoreData = [];
+  List trackingInfoListStoreData = [];
   int limit = 5;
   int pager = 0;
   String? imageType;
@@ -39,19 +39,17 @@ class TrackingProvider extends ChangeNotifier {
   File? filePath;
   String? dealerName;
 
-
   bool get geoLocationBtn => _geoLocationBtn;
 
   DateTime? _selectedDate;
   TextEditingController noteController = TextEditingController();
+
   DateTime? get selectedDate => _selectedDate;
 
   void updateSelectedDate(DateTime date) {
     _selectedDate = date;
-    print("_selected Date :--- ${_selectedDate}");
     notifyListeners();
   }
-
 
   set geoLocationBtn(bool value) {
     _geoLocationBtn = value;
@@ -71,12 +69,11 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  trackingInfoDataPlus(){}
+  trackingInfoDataPlus() {}
 
   TrackingProvider(this.currentLocationProvider) {
     intialData();
     contactTypeId = Get.arguments['id'] ?? '';
-    print("contactTypeId : $contactTypeId");
     contactTypeCompanyName = Get.arguments['companyName'] ?? '';
     contactTypeName = Get.arguments['contactType'] ?? '';
     trackingInfoAPI();
@@ -84,29 +81,29 @@ class TrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-intialData()async{
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      latitude = sharedPreferences.getDouble("latitude");
-      longitude = sharedPreferences.getDouble("longitude");
-      addressPlacement = sharedPreferences.getString("address") ?? '';
-   notifyListeners();
-}
+  intialData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    latitude = sharedPreferences.getDouble("latitude");
+    longitude = sharedPreferences.getDouble("longitude");
+    addressPlacement = sharedPreferences.getString("address") ?? '';
+    notifyListeners();
+  }
 
   Future<void> followUpsAPI(context) async {
     notifyListeners();
     try {
       isLoading = true;
       notifyListeners();
-      var response = await apiServices.followUpsApi(dealerId: contactTypeId,notes: noteController.text,selectDate: _selectedDate!.toIso8601String());
-      print("RESPONSE DATA:...1.---- ${response.body}");
-      print("RESPONSE DATA:...2.---- ${response.statusCode}");
-      print("RESPONSE DATA:...3.---- ${response.request}");
-      print("RESPONSE DATA:.....4.---- ${_selectedDate!.toIso8601String()}");
+      var response = await apiServices.followUpsApi(
+          dealerId: contactTypeId,
+          notes: noteController.text,
+          selectDate: _selectedDate!.toIso8601String());
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
         noteController.clear();
         _selectedDate = null;
-        showAppSnackBar(type: 'success', context: context, title: responseData['message']);
+        showAppSnackBar(
+            type: 'success', context: context, title: responseData['message']);
         isLoading = false;
         Get.back();
         notifyListeners();
@@ -129,14 +126,13 @@ intialData()async{
         icon: BitmapDescriptor.defaultMarker,
         markerId: MarkerId(latLng.toString()),
         position: latLng,
-        onTap: () {
-        },
+        onTap: () {},
       ),
     );
     notifyListeners();
   }
 
-   openFileExplorer(BuildContext context) async {
+  openFileExplorer(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'doc'],
@@ -144,54 +140,56 @@ intialData()async{
     if (result != null) {
       filePath = File(result.files.single.path!);
       selectedFileName = result.files.single.name;
-      if(filePath != null){
+      if (filePath != null) {
         return trackingImages(context).then((response) {
-          if(response.statusCode == 201){
+          if (response.statusCode == 201) {
             var res = jsonDecode(response.body);
-            showAppSnackBar(type: 'success', context: context, title: res['message']);
+            showAppSnackBar(
+                type: 'success', context: context, title: res['message']);
             trackingInfoAPI();
             notifyListeners();
-          }else{
+          } else {
             var res = jsonDecode(response.body);
             showAppSnackBar(
                 type: 'Error', context: context, title: res['message']);
             notifyListeners();
           }
-          });
+        });
       }
     }
   }
 
-  Future getImage(BuildContext context,ImageSource source) async {
+  Future getImage(BuildContext context, ImageSource source) async {
     final picker = ImagePicker();
-  await picker.pickImage(source: source).then((value) {
+    await picker.pickImage(source: source).then((value) {
       if (value != null) {
         image = File(value.path);
-        if(image != null){
+        if (image != null) {
           isLoading = true;
           notifyListeners();
-           trackingImages(context).then((response) {
-             if(response.statusCode == 201){
-               var res = jsonDecode(response.body);
-               // showAppSnackBar(type: 'success', context: context, title: res['message']);
-               trackingInfoAPI();
-               notifyListeners();
-               // Get.back();
-               isLoading = false;
-               notifyListeners();
-             }else{
-               var res = jsonDecode(response.body);
-               showAppSnackBar(
-                   type: 'Error', context: context, title: res['message']);
-               isLoading = false;
-               notifyListeners();
-               Get.back();
-             }
-           });
+          trackingImages(context).then((response) {
+            if (response.statusCode == 201) {
+              var res = jsonDecode(response.body);
+              trackingInfoAPI();
+              showAppSnackBar(type: 'success', context: context, title: res['message']);
+              notifyListeners();
+              // Get.back();
+              isLoading = false;
+              notifyListeners();
+            } else {
+              var res = jsonDecode(response.body);
+              showAppSnackBar(
+                  type: 'Error', context: context, title: res['message']);
+              isLoading = false;
+              notifyListeners();
+              Get.back();
+            }
+          });
         }
         notifyListeners();
       } else {
-        print('No image selected.');
+        isLoading = false;
+        notifyListeners();
       }
     });
     notifyListeners();
@@ -203,13 +201,18 @@ intialData()async{
     FocusScope.of(context).unfocus();
     notifyListeners();
     try {
-      var logResponse = await apiServices.trackingInfo(latitude: latitude,longitude: longitude,address: addressPlacement,dealerId: contactTypeId);
+      var logResponse = await apiServices.trackingInfo(
+          latitude: latitude,
+          longitude: longitude,
+          address: addressPlacement,
+          dealerId: contactTypeId);
       if (logResponse.statusCode == 201) {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
         trackingInfoId = response['activity']['id'];
-        showAppSnackBar(type: 'success', context: context, title: response['message']);
+        showAppSnackBar(
+            type: 'success', context: context, title: response['message']);
         addNotesController.clear();
         trackingInfoAPI();
         notifyListeners();
@@ -218,7 +221,8 @@ intialData()async{
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        showAppSnackBar(type: 'Error', context: context, title: response['message']);
+        showAppSnackBar(
+            type: 'Error', context: context, title: response['message']);
       }
     } catch (e) {
       isLoading = false;
@@ -238,12 +242,14 @@ intialData()async{
     }
     notifyListeners();
     try {
-      var logResponse = await apiServices.trackingNotes(description: addNotesController.text, trackingInfoId: trackingInfoId);
+      var logResponse = await apiServices.trackingNotes(
+          description: addNotesController.text, trackingInfoId: trackingInfoId);
       if (logResponse.statusCode == 201) {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        showAppSnackBar(type: 'success', context: context, title: response['message']);
+        showAppSnackBar(
+            type: 'success', context: context, title: response['message']);
         addNotesController.clear();
         trackingInfoAPI();
         Get.back();
@@ -251,7 +257,8 @@ intialData()async{
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        showAppSnackBar(type: 'Error', context: context, title: response['message']);
+        showAppSnackBar(
+            type: 'Error', context: context, title: response['message']);
       }
     } catch (e) {
       isLoading = false;
@@ -260,14 +267,13 @@ intialData()async{
     }
   }
 
-   trackingImages(BuildContext context) async {
-      return await apiServices.trackingImages(
-          trackingInfoId: trackingInfoId!,
-          image: (imageType == "image") ? image! : filePath!,
-          imageType: imageType!,
-        );
+  trackingImages(BuildContext context) async {
+    return await apiServices.trackingImages(
+      trackingInfoId: trackingInfoId!,
+      image: (imageType == "image") ? image! : filePath!,
+      imageType: imageType!,
+    );
   }
-
 
   Future trackingInfoAPI() async {
     try {
@@ -279,26 +285,23 @@ intialData()async{
         var responseData = jsonDecode(response.body);
         trackingInfoListStoreData = responseData['activity'];
         dealerName = trackingInfoListStoreData[0]['dealer']['personName'];
-        print("trackingInfoListStoreData: ${dealerName}");
-        if(trackingInfoListStoreData.length > limit){
-        trackingInfoList = trackingInfoListStoreData.sublist(0,limit);
-        }else{
+        if (trackingInfoListStoreData.length > limit) {
+          trackingInfoList = trackingInfoListStoreData.sublist(0, limit);
+        } else {
           trackingInfoList = trackingInfoListStoreData;
         }
-        print("trackingInfoList: ${trackingInfoList.length}");
         isLoading = false;
         notifyListeners();
-      }else{
+      } else {
         isLoading = false;
       }
     } catch (e) {
       return false;
-    }  finally {
+    } finally {
       isLoading = false;
       notifyListeners();
     }
   }
-
 
   Future<void> loadMoreData() async {
     if (isFetchingMore) return; // Avoid multiple requests
@@ -308,9 +311,9 @@ intialData()async{
     int endIndex = currentLength + limit;
 
     if (endIndex < trackingInfoListStoreData.length) {
-      trackingInfoList.addAll(trackingInfoListStoreData.sublist(currentLength, endIndex));
+      trackingInfoList
+          .addAll(trackingInfoListStoreData.sublist(currentLength, endIndex));
     } else {
-
       trackingInfoList.addAll(trackingInfoListStoreData.sublist(currentLength));
     }
     isFetchingMore = false;
@@ -319,12 +322,11 @@ intialData()async{
 
   void onScrollForPagination() {
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !isFetchingMore) {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
+          !isFetchingMore) {
         loadMoreData();
       }
     });
   }
 }
-
-
-

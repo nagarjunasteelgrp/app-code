@@ -2,7 +2,7 @@
 
 class Constants {
   static const String APP_NAME = 'Nagarjuna Steel';
-  static const  String GoogleMapKey = 'AIzaSyB6P55VaSsCmcFlxWNVwetPXqEFZzwTeKI';
+  static const String GoogleMapKey = 'AIzaSyB6P55VaSsCmcFlxWNVwetPXqEFZzwTeKI';
   static const String PACKAGE_NAME = 'com.digital.lync.app';
   static const String contacts = 'Contacts';
   static const String activities = 'Activities';

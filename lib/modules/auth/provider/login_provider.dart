@@ -16,7 +16,6 @@ class LoginProvider extends ChangeNotifier {
   bool isLoading = false;
   bool isChecked = false;
 
-
   void toggleCheckbox() {
     isChecked = !isChecked;
     notifyListeners();
@@ -30,7 +29,6 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<void> login(BuildContext context) async {
-
     FocusScope.of(context).unfocus();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
@@ -46,51 +44,48 @@ class LoginProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-       await apiServices.login(email: emailController.text, password: passwordController.text).then((value)async{
-         isLoading = false;
-         notifyListeners();
+      await apiServices
+          .login(email: emailController.text, password: passwordController.text)
+          .then((value) async {
+        isLoading = false;
+        notifyListeners();
         var response = jsonDecode(value.body);
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          print("LOGIN SUCCESS :1 ${response['token']}");
-         prefs.setString('token', response['token']);
+          prefs.setString('token', response['token']);
           prefs.setInt('userId', response['userInfo']['userId']);
           prefs.setString('email', response['userInfo']['email'].toString());
           prefs.setString('mobile', response['userInfo']['mobile'].toString());
-          prefs.setString('username', response['userInfo']['username'].toString());
+          prefs.setString(
+              'username', response['userInfo']['username'].toString());
           prefs.setString('empId', response['userInfo']['empId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
           prefs.setBool('isLogin', true);
-          prefs.setString('profilePicture', response['userInfo']['profilePicture'].toString());
-          print("LOGIN SUCCESS :2 ${response['token']}");
-          followUpsForNotificationFetching();
-          showAppSnackBar(type: 'success', context: context, title: response['message']);
+          prefs.setString('profilePicture',
+              response['userInfo']['profilePicture'].toString());
+          showAppSnackBar(
+              type: 'success', context: context, title: response['message']);
           await personalDetails();
-          print("LOGIN SUCCESS :3 ${response['token']}");
           await getHeaders();
-          print("LOGIN SUCCESS :4 ${response['token']}");
-          await (followUpsDateList!.isNotEmpty) ?
-            await showNotification(
-              'Remainder',
-              'The followups scheduled with ${followUpsDateList![0]['dealerName']} will be reminded today',
-            ) : null;
-
+          await followUpsForNotificationFetching();
+          await (followUpsDateList!.isNotEmpty)
+              ? await showNotification(
+                  'Remainder',
+                  'The followups scheduled with ${followUpsDateList![0]['dealerName']} will be reminded today',
+                )
+              : null;
           BackgroundLocation.startLocationService();
-          print("LOGIN SUCCESS :5 ${response['token']}");
           Get.offNamed(RoutesName.HOME);
           notifyListeners();
         } else {
-          print("LOGIN SUCCESS :6 ${response['token']}");
-          showAppSnackBar(type: 'Error', context: context, title: response['message']);
+          showAppSnackBar(
+              type: 'Error', context: context, title: response['message']);
         }
       });
-
     } catch (e) {
-      print("LOGIN SUCCESS :7 ${e.toString()}");
       isLoading = false;
-      notifyListeners();
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      notifyListeners();
     }
   }
-
 }

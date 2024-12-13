@@ -1,5 +1,4 @@
 import 'package:background_location/background_location.dart';
-import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
@@ -19,34 +18,34 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
- WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
- // await BackgroundLocation.startLocationService();
+  // await BackgroundLocation.startLocationService();
   BackgroundLocation.setAndroidNotification(
-   title: "Background Nagarjuna Steel",
-   message: "App is up and running",
-   icon: "@mipmap/ic_launcher",
- );
+    title: "Background Nagarjuna Steel",
+    message: "App is up and running",
+    icon: "@mipmap/ic_launcher",
+  );
 
- tz.initializeTimeZones();
- tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
 
- FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
- SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-   statusBarColor: Colors.transparent,
- ));
- SystemChrome.setPreferredOrientations([
-   DeviceOrientation.portraitUp,
- ]);
- FlutterNativeSplash.remove();
-  runApp(MultiProvider(providers: providers,
-    child: const MyApp()));
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  FlutterNativeSplash.remove();
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
+
 const notificationChannelId = 'my_foreground';
-  const notificationId = 10181;
+const notificationId = 10181;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -56,23 +55,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     initializeNotifications();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Provider.of<CurrentLocationProvider>(context, listen: false).getUserLocation();
-      bool isLogin = await getToken();
-      followUpsForNotificationFetching();
-      print("isLogin $isLogin");
-      if (isLogin) {
-        if(followUpsDateList!.isNotEmpty){
-          await showNotification(
-            'Remainder',
-            'The followups scheduled with ${followUpsDateList![0]['dealerName']} will be reminded today',
-          );
-        }
-      }
+      Provider.of<CurrentLocationProvider>(context, listen: false)
+          .getUserLocation();
     });
     super.initState();
   }

@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
-
   showDialog(
     context: context,
     builder: (context) {
@@ -27,76 +26,79 @@ void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
             builder: (context, provider, _) {
               return latitude == 0.0 || longitude == 0.0
                   ? const Center(
-                child: SpinKitLoader(),
-              )
-                  : Padding(
-                padding: EdgeInsets.all(2.h),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(
-                      title: 'Address',
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                    SizedBox(height: 0.5.h),
-                    (addressPlacement != "")
-                        ? AppText(
-                      title: addressPlacement,
-                      color: Theme.of(context).colorScheme.secondary,
-                      textOverflow: TextOverflow.ellipsis,
-                      maxLines: 5,
-                    )
-                        : const SizedBox(),
-                    SizedBox(height: 1.0.h),
-                    Container(
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2.h),
-                      ),
-                      child: GoogleMap(
-                        scrollGesturesEnabled: false,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: false,
-                        onMapCreated: (GoogleMapController controller) {
-                          provider.mapController = controller;
-                        },
-                        onTap: (LatLng latLng) async {},
-                        markers: Set.from(provider.markers),
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(latitude ?? 0.0, longitude ?? 0.0),
-                          zoom: 12.0,
-                        ),
-                     zoomControlsEnabled: false,
-                        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                          Factory<OneSequenceGestureRecognizer>(
-                                () => EagerGestureRecognizer(),
-                          ),
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    provider.isLoading == false
-                        ? appButton(
-                      color: Theme.of(context).colorScheme.primary,
-                      context: context,
-                      onTap: () {
-
-                        provider.trackingMap(context);
-                      },
-                      child: AppText(
-                        title: 'Save',
-                        color: Theme.of(context).colorScheme.background,
-                      ),
-                      width: double.infinity,
-                      height: 5.h,
-                    )
-                        : const Center(
                       child: SpinKitLoader(),
-                    ),
-                  ],
-                ),
-              );
+                    )
+                  : Padding(
+                      padding: EdgeInsets.all(2.h),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            title: 'Address',
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          SizedBox(height: 0.5.h),
+                          (addressPlacement != "")
+                              ? AppText(
+                                  title: addressPlacement,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  textOverflow: TextOverflow.ellipsis,
+                                  maxLines: 5,
+                                )
+                              : const SizedBox(),
+                          SizedBox(height: 1.0.h),
+                          Container(
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2.h),
+                            ),
+                            child: GoogleMap(
+                              scrollGesturesEnabled: false,
+                              myLocationEnabled: true,
+                              myLocationButtonEnabled: false,
+                              onMapCreated: (GoogleMapController controller) {
+                                provider.mapController = controller;
+                              },
+                              onTap: (LatLng latLng) async {},
+                              markers: Set.from(provider.markers),
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(latitude ?? 0.0, longitude ?? 0.0),
+                                zoom: 12.0,
+                              ),
+                              zoomControlsEnabled: false,
+                              gestureRecognizers: <Factory<
+                                  OneSequenceGestureRecognizer>>{
+                                Factory<OneSequenceGestureRecognizer>(
+                                  () => EagerGestureRecognizer(),
+                                ),
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          provider.isLoading == false
+                              ? appButton(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  context: context,
+                                  onTap: () {
+                                    provider.trackingMap(context);
+                                  },
+                                  child: AppText(
+                                    title: 'Save',
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                  ),
+                                  width: double.infinity,
+                                  height: 5.h,
+                                )
+                              : const Center(
+                                  child: SpinKitLoader(),
+                                ),
+                        ],
+                      ),
+                    );
             },
           ),
         ),

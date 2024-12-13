@@ -4,29 +4,27 @@ import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 bool checkInStatus = true;
 
 getShardPrefrencesData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  print("prefs.getBool('checkInStatus') :${prefs.getBool('checkInStatus')}");
   checkInStatus = prefs.getBool('checkInStatus') ?? true;
-  print("checkInStatus :${checkInStatus}");
 }
 
-class CheckInProvider extends ChangeNotifier{
-
+class CheckInProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
   bool isLoading = false;
   List checkInList = [];
   String? userCheckInTimeStamp;
   int? checkInId;
 
-  CheckInProvider(){
+  CheckInProvider() {
     getShardPrefrencesData();
     checkInListAPI();
   }
 
-   checkInListAPI() async {
+  checkInListAPI() async {
     try {
       isLoading = true;
       notifyListeners();
@@ -35,9 +33,8 @@ class CheckInProvider extends ChangeNotifier{
         var responseData = jsonDecode(response.body);
         checkInList = responseData["attendance"];
         notifyListeners();
-      } else {
-      }
-    }  finally {
+      } else {}
+    } finally {
       isLoading = false;
       notifyListeners();
     }
@@ -53,19 +50,21 @@ class CheckInProvider extends ChangeNotifier{
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
         // userCheckInTimeStamp = responseData["attendance"]['clockIn'];
-        print("responseData['attendance']['id'] :${responseData['attendance']['id']}");
+        print(
+            "responseData['attendance']['id'] :${responseData['attendance']['id']}");
         print("responseData['attendance']['id'] :${userCheckInTimeStamp}");
-        print("responseData['attendance']['id'] :${userCheckInTimeStamp.runtimeType}");
+        print(
+            "responseData['attendance']['id'] :${userCheckInTimeStamp.runtimeType}");
         // checkInId = responseData['attendance']['id'];
         prefs.setBool('checkInStatus', false);
         checkInListAPI();
         getShardPrefrencesData();
         Get.back();
         prefs.setInt('checkInId', responseData['attendance']['id']);
-        prefs.setString('userCheckInTimeStamp', responseData['attendance']['clockIn']);
+        prefs.setString(
+            'userCheckInTimeStamp', responseData['attendance']['clockIn']);
         notifyListeners();
-      } else {
-      }
+      } else {}
     } catch (e) {
     } finally {
       isLoading = false;
@@ -83,7 +82,10 @@ class CheckInProvider extends ChangeNotifier{
     try {
       isLoading = true;
       notifyListeners();
-      var response = await apiServices.checkOutAPI(checkInId:  checkInId!,userId: userId,checkInTime: userCheckInTimeStamp);
+      var response = await apiServices.checkOutAPI(
+          checkInId: checkInId!,
+          userId: userId,
+          checkInTime: userCheckInTimeStamp);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         prefs.setBool('checkInStatus', true);
@@ -91,8 +93,7 @@ class CheckInProvider extends ChangeNotifier{
         getShardPrefrencesData();
         Get.back();
         notifyListeners();
-      } else {
-      }
+      } else {}
     } finally {
       isLoading = false;
       notifyListeners();

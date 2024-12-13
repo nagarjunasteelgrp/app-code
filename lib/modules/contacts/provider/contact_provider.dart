@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/constants/validation.dart';
-import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,6 +63,7 @@ class ContactProvider extends ChangeNotifier {
   }
 
   bool _isListReversed = false;
+
   bool get isListReversed => _isListReversed;
 
   void toggleListOrder() {
@@ -85,12 +84,10 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-  dropDownSelectedValue (newValue) {
+  dropDownSelectedValue(newValue) {
     selectedValue = newValue;
     notifyListeners();
   }
-
-
 
   //This API for list of contacts================================
   Future<void> listOfContacts() async {
@@ -98,20 +95,19 @@ class ContactProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      var response = await apiServices.contactListAPI(type: selectedValue.toString());
+      var response =
+          await apiServices.contactListAPI(type: selectedValue.toString());
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         contactList = responseData['contacts'];
         notifyListeners();
-      } else {
-      }
+      } else {}
     } catch (e) {
-    }finally {
+    } finally {
       isLoading = false;
       notifyListeners();
     }
   }
-
 
   // This function calling for clear controller=====================
   clearData() {
@@ -127,7 +123,6 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   // This API for create contact====================================
   Future<void> createContact(BuildContext context) async {
     FocusScope.of(context).unfocus();
@@ -140,7 +135,6 @@ class ContactProvider extends ChangeNotifier {
     String contactType = contactTypeController.text.trim();
     String address = addressController.text.trim();
     String description = descriptionController.text.trim();
-    print("contactType.......... $contactType");
 
     if (companyName.isEmpty) {
       resMessage = "Please enter your companyName.";
@@ -161,8 +155,8 @@ class ContactProvider extends ChangeNotifier {
       resMessage = "Please enter a valid email address.";
       return;
     }
-    if(gstNumberController.text.isNotEmpty){
-      if(gstNumberController.text.length  < 15){
+    if (gstNumberController.text.isNotEmpty) {
+      if (gstNumberController.text.length < 15) {
         resMessage = "Please enter a valid GST number.";
         return;
       }
@@ -206,8 +200,7 @@ class ContactProvider extends ChangeNotifier {
         Get.back();
         listOfContacts();
         notifyListeners();
-      }
-      else {
+      } else {
         isAddContactButton = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
@@ -221,7 +214,6 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-
   // This API for update contact data fetching=============================
   Future<void> contactDetailsAPI() async {
     try {
@@ -231,7 +223,6 @@ class ContactProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         if (responseData is Map && responseData.isNotEmpty) {
-          print("contactDetailsAPI.............. : $responseData");
           companyNameController.text = responseData['companyName'];
           personNameController.text = responseData['personName'];
           contactTypeController.text = responseData['contactType'];
@@ -252,10 +243,8 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-
   // This API for update contact data=============================
   Future<void> contactUpdate(BuildContext context) async {
-
     FocusScope.of(context).unfocus();
     if (companyNameController.text.isEmpty) {
       resMessage = "Please enter your companyName.";
@@ -268,12 +257,12 @@ class ContactProvider extends ChangeNotifier {
     if (phoneNumberController.text.isEmpty) {
       resMessage = "Please enter your phoneNumber.";
       return;
-    }else if(phoneNumberController.text.length > 10){
+    } else if (phoneNumberController.text.length > 10) {
       resMessage = "Please enter a valid 10-digit phoneNumber.";
       return;
     }
-    if(gstNumberController.text.isNotEmpty){
-      if(gstNumberController.text.length  < 15){
+    if (gstNumberController.text.isNotEmpty) {
+      if (gstNumberController.text.length < 15) {
         resMessage = "Please enter a valid GST number.";
         return;
       }
@@ -291,7 +280,6 @@ class ContactProvider extends ChangeNotifier {
     }
     isAddContactButton = true;
     try {
-      print("contactTypeController.text............. ${contactTypeController.text}");
       var logResponse = await apiServices.contactUpdate(
         personName: personNameController.text,
         companyName: companyNameController.text,
@@ -314,12 +302,9 @@ class ContactProvider extends ChangeNotifier {
         Get.back();
         notifyListeners();
       }
-      print("logResponse.statusCode............. ${logResponse.statusCode}");
-    }catch (e) {
+    } catch (e) {
       isAddContactButton = false;
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
     }
-
   }
-
 }

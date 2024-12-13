@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_colors.dart';
@@ -108,37 +107,39 @@ Widget logoutButton(
 }
 
 Widget profileUpdate(value) {
-  return Column(
-    children: [
-      CircleAvatar(
-        radius: 65,
-        backgroundImage:
-            value.profilePicture != 'null' && value.profilePicture != null
-                ? value.profilePicture!.startsWith('http')
-                    ? NetworkImage(value.profilePicture!)
-                    : FileImage(File(value.profilePicture!)) as ImageProvider
-                : const AssetImage('assets/images/dummy_person.png'),
-      ),
-      const SizedBox(height: 16), // Space between image and button
-      appButton(
-        child: AppText(
-          title: 'Upload',
-          fontSize: 1.7.h,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        CircleAvatar(
+          radius: 65,
+          backgroundImage:
+              value.profilePicture != 'null' && value.profilePicture != null
+                  ? value.profilePicture!.startsWith('http')
+                      ? NetworkImage(value.profilePicture!)
+                      : FileImage(File(value.profilePicture!)) as ImageProvider
+                  : const AssetImage('assets/images/dummy_person.png'),
         ),
-        context: Get.context!,
-        onTap: () async {
-          final ImagePicker picker = ImagePicker();
-          final XFile? image =
-              await picker.pickImage(source: ImageSource.gallery);
-          if (image != null) {
-            value.updateProfilePicture(image.path);
-            Navigator.of(Get.context!).pop();
-          }
-        },
-        height: 5.h,
-      ),
-    ],
+        const SizedBox(height: 16), // Space between image and button
+        appButton(
+          child: AppText(
+            title: 'Upload',
+            fontSize: 1.7.h,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          context: Get.context!,
+          onTap: () async {
+            final ImagePicker picker = ImagePicker();
+            final XFile? image =
+                await picker.pickImage(source: ImageSource.gallery);
+            if (image != null) {
+              value.updateProfilePicture(image.path);
+              Navigator.of(Get.context!).pop();
+            }
+          },
+          height: 5.h,
+        ),
+      ],
+    ),
   );
 }

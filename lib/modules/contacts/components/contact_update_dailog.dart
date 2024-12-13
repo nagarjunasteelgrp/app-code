@@ -9,9 +9,7 @@ import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
-import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
-import 'package:digital_lync/modules/contacts/screen/details/conatct_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -104,7 +102,6 @@ void showContactUpdateDialog(BuildContext context,
                             })
                           ],
                           onChanged: (newValue) {
-                            print('Selected value: $newValue');
                             provider.dropDownSelectedValue(newValue);
                             provider.contactTypeController =
                                 TextEditingController(
@@ -119,7 +116,8 @@ void showContactUpdateDialog(BuildContext context,
                             AppText(
                                 title: Constants.company_Name,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onSecondary,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                                 fontSize: 1.5.h),
                             const SizedBox(width: 2),
                             AppText(
@@ -140,7 +138,8 @@ void showContactUpdateDialog(BuildContext context,
                             AppText(
                                 title: Constants.person_Name,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onSecondary,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                                 fontSize: 1.5.h),
                             const SizedBox(width: 2),
                             AppText(
@@ -161,7 +160,8 @@ void showContactUpdateDialog(BuildContext context,
                             AppText(
                                 title: Constants.phone_Number,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onSecondary,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                                 fontSize: 1.5.h),
                             const SizedBox(width: 2),
                             AppText(
@@ -223,7 +223,8 @@ void showContactUpdateDialog(BuildContext context,
                             AppText(
                                 title: Constants.email,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onSecondary,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                                 fontSize: 1.5.h),
                             const SizedBox(width: 2),
                             AppText(
@@ -244,7 +245,8 @@ void showContactUpdateDialog(BuildContext context,
                             AppText(
                                 title: Constants.address,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onSecondary,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                                 fontSize: 1.5.h),
                             const SizedBox(width: 2),
                             AppText(

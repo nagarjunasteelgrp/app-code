@@ -37,7 +37,7 @@ class MenuTile extends StatelessWidget {
               },
             );
           } else {
-            value.setSelectedIndex(index,tabIndex: false);
+            value.setSelectedIndex(index, tabIndex: false);
           }
         },
         child: Column(

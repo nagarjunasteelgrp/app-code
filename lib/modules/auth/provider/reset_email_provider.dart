@@ -13,16 +13,22 @@ class ResetEmailProvider extends ChangeNotifier {
   Future<void> resetEmail(BuildContext context) async {
     FocusScope.of(context).unfocus();
     if (!Validation.isValidEmail(resetEmailController.text.trim())) {
-      showAppSnackBar(context: context, title: 'Please enter a valid email address.');
+      showAppSnackBar(
+          context: context, title: 'Please enter a valid email address.');
       return;
     }
     notifyListeners();
     try {
-      var logResponse = await apiServices.resetEmail(email: resetEmailController.text);
+      var logResponse =
+          await apiServices.resetEmail(email: resetEmailController.text);
       if (logResponse.statusCode == 200) {
         var response = jsonDecode(logResponse.body);
         resetEmailController.clear();
-        showAppSnackBar(type: 'success', context: context, title: response['message'],);
+        showAppSnackBar(
+          type: 'success',
+          context: context,
+          title: response['message'],
+        );
         Get.offNamed(RoutesName.LOGIN);
       } else {
         var response = jsonDecode(logResponse.body);
@@ -37,5 +43,4 @@ class ResetEmailProvider extends ChangeNotifier {
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
     }
   }
-
 }

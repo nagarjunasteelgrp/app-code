@@ -7,7 +7,6 @@ import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
 import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
@@ -106,7 +105,8 @@ class ContactScreen extends StatelessWidget {
                                 onTap: () {
                                   if (provider.contactId != null) {
                                     provider.contactDetailsAPI();
-                                    showContactUpdateDialog(context,selectedValue: provider.selectedValue);
+                                    showContactUpdateDialog(context,
+                                        selectedValue: provider.selectedValue);
                                   }
                                 },
                                 child: Column(
@@ -223,8 +223,6 @@ class ContactScreen extends StatelessWidget {
                                           provider.contactId = contact['id'];
                                           provider
                                               .selectContactIndex(contactIndex);
-                                          print(
-                                              "CONTACT ID : ${provider.contactId}");
                                         },
                                         onTap: () {
                                           Get.toNamed(RoutesName.TRACKING,
@@ -257,8 +255,8 @@ class ContactScreen extends StatelessWidget {
                                                     provider.selectedContactIndex ==
                                                             contactIndex
                                                         ? Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary
+                                                            .colorScheme
+                                                            .secondary
                                                         : Theme.of(context)
                                                             .colorScheme
                                                             .secondary
@@ -281,16 +279,19 @@ class ContactScreen extends StatelessWidget {
                                                                   .circular(
                                                                       1.5.h),
                                                           border: Border.all(
-                                                              color: provider.selectedContactIndex ==
-                                                                  contactIndex
-                                                                  ? Theme.of(context)
-                                                                  .colorScheme
-                                                                  .secondary : Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary
-                                                                  .withOpacity(
-                                                                      0.5))),
+                                                              color: provider
+                                                                          .selectedContactIndex ==
+                                                                      contactIndex
+                                                                  ? Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .secondary
+                                                                  : Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .secondary
+                                                                      .withOpacity(
+                                                                          0.5))),
                                                       child: const Icon(
                                                           Icons.person),
                                                     ),
