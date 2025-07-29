@@ -1,0 +1,4 @@
+storePassword=nagarjunaSteel
+keyPassword=nagarjunaSteel
+keyAlias=NagarjunaSteelApp
+storeFile=../NagarjunaSteelApp.jks

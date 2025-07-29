@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
@@ -26,15 +27,41 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  HomeProvider() {
-    getShardPrefrencesData();
-    permissionAcessPhone();
-    personalDetails();
-    getHeaders();
-    initState();
-    getProfilePicture();
+  void setReachedOut(bool value) {
+    isReachedOut = value;
     notifyListeners();
   }
+
+  HomeProvider() {
+    print("HomeProvider initialized........0");
+    userRemaningNotifications();
+    print("HomeProvider initialized........1");
+    getShardPrefrencesData();
+    print("HomeProvider initialized........2");
+    permissionAcessPhone();
+    print("HomeProvider initialized........3");
+    personalDetails();
+    print("HomeProvider initialized........4");
+    getHeaders();
+    print("HomeProvider initialized........5");
+    initState();
+    print("HomeProvider initialized........6");
+    getProfilePicture();
+    print("HomeProvider initialized........7");
+    notifyListeners();
+  }
+
+  Future<void> userRemaningNotifications() async {
+    await followUpsForNotificationFetching();
+
+    if (followUpsDateList != null && followUpsDateList!.isNotEmpty) {
+      await showNotification(
+        'Remainder',
+        'The followups scheduled with ${followUpsDateList![0]['dealerName']} will be reminded today',
+      );
+    }
+  }
+
 
   void updateProfilePicture(String newProfilePicture) async {
     profilePicture = newProfilePicture;
@@ -114,7 +141,7 @@ class HomeProvider extends ChangeNotifier {
     prefs.setBool('isLogin', false);
     serviceInitialize.invoke("stopService");
     await initializeService(prefs.setBool('isService', false));
-    // BackgroundLocation.stopLocationService();
+    await BackgroundLocation.stopLocationService();
     // await prefs.clear();
     notifyListeners();
   }

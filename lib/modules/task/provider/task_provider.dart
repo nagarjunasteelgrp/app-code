@@ -33,7 +33,7 @@ class TaskProvider extends ChangeNotifier {
     followUpsFetching();
   }
 
-  List<String> dateFilters = ['today', 'week', 'month'];
+  List<String> dateFilters = ['today', 'week', 'month','premonth'];
   List<String> statusFilters = ['all', 'pending', 'done'];
 
   void updateDateFilter(String value) {
@@ -171,42 +171,34 @@ class TaskProvider extends ChangeNotifier {
   }
 
   Future<void> taskByUserIdAPI() async {
-    print("taskByUserIdAPI............1");
     try {
       isLoading = true;
       final response = await apiServices.taskByUserIdAPI();
       if (response.statusCode == 200) {
-        print("taskByUserIdAPI............2");
-
         var responseData = jsonDecode(response.body);
         if (responseData != null) {
-          print("taskByUserIdAPI............3");
           taskAPIResponse = responseData['tasks'];
           filteredTaskAPIResponse = taskAPIResponse;
           isLoading = false;
           notifyListeners();
         } else {
-          print("taskByUserIdAPI............4");
           taskAPIResponse = [];
           filteredTaskAPIResponse = [];
           isLoading = false;
           notifyListeners();
         }
       } else {
-        print("taskByUserIdAPI............5");
         taskAPIResponse = [];
         filteredTaskAPIResponse = [];
         isLoading = false;
         notifyListeners();
       }
     } catch (e) {
-      print("taskByUserIdAPI............6");
       taskAPIResponse = [];
       filteredTaskAPIResponse = [];
       isLoading = false;
       notifyListeners();
     } finally {
-      print("taskByUserIdAPI............7");
       isLoading = false;
       notifyListeners();
     }

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:digital_lync/constants/global.dart';
-import 'package:intl/intl.dart';
-import 'api_url.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+
+import 'api_url.dart';
 
 class ApiServices {
   Future<http.Response> login({String? email, String? password}) async {
@@ -445,6 +447,70 @@ class ApiServices {
     print("followUpsByUserIdForNotification : ${response.request}");
     print("followUpsByUserIdForNotification : ${response.statusCode}");
     print("followUpsByUserIdForNotification : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> followUpsNotification() async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.followUpsNotification(userId!)),
+      headers: await getHeaders(),
+    );
+    print("followUpsNotification : ${response.request}");
+    print("followUpsNotification : ${response.statusCode}");
+    print("followUpsNotification : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> deleteAllNotificationAPIURL() async {
+    final response = await http.put(
+      Uri.parse(ApiUrl.deleteAllNotification),
+      headers: await getHeaders(),
+      body: jsonEncode({
+        "userId": userId,
+      }),
+    );
+    print("deleteAllNotificationAPIURL : ${response.request}");
+    print("deleteAllNotificationAPIURL : ${response.statusCode}");
+    print("deleteAllNotificationAPIURL : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> activities(startTime, endTIme) async {
+    dynamic formattedStart =
+        DateFormat('yyyy-MM-dd').format(startTime).toString();
+    dynamic formattedEnd = DateFormat('yyyy-MM-dd').format(endTIme).toString();
+    final response = await http.get(
+      Uri.parse(ApiUrl.activitiesUrl(userId.toString(),
+          formattedStart.toString(), formattedEnd.toString())),
+      // Uri.parse(ApiUrl.activitiesUrl("108".toString(), formattedStart.toString(), formattedEnd.toString())),
+      headers: await getHeaders(),
+    );
+    print("activities : ${response.request}");
+    print("activities : ${response.statusCode}");
+    print("activities : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> monthlyReport(
+      dbName, empZCode, month, indicator) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.monthlyReportUrl(dbName, empmId, month, indicator)),
+      headers: await getHeaders(),
+    );
+    print("monthlyReport : ${response.request}");
+    print("monthlyReport : ${response.statusCode}");
+    print("monthlyReport : ${response.body}");
+    return response;
+  }
+
+  Future<http.Response> monthlySalesQty(month, indicator) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.monthlySalesQtyUrl(month, indicator)),
+      headers: await getHeaders(),
+    );
+    print("monthlySalesQty : ${response.request}");
+    print("monthlySalesQty : ${response.statusCode}");
+    print("monthlySalesQty : ${response.body}");
     return response;
   }
 }

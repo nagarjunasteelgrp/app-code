@@ -312,7 +312,7 @@ class ContactScreen extends StatelessWidget {
                                               // ),
                                               // const Spacer(),
                                               SizedBox(width: 2.h),
-                                              Center(
+                                              const Center(
                                                 child: Row(
                                                   children: [
                                                     Icon(Icons

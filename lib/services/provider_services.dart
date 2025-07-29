@@ -9,8 +9,8 @@ import 'package:digital_lync/modules/contacts/provider/new_task_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/releated_contacts_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/tracking_contacts_provider.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
-import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:digital_lync/modules/menu/provider/menu_provider.dart';
+import 'package:digital_lync/modules/notification/provider/notification_provider.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:provider/provider.dart';
@@ -32,4 +32,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => TrackingProvider(CurrentLocationProvider())),
   ChangeNotifierProvider(create: (context) => DashboardProvider()),
   ChangeNotifierProvider(create: (context) => TaskProvider()),
+  ChangeNotifierProvider(create: (context) => NotificationProvider()),
 ];

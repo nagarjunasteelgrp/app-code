@@ -70,7 +70,7 @@ class CheckInScreen extends StatelessWidget {
                                         ? Constants.checkIn
                                         : Constants.checkOut),
                                 SizedBox(width: 1.h),
-                                checkInStatus ? SizedBox() : Icon(Icons.login)
+                                checkInStatus ? const SizedBox() : const Icon(Icons.login)
                               ],
                             ),
                           ),

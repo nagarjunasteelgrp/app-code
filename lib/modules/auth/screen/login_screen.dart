@@ -1,17 +1,41 @@
+import 'package:digital_lync/common/app_button.dart';
+import 'package:digital_lync/common/app_dialog_for_background_permission.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
-import 'package:sizer/sizer.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_textfiled.dart';
 import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/auth/components/check_box.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      bool isDialogShown = prefs.getBool('isLocationDialogShown') ?? false;
+
+      if (!isDialogShown) {
+        showLocationDisclosureDialog(context);
+        await prefs.setBool('isLocationDialogShown', true);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +74,7 @@ class LoginScreen extends StatelessWidget {
                         Consumer<LoginProvider>(builder: (context, value, _) {
                           return appTextField(
                               controller: value.emailController,
+                              verticalPadding: 2.h,
                               context: context);
                         }),
 
@@ -62,6 +87,7 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: 1.h),
                         Consumer<LoginProvider>(builder: (context, value, _) {
                           return appTextField(
+                            verticalPadding: 2.0.h,
                             controller: value.passwordController,
                             context: context,
                             obscureText: value.obscureText,
@@ -84,16 +110,10 @@ class LoginScreen extends StatelessWidget {
                         }),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 1.2.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Consumer<LoginProvider>(
-                                  builder: (context, value, child) {
-                                return const CommonCheckbox(
-                                    label: "Remember Me");
-                              }),
-                            ],
-                          ),
+                          child: Consumer<LoginProvider>(
+                              builder: (context, value, child) {
+                            return const CommonCheckbox(label: "Remember Me");
+                          }),
                         ),
                         SizedBox(height: 1.w),
                         Consumer<LoginProvider>(
@@ -102,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                               ? const Center(child: SpinKitLoader())
                               : Center(
                                   child: appButton(
-                                    width: 80.w,
+                                    width: double.infinity,
                                     child: AppText(
                                         title: "Login",
                                         fontSize: 2.h,
@@ -118,6 +138,35 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                 );
                         }),
+                        SizedBox(height: 1.5.h),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text:
+                                "By clicking login, you agree to our terms learn How we process your data in our ",
+                            style: const TextStyle(
+                              color: AppColors.tooLightBlackColor,
+                              fontSize: 14,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: "Privacy Policy",
+                                style: const TextStyle(
+                                  color: AppColors.blueColor,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    await launchUrl(
+                                      Uri.parse(
+                                          'https://www.nagarjunasteel.com/privacy-policy'),
+                                    );
+                                  },
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),

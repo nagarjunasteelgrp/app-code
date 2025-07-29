@@ -2,24 +2,29 @@
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_text.dart';
+import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'dialog_box_profile _pic.dart';
 
 class MenuTile extends StatelessWidget {
-  String icon;
+  String? svgImage;
   String title;
   int index;
   Color color;
   double? iconHeight;
+  IconData? icon;
 
   MenuTile(
       {super.key,
-      required this.icon,
+      this.svgImage,
       this.iconHeight,
+      this.icon,
       required this.index,
       required this.title,
       required this.color});
@@ -28,13 +33,19 @@ class MenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(builder: (context, value, _) {
       return InkWell(
-        onTap: () {
+        onTap: () async {
+          print("Profile Pic Clicked $index");
           if (index == 4) {
             showDialog(
               context: context,
               builder: (context) {
                 return profilePckDialogBox(value);
               },
+            );
+          } else if (index == 5) {
+            // showLocationDisclosureDialog(context);
+            await launchUrl(
+              Uri.parse('https://www.nagarjunasteel.com/privacy-policy'),
             );
           } else {
             value.setSelectedIndex(index, tabIndex: false);
@@ -55,12 +66,14 @@ class MenuTile extends StatelessWidget {
                         radius: 1.w,
                         height: 4.h,
                         width: 4.h,
-                        child: SvgPicture.asset(
-                          icon,
-                          height: iconHeight ?? 4.h,
-                          fit: BoxFit.fill,
-                          color: Theme.of(context).colorScheme.background,
-                        )),
+                        child: icon != null
+                            ? Icon(icon, color: AppColors.WHITE_COLOR)
+                            : SvgPicture.asset(
+                                svgImage!,
+                                height: iconHeight ?? 4.h,
+                                fit: BoxFit.fill,
+                                color: Theme.of(context).colorScheme.background,
+                              )),
                     SizedBox(
                       width: 2.w,
                     ),

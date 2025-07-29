@@ -347,7 +347,7 @@ void showContactUpdateDialog(BuildContext context,
                               ),
                             ],
                           )
-                        : Center(
+                        : const Center(
                             child: SpinKitLoader(),
                           ),
                   ),

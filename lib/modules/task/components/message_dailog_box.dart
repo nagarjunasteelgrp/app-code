@@ -66,7 +66,7 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: provider.isLoading == true
-                          ? Center(child: SpinKitLoader())
+                          ? const Center(child: SpinKitLoader())
                           : Row(
                               children: [
                                 Flexible(

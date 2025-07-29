@@ -44,7 +44,7 @@ class MenuScreen extends StatelessWidget {
                       Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
               MenuTile(
                 iconHeight: 3.5.h,
-                icon: AppAssets.APP_CONTACTS_SVG,
+                svgImage: AppAssets.APP_CONTACTS_SVG,
                 title: Constants.contacts,
                 index: 1,
                 color: Theme.of(context).colorScheme.onPrimary,
@@ -54,7 +54,7 @@ class MenuScreen extends StatelessWidget {
               ),
               MenuTile(
                 iconHeight: 3.5.h,
-                icon: AppAssets.APP_CHECKING_SVG,
+                svgImage: AppAssets.APP_CHECKING_SVG,
                 // Icon(Icons.login
                 title: checkInStatus ? Constants.checkIn : Constants.checkOut,
                 index: 3,
@@ -65,7 +65,7 @@ class MenuScreen extends StatelessWidget {
               ),
               MenuTile(
                 iconHeight: 3.5.h,
-                icon: AppAssets.APP_ACTIVITIES_SVG,
+                svgImage: AppAssets.APP_ACTIVITIES_SVG,
                 title: Constants.tasks,
                 index: 2,
                 color: Theme.of(context).colorScheme.error,
@@ -75,7 +75,7 @@ class MenuScreen extends StatelessWidget {
               ),
               MenuTile(
                 iconHeight: 3.5.h,
-                icon: AppAssets.APP_DASHBOARD_SVG,
+                svgImage: AppAssets.APP_DASHBOARD_SVG,
                 title: Constants.dashboard,
                 index: 0,
                 color: Theme.of(context).colorScheme.primary,
@@ -85,10 +85,18 @@ class MenuScreen extends StatelessWidget {
               ),
               MenuTile(
                 iconHeight: 3.2.h,
-                icon: AppAssets.APP_PROFILE_SVG,
+                svgImage: AppAssets.APP_PROFILE_SVG,
                 title: Constants.profile,
                 index: 4,
                 color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              SizedBox(height: 0.2.h),
+              MenuTile(
+                iconHeight: 3.5.h,
+                icon: Icons.privacy_tip_outlined,
+                title: Constants.privacyPolicy,
+                index: 5,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ],
           );

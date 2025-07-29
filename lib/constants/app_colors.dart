@@ -40,4 +40,19 @@ class AppColors {
 
   static const Color YELLOW = Color(0xffFCB159);
 
+  static const Color blueColor2 = Color(0xff0062FF);
+
+  static const Color borderColor = Color(0xffE2E2EA);
+
+  static const Color lightBlackColor = Color(0xff242424);
+
+  static const Color tooLightBlackColor = Color(0xff6A6A6A);
+
+  static const Color greenColor = Color(0xff3DD598);
+  static const Color yellowColor = Color(0xffFFC542);
+  static const Color purpleColor = Color(0xff3E356C);
+  static const Color lightGreyColor = Color(0xffF5F5F5);
+  static const Color blueColor = Color(0xff2D7FF9);
+  static const Color greenColor2 = Color(0xff34C759);
+
 }

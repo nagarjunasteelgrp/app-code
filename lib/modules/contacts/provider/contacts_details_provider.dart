@@ -5,7 +5,6 @@ import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ContactDetailsProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
@@ -140,8 +139,6 @@ class ContactDetailsProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var userId = prefs.getInt('user_id');
       var logResponse = await apiServices.contactUpdate(
         personName: personName,
         companyName: companyName,

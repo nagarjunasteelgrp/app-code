@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
+
+import 'package:background_location/background_location.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:digital_lync/main.dart';
 import 'package:digital_lync/modules/auth/screen/login_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
@@ -13,6 +17,7 @@ import 'package:flutter_background_service_android/flutter_background_service_an
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? token;
@@ -23,11 +28,15 @@ int? userId;
 String? userEmail;
 dynamic userPhone;
 String? empId;
+String? empmId;
+String? slpCode;
+String? profilePicture;
 String? addressPlacement;
 ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
 TaskProvider? taskProvider;
 List? followUpsDateList;
+bool isReachedOut = false;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'notificationChannelId',
@@ -43,12 +52,13 @@ Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString("token") ?? '';
   userId = sharedPreferences.getInt("userId") ?? 0;
+  print("Token:- $token");
   if (token!.isNotEmpty && JwtDecoder.isExpired(token!)) {
     sharedPreferences.remove("token");
     sharedPreferences.remove("userId");
     token = '';
-    Navigator.push(
-        Get.context!, MaterialPageRoute(builder: (context) => LoginScreen()));
+    Navigator.push(Get.context!,
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
   return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
@@ -61,6 +71,11 @@ personalDetails() async {
   userEmail = prefs.getString("email") ?? "";
   userPhone = prefs.getString("mobile") ?? "";
   empId = prefs.getString("empId") ?? "";
+  empmId = prefs.getString("empmId") ?? "";
+  slpCode = prefs.getString("slpCode") ?? "";
+  profilePicture = prefs.getString("profilePicture") ?? "";
+  print("profilePicture:- $profilePicture");
+  print("slpCode:- $slpCode");
   await getMapData();
 }
 
@@ -68,7 +83,6 @@ Future<dynamic> getCurrentLocation() async {
   try {
     var logResponse = await apiServices.autoTrackingAPI(
         latitude: latitude, longitude: longitude, address: addressPlacement);
-    print("logResponse : ${logResponse.body}");
     if (logResponse.statusCode == 201) {
       var response = jsonDecode(logResponse.body);
       latitude = response['activity']['latitude'] ?? 0.0;
@@ -84,14 +98,14 @@ Future<dynamic> getCurrentLocation() async {
 @pragma('vm:entry-point')
 Future<void> onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
-  print("SERVICE STARTED..........................1");
   service.on('stopService').listen((event) {
-    print("SERVICE STARTED..........................2");
     service.stopSelf();
   });
 
   if (service is AndroidServiceInstance) {
-    print("SERVICE STARTED..........................3");
+    if (!await service.isForegroundService()) {
+      await service.setAsForegroundService();
+    }
     if (await service.isForegroundService()) {
       flutterLocalNotificationsPlugin.show(
         notificationId,
@@ -108,16 +122,15 @@ Future<void> onStart(ServiceInstance service) async {
       );
     }
   }
+  BackgroundLocation.startLocationService();
   CurrentLocationProvider locationProvider = CurrentLocationProvider();
   Timer.periodic(const Duration(minutes: 1), (timer) async {
-    print("SERVICE STARTED..........................4");
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
         await locationProvider.getUserLocation().then((value) async {
           await getCurrentLocation();
         });
         // await getMapData();
-
       }
     }
   });
@@ -133,11 +146,42 @@ getMapData() async {
 Future<void> initializeService(Future<void> isService) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isService = prefs.getBool("isService") ?? false;
-  await DisableBatteryOptimization.isAutoStartEnabled;
 
-  if (isService == true) {
-    // serviceInitialize.startService();
-    serviceInitialize.isRunning();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  if (androidInfo.version.sdkInt >= 34) {
+    // Android 14 and above
+    if (Platform.isAndroid) {
+      if (await Permission.notification.isDenied) {
+        try {
+          await Permission.notification.request();
+          await DisableBatteryOptimization.isAutoStartEnabled;
+        } catch (e) {
+          debugPrint("DisableBatteryOptimization error: $e");
+        }
+      }
+      if (await Permission.ignoreBatteryOptimizations.isDenied) {
+        await Permission.ignoreBatteryOptimizations.request();
+      }
+      // if (!await serviceInitialize.isForegroundService()) {
+      //   await serviceInitialize.setAsForegroundService();
+      // }
+    }
+  }
+  // if (await Permission.notification.isDenied) {
+  //   await Permission.notification.request();
+  // }
+  //
+  // if (await Permission.ignoreBatteryOptimizations.isDenied) {
+  //   await Permission.ignoreBatteryOptimizations.request();
+  // }
+  await DisableBatteryOptimization.isAutoStartEnabled;
+  if (isService) {
+    if (isService == true) {
+      // serviceInitialize.startService();
+      serviceInitialize.isRunning();
+      serviceInitialize.isRunning();
+    }
   }
 
   await flutterLocalNotificationsPlugin

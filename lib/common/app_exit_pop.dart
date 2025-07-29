@@ -20,15 +20,14 @@ Future<bool> showExitPopup(context) async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Do you want to exit?"),
-                SizedBox(height: 20),
+                const Text("Do you want to exit?"),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
                       child: appButton(
                           context: context,
                           onTap: () {
-                            print('yes selected');
                             exit(0);
                           },
                           child: AppText(
@@ -37,12 +36,11 @@ Future<bool> showExitPopup(context) async {
                           ),
                           height: 5.h),
                     ),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     Expanded(
                         child: appButton(
                             context: context,
                             onTap: () {
-                              print('no selected');
                               Navigator.of(context).pop();
                             },
                             child: AppText(title: 'No', color: Colors.white),

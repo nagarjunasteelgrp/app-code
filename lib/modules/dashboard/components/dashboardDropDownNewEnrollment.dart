@@ -1,4 +1,5 @@
 import 'package:digital_lync/common/app_text.dart';
+import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -18,16 +19,8 @@ Widget dashBoardDropDownNewEnrollment(
         width: 12.h,
         height: 3.8.h,
         decoration: BoxDecoration(
-          color: Colors.grey.shade50,
+          border: Border.all(color: AppColors.borderColor),
           borderRadius: BorderRadius.circular(1.5.h),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 1),
-            ),
-          ],
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 1.h),
@@ -49,7 +42,7 @@ Widget dashBoardDropDownNewEnrollment(
               ),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: Theme.of(context).colorScheme.inverseSurface,
+                color: AppColors.lightBlackColor,
                 size: 3.h,
               ),
               items:
@@ -63,13 +56,13 @@ Widget dashBoardDropDownNewEnrollment(
                     child: AppText(
                       title: "${data[0].toUpperCase()}${data.substring(1)}",
                       fontSize: 1.5.h,
-                      color: Theme.of(context).colorScheme.inverseSurface,
+                      color: AppColors.lightBlackColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 );
               }),
-              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h,color: AppColors.WHITE_COLOR),
               onChanged: (newValue) {
                 provider.dropDownSelectedValueNewEnrollment(newValue);
               },

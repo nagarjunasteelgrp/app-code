@@ -41,4 +41,8 @@ class AppAssets {
   static const String APP_MEETING_SVG = 'assets/svg/meeting_icon.svg';
   static const String APP_TASK_ICON_SVG = 'assets/svg/task_icon.svg';
   static const String APP_MESSAGE_SVG = 'assets/svg/message.svg';
+  static const String dateSvg = 'assets/svg/dateSvg.svg';
+  static const String startTimeSvg = 'assets/svg/startTimeSvg.svg';
+  static const String distanceCoveredSvg = 'assets/svg/distanceConveredSvg.svg';
+  static const String locationsVisitedSvg = 'assets/svg/locationsVistedSvg.svg';
 }

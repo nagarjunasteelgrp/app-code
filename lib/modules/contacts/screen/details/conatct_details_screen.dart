@@ -25,7 +25,6 @@ class ContactDetailsScreen extends StatelessWidget {
         appBar: CommonAppBar(
           title: Constants.APP_NAME,
           leadingArrow: true,
-          actions: [],
           onTap: () {
             Get.back();
           },

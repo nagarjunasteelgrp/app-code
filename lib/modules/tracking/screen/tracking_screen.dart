@@ -16,11 +16,13 @@ import 'package:sizer/sizer.dart';
 
 TrackingProvider trackingProvider = TrackingProvider(CurrentLocationProvider());
 
+
 class TrackingScreen extends StatelessWidget {
   const TrackingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider.value(
       value: CurrentLocationProvider(),
       child: ChangeNotifierProvider.value(
@@ -77,19 +79,18 @@ class TrackingScreen extends StatelessWidget {
                             SizedBox(height: 2.h),
                             appOutlineButton(
                                 context: context,
-                                onTap: () async {
-                                  CurrentLocationProvider locationProvider =
-                                      CurrentLocationProvider();
-                                  await locationProvider
-                                      .getUserLocation()
-                                      .then((value) async {
-                                    addressPlacement != null
-                                        ? showMapDialog(context)
-                                        : null;
-                                    if (!provider.geoLocationBtn) {
-                                      provider.geoLocationBtn = true;
-                                    }
-                                  });
+                                onTap: () {
+                                  showMapDialog(context);
+                                  // print("LOCATION PROVIDER.........................1");
+                                  // locationProvider.getUserLocation().then((value) {
+                                  //   print("LOCATION PROVIDER.........................2");
+                                  //   addressPlacement != null
+                                  //       ? showMapDialog(context)
+                                  //       : null;
+                                  //   if (!provider.geoLocationBtn) {
+                                  //     provider.geoLocationBtn = true;
+                                  //   }
+                                  // });
                                 },
                                 height: 5.5.h,
                                 radius: 1.h,
@@ -111,7 +112,7 @@ class TrackingScreen extends StatelessWidget {
                                   ],
                                 )),
                             SizedBox(height: 2.h),
-                            TrackingListScreen(),
+                            const TrackingListScreen(),
                           ],
                         ),
                       ),

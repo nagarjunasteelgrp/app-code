@@ -14,6 +14,7 @@ class Constants {
   static const String tracking = 'Tracking';
   static const String menu = 'Menu';
   static const String dashboard = 'Dashboard';
+  static const String privacyPolicy = 'Privacy Policy';
   static const String profile = 'Profile';
   static const String filter = 'Filter';
   static const String edit = 'Edit';

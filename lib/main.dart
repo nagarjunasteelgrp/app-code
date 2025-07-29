@@ -1,9 +1,9 @@
 import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
-import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/routes/routes_navi.dart';
 import 'package:digital_lync/routes/routes_path.dart';
+import 'package:digital_lync/services/location_monitor.dart';
 import 'package:digital_lync/services/provider_services.dart';
 import 'package:digital_lync/services/theme_service.dart';
 import 'package:flutter/material.dart';
@@ -58,9 +58,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     initializeNotifications();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Provider.of<CurrentLocationProvider>(context, listen: false)
-          .getUserLocation();
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   await Provider.of<CurrentLocationProvider>(context, listen: false)
+    //       .getUserLocation();
+    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      LocationMonitor.startLocationMonitoring();
     });
     super.initState();
   }
@@ -84,6 +87,7 @@ class _MyAppState extends State<MyApp> {
           );
         } else {
           bool isLogin = snapshot.data ?? false;
+          print("isLogin : $isLogin");
           return Sizer(
             builder: (context, orientation, deviceType) {
               return GetMaterialApp(
@@ -102,3 +106,11 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+//Latest this version
+//flutter clean
+// flutter pub get
+// flutter build appbundle --build-name=1.3 --build-number=6
+
+
+//flutter build appbundle --release --build-name=1.3 --build-number=6 --target-platform=android-arm64

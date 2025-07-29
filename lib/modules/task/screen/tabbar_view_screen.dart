@@ -13,8 +13,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class TabbarViewScreen extends StatelessWidget {
-  TabbarViewScreen({super.key});
+class TabBarViewScreen extends StatelessWidget {
+  const TabBarViewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class TabbarViewScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: TabBarView(
                       children: <Widget>[
                         TaskScreen(),

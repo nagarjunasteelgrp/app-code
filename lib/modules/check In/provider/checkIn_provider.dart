@@ -50,11 +50,6 @@ class CheckInProvider extends ChangeNotifier {
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
         // userCheckInTimeStamp = responseData["attendance"]['clockIn'];
-        print(
-            "responseData['attendance']['id'] :${responseData['attendance']['id']}");
-        print("responseData['attendance']['id'] :${userCheckInTimeStamp}");
-        print(
-            "responseData['attendance']['id'] :${userCheckInTimeStamp.runtimeType}");
         // checkInId = responseData['attendance']['id'];
         prefs.setBool('checkInStatus', false);
         checkInListAPI();
@@ -76,8 +71,6 @@ class CheckInProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     checkInId = prefs.getInt('checkInId') ?? 0;
     userCheckInTimeStamp = prefs.getString('userCheckInTimeStamp');
-    print("checkInId :1 ${checkInId}");
-    print("checkInId :2 ${userCheckInTimeStamp}");
 
     try {
       isLoading = true;
@@ -87,7 +80,6 @@ class CheckInProvider extends ChangeNotifier {
           userId: userId,
           checkInTime: userCheckInTimeStamp);
       if (response.statusCode == 200) {
-        var responseData = jsonDecode(response.body);
         prefs.setBool('checkInStatus', true);
         checkInListAPI();
         getShardPrefrencesData();

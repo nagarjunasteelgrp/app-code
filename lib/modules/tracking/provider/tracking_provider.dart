@@ -18,7 +18,7 @@ class TrackingProvider extends ChangeNotifier {
   ApiServices apiServices = ApiServices();
   TextEditingController addNotesController = TextEditingController();
   ScrollController scrollController = ScrollController();
-  GoogleMapController? mapController;
+
   bool isLoading = false;
   File? image;
   List markers = [];
@@ -56,18 +56,7 @@ class TrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setMapController(GoogleMapController controller) {
-    mapController = controller;
-  }
 
-  void animateCamera(double lat, double lng) {
-    if (mapController != null) {
-      mapController!.animateCamera(
-        CameraUpdate.newLatLngZoom(LatLng(lat, lng), 15),
-      );
-      notifyListeners();
-    }
-  }
 
   trackingInfoDataPlus() {}
 
@@ -223,6 +212,7 @@ class TrackingProvider extends ChangeNotifier {
         var response = jsonDecode(logResponse.body);
         showAppSnackBar(
             type: 'Error', context: context, title: response['message']);
+        Get.back();
       }
     } catch (e) {
       isLoading = false;
@@ -269,7 +259,7 @@ class TrackingProvider extends ChangeNotifier {
 
   trackingImages(BuildContext context) async {
     return await apiServices.trackingImages(
-      trackingInfoId: trackingInfoId!,
+      trackingInfoId: trackingInfoId,
       image: (imageType == "image") ? image! : filePath!,
       imageType: imageType!,
     );

@@ -60,7 +60,7 @@ class TrackingContactScreen extends StatelessWidget {
                                           .secondary,
                                       textOverflow: TextOverflow.ellipsis,
                                       maxLines: 5)
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               SizedBox(height: 1.0.h),
                               Container(
                                 height: 25.h,
@@ -82,7 +82,7 @@ class TrackingContactScreen extends StatelessWidget {
                                   mapType: MapType.normal,
                                   markers: {
                                     Marker(
-                                      markerId: MarkerId('selected-location'),
+                                      markerId: const MarkerId('selected-location'),
                                       position: provider.initialPosition!,
                                       infoWindow: InfoWindow(
                                         title: provider.address,

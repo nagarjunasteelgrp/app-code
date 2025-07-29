@@ -1,22 +1,39 @@
 import 'dart:async';
+import 'package:background_location/background_location.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CurrentLocationProvider extends ChangeNotifier {
   Position? userLocation;
   final LocationService locationService = LocationService();
   ApiServices apiServices = ApiServices();
+  GoogleMapController? mapController;
 
   CurrentLocationProvider() {
+    BackgroundLocation.startLocationService();
     getUserLocation();
+  }
+  void setMapController(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  void animateCamera(double lat, double lng) {
+    if (mapController != null) {
+      mapController!.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, lng), 15),
+      );
+      notifyListeners();
+    }
   }
 
   Future<void> getUserLocation() async {
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
       bool serviceEnabled;
@@ -26,7 +43,6 @@ class CurrentLocationProvider extends ChangeNotifier {
         print("Location services are disabled.");
         return;
       }
-
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -35,15 +51,12 @@ class CurrentLocationProvider extends ChangeNotifier {
           return;
         }
       }
-
       if (permission == LocationPermission.deniedForever) {
         print("Location permissions are permanently denied.");
         return;
       }
-
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-
+          desiredAccuracy: LocationAccuracy.lowest);
       List<Placemark> placeMarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
       notifyListeners();
@@ -56,6 +69,7 @@ class CurrentLocationProvider extends ChangeNotifier {
       latitude = sharedPreferences.getDouble("latitude");
       longitude = sharedPreferences.getDouble("longitude");
       addressPlacement = sharedPreferences.getString("address") ?? '';
+      animateCamera(latitude!, longitude!);
       print("latitude : $latitude");
       print("longitude : $longitude");
       print("addressPlacement : $addressPlacement");
@@ -67,4 +81,5 @@ class CurrentLocationProvider extends ChangeNotifier {
       }
     }
   }
+
 }

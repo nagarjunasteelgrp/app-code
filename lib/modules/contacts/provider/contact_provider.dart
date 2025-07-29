@@ -103,6 +103,7 @@ class ContactProvider extends ChangeNotifier {
         notifyListeners();
       } else {}
     } catch (e) {
+      print(e);
     } finally {
       isLoading = false;
       notifyListeners();
@@ -237,6 +238,7 @@ class ContactProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
+      print(e);
     } finally {
       isLoading = false;
       notifyListeners();

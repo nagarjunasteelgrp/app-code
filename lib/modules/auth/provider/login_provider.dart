@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:background_location/background_location.dart';
+
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -50,6 +50,7 @@ class LoginProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(value.body);
+        print("Login Response: $response");
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', response['token']);
@@ -59,6 +60,8 @@ class LoginProvider extends ChangeNotifier {
           prefs.setString(
               'username', response['userInfo']['username'].toString());
           prefs.setString('empId', response['userInfo']['empId'].toString());
+          prefs.setString('empmId', response['userInfo']['empmId'].toString());
+          prefs.setString('slpCode', response['userInfo']['slpId'].toString());
           prefs.setString('role', response['userInfo']['role'].toString());
           prefs.setBool('isLogin', true);
           prefs.setString('profilePicture',
@@ -67,14 +70,8 @@ class LoginProvider extends ChangeNotifier {
               type: 'success', context: context, title: response['message']);
           await personalDetails();
           await getHeaders();
-          await followUpsForNotificationFetching();
-          await (followUpsDateList!.isNotEmpty)
-              ? await showNotification(
-                  'Remainder',
-                  'The followups scheduled with ${followUpsDateList![0]['dealerName']} will be reminded today',
-                )
-              : null;
-          BackgroundLocation.startLocationService();
+          // await BackgroundLocation.startLocationService(distanceFilter: 20);
+          isReachedOut = false;
           Get.offNamed(RoutesName.HOME);
           notifyListeners();
         } else {
@@ -83,6 +80,7 @@ class LoginProvider extends ChangeNotifier {
         }
       });
     } catch (e) {
+      print("Login Error: $e");
       isLoading = false;
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
       notifyListeners();
