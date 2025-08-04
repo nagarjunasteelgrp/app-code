@@ -24,8 +24,7 @@ Widget myProgressList(DashboardProvider provider) {
                 padding:
                     EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 0.4.h),
                 decoration: BoxDecoration(
-                  color:
-                  index == provider.selectedIndex
+                  color: index == provider.selectedIndex
                       ? AppColors.blueColor2
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(1.2.h),

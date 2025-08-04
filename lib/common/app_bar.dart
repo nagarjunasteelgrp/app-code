@@ -14,10 +14,10 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool leadingArrow;
   final double titleFontSize;
   final double? elevation;
-  VoidCallback? onTap;
-  VoidCallback? onTapLogo;
+  final VoidCallback? onTap;
+  final VoidCallback? onTapLogo;
 
-  CommonAppBar({
+  const CommonAppBar({
     super.key,
     this.title,
     this.elevation,

@@ -20,7 +20,6 @@ import 'package:timezone/timezone.dart' as tz;
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-  // await BackgroundLocation.startLocationService();
   BackgroundLocation.setAndroidNotification(
     title: "Background Nagarjuna Steel",
     message: "App is up and running",
@@ -31,13 +30,17 @@ void main() async {
   tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-  ));
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
+
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
   FlutterNativeSplash.remove();
+
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
@@ -58,10 +61,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     initializeNotifications();
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await Provider.of<CurrentLocationProvider>(context, listen: false)
-    //       .getUserLocation();
-    // });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       LocationMonitor.startLocationMonitoring();
     });
@@ -82,22 +81,21 @@ class _MyAppState extends State<MyApp> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const MaterialApp(
             home: Scaffold(
-              body: Center(child: CircularProgressIndicator()),
+              body: Center(child: CircularProgressIndicator.adaptive()),
             ),
           );
         } else {
           bool isLogin = snapshot.data ?? false;
-          print("isLogin : $isLogin");
           return Sizer(
             builder: (context, orientation, deviceType) {
               return GetMaterialApp(
                 navigatorKey: Get.key,
-                debugShowCheckedModeBanner: false,
                 title: Constants.APP_NAME,
                 themeMode: ThemeMode.light,
+                getPages: RouteNavigation.routes,
+                debugShowCheckedModeBanner: false,
                 theme: ThemeServices.getLightTheme(),
                 initialRoute: isLogin ? RoutesName.HOME : RoutesName.LOGIN,
-                getPages: RouteNavigation.routes,
               );
             },
           );
@@ -110,7 +108,6 @@ class _MyAppState extends State<MyApp> {
 //Latest this version
 //flutter clean
 // flutter pub get
-// flutter build appbundle --build-name=1.3 --build-number=6
+// flutter build appbundle --build-name=1.4 --build-number=7
 
 
-//flutter build appbundle --release --build-name=1.3 --build-number=6 --target-platform=android-arm64

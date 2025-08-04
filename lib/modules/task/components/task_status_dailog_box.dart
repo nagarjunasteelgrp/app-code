@@ -14,7 +14,7 @@ import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void taskStatusDailogBox(BuildContext context, statusId) {
+void taskStatusDialogBox(BuildContext context, statusId) {
   showDialog(
     context: context,
     builder: (context) {

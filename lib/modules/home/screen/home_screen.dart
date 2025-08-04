@@ -1,6 +1,4 @@
-import 'package:background_location/background_location.dart';
 import 'package:digital_lync/common/app_bar.dart';
-import 'package:digital_lync/common/app_dialog_for_background_permission.dart';
 import 'package:digital_lync/common/app_exit_pop.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/app_colors.dart';
@@ -22,7 +20,6 @@ import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +30,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -73,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: 'Logout',
                       message: 'Are you sure you want to logout?');
                   if (isConfirmed) {
-
-                    Provider.of<HomeProvider>(context, listen: false).prefsClear(context);
+                    Provider.of<HomeProvider>(context, listen: false)
+                        .prefsClear(context);
                     Provider.of<LoginProvider>(context, listen: false)
                         .emailController
                         .clear();
@@ -87,7 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 actions: [
                   GestureDetector(
                       onTap: () {
-                        Get.to(const NotificationScreen());
+                        Get.to(
+                          const NotificationScreen(),
+                          transition: Transition.fadeIn,
+                          duration: const Duration(milliseconds: 500),
+                        );
                         // provider.setSelectedIndex(2,
                         //     tabIndex: true); // Pass index 3
                       },

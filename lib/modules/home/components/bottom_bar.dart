@@ -14,15 +14,22 @@ class AppBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: checkInProvider,
-        child: Consumer<CheckInProvider>(builder: (context, provider, _) {
+      value: checkInProvider,
+      child: Consumer<CheckInProvider>(
+        builder: (context, provider, _) {
           return Consumer<HomeProvider>(
             builder: (context, value, _) {
-              return BottomNavigationBar(
-                  backgroundColor: Theme.of(context).primaryColor,
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                child: BottomNavigationBar(
                   elevation: 5.h,
-                  currentIndex: value.selectedIndex,
                   showUnselectedLabels: true,
+                  currentIndex: value.selectedIndex,
+                  key: ValueKey<int>(value.selectedIndex),
+                  backgroundColor: Theme.of(context).primaryColor,
                   selectedItemColor: Theme.of(context).colorScheme.onError,
                   unselectedItemColor: Theme.of(context).colorScheme.secondary,
                   onTap: (values) {
@@ -30,65 +37,91 @@ class AppBottomBar extends StatelessWidget {
                   },
                   items: [
                     BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        AppAssets.APP_DASHBOARD_SVG,
-                        height: 3.h,
-                        color: value.selectedIndex == 0
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
+                      icon: AnimatedScale(
+                        scale: value.selectedIndex == 0 ? 1.2 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: SvgPicture.asset(
+                          AppAssets.APP_DASHBOARD_SVG,
+                          height: 3.h,
+                          color: value.selectedIndex == 0
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                       label: Constants.dashboard,
                     ),
                     BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        AppAssets.APP_CONTACTS_SVG,
-                        height: 3.h,
-                        color: value.selectedIndex == 1
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
+                      icon: AnimatedScale(
+                        scale: value.selectedIndex == 1 ? 1.2 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: SvgPicture.asset(
+                          AppAssets.APP_CONTACTS_SVG,
+                          height: 3.h,
+                          color: value.selectedIndex == 1
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                       label: Constants.contacts,
                     ),
                     BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        AppAssets.APP_ACTIVITIES_SVG,
-                        height: 3.h,
-                        color: value.selectedIndex == 2
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
+                      icon: AnimatedScale(
+                        scale: value.selectedIndex == 2 ? 1.2 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: SvgPicture.asset(
+                          AppAssets.APP_ACTIVITIES_SVG,
+                          height: 3.h,
+                          color: value.selectedIndex == 2
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                       label: Constants.tasks,
                     ),
                     BottomNavigationBarItem(
-                      icon: checkInStatus
-                          ? SvgPicture.asset(
-                              height: 3.h,
-                              color: value.selectedIndex == 3
-                                  ? Theme.of(context).colorScheme.onError
-                                  : Theme.of(context).colorScheme.secondary,
-                              AppAssets.APP_CHECKING_SVG,
-                            )
-                          : Icon(Icons.login,
-                              color: value.selectedIndex == 3
-                                  ? Theme.of(context).colorScheme.onError
-                                  : Theme.of(context).colorScheme.secondary),
+                      icon: AnimatedScale(
+                        scale: value.selectedIndex == 3 ? 1.2 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: checkInStatus
+                            ? SvgPicture.asset(
+                                AppAssets.APP_CHECKING_SVG,
+                                height: 3.h,
+                                color: value.selectedIndex == 3
+                                    ? Theme.of(context).colorScheme.onError
+                                    : Theme.of(context).colorScheme.secondary,
+                              )
+                            : Icon(
+                                Icons.login,
+                                color: value.selectedIndex == 3
+                                    ? Theme.of(context).colorScheme.onError
+                                    : Theme.of(context).colorScheme.secondary,
+                              ),
+                      ),
                       label: checkInStatus
                           ? Constants.checkIn
                           : Constants.checkOut,
                     ),
                     BottomNavigationBarItem(
-                      icon: Image.asset(
-                        color: value.selectedIndex == 4
-                            ? Theme.of(context).colorScheme.onError
-                            : Theme.of(context).colorScheme.secondary,
-                        AppAssets.MENU,
-                        height: 3.h,
+                      icon: AnimatedScale(
+                        scale: value.selectedIndex == 4 ? 1.2 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: Image.asset(
+                          AppAssets.MENU,
+                          height: 3.h,
+                          color: value.selectedIndex == 4
+                              ? Theme.of(context).colorScheme.onError
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                       label: Constants.menu,
                     ),
-                  ]);
+                  ],
+                ),
+              );
             },
           );
-        }));
+        },
+      ),
+    );
   }
 }

@@ -96,11 +96,11 @@ class TaskScreen extends StatelessWidget {
                                   builder: (context, value, child) {
                                     return Column(
                                       children: List.generate(
-                                          value.filteredTaskAPIResponse
-                                              .length, (index) {
+                                          value.filteredTaskAPIResponse.length,
+                                          (index) {
                                         final dateTimeString =
-                                            value.filteredTaskAPIResponse[
-                                                index]['createdAt'];
+                                            value.filteredTaskAPIResponse[index]
+                                                ['createdAt'];
                                         final dateTime =
                                             DateTime.parse(dateTimeString);
                                         value.dateTime =
@@ -108,10 +108,10 @@ class TaskScreen extends StatelessWidget {
                                                 .format(dateTime.toLocal());
                                         return taskContainerUI(
                                           onTap: () {
-                                            value.statusId = value
-                                                    .filteredTaskAPIResponse[
-                                                index]['id'];
-                                            taskStatusDailogBox(
+                                            value.statusId =
+                                                value.filteredTaskAPIResponse[
+                                                    index]['id'];
+                                            taskStatusDialogBox(
                                                 context, value.statusId);
                                           },
                                           context,
@@ -123,8 +123,7 @@ class TaskScreen extends StatelessWidget {
                                                   .outline
                                                   .withOpacity(0.8)
                                               : value.filteredTaskAPIResponse[
-                                                              index]
-                                                          ['status'] ==
+                                                          index]['status'] ==
                                                       "completed"
                                                   ? Theme.of(context)
                                                       .colorScheme
@@ -132,15 +131,13 @@ class TaskScreen extends StatelessWidget {
                                                   : Theme.of(context)
                                                       .colorScheme
                                                       .onSurfaceVariant,
-                                          title:
-                                              value.filteredTaskAPIResponse[
-                                                  index]['title'],
+                                          title: value.filteredTaskAPIResponse[
+                                              index]['title'],
                                           description:
                                               value.filteredTaskAPIResponse[
                                                   index]['description'],
-                                          type:
-                                              value.filteredTaskAPIResponse[
-                                                  index]['titleType'],
+                                          type: value.filteredTaskAPIResponse[
+                                              index]['titleType'],
                                           dateTime: value.dateTime,
                                         );
                                       }),

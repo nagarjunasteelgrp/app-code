@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:digital_lync/common/app_bar.dart';
-import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/modules/contacts/components/contact_topbar.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
 import 'package:digital_lync/routes/routes_path.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -26,7 +26,7 @@ class ContactListScreen extends StatelessWidget {
         appBar: CommonAppBar(
           title: Constants.APP_NAME,
           leadingArrow: true,
-          actions: [],
+          actions: const [],
           onTap: () {
             Get.back();
           },
@@ -93,14 +93,16 @@ class ContactListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: AppText(
-                                        title: Constants.company_Name,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  fontWeight: FontWeight.w500,
+                                  title: Constants.company_Name,
+                                )),
                                 Expanded(
                                     child: AppText(
-                                        title: provider.companyName,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  fontWeight: FontWeight.w600,
+                                  title: provider.companyName,
+                                )),
                               ],
                             ),
                           ),
@@ -111,14 +113,16 @@ class ContactListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: AppText(
-                                        title: Constants.person_Name,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  title: Constants.person_Name,
+                                  fontWeight: FontWeight.w500,
+                                )),
                                 Expanded(
                                     child: AppText(
-                                        title: provider.personName,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  title: provider.personName,
+                                  fontWeight: FontWeight.w600,
+                                )),
                               ],
                             ),
                           ),
@@ -129,14 +133,17 @@ class ContactListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: AppText(
-                                        title: Constants.contact_Type,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  fontWeight: FontWeight.w500,
+                                  title: Constants.contact_Type,
+                                )),
                                 Expanded(
-                                    child: AppText(
-                                        title: provider.contactType,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 1.5.h)),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w600,
+                                    title: provider.contactType,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -147,14 +154,16 @@ class ContactListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: AppText(
-                                        title: Constants.phone_Number,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  fontWeight: FontWeight.w500,
+                                  title: Constants.phone_Number,
+                                )),
                                 Expanded(
                                     child: AppText(
-                                        title: provider.phoneNumber,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  fontWeight: FontWeight.w600,
+                                  title: provider.phoneNumber,
+                                )),
                               ],
                             ),
                           ),
@@ -165,14 +174,16 @@ class ContactListScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: AppText(
-                                        title: Constants.email_Id,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 1.5.h)),
+                                  fontSize: 1.5.h,
+                                  title: Constants.email_Id,
+                                  fontWeight: FontWeight.w500,
+                                )),
                                 Expanded(
                                     child: AppText(
-                                        title: provider.email,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 1.5.h)),
+                                  title: provider.email,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 1.5.h,
+                                )),
                               ],
                             ),
                           ),

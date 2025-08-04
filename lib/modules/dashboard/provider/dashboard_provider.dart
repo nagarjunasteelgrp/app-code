@@ -1,14 +1,22 @@
 import 'dart:convert';
-
-import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/constants/global.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:digital_lync/constants/global.dart';
+import 'package:digital_lync/constants/constants.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class DashboardProvider extends ChangeNotifier {
+  final List<String> items = ['Amount', 'Quantity'];
+  String _selectedValue = 'Amount';
+
+  dynamic _estimationAndQty;
+  dynamic _selectedData;
+
+  String get selectedValue => _selectedValue;
+  dynamic get selectedData => _selectedData;
+
   int _selectedIndex = 0;
   bool isLoading = false;
   dynamic endDate;
@@ -26,7 +34,7 @@ class DashboardProvider extends ChangeNotifier {
   num masonsSum = 0;
   num overallEnrollmentSum = 0;
   num overallDistance = 0;
-
+  dynamic estimationAndQty;
   dynamic monthlyReportResponse;
   dynamic monthlySalesQtyResponse;
   dynamic startTimeForActivityLocation;
@@ -56,40 +64,82 @@ class DashboardProvider extends ChangeNotifier {
 
   DashboardProvider() {
     overallEnrollmentAPI('today');
+
     overallDistanceAPI('today');
 
     final now = DateTime.now();
+
     final formatter = DateFormat('yyyy-MM-dd');
 
     startDate = formatter.format(now);
+
     endDate = formatter.format(now.subtract(const Duration(days: 1)));
 
     startTimeForActivityLocation = now.subtract(const Duration(days: 1));
+
     endTimeForActivityLocation = now;
+
     dateSelectedActivityLocation =
         DateFormat('MMMM d, yyyy').format(startTimeForActivityLocation);
 
     myProgressAPI();
+
+    monthlyAmountAndQuantity();
+
     monthlyReport();
+
     activityLocation(startTimeForActivityLocation, endTimeForActivityLocation);
 
     selectedValueNewEnrollment = dropDownNewEnrollment.first;
+
     selectedValueOverallDistance = dropDownOverallDistance.first;
   }
 
-  List dropDownNewEnrollment = [
-    'TODAY',
-    'WEEK',
-    'MONTH',
-    'YEAR',
-  ];
+  List dropDownNewEnrollment = ['TODAY', 'WEEK', 'MONTH', 'YEAR'];
 
-  List dropDownOverallDistance = [
-    'TODAY',
-    'WEEK',
-    'MONTH',
-    'YEAR',
-  ];
+  List dropDownOverallDistance = ['TODAY', 'WEEK', 'MONTH', 'YEAR'];
+  // Update dropdown selection
+  void setSelectedValue(String value) {
+    _selectedValue = value;
+    _updateSelectedData();
+    notifyListeners();
+  }
+
+  // Set API response data
+  void setEstimationAndQty(dynamic data) {
+    _estimationAndQty = data;
+    _updateSelectedData();
+    notifyListeners();
+  }
+
+  // Compute selected data based on dropdown
+  void _updateSelectedData() {
+    if (_selectedValue == 'Amount') {
+      _selectedData = (_estimationAndQty != null &&
+              _estimationAndQty['estimation'] != null &&
+              _estimationAndQty['estimation'].isNotEmpty)
+          ? _estimationAndQty['estimation'][0]
+          : null;
+    } else if (_selectedValue == 'Quantity') {
+      double totalAchieved = 0.0;
+      double totalBalance = 0.0;
+
+      if (_estimationAndQty != null && _estimationAndQty['quantity'] != null) {
+        for (var item in _estimationAndQty['quantity']) {
+          totalAchieved += (item['Achieved Qty (MT)'] ?? 0).toDouble();
+          totalBalance += (item['Balance Qty (MT)'] ?? 0).toDouble();
+        }
+      }
+
+      _selectedData = {
+        'Achieved Qty (MT)': totalAchieved,
+        'Balance Qty (MT)': totalBalance,
+        'Target Qty (MT)': totalAchieved + totalBalance,
+      };
+    } else {
+      _selectedData = null;
+    }
+  }
 
   dropDownSelectedValueNewEnrollment(newValue) {
     dealerSum = 0;
@@ -168,7 +218,6 @@ class DashboardProvider extends ChangeNotifier {
       } else {
         myProgressAPIResponse = [];
       }
-    } catch (e) {
     } finally {
       isLoading = false;
       notifyListeners();
@@ -397,16 +446,17 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
 
       var response = await apiServices.monthlyReport(
-          "MUTYAMSTEEL_LIVE", empmId, currentMonth, currentFY);
-      // "MUTYAMSTEEL_LIVE", "75", currentMonth, currentFY);
-
-      print("Monthly Report URL: ${response.request?.url}");
+        "MUTYAMSTEEL_LIVE",
+        empmId,
+        currentMonth,
+        currentFY,
+      );
 
       if (response.statusCode == 200) {
         isLoading = false;
         monthlyReportResponse = jsonDecode(response.body);
         monthlySalesQty(currentMonth: currentMonth, currentFY: currentFY);
-        print("Monthly Report Response: $monthlyReportResponse");
+        // print("Monthly Report Response: $monthlyReportResponse");
         notifyListeners();
       } else {
         isLoading = false;
@@ -416,6 +466,39 @@ class DashboardProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       print("Error in monthlyResponse: $e");
+    }
+  }
+
+  Future<void> monthlyAmountAndQuantity() async {
+    String currentMonth = DateFormat('MM').format(DateTime.now());
+    String currentFY = getFinancialYearString();
+
+    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      var response =
+          await apiServices.estimationAndQty(currentMonth, currentFY, slpCode);
+
+      print("estAndQty Report URL: ${response.body}");
+
+      if (response.statusCode == 200) {
+        isLoading = false;
+        estimationAndQty = jsonDecode(response.body);
+
+        setEstimationAndQty(estimationAndQty);
+
+        print("estAndQty Report Response: $estimationAndQty");
+        notifyListeners();
+      } else {
+        isLoading = false;
+        notifyListeners();
+      }
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      print("Error in estAndQty: $e");
     }
   }
 
@@ -440,7 +523,7 @@ class DashboardProvider extends ChangeNotifier {
         };
 
         isLoading = false;
-        print("Filtered Monthly resp Sales Qty: $monthlySalesQtyResponse");
+
         notifyListeners();
       } else {
         isLoading = false;

@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class pieChart extends StatefulWidget {
-  DashboardProvider provider;
+  final DashboardProvider provider;
 
-  pieChart({super.key, required this.provider});
+  const pieChart({super.key, required this.provider});
 
   @override
-  State<pieChart> createState() => _pieChartState();
+  State<pieChart> createState() => pieChartState();
 }
 
-class _pieChartState extends State<pieChart> {
+class pieChartState extends State<pieChart> {
   @override
   Widget build(BuildContext context) {
     return Center(

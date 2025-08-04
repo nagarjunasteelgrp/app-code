@@ -1,11 +1,11 @@
 class ApiUrl {
-  // static String baseUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
+  static String qaUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
-  static String baseUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
+  static String devUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
 
-  // static String baseUrl = 'http://192.168.29.53:5000/api/v1/';
-  // static String baseUrl = 'http://192.168.29.75:3000/api/v1/';
-  // static String baseUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
+  static String productionUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
+
+  static String baseUrl = devUrl;
 
   static String loginUrl = '${baseUrl}users/login';
 
@@ -88,6 +88,9 @@ class ApiUrl {
 
   static String monthlySalesQtyUrl(month, indicator) =>
       'http://103.138.45.226:8023/api/masters/CBS_SalesQtyTargetAcheivment_CRM?vMonth=$month&vIndicator=$indicator';
+
+  static String estimationAndQty(month, year, slpId) =>
+      '${baseUrl}master-dashbord/estimation-and-qty?year=$year&month=$month&slpId=$slpId';
 }
 // dbName = "MUTYAMSTEEL_LIVE"
 // empCode = "75"

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
- customDialogBoxNotification(context)  {
+customDialogBoxNotification(context) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -47,7 +47,7 @@ import 'package:sizer/sizer.dart';
                         Expanded(
                           child: appButton(
                             context: context,
-                            onTap: ()async {
+                            onTap: () async {
                               await provider.deleteAllNotification(context);
                               Get.back();
                             },

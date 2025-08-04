@@ -24,11 +24,13 @@ class ResetEmailProvider extends ChangeNotifier {
       if (logResponse.statusCode == 200) {
         var response = jsonDecode(logResponse.body);
         resetEmailController.clear();
-        showAppSnackBar(
-          type: 'success',
-          context: context,
-          title: response['message'],
-        );
+        if (context.mounted) {
+          showAppSnackBar(
+            type: 'success',
+            context: context,
+            title: response['message'],
+          );
+        }
         Get.offNamed(RoutesName.LOGIN);
       } else {
         var response = jsonDecode(logResponse.body);

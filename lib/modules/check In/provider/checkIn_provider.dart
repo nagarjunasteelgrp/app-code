@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 bool checkInStatus = true;
 
-getShardPrefrencesData() async {
+getShardPreferencesData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   checkInStatus = prefs.getBool('checkInStatus') ?? true;
 }
@@ -20,23 +20,21 @@ class CheckInProvider extends ChangeNotifier {
   int? checkInId;
 
   CheckInProvider() {
-    getShardPrefrencesData();
+    getShardPreferencesData();
     checkInListAPI();
   }
 
   checkInListAPI() async {
     try {
       isLoading = true;
-      notifyListeners();
+
       var response = await apiServices.checkInList();
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         checkInList = responseData["attendance"];
-        notifyListeners();
       } else {}
     } finally {
       isLoading = false;
-      notifyListeners();
     }
     notifyListeners();
   }
@@ -53,7 +51,7 @@ class CheckInProvider extends ChangeNotifier {
         // checkInId = responseData['attendance']['id'];
         prefs.setBool('checkInStatus', false);
         checkInListAPI();
-        getShardPrefrencesData();
+        getShardPreferencesData();
         Get.back();
         prefs.setInt('checkInId', responseData['attendance']['id']);
         prefs.setString(
@@ -82,7 +80,7 @@ class CheckInProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         prefs.setBool('checkInStatus', true);
         checkInListAPI();
-        getShardPrefrencesData();
+        getShardPreferencesData();
         Get.back();
         notifyListeners();
       } else {}

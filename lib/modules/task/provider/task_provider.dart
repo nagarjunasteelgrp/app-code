@@ -33,7 +33,7 @@ class TaskProvider extends ChangeNotifier {
     followUpsFetching();
   }
 
-  List<String> dateFilters = ['today', 'week', 'month','premonth'];
+  List<String> dateFilters = ['today', 'week', 'month', 'premonth'];
   List<String> statusFilters = ['all', 'pending', 'done'];
 
   void updateDateFilter(String value) {
@@ -78,7 +78,6 @@ class TaskProvider extends ChangeNotifier {
         followUpsAPIResponse = responseData;
         notifyListeners();
       } else {
-        var responseData = jsonDecode(response.body);
         isLoading = false;
         notifyListeners();
       }
@@ -156,7 +155,6 @@ class TaskProvider extends ChangeNotifier {
       final response =
           await apiServices.statusUpdateAPI(status: status, statusId: statusId);
       if (response.statusCode == 200) {
-        var responseData = jsonDecode(response.body);
         taskByUserIdAPI();
         isLoading = false;
         notifyListeners();

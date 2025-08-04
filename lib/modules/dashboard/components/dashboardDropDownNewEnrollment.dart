@@ -62,7 +62,10 @@ Widget dashBoardDropDownNewEnrollment(
                   ),
                 );
               }),
-              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h,color: AppColors.WHITE_COLOR),
+              style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 1.9.h,
+                  color: AppColors.WHITE_COLOR),
               onChanged: (newValue) {
                 provider.dropDownSelectedValueNewEnrollment(newValue);
               },

@@ -1,15 +1,18 @@
+import 'package:animated_digit/animated_digit.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/components/dashboardDropDownNewEnrollment.dart';
 import 'package:digital_lync/modules/dashboard/components/dashboardDropDownOverallDistance.dart';
-import 'package:digital_lync/modules/dashboard/components/myProgress_list.dart';
+import 'package:digital_lync/modules/dashboard/components/my_progress_list.dart';
 import 'package:digital_lync/modules/dashboard/components/pie_chart.dart';
+import 'package:digital_lync/modules/dashboard/components/row_widget_text.dart';
 import 'package:digital_lync/modules/dashboard/components/travel_summary.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -28,9 +31,13 @@ class DashBoardScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Consumer<DashboardProvider>(
             builder: (context, provider, child) {
+              final dropDownProvider = Provider.of<DashboardProvider>(context);
+
               return provider.isLoading == true
                   ? const Align(
-                      alignment: Alignment.center, child: SpinKitLoader())
+                      alignment: Alignment.center,
+                      child: SpinKitLoader(),
+                    )
                   : SingleChildScrollView(
                       child: Column(
                         children: [
@@ -57,10 +64,11 @@ class DashBoardScreen extends StatelessWidget {
                                   height: 1.h,
                                 ),
                                 appDivider(
-                                    context: context,
-                                    colors:
-                                        Theme.of(context).colorScheme.secondary,
-                                    vertical: 0.5.h),
+                                  vertical: 0.5.h,
+                                  context: context,
+                                  colors:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                                 SizedBox(height: 1.5.h),
                                 Padding(
                                   padding:
@@ -92,12 +100,13 @@ class DashBoardScreen extends StatelessWidget {
                                         ],
                                       ),
                                       Dash(
-                                          direction: Axis.vertical,
-                                          length: 60,
-                                          dashLength: 3,
-                                          dashColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary),
+                                        length: 60,
+                                        dashLength: 3,
+                                        direction: Axis.vertical,
+                                        dashColor: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      ),
                                       Column(
                                         children: [
                                           AppText(
@@ -121,12 +130,13 @@ class DashBoardScreen extends StatelessWidget {
                                         ],
                                       ),
                                       Dash(
-                                          direction: Axis.vertical,
-                                          length: 60,
-                                          dashLength: 3,
-                                          dashColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary),
+                                        direction: Axis.vertical,
+                                        length: 60,
+                                        dashLength: 3,
+                                        dashColor: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      ),
                                       Column(
                                         children: [
                                           AppText(
@@ -211,8 +221,7 @@ class DashBoardScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SizedBox(width: 1.h),
                                     Container(
@@ -224,9 +233,9 @@ class DashBoardScreen extends StatelessWidget {
                                             BorderRadius.circular(1.h),
                                       ),
                                       child: AppText(
+                                        fontSize: 18,
                                         title: "This Month",
                                         color: AppColors.WHITE_COLOR,
-                                        fontSize: 18,
                                       ),
                                     ),
                                   ],
@@ -237,331 +246,327 @@ class DashBoardScreen extends StatelessWidget {
                                         Theme.of(context).colorScheme.secondary,
                                     vertical: 0.5.h),
                                 SizedBox(height: 1.5.h),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          AppText(
-                                            title: provider
-                                                            .monthlySalesQtyResponse !=
-                                                        null &&
-                                                    provider.monthlySalesQtyResponse[
-                                                            'responseObject'] !=
-                                                        null &&
-                                                    provider
-                                                        .monthlySalesQtyResponse[
-                                                            'responseObject']
-                                                        .isNotEmpty
-                                                ? provider
-                                                    .monthlySalesQtyResponse[
-                                                        'responseObject'][0]
-                                                        ['Target Qty (MT)']
-                                                    .toString()
-                                                : "0",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20,
-                                            color: AppColors.lightBlackColor,
-                                          ),
-                                          SizedBox(height: 0.5.h),
-                                          AppText(
-                                              title: "Target Quantity",
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  AppColors.tooLightBlackColor),
-                                        ],
-                                      ),
-                                    ),
-                                    Dash(
-                                        direction: Axis.vertical,
-                                        length: 60,
-                                        dashLength: 3,
-                                        dashColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          AppText(
-                                            title: provider
-                                                            .monthlyReportResponse !=
-                                                        null &&
-                                                    provider.monthlyReportResponse[
-                                                            'responseObject'] !=
-                                                        null &&
-                                                    provider
-                                                        .monthlyReportResponse[
-                                                            'responseObject']
-                                                        .isNotEmpty
-                                                ? provider
-                                                    .monthlyReportResponse[
-                                                        'responseObject'][0]
-                                                        ['Target Amt (Rs)']
-                                                    .toString()
-                                                : "0",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20,
-                                            color: AppColors.lightBlackColor,
-                                          ),
-                                          SizedBox(height: 0.5.h),
-                                          AppText(
-                                              title: "Target Amount",
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  AppColors.tooLightBlackColor),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                Consumer<DashboardProvider>(
+                                  builder: (context, provider, _) {
+                                    final qtyList = provider.estimationAndQty !=
+                                                null &&
+                                            provider.estimationAndQty[
+                                                    'quantity'] !=
+                                                null
+                                        ? provider.estimationAndQty['quantity']
+                                            as List
+                                        : [];
+
+                                    return Column(
+                                      children: qtyList.isEmpty
+                                          ? [
+                                              const RowTextWidget(
+                                                value1: "0",
+                                                label1: 'Target Qty',
+                                                value2: "0",
+                                                label2: 'Achieved Qty',
+                                                value3: "0",
+                                                label3: 'Due Qty',
+                                              )
+                                            ]
+                                          : List.generate(
+                                              qtyList.length,
+                                              (index) {
+                                                final item = qtyList[index];
+                                                return RowTextWidget(
+                                                  brands: true,
+                                                  brandsTitle:
+                                                      item['Brand'] ?? '',
+                                                  value1:
+                                                      (item['Target Qty (MT)'] ??
+                                                              0)
+                                                          .toString(),
+                                                  label1: 'Target Qty',
+                                                  value2:
+                                                      (item['Achieved Qty (MT)'] ??
+                                                              0)
+                                                          .toString(),
+                                                  label2: 'Achieved Qty',
+                                                  value3:
+                                                      (item['Balance Qty (MT)'] ??
+                                                              0)
+                                                          .toString(),
+                                                  label3: 'Due Qty',
+                                                );
+                                              },
+                                            ),
+                                    );
+                                  },
                                 ),
-                                SizedBox(height: 2.h),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          AppText(
-                                            title: provider
-                                                            .monthlyReportResponse !=
-                                                        null &&
-                                                    provider.monthlyReportResponse[
-                                                            'responseObject'] !=
-                                                        null &&
-                                                    provider
-                                                        .monthlyReportResponse[
-                                                            'responseObject']
-                                                        .isNotEmpty
-                                                ? provider
-                                                    .monthlyReportResponse[
-                                                        'responseObject'][0]
-                                                        ['Achieved Amt (Rs)']
-                                                    .toString()
-                                                : "0",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20,
-                                            color: AppColors.lightBlackColor,
-                                          ),
-                                          SizedBox(height: 0.5.h),
-                                          AppText(
-                                              title: "Achieved Amount",
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  AppColors.tooLightBlackColor),
-                                        ],
-                                      ),
+                                RowTextWidget(
+                                    value1: provider.estimationAndQty != null && provider.estimationAndQty['estimation'] != null && provider.estimationAndQty['estimation'].isNotEmpty
+                                        ? provider.estimationAndQty['estimation']
+                                                [0]['Target Amt (Rs)']
+                                            .toString()
+                                        : "0",
+                                    label1: 'Target Amt',
+                                    //
+
+                                    value2: provider.estimationAndQty != null &&
+                                            provider.estimationAndQty['estimation'] !=
+                                                null &&
+                                            provider
+                                                .estimationAndQty['estimation']
+                                                .isNotEmpty
+                                        ? provider
+                                            .estimationAndQty['estimation'][0]
+                                                ['Achieved Amt (Rs)']
+                                            .toString()
+                                        : "0",
+                                    label2: 'Achieved Amt',
+                                    //
+
+                                    value3: provider.estimationAndQty != null &&
+                                            provider.estimationAndQty['estimation'] !=
+                                                null &&
+                                            provider.estimationAndQty['estimation'].isNotEmpty
+                                        ? provider.estimationAndQty['estimation'][0]['Balance Amt (Rs)'].toString()
+                                        : "0",
+                                    label3: 'Due Amt'
+                                    //
+
                                     ),
-                                    Dash(
-                                        direction: Axis.vertical,
-                                        length: 60,
-                                        dashLength: 3,
-                                        dashColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          AppText(
-                                            title: provider
-                                                            .monthlyReportResponse !=
-                                                        null &&
-                                                    provider.monthlyReportResponse[
-                                                            'responseObject'] !=
-                                                        null &&
-                                                    provider
-                                                        .monthlyReportResponse[
-                                                            'responseObject']
-                                                        .isNotEmpty
-                                                ? provider
-                                                    .monthlyReportResponse[
-                                                        'responseObject'][0]
-                                                        ['Balance Amt (Rs)']
-                                                    .toString()
-                                                : "0",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20,
-                                            color: AppColors.lightBlackColor,
-                                          ),
-                                          SizedBox(height: 0.5.h),
-                                          AppText(
-                                              title: "Due Amount",
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  AppColors.tooLightBlackColor),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
+                                SizedBox(height: 1.h),
                                 appDivider(
                                     context: context,
                                     colors:
                                         Theme.of(context).colorScheme.secondary,
                                     vertical: 0.5.h),
                                 SizedBox(height: 1.5.h),
-                                targetAmountWidget(
-                                  targetAmount:
-                                      provider.monthlyReportResponse != null &&
-                                              provider.monthlyReportResponse[
-                                                      'responseObject'] !=
-                                                  null &&
-                                              provider
-                                                  .monthlyReportResponse[
-                                                      'responseObject']
-                                                  .isNotEmpty
-                                          ? provider.monthlyReportResponse[
-                                                  'responseObject'][0]
-                                                  ['Target Amt (Rs)']
-                                              .toString()
-                                          : "0",
-                                  duePercentage:
-                                      provider.monthlyReportResponse != null &&
-                                              provider.monthlyReportResponse[
-                                                      'responseObject'] !=
-                                                  null &&
-                                              provider
-                                                  .monthlyReportResponse[
-                                                      'responseObject']
-                                                  .isNotEmpty
-                                          ? (double.parse(provider
-                                                      .monthlyReportResponse[
-                                                          'responseObject'][0]
-                                                          ['Ach(%)']
-                                                      .toString()) /
-                                                  100)
-                                              .clamp(0.0, 1.0)
-                                          : 0.0,
-                                ),
-                                SizedBox(height: 2.5.h),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 2.2.h,
-                                                  width: 1.5.h,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            2.h),
-                                                    color: AppColors.greenColor,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 1.h,
-                                                ),
-                                                AppText(
-                                                  title: "Due Amount",
-                                                  color:
-                                                      AppColors.lightBlackColor,
-                                                  fontSize: 16,
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 0.5.h),
-                                            AppText(
-                                              title: provider
-                                                              .monthlyReportResponse !=
-                                                          null &&
-                                                      provider.monthlyReportResponse[
-                                                              'responseObject'] !=
-                                                          null &&
-                                                      provider
-                                                          .monthlyReportResponse[
-                                                              'responseObject']
-                                                          .isNotEmpty
-                                                  ? provider
-                                                      .monthlyReportResponse[
-                                                          'responseObject'][0]
-                                                          ['Balance Amt (Rs)']
-                                                      .toString()
-                                                  : "0",
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500,
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 30.w,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.w, vertical: 1.h),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                            color: AppColors.borderColor)),
+                                    child: DropdownButton<String>(
+                                      isDense: true,
+                                      isExpanded: true,
+                                      value: dropDownProvider.selectedValue,
+                                      iconEnabledColor: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
+                                      iconDisabledColor: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColors.lightBlackColor,
+                                        size: 3.h,
+                                      ),
+                                      underline: const SizedBox(),
+                                      borderRadius:
+                                          BorderRadius.circular(1.0.w),
+                                      dropdownColor: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      focusColor: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 1.9.h,
+                                        color: AppColors.lightBlackColor,
+                                      ),
+                                      items: dropDownProvider.items
+                                          .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 0.5.w),
+                                            child: AppText(
+                                              title:
+                                                  "${value[0].toUpperCase()}${value.substring(1)}",
+                                              fontSize: 1.5.h,
                                               color: AppColors.lightBlackColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        if (newValue != null) {
+                                          dropDownProvider
+                                              .setSelectedValue(newValue);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Consumer<DashboardProvider>(
+                                  builder: (context, provider, _) {
+                                    final data = provider.selectedData;
+
+                                    final bool isQty =
+                                        provider.selectedValue == 'Quantity';
+
+                                    // Agar data null ya empty ho to default 0 values
+                                    final target = isQty
+                                        ? (data != null
+                                            ? (data['Target Qty (MT)'] ?? 0.0)
+                                                .toDouble()
+                                            : 0.0)
+                                        : (data != null
+                                            ? (data['Target Amt (Rs)'] ?? 0.0)
+                                                .toDouble()
+                                            : 0.0);
+
+                                    final achieved = isQty
+                                        ? (data != null
+                                            ? (data['Achieved Qty (MT)'] ?? 0.0)
+                                                .toDouble()
+                                            : 0.0)
+                                        : (data != null
+                                            ? (data['Achieved Amt (Rs)'] ?? 0.0)
+                                                .toDouble()
+                                            : 0.0);
+
+                                    final balance = isQty
+                                        ? (data != null
+                                            ? (data['Balance Qty (MT)'] ?? 0.0)
+                                                .toDouble()
+                                            : 0.0)
+                                        : (data != null
+                                            ? (data['Balance Amt (Rs)'] ?? 0.0)
+                                                .toDouble()
+                                            : 0.0);
+
+                                    final percentage = target == 0
+                                        ? 0.0
+                                        : (achieved / target).clamp(0.0, 1.0);
+
+                                    return Column(
+                                      children: [
+                                        targetAmountWidget(
+                                          title: isQty
+                                              ? "Target Quantity"
+                                              : "Target Amount",
+                                          targetAmount:
+                                              target.toStringAsFixed(2),
+                                          duePercentage: percentage,
+                                        ),
+                                        SizedBox(height: 2.5.h),
+                                        Row(
+                                          children: [
+                                            // DUE WIDGET
+                                            Expanded(
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                          height: 2.2.h,
+                                                          width: 1.5.h,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color: AppColors
+                                                                .yellowColor,
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 1.h),
+                                                        AppText(
+                                                          fontSize: 16,
+                                                          title: isQty
+                                                              ? "Due Quantity"
+                                                              : "Due Amount",
+                                                          color: AppColors
+                                                              .lightBlackColor,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 0.5.h),
+                                                    AnimatedDigitWidget(
+                                                      textStyle:
+                                                          GoogleFonts.lato(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: AppColors
+                                                            .lightBlackColor,
+                                                      ),
+                                                      fractionDigits: 2,
+                                                      value: balance,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                            // ACHIEVED WIDGET
+                                            Expanded(
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                          height: 1.5.h,
+                                                          width: 1.5.h,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: AppColors
+                                                                .greenColor,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 1.h),
+                                                        AppText(
+                                                          fontSize: 16,
+                                                          title: isQty
+                                                              ? "Achieved Quantity"
+                                                              : "Achieved Amount",
+                                                          color: AppColors
+                                                              .lightBlackColor,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 0.5.h),
+                                                    AnimatedDigitWidget(
+                                                      textStyle:
+                                                          GoogleFonts.lato(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: AppColors
+                                                            .lightBlackColor,
+                                                      ),
+                                                      fractionDigits: 2,
+                                                      value: achieved,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 1.5.h,
-                                                  width: 1.5.h,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            2.h),
-                                                    color:
-                                                        AppColors.yellowColor,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 1.h,
-                                                ),
-                                                AppText(
-                                                  title: "Achieved Amount",
-                                                  color:
-                                                      AppColors.lightBlackColor,
-                                                  fontSize: 16,
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 0.5.h),
-                                            AppText(
-                                              title: provider
-                                                              .monthlyReportResponse !=
-                                                          null &&
-                                                      provider.monthlyReportResponse[
-                                                              'responseObject'] !=
-                                                          null &&
-                                                      provider
-                                                          .monthlyReportResponse[
-                                                              'responseObject']
-                                                          .isNotEmpty
-                                                  ? provider
-                                                      .monthlyReportResponse[
-                                                          'responseObject'][0]
-                                                          ['Achieved Amt (Rs)']
-                                                      .toString()
-                                                  : "0",
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 20,
-                                              color: AppColors.lightBlackColor,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                      ],
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -583,7 +588,6 @@ class DashBoardScreen extends StatelessWidget {
                                   height: 1.h,
                                 ),
                                 pieChart(provider: provider),
-                                // LineChartWidget(provider: provider),
                                 SizedBox(
                                   height: 1.h,
                                 ),
@@ -737,12 +741,16 @@ class DashBoardScreen extends StatelessWidget {
     );
   }
 
-  Widget targetAmountWidget({String? targetAmount, double? duePercentage}) {
+  Widget targetAmountWidget({
+    String? title,
+    String? targetAmount,
+    double? duePercentage,
+  }) {
     return CircularPercentIndicator(
       radius: 100.0,
       animation: true,
-      animationDuration: 1200,
       lineWidth: 15.0,
+      animationDuration: 1200,
       percent: duePercentage!,
       center: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -754,15 +762,15 @@ class DashBoardScreen extends StatelessWidget {
           ),
           SizedBox(height: 0.2.h),
           AppText(
-            title: "Target Amount",
             fontSize: 12,
+            title: title ?? "Target Amount",
             color: AppColors.tooLightBlackColor,
           ),
         ],
       ),
-      circularStrokeCap: CircularStrokeCap.round,
-      backgroundColor: AppColors.yellowColor,
       progressColor: AppColors.greenColor,
+      backgroundColor: AppColors.yellowColor,
+      circularStrokeCap: CircularStrokeCap.round,
     );
   }
 }

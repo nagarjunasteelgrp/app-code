@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
+
       bool isDialogShown = prefs.getBool('isLocationDialogShown') ?? false;
 
       if (!isDialogShown) {
@@ -44,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: Center(
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
               child: Column(
@@ -80,17 +82,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         SizedBox(height: 2.h),
                         AppText(
-                          title: "Enter Your Password",
-                          fontWeight: FontWeight.w500,
                           fontSize: 1.8.h,
+                          fontWeight: FontWeight.w500,
+                          title: "Enter Your Password",
                         ),
                         SizedBox(height: 1.h),
                         Consumer<LoginProvider>(builder: (context, value, _) {
                           return appTextField(
                             verticalPadding: 2.0.h,
-                            controller: value.passwordController,
                             context: context,
                             obscureText: value.obscureText,
+                            controller: value.passwordController,
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 value.obscureTextChange();
@@ -133,7 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context: context,
                                     onTap: () {
                                       provider.login(context);
-                                      // Get.toNamed(RoutesName.HOME);
                                     },
                                   ),
                                 );

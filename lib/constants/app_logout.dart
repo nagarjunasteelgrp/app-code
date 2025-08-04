@@ -112,11 +112,12 @@ Widget profileUpdate(value) {
       children: [
         CircleAvatar(
           radius: 65,
-          backgroundImage: value.profilePicture != 'null' && value.profilePicture != null
-              ? (value.profilePicture!.startsWith('http')
-              ? NetworkImage(value.profilePicture!)
-              : FileImage(File(value.profilePicture!))) as ImageProvider
-              : const AssetImage('assets/images/dummy_person.png'),
+          backgroundImage:
+              value.profilePicture != 'null' && value.profilePicture != null
+                  ? (value.profilePicture!.startsWith('http')
+                      ? NetworkImage(value.profilePicture!)
+                      : FileImage(File(value.profilePicture!))) as ImageProvider
+                  : const AssetImage('assets/images/dummy_person.png'),
           onBackgroundImageError: (_, __) {},
         ),
         const SizedBox(height: 16),
@@ -134,7 +135,7 @@ Widget profileUpdate(value) {
                 await picker.pickImage(source: ImageSource.gallery);
             if (image != null) {
               value.updateProfilePicture(image.path);
-              Navigator.of(Get.context!).pop();
+              Get.back();
             }
           },
           height: 5.h,

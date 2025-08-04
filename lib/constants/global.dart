@@ -20,7 +20,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? token;
+String? token; 
 double? latitude;
 double? longitude;
 String? username;
@@ -66,6 +66,7 @@ Future<Map<String, String>> getHeaders() async {
 personalDetails() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   token = prefs.getString("token") ?? "";
+ 
   username = prefs.getString("username") ?? "";
   userId = prefs.getInt("userId") ?? 0;
   userEmail = prefs.getString("email") ?? "";

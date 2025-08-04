@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -45,12 +44,16 @@ class LoginProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       await apiServices
-          .login(email: emailController.text, password: passwordController.text)
+          .login(
+        email: emailController.text.trim().replaceAll(RegExp(r'\s+'), ''),
+        password: passwordController.text,
+      )
           .then((value) async {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(value.body);
         print("Login Response: $response");
+
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', response['token']);
@@ -66,11 +69,12 @@ class LoginProvider extends ChangeNotifier {
           prefs.setBool('isLogin', true);
           prefs.setString('profilePicture',
               response['userInfo']['profilePicture'].toString());
-          showAppSnackBar(
-              type: 'success', context: context, title: response['message']);
+          if (context.mounted) {
+            showAppSnackBar(
+                type: 'success', context: context, title: response['message']);
+          }
           await personalDetails();
           await getHeaders();
-          // await BackgroundLocation.startLocationService(distanceFilter: 20);
           isReachedOut = false;
           Get.offNamed(RoutesName.HOME);
           notifyListeners();
@@ -82,7 +86,13 @@ class LoginProvider extends ChangeNotifier {
     } catch (e) {
       print("Login Error: $e");
       isLoading = false;
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      if (context.mounted) {
+        showAppSnackBar(
+          title: 'Error',
+          context: context,
+          subtitle: e.toString(),
+        );
+      }
       notifyListeners();
     }
   }

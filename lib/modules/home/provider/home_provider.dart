@@ -36,9 +36,9 @@ class HomeProvider extends ChangeNotifier {
     print("HomeProvider initialized........0");
     userRemaningNotifications();
     print("HomeProvider initialized........1");
-    getShardPrefrencesData();
+    getShardPreferencesData();
     print("HomeProvider initialized........2");
-    permissionAcessPhone();
+    permissionAccessPhone();
     print("HomeProvider initialized........3");
     personalDetails();
     print("HomeProvider initialized........4");
@@ -61,7 +61,6 @@ class HomeProvider extends ChangeNotifier {
       );
     }
   }
-
 
   void updateProfilePicture(String newProfilePicture) async {
     profilePicture = newProfilePicture;
@@ -98,10 +97,10 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  permissionAcessPhone() async {
-    Map<Permission, PermissionStatus> statuses = await [
+  permissionAccessPhone() async {
+    /*  Map<Permission, PermissionStatus> statuses = await [
       Permission.location,
-    ].request();
+    ].request(); */
     if (await Permission.location.request().isGranted) {
       CurrentLocationProvider currentLocationProvider =
           CurrentLocationProvider();
