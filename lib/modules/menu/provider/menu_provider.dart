@@ -16,5 +16,4 @@ class MenuProvider extends ChangeNotifier {
     getHeaders();
     notifyListeners();
   }
-
 }

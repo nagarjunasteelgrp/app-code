@@ -3,7 +3,7 @@ import 'package:digital_lync/common/app_dialog_for_background_permission.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/common/app_textfiled.dart';
+import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/auth/components/check_box.dart';
@@ -126,12 +126,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: appButton(
                                     width: double.infinity,
                                     child: AppText(
-                                        title: "Login",
-                                        fontSize: 2.h,
-                                        fontWeight: FontWeight.w700,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background),
+                                      title: "Login",
+                                      fontSize: 2.h,
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                    ),
                                     context: context,
                                     onTap: () {
                                       provider.login(context);
@@ -146,16 +147,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             text:
                                 "By clicking login, you agree to our terms learn How we process your data in our ",
                             style: const TextStyle(
-                              color: AppColors.tooLightBlackColor,
                               fontSize: 14,
+                              color: AppColors.tooLightBlackColor,
                             ),
                             children: [
                               TextSpan(
                                 text: "Privacy Policy",
                                 style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
                                   color: AppColors.blueColor,
                                   decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w600,
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () async {

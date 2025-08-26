@@ -30,9 +30,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 2.h,
-          ),
+          SizedBox(height: 2.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: Consumer<NewTaskProvider>(

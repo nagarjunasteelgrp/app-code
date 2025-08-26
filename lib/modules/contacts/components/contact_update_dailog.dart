@@ -5,7 +5,7 @@ import 'package:digital_lync/common/app_dropdown_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/common/app_textfiled.dart';
+import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
@@ -17,10 +17,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-void showContactUpdateDialog(BuildContext context,
-    {String? selectedValue,
-    VoidCallback? onTapCancel,
-    VoidCallback? onTapSave}) {
+void showContactUpdateDialog(
+  BuildContext context, {
+  String? selectedValue,
+  VoidCallback? onTapCancel,
+  VoidCallback? onTapSave,
+}) {
   showDialog(
     context: context,
     builder: (context) {

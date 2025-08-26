@@ -1,11 +1,13 @@
 class ApiUrl {
+  static String localUrl = 'http://192.168.29.53:4000/api/v1/';
+
   static String qaUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
   static String devUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
 
   static String productionUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
 
-  static String baseUrl = devUrl;
+  static String baseUrl = productionUrl;
 
   static String loginUrl = '${baseUrl}users/login';
 
@@ -92,6 +94,7 @@ class ApiUrl {
   static String estimationAndQty(month, year, slpId) =>
       '${baseUrl}master-dashbord/estimation-and-qty?year=$year&month=$month&slpId=$slpId';
 }
+
 // dbName = "MUTYAMSTEEL_LIVE"
 // empCode = "75"
 // month = "06"

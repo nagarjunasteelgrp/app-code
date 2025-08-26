@@ -101,7 +101,7 @@ class ContactProvider extends ChangeNotifier {
         var responseData = jsonDecode(response.body);
         contactList = responseData['contacts'];
         notifyListeners();
-      } else {}
+      }
     } catch (e) {
       print(e);
     } finally {

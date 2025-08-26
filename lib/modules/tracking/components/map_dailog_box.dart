@@ -25,7 +25,6 @@ void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
             backgroundColor: Theme.of(context).colorScheme.background,
             child: Consumer<TrackingProvider>(
               builder: (context, provider, _) {
-
                 return latitude == 0.0 || longitude == 0.0
                     ? const Center(
                         child: SpinKitLoader(),
@@ -34,8 +33,8 @@ void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
                         padding: EdgeInsets.all(2.h),
                         child: ChangeNotifierProvider.value(
                           value: CurrentLocationProvider(),
-                          child: Consumer<CurrentLocationProvider>(
-                              builder: (context, currentLocationProvider, child) {
+                          child: Consumer<CurrentLocationProvider>(builder:
+                              (context, currentLocationProvider, child) {
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +89,9 @@ void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
                                 SizedBox(height: 2.h),
                                 provider.isLoading == false
                                     ? appButton(
-                                        color:
-                                            Theme.of(context).colorScheme.primary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                         context: context,
                                         onTap: () {
                                           provider.trackingMap(context);

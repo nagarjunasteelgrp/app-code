@@ -2,7 +2,7 @@ import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_circle_icon.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/common/app_textfiled.dart';
+import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

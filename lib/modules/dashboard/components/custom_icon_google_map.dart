@@ -5,7 +5,8 @@ import 'package:flutter/rendering.dart';
 
 Future<Uint8List?> createCustomMarkerBitmapFromWidget(
     Widget markerWidget, GlobalKey key) async {
-  final boundary = key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+  final boundary =
+      key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
   if (boundary != null) {
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
@@ -26,8 +27,8 @@ Widget customMarkerWidget(int index, GlobalKey key) {
       ),
       child: Text(
         '${index + 1}',
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold),
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     ),
   );

@@ -9,10 +9,10 @@ import 'package:sizer/sizer.dart';
 Widget profilePckDialogBox(value) {
   return Dialog(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16), // Add rounded corners
+      borderRadius: BorderRadius.circular(16),
     ),
     child: Padding(
-      padding: const EdgeInsets.all(16.0), // Add some padding
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -20,7 +20,7 @@ Widget profilePckDialogBox(value) {
             'Profile Picture',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          const SizedBox(height: 16), // Space between title and image
+          const SizedBox(height: 16),
           CircleAvatar(
             radius: 80,
             backgroundImage: value.profilePicture != 'null' &&
@@ -30,7 +30,7 @@ Widget profilePckDialogBox(value) {
                     : FileImage(File(value.profilePicture!)) as ImageProvider
                 : const AssetImage('assets/images/dummy_person.png'),
           ),
-          const SizedBox(height: 16), // Space between image and button
+          const SizedBox(height: 16),
           appButton(
             child: AppText(
               title: 'Upload',

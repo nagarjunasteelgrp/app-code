@@ -6,7 +6,7 @@ import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/modules/tracking/components/followup_dailog_box.dart';
-import 'package:digital_lync/modules/tracking/components/showDailogBox_googleMap.dart';
+import 'package:digital_lync/modules/tracking/components/show_dailog_box_googleMap.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:background_location/background_location.dart';
+import 'package:background_location_2/background_location.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:digital_lync/services/location_service.dart';
@@ -33,7 +33,6 @@ class CurrentLocationProvider extends ChangeNotifier {
   }
 
   Future<void> getUserLocation() async {
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
       bool serviceEnabled;
@@ -70,9 +69,6 @@ class CurrentLocationProvider extends ChangeNotifier {
       longitude = sharedPreferences.getDouble("longitude");
       addressPlacement = sharedPreferences.getString("address") ?? '';
       animateCamera(latitude!, longitude!);
-      print("latitude : $latitude");
-      print("longitude : $longitude");
-      print("addressPlacement : $addressPlacement");
       await getMapData();
       notifyListeners();
     } catch (e) {
@@ -81,5 +77,4 @@ class CurrentLocationProvider extends ChangeNotifier {
       }
     }
   }
-
 }

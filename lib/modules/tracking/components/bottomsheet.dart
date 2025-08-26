@@ -48,12 +48,6 @@ void contactBottomSheet(
                               fontSize: 1.7.h));
                     },
                   ),
-                  // SizedBox(height: 1.3.h),
-                  // GestureDetector(
-                  //     onTap: ()  {
-                  //       trackingProviders.getImage(context, ImageSource.gallery);
-                  //     },
-                  //     child: AppText(title: Constants.select_from_gallery,color:  Theme.of(context).colorScheme.secondary,fontSize: 1.7.h)),
                 ],
               ),
             ),

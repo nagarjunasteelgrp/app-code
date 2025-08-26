@@ -2,11 +2,9 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -61,16 +59,12 @@ Widget travelSummary() {
                               data: Theme.of(context).copyWith(
                                 colorScheme: const ColorScheme.light(
                                   primary: AppColors.purpleColor,
-                                  // Header background & button
                                   onPrimary: Colors.white,
-                                  // Header text color
-                                  onSurface: AppColors
-                                      .lightBlackColor, // Body text color
+                                  onSurface: AppColors.lightBlackColor,
                                 ),
                                 textButtonTheme: TextButtonThemeData(
                                   style: TextButton.styleFrom(
-                                    foregroundColor: AppColors
-                                        .purpleColor, // Button text color
+                                    foregroundColor: AppColors.purpleColor,
                                   ),
                                 ),
                               ),
@@ -89,12 +83,15 @@ Widget travelSummary() {
                           AppText(
                             title: "Date",
                             fontSize: 14,
-                            color: AppColors.purpleColor,
                             fontWeight: FontWeight.w500,
+                            color: AppColors.purpleColor,
                           ),
                           const SizedBox(width: 5),
-                          const Icon(Icons.keyboard_arrow_down_sharp,
-                              color: AppColors.purpleColor, size: 20),
+                          const Icon(
+                            size: 20,
+                            color: AppColors.purpleColor,
+                            Icons.keyboard_arrow_down_sharp,
+                          ),
                         ],
                       ),
                     ),
@@ -275,8 +272,10 @@ Widget travelSummary() {
                               width: 4,
                             )
                           },
-                          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                            Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
+                          gestureRecognizers: <Factory<
+                              OneSequenceGestureRecognizer>>{
+                            Factory<OneSequenceGestureRecognizer>(
+                                () => EagerGestureRecognizer()),
                           },
                         ),
                       ),

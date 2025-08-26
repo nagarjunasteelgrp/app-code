@@ -16,7 +16,8 @@ class LocationMonitor {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       LocationPermission permission = await Geolocator.checkPermission();
 
-      if ((!serviceEnabled || permission == LocationPermission.deniedForever) && !isDialogOpen) {
+      if ((!serviceEnabled || permission == LocationPermission.deniedForever) &&
+          !isDialogOpen) {
         isDialogOpen = true;
         showLocationDialog(permission);
       }
@@ -32,7 +33,8 @@ class LocationMonitor {
           onYes: () async {
             await Geolocator.openAppSettings();
           },
-          headerTitle: "Location access is permanently denied. Please enable it in settings.",
+          headerTitle:
+              "Location access is permanently denied. Please enable it in settings.",
           customButtonText: "Open Settings",
           title: "Permission Required",
         ).then((_) {
@@ -46,7 +48,8 @@ class LocationMonitor {
         onYes: () async {
           await enableLocationService();
         },
-        headerTitle: "Please enable location services to continue using the app.",
+        headerTitle:
+            "Please enable location services to continue using the app.",
         customButtonText: "Enable",
         title: "Location Required",
       ).then((_) {

@@ -77,9 +77,9 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                                     onTap: () {
                                       Get.back();
                                     },
-                                    width: double.infinity,
-                                    height: 5.5.h,
                                     radius: 1.h,
+                                    height: 5.5.h,
+                                    width: double.infinity,
                                     color:
                                         Theme.of(context).colorScheme.primary,
                                     child: Row(

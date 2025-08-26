@@ -1,4 +1,4 @@
-import 'package:background_location/background_location.dart';
+import 'package:background_location_2/background_location.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/routes/routes_navi.dart';
@@ -21,12 +21,13 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   BackgroundLocation.setAndroidNotification(
-    title: "Background Nagarjuna Steel",
-    message: "App is up and running",
     icon: "@mipmap/ic_launcher",
+    message: "App is up and running",
+    title: "Background Nagarjuna Steel",
   );
 
   tz.initializeTimeZones();
+
   tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -44,8 +45,8 @@ void main() async {
   runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
-const notificationChannelId = 'my_foreground';
 const notificationId = 10181;
+const notificationChannelId = 'my_foreground';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -61,9 +62,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     initializeNotifications();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      LocationMonitor.startLocationMonitoring();
-    });
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => LocationMonitor.startLocationMonitoring());
     super.initState();
   }
 
@@ -109,5 +109,3 @@ class _MyAppState extends State<MyApp> {
 //flutter clean
 // flutter pub get
 // flutter build appbundle --build-name=1.4 --build-number=7
-
-

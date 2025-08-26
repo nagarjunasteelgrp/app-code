@@ -31,9 +31,8 @@ class ThemeServices {
         onInverseSurface: AppColors.LIGHT_GREEN_SEC,
         outline: AppColors.PURPLE_SEC_COLOR,
         onSecondaryContainer: AppColors.LIGHT_GREY,
-          onSurfaceVariant: AppColors.YELLOW,
+        onSurfaceVariant: AppColors.YELLOW,
       ),
-
       inputDecorationTheme: const InputDecorationTheme(
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),

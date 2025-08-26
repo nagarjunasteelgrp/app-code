@@ -13,7 +13,7 @@ Widget appTextField(
     color,
     image,
     maxLines,
-    maxlength,
+    maxLength,
     keyboardType,
     validator,
     title,
@@ -52,7 +52,7 @@ Widget appTextField(
     obscureText: obscureText ?? false,
     style: GoogleFonts.outfit(),
     maxLines: maxLines ?? 1,
-    maxLength: maxlength,
+    maxLength: maxLength,
     decoration: InputDecoration(
       fillColor: Theme.of(context).colorScheme.onSurface,
       filled: true,

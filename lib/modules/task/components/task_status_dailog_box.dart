@@ -6,7 +6,7 @@ import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
-import 'package:digital_lync/modules/task/components/task_dropDown.dart';
+import 'package:digital_lync/modules/task/components/task_drop_down.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

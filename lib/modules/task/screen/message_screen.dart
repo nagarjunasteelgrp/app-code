@@ -9,9 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class MessageListScreen extends StatefulWidget {
-  const MessageListScreen({
-    super.key,
-  });
+  const MessageListScreen({super.key});
 
   @override
   State<MessageListScreen> createState() => _MessageListScreenState();

@@ -1,7 +1,8 @@
 {
-    "cSpell.words": [
-        "lync",
-        "navi",
-        "prefs"
-    ]
+  "cSpell.words": [
+    "lync",
+    "navi",
+    "prefs"
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.32.7"
 }

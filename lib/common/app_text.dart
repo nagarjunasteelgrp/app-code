@@ -1,35 +1,35 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppText extends StatelessWidget {
-  String? title;
-  FontWeight? fontWeight;
-  double? fontSize;
-  double? letterSpacing;
-  FontStyle? fontStyle;
-  Color? color;
-  TextAlign? textAlign;
-  int? maxLines;
-  double? height;
-  dynamic decoration;
-  String? fontFamily;
-  TextOverflow? textOverflow;
+  final String? title;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  final double? letterSpacing;
+  final FontStyle? fontStyle;
+  final Color? color;
+  final TextAlign? textAlign;
+  final int? maxLines;
+  final double? height;
+  final dynamic decoration;
+  final String? fontFamily;
+  final TextOverflow? textOverflow;
 
-  AppText(
-      {super.key,
-      this.title,
-      this.fontWeight,
-      this.fontSize,
-      this.letterSpacing,
-      this.fontStyle,
-      this.color,
-      this.textAlign,
-      this.maxLines,
-      this.height,
-      this.decoration,
-      this.fontFamily,
-      this.textOverflow});
+  const AppText({
+    super.key,
+    this.title,
+    this.fontWeight,
+    this.fontSize,
+    this.letterSpacing,
+    this.fontStyle,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.height,
+    this.decoration,
+    this.fontFamily,
+    this.textOverflow,
+  });
 
   @override
   Widget build(BuildContext context) {

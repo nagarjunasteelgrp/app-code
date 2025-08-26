@@ -201,7 +201,6 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   Future<void> myProgressAPI() async {
-    print("printed loader.................................1");
     try {
       isLoading = true;
       notifyListeners();
@@ -427,7 +426,7 @@ class DashboardProvider extends ChangeNotifier {
     for (var leg in data['routes'][0]['legs']) {
       for (var step in leg['steps']) {
         final points =
-            PolylinePoints().decodePolyline(step['polyline']['points']);
+            PolylinePoints.decodePolyline(step['polyline']['points']);
         polylinePoints
             .addAll(points.map((e) => LatLng(e.latitude, e.longitude)));
       }

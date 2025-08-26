@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
-  ApiServices apiServices = ApiServices();
-  bool isLoading = false;
   var userId;
   List taskList = [];
+  bool isLoading = false;
+  ApiServices apiServices = ApiServices();
 
   ActivitiesProvider() {
     getUserId();
@@ -30,6 +30,7 @@ class ActivitiesProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
+      print("Error fetching catch: $e");
     } finally {
       isLoading = false;
       notifyListeners();

@@ -18,18 +18,19 @@ import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => LoginProvider()),
-  // ChangeNotifierProvider(create: (context) => HomeProvider()),
   ChangeNotifierProvider(create: (context) => MenuProvider()),
   ChangeNotifierProvider(create: (context) => ContactProvider()),
   ChangeNotifierProvider(create: (context) => ContactDetailsProvider()),
   ChangeNotifierProvider(create: (context) => NewTaskProvider()),
   ChangeNotifierProvider(create: (context) => ResetEmailProvider()),
   ChangeNotifierProvider(create: (context) => RelatedContactProvider()),
-  ChangeNotifierProvider(create: (context) => TrackingCurrentLocationProvider()),
+  ChangeNotifierProvider(
+      create: (context) => TrackingCurrentLocationProvider()),
   ChangeNotifierProvider(create: (context) => CurrentLocationProvider()),
   ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
   ChangeNotifierProvider(create: (context) => CheckInProvider()),
-  ChangeNotifierProvider(create: (context) => TrackingProvider(CurrentLocationProvider())),
+  ChangeNotifierProvider(
+      create: (context) => TrackingProvider(CurrentLocationProvider())),
   ChangeNotifierProvider(create: (context) => DashboardProvider()),
   ChangeNotifierProvider(create: (context) => TaskProvider()),
   ChangeNotifierProvider(create: (context) => NotificationProvider()),

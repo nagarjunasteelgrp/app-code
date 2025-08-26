@@ -16,111 +16,99 @@ import 'package:sizer/sizer.dart';
 
 TrackingProvider trackingProvider = TrackingProvider(CurrentLocationProvider());
 
-
 class TrackingScreen extends StatelessWidget {
   const TrackingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider.value(
       value: CurrentLocationProvider(),
       child: ChangeNotifierProvider.value(
         value: trackingProvider,
         child: Scaffold(
-            appBar: CommonAppBar(
-              title: username.toString(),
-              leadingArrow: true,
-              actions: [],
-              onTap: () {
-                Get.back();
-              },
-            ),
-            body:
-                Consumer<TrackingProvider>(builder: (context, provider, child) {
-              return provider.isLoading == false
-                  ? SingleChildScrollView(
-                      controller: trackingProvider.scrollController,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 4.w, vertical: 2.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 2.h, vertical: 2.h),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(1.5.h),
-                                border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+          appBar: CommonAppBar(
+            title: username.toString(),
+            leadingArrow: true,
+            actions: [],
+            onTap: () {
+              Get.back();
+            },
+          ),
+          body: Consumer<TrackingProvider>(builder: (context, provider, child) {
+            return provider.isLoading == false
+                ? SingleChildScrollView(
+                    controller: trackingProvider.scrollController,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 2.h, vertical: 2.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(1.5.h),
+                              border: Border.all(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppText(
+                                  title: provider.contactTypeCompanyName,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 2.h,
+                                ),
+                                SizedBox(height: 1.h),
+                                Row(
+                                  children: [
+                                    AppText(title: 'Contact Type :'),
+                                    SizedBox(width: 1.h),
+                                    AppText(title: provider.contactTypeName),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          appOutlineButton(
+                              context: context,
+                              onTap: () {
+                                showMapDialog(context);
+                              },
+                              height: 5.5.h,
+                              radius: 1.h,
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  SvgPicture.asset(
+                                      AppAssets.APP_GEO_LOCATIONS_SVG,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                  SizedBox(width: 2.w),
                                   AppText(
-                                    title: provider.contactTypeCompanyName,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 2.h,
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  Row(
-                                    children: [
-                                      AppText(title: 'Contact Type :'),
-                                      SizedBox(width: 1.h),
-                                      AppText(title: provider.contactTypeName),
-                                    ],
+                                    title: 'Capture geo location',
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                                 ],
-                              ),
-                            ),
-                            SizedBox(height: 2.h),
-                            appOutlineButton(
-                                context: context,
-                                onTap: () {
-                                  showMapDialog(context);
-                                  // print("LOCATION PROVIDER.........................1");
-                                  // locationProvider.getUserLocation().then((value) {
-                                  //   print("LOCATION PROVIDER.........................2");
-                                  //   addressPlacement != null
-                                  //       ? showMapDialog(context)
-                                  //       : null;
-                                  //   if (!provider.geoLocationBtn) {
-                                  //     provider.geoLocationBtn = true;
-                                  //   }
-                                  // });
-                                },
-                                height: 5.5.h,
-                                radius: 1.h,
-                                width: double.infinity,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                        AppAssets.APP_GEO_LOCATIONS_SVG,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
-                                    SizedBox(width: 2.w),
-                                    AppText(
-                                      title: 'Capture geo location',
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(height: 2.h),
-                            const TrackingListScreen(),
-                          ],
-                        ),
+                              )),
+                          SizedBox(height: 2.h),
+                          const TrackingListScreen(),
+                        ],
                       ),
-                    )
-                  : const Center(
-                      child: SpinKitLoader(),
-                    );
-            })),
+                    ),
+                  )
+                : const Center(
+                    child: SpinKitLoader(),
+                  );
+          }),
+        ),
       ),
     );
   }

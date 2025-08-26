@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_button.dart';
-import 'package:digital_lync/common/app_textfiled.dart';
+import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 
 class ResetEmailScreen extends StatelessWidget {

@@ -3,15 +3,15 @@ import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_dropdown_button_contacts.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/common/app_textfiled.dart';
-import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
-import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
-import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
+import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
+import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -35,9 +35,7 @@ class ContactScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 2.h,
-                    ),
+                    SizedBox(height: 2.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 7.w),
                       child: Row(
@@ -58,9 +56,7 @@ class ContactScreen extends StatelessWidget {
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     )),
-                                SizedBox(
-                                  height: 0.7.h,
-                                ),
+                                SizedBox(height: 0.7.h),
                                 AppText(
                                   title: Constants.sort,
                                   fontWeight: FontWeight.w500,
@@ -88,9 +84,7 @@ class ContactScreen extends StatelessWidget {
                                           color: Theme.of(context).primaryColor,
                                         ),
                                       )),
-                                  SizedBox(
-                                    height: 0.7.h,
-                                  ),
+                                  SizedBox(height: 0.7.h),
                                   AppText(
                                     title: Constants.new_Contact,
                                     fontWeight: FontWeight.w500,
@@ -121,9 +115,7 @@ class ContactScreen extends StatelessWidget {
                                               color: Theme.of(context)
                                                   .primaryColor),
                                         )),
-                                    SizedBox(
-                                      height: 0.7.h,
-                                    ),
+                                    SizedBox(height: 0.7.h),
                                     AppText(
                                       title: Constants.edit,
                                       fontWeight: FontWeight.w500,
@@ -143,11 +135,11 @@ class ContactScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 1.5.h),
                           child: appTextField(
                             context: context,
+                            hint: ' Search...',
                             suffixIcon: Icon(Icons.search,
                                 size: 3.h,
                                 color: Theme.of(context).colorScheme.secondary),
                             controller: contactProvider.searchController,
-                            hint: ' Search...',
                             onChanged: (query) {
                               provider.searchContacts(query);
                             },

@@ -56,8 +56,6 @@ class TrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   trackingInfoDataPlus() {}
 
   TrackingProvider(this.currentLocationProvider) {
@@ -160,7 +158,8 @@ class TrackingProvider extends ChangeNotifier {
             if (response.statusCode == 201) {
               var res = jsonDecode(response.body);
               trackingInfoAPI();
-              showAppSnackBar(type: 'success', context: context, title: res['message']);
+              showAppSnackBar(
+                  type: 'success', context: context, title: res['message']);
               notifyListeners();
               // Get.back();
               isLoading = false;

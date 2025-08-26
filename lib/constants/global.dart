@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:background_location/background_location.dart';
+import 'package:background_location_2/background_location.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:digital_lync/main.dart';
 import 'package:digital_lync/modules/auth/screen/login_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:digital_lync/services/api_service.dart';
-import 'package:disable_battery_optimization/disable_battery_optimization.dart';
+import 'package:disable_battery_optimizations_latest/disable_battery_optimizations_latest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
@@ -20,7 +20,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? token; 
+String? token;
 double? latitude;
 double? longitude;
 String? username;
@@ -42,7 +42,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'notificationChannelId',
   'Nagarjuna Steel',
   description: 'App is up and running',
-  importance: Importance.low,
+  importance: Importance.high,
 );
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -52,7 +52,7 @@ Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString("token") ?? '';
   userId = sharedPreferences.getInt("userId") ?? 0;
-  print("Token:- $token");
+  // print("Token:- $token");
   if (token!.isNotEmpty && JwtDecoder.isExpired(token!)) {
     sharedPreferences.remove("token");
     sharedPreferences.remove("userId");
@@ -66,7 +66,7 @@ Future<Map<String, String>> getHeaders() async {
 personalDetails() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   token = prefs.getString("token") ?? "";
- 
+
   username = prefs.getString("username") ?? "";
   userId = prefs.getInt("userId") ?? 0;
   userEmail = prefs.getString("email") ?? "";
@@ -75,8 +75,8 @@ personalDetails() async {
   empmId = prefs.getString("empmId") ?? "";
   slpCode = prefs.getString("slpCode") ?? "";
   profilePicture = prefs.getString("profilePicture") ?? "";
-  print("profilePicture:- $profilePicture");
-  print("slpCode:- $slpCode");
+  // print("profilePicture:- $profilePicture");
+  // print("slpCode:- $slpCode");
   await getMapData();
 }
 
@@ -114,10 +114,10 @@ Future<void> onStart(ServiceInstance service) async {
         'App is up and running',
         const NotificationDetails(
           android: AndroidNotificationDetails(
+            ongoing: true,
             'my_foreground',
             'MY FOREGROUND SERVICE',
             icon: '@mipmap/ic_launcher',
-            ongoing: true,
           ),
         ),
       );
@@ -131,7 +131,6 @@ Future<void> onStart(ServiceInstance service) async {
         await locationProvider.getUserLocation().then((value) async {
           await getCurrentLocation();
         });
-        // await getMapData();
       }
     }
   });
@@ -156,7 +155,7 @@ Future<void> initializeService(Future<void> isService) async {
       if (await Permission.notification.isDenied) {
         try {
           await Permission.notification.request();
-          await DisableBatteryOptimization.isAutoStartEnabled;
+          await DisableBatteryOptimizationLatest.isAutoStartEnabled;
         } catch (e) {
           debugPrint("DisableBatteryOptimization error: $e");
         }
@@ -164,22 +163,12 @@ Future<void> initializeService(Future<void> isService) async {
       if (await Permission.ignoreBatteryOptimizations.isDenied) {
         await Permission.ignoreBatteryOptimizations.request();
       }
-      // if (!await serviceInitialize.isForegroundService()) {
-      //   await serviceInitialize.setAsForegroundService();
-      // }
     }
   }
-  // if (await Permission.notification.isDenied) {
-  //   await Permission.notification.request();
-  // }
-  //
-  // if (await Permission.ignoreBatteryOptimizations.isDenied) {
-  //   await Permission.ignoreBatteryOptimizations.request();
-  // }
-  await DisableBatteryOptimization.isAutoStartEnabled;
+
+  await DisableBatteryOptimizationLatest.isAutoStartEnabled;
   if (isService) {
     if (isService == true) {
-      // serviceInitialize.startService();
       serviceInitialize.isRunning();
       serviceInitialize.isRunning();
     }

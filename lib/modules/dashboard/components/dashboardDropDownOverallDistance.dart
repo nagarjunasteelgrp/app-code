@@ -20,7 +20,7 @@ Widget dashBoardDropDownOverallDistance(
         height: 3.8.h,
         decoration: BoxDecoration(
           // color: AppColors.blueColor2,
-  border: Border.all(color: AppColors.borderColor),
+          border: Border.all(color: AppColors.borderColor),
           borderRadius: BorderRadius.circular(1.5.h),
           // boxShadow: [
           //   BoxShadow(
@@ -51,7 +51,7 @@ Widget dashBoardDropDownOverallDistance(
               ),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color:  AppColors.lightBlackColor,
+                color: AppColors.lightBlackColor,
                 size: 3.h,
               ),
               items: List.generate(provider.dropDownOverallDistance.length,
