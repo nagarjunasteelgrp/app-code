@@ -51,7 +51,7 @@ class NotificationScreen extends StatelessWidget {
                                         colors: Theme.of(context)
                                             .colorScheme
                                             .outline
-                                            .withOpacity(0.8),
+                                            .withValues(alpha: 0.8),
                                         title:
                                             value.notificationAPIResponse[index]
                                                 ['title'],

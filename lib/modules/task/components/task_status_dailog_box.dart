@@ -103,7 +103,7 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                               boxColor: Theme.of(context)
                                   .colorScheme
                                   .onBackground
-                                  .withOpacity(0.3),
+                                  .withValues(alpha: 0.3),
                               width: double.infinity,
                               height: 4.h,
                               context: context,

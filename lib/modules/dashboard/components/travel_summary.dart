@@ -39,7 +39,8 @@ Widget travelSummary() {
                       borderRadius: BorderRadius.circular(1.5.h),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.lightBlackColor.withOpacity(0.05),
+                          color:
+                              AppColors.lightBlackColor.withValues(alpha: 0.05),
                           // very light shadow
                           spreadRadius: 1,
                           blurRadius: 3,

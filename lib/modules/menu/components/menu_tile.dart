@@ -89,8 +89,10 @@ class MenuTile extends StatelessWidget {
             appDivider(
                 context: context,
                 vertical: 0.4.h,
-                colors:
-                    Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
+                colors: Theme.of(context)
+                    .colorScheme
+                    .secondary
+                    .withValues(alpha: 0.3)),
           ],
         ),
       );

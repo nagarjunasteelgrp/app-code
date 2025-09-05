@@ -44,7 +44,7 @@ class TrackingListScreen extends StatelessWidget {
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSecondary
-                                .withOpacity(0.1),
+                                .withValues(alpha: 0.1),
                             spreadRadius: 2,
                             blurRadius: 10,
                             offset: const Offset(0, 2),
@@ -53,7 +53,7 @@ class TrackingListScreen extends StatelessWidget {
                         color: Theme.of(context)
                             .colorScheme
                             .onSecondary
-                            .withOpacity(0.1),
+                            .withValues(alpha: 0.1),
                         border: Border.all(
                             color: Theme.of(context).colorScheme.secondary)),
                     child: Column(
@@ -77,7 +77,7 @@ class TrackingListScreen extends StatelessWidget {
                                 colors: Theme.of(context)
                                     .colorScheme
                                     .onPrimary
-                                    .withOpacity(0.1),
+                                    .withValues(alpha: 0.1),
                                 radius: 2.w,
                                 height: 5.h,
                                 width: 5.h,
@@ -322,14 +322,14 @@ class TrackingListScreen extends StatelessWidget {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onBackground
-                                                .withOpacity(0.3),
+                                                .withValues(alpha: 0.3),
                                             border: DashedBorder.fromBorderSide(
                                               dashLength: 10,
                                               side: BorderSide(
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .secondary
-                                                    .withOpacity(0.4),
+                                                    .withValues(alpha: 0.4),
                                                 width: 2,
                                               ),
                                             ),

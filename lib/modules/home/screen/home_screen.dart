@@ -8,7 +8,7 @@ import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
-import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
+import 'package:digital_lync/modules/contacts/screen/contact_screen.dart';
 import 'package:digital_lync/modules/dashboard/components/reached_screen.dart';
 import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:digital_lync/modules/home/components/bottom_bar.dart';

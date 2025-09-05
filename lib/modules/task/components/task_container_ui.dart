@@ -31,7 +31,7 @@ Widget taskContainerUI(
               blurRadius: 5,
               spreadRadius: 1,
               offset: const Offset(0, 1),
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withValues(alpha: 0.5),
             ),
           ],
         ),

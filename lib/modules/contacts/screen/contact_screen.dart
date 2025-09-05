@@ -7,7 +7,7 @@ import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
-import 'package:digital_lync/modules/contacts/components/dailog_box.dart';
+import 'package:digital_lync/modules/contacts/components/dialog_box.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
@@ -256,7 +256,8 @@ class ContactScreen extends StatelessWidget {
                                                         : Theme.of(context)
                                                             .colorScheme
                                                             .secondary
-                                                            .withOpacity(0.2)),
+                                                            .withValues(
+                                                                alpha: 0.2)),
                                                 borderRadius:
                                                     BorderRadius.circular(1.h),
                                               ),
@@ -288,8 +289,9 @@ class ContactScreen extends StatelessWidget {
                                                                           context)
                                                                       .colorScheme
                                                                       .secondary
-                                                                      .withOpacity(
-                                                                          0.5),
+                                                                      .withValues(
+                                                                          alpha:
+                                                                              0.5),
                                                             ),
                                                           ),
                                                           child: const Icon(

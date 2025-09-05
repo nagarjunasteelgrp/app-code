@@ -24,8 +24,10 @@ class MenuScreen extends StatelessWidget {
               appDivider(
                   context: context,
                   vertical: 1.4.h,
-                  colors:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.8)),
+                  colors: Theme.of(context)
+                      .colorScheme
+                      .secondary
+                      .withValues(alpha: 0.8)),
               Padding(
                 padding: EdgeInsets.only(left: 4.w),
                 child: AppText(
@@ -40,8 +42,10 @@ class MenuScreen extends StatelessWidget {
               appDivider(
                   context: context,
                   vertical: 0.4.h,
-                  colors:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
+                  colors: Theme.of(context)
+                      .colorScheme
+                      .secondary
+                      .withValues(alpha: 0.3)),
               MenuTile(
                 iconHeight: 3.5.h,
                 svgImage: AppAssets.APP_CONTACTS_SVG,

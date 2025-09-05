@@ -65,7 +65,7 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .secondary
-                                      .withOpacity(0.3)),
+                                      .withValues(alpha: 0.3)),
                               borderRadius: BorderRadius.circular(0.8.h),
                             ),
                             child: Text(
@@ -116,7 +116,7 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .secondary
-                                        .withOpacity(0.3)),
+                                        .withValues(alpha: 0.3)),
                                 borderRadius: BorderRadius.circular(0.8.h),
                               ),
                               child: Text(
@@ -165,7 +165,7 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                     boxColor: Theme.of(context)
                                         .colorScheme
                                         .onBackground
-                                        .withOpacity(0.3),
+                                        .withValues(alpha: 0.3),
                                     width: double.infinity,
                                     height: 4.h,
                                     context: context,

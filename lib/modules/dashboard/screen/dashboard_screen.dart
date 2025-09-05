@@ -201,7 +201,7 @@ class DashBoardScreen extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .secondary
-                                      .withOpacity(0.7),
+                                      .withValues(alpha: 0.7),
                                   letterSpacing: 0.5,
                                   fontSize: 16,
                                 )),

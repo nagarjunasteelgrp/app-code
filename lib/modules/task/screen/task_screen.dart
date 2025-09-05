@@ -121,7 +121,7 @@ class TaskScreen extends StatelessWidget {
                                               ? Theme.of(context)
                                                   .colorScheme
                                                   .outline
-                                                  .withOpacity(0.8)
+                                                  .withValues(alpha: 0.8)
                                               : value.filteredTaskAPIResponse[
                                                           index]['status'] ==
                                                       "completed"

@@ -9,7 +9,7 @@ import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
-import 'package:digital_lync/modules/contacts/screen/conatct_screen.dart';
+import 'package:digital_lync/modules/contacts/screen/contact_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -306,7 +306,7 @@ void showContactUpdateDialog(
                                       boxColor: Theme.of(context)
                                           .colorScheme
                                           .onBackground
-                                          .withOpacity(0.3),
+                                          .withValues(alpha: 0.3),
                                       width: double.infinity,
                                       height: 4.h,
                                       context: context,

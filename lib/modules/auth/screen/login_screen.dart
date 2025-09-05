@@ -73,12 +73,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 1.8.h,
                         ),
                         SizedBox(height: 1.h),
-                        Consumer<LoginProvider>(builder: (context, value, _) {
-                          return appTextField(
-                              controller: value.emailController,
+                        Consumer<LoginProvider>(
+                          builder: (context, value, _) {
+                            return appTextField(
+                              context: context,
                               verticalPadding: 2.h,
-                              context: context);
-                        }),
+                              controller: value.emailController,
+                              textInputAction: TextInputAction.next,
+                            );
+                          },
+                        ),
 
                         SizedBox(height: 2.h),
                         AppText(
@@ -89,10 +93,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 1.h),
                         Consumer<LoginProvider>(builder: (context, value, _) {
                           return appTextField(
-                            verticalPadding: 2.0.h,
                             context: context,
+                            verticalPadding: 2.0.h,
                             obscureText: value.obscureText,
                             controller: value.passwordController,
+                            textInputAction: TextInputAction.done,
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 value.obscureTextChange();

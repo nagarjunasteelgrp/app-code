@@ -166,7 +166,7 @@ class pieChartState extends State<pieChart> {
                     color: Theme.of(context)
                         .colorScheme
                         .secondary
-                        .withOpacity(0.5),
+                        .withValues(alpha: 0.5),
                     fontSize: 8.sp,
                     fontWeight: FontWeight.bold,
                   ),

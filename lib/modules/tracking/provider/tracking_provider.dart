@@ -200,7 +200,10 @@ class TrackingProvider extends ChangeNotifier {
         var response = jsonDecode(logResponse.body);
         trackingInfoId = response['activity']['id'];
         showAppSnackBar(
-            type: 'success', context: context, title: response['message']);
+          type: 'success',
+          context: context,
+          title: response['message'],
+        );
         addNotesController.clear();
         trackingInfoAPI();
         notifyListeners();

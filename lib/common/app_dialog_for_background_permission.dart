@@ -1,12 +1,11 @@
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_colors.dart';
+import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../modules/contacts/provider/current_location_provider.dart';
 
 Future<void> showLocationDisclosureDialog(BuildContext context) async {
   bool? userConsent = await showDialog<bool>(
@@ -14,37 +13,42 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
     builder: (context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
+        title: const Row(
           children: [
-            const Icon(Icons.location_on, color: Colors.deepPurple),
-            const SizedBox(width: 8),
-            AppText(title: "Background Location Access",fontSize: 16,),
+            Icon(Icons.location_on, color: Colors.deepPurple),
+            SizedBox(width: 8),
+            AppText(
+              fontSize: 16,
+              title: "Background Location Access",
+            ),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-             AppText(title:
-              "This app collects location data in the background to provide real-time tracking and notifications, "
-                  "even when the app is closed or not in use.",
+            const AppText(
+              maxLines: 5,
               fontSize: 16,
-               maxLines: 5,
+              title:
+                  "This app collects location data in the background to provide real-time tracking and notifications, "
+                  "even when the app is closed or not in use.",
             ),
             const SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
-                color: Colors.deepPurple.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
+                color: Colors.deepPurple.withValues(alpha: 0.1),
               ),
               padding: const EdgeInsets.all(12),
-              child: Row(
+              child: const Row(
                 children: [
-                  const Icon(Icons.info_outline, color: Colors.deepPurple),
-                  const SizedBox(width: 10),
+                  Icon(Icons.info_outline, color: Colors.deepPurple),
+                  SizedBox(width: 10),
                   Expanded(
-                    child: AppText(title:
-                      "Without this permission, some features may not work properly.",
+                    child: AppText(
                       maxLines: 3,
+                      title:
+                          "Without this permission, some features may not work properly.",
                     ),
                   ),
                 ],
@@ -54,15 +58,23 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
         ),
         actions: [
           TextButton(
+            child: const AppText(title: "Deny"),
             onPressed: () => Navigator.pop(context, false),
-            child: AppText(title: "Deny"),
           ),
-          // appButton(context: context,onTap: () => Navigator.pop(context, true),child: AppText(title: "Allow",color: Colors.white,),
-          appButton(context: context,onTap: ()  async {
-            Navigator.pop(context);
-            await Provider.of<CurrentLocationProvider>(context, listen: false).getUserLocation();
-          },child: AppText(title: "Allow",color: Colors.white,),
-          radius: 12,width: 20.w,height: 5.h,
+          appButton(
+            context: context,
+            onTap: () async {
+              Navigator.pop(context);
+              await Provider.of<CurrentLocationProvider>(context, listen: false)
+                  .getUserLocation();
+            },
+            child: const AppText(
+              title: "Allow",
+              color: Colors.white,
+            ),
+            radius: 12,
+            width: 20.w,
+            height: 5.h,
           ),
         ],
       );
@@ -70,19 +82,18 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
   );
 
   if (userConsent == true) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await Provider.of<CurrentLocationProvider>(context, listen: false)
-    //       .getUserLocation();
-    // });
     final status = await Permission.locationAlways.request();
     if (status.isGranted) {
-      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-        content: AppText(title: "Background location permission granted.",color: AppColors.WHITE_COLOR),
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: AppText(
+            title: "Background location permission granted.",
+            color: AppColors.WHITE_COLOR),
         backgroundColor: Colors.green,
       ));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-        content: AppText(title: "Permission not granted.",color: AppColors.WHITE_COLOR),
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: AppText(
+            title: "Permission not granted.", color: AppColors.WHITE_COLOR),
         backgroundColor: Colors.red,
       ));
     }

@@ -53,7 +53,7 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary
-                                              .withOpacity(0.3))),
+                                              .withValues(alpha: 0.3))),
                                   child: DropdownButton<String>(
                                     value: provider.selectedDateFilter,
                                     underline: const SizedBox(),
@@ -92,7 +92,7 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary
-                                              .withOpacity(0.3))),
+                                              .withValues(alpha: 0.3))),
                                   child: DropdownButton<String>(
                                     value: provider.selectedStatusFilter,
                                     underline: const SizedBox(),

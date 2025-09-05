@@ -339,7 +339,6 @@ class DashboardProvider extends ChangeNotifier {
           for (int i = 0; i < activities.length; i++) {
             final item = activities[i];
             points.add(LatLng(item['latitude'], item['longitude']));
-            print("Point ${i + 1}: ${item['latitude']}, ${item['longitude']}");
             addresses.add(item['address']);
           }
           await loadRouteWithWaypoints();
@@ -348,16 +347,16 @@ class DashboardProvider extends ChangeNotifier {
           final date = DateTime.parse(activities.first['createdAt']);
           dateSelectedActivityLocation =
               DateFormat('MMMM d, yyyy').format(date);
-          print(
-              "Date Selected Activity Location: $dateSelectedActivityLocation");
+          /* print(
+              "Date Selected Activity Location: $dateSelectedActivityLocation"); */
 
           // 2. Last index time
           final lastItem = activities.last;
           final time = DateTime.parse(lastItem['createdAt']);
           startTimeSelectedActivityLocation =
               DateFormat('h:mm a').format(time.toLocal());
-          print(
-              "Start Time Selected Activity Location: $startTimeSelectedActivityLocation");
+          /*   print(
+              "Start Time Selected Activity Location: $startTimeSelectedActivityLocation"); */
 
           // 3. Total distance
           double totalDistance = 0.0;
@@ -366,20 +365,16 @@ class DashboardProvider extends ChangeNotifier {
           }
           totalDistanceCoveredActivityLocation =
               "${totalDistance.toStringAsFixed(2)} km";
-          print(
-              "Total Distance Covered Activity Location: $totalDistanceCoveredActivityLocation");
+          /* print(
+              "Total Distance Covered Activity Location: $totalDistanceCoveredActivityLocation"); */
 
           // 4. Total locations
           totalLocationActivityLocation = activities.length;
-          print(
-              "Total Locations Activity Location: $totalLocationActivityLocation");
         } else {
           startTimeSelectedActivityLocation = null;
           totalDistanceCoveredActivityLocation = null;
           totalLocationActivityLocation = null;
         }
-
-        print("Activity Location Response: $decodedResponse");
         notifyListeners();
       } else {
         isLoading = false;
@@ -388,7 +383,7 @@ class DashboardProvider extends ChangeNotifier {
     } catch (e) {
       isLoading = false;
       notifyListeners();
-      print("Error in activityLocation: $e");
+      // print("Error in activityLocation: $e");
     }
   }
 
@@ -412,7 +407,7 @@ class DashboardProvider extends ChangeNotifier {
       '?origin=${origin.latitude},${origin.longitude}'
       '&destination=${destination.latitude},${destination.longitude}'
       '&waypoints=$waypointString'
-      '&key=${Constants.GoogleMapKey}',
+      '&key=${Constants.GoogleMapApiKey}',
     );
 
     final response = await http.get(url);
@@ -480,15 +475,12 @@ class DashboardProvider extends ChangeNotifier {
       var response =
           await apiServices.estimationAndQty(currentMonth, currentFY, slpCode);
 
-      print("estAndQty Report URL: ${response.body}");
-
       if (response.statusCode == 200) {
         isLoading = false;
         estimationAndQty = jsonDecode(response.body);
 
         setEstimationAndQty(estimationAndQty);
 
-        print("estAndQty Report Response: $estimationAndQty");
         notifyListeners();
       } else {
         isLoading = false;

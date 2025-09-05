@@ -6,7 +6,8 @@ Widget appDivider({required BuildContext context, vertical, Color? colors}) {
     padding: EdgeInsets.symmetric(vertical: vertical ?? 1.5.h),
     child: Divider(
       thickness: 0.5,
-      color: colors ?? Theme.of(context).colorScheme.secondary.withOpacity(0.3),
+      color: colors ??
+          Theme.of(context).colorScheme.secondary.withValues(alpha: 0.3),
     ),
   );
 }

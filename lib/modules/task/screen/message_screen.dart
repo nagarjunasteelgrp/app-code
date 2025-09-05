@@ -77,7 +77,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSecondary
-                                            .withOpacity(0.05),
+                                            .withValues(alpha: 0.05),
                                       ),
                                       child: Row(
                                         crossAxisAlignment:

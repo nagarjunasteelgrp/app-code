@@ -82,7 +82,8 @@ class TrackingContactScreen extends StatelessWidget {
                                   mapType: MapType.normal,
                                   markers: {
                                     Marker(
-                                      markerId: const MarkerId('selected-location'),
+                                      markerId:
+                                          const MarkerId('selected-location'),
                                       position: provider.initialPosition!,
                                       infoWindow: InfoWindow(
                                         title: provider.address,
@@ -176,14 +177,14 @@ class TrackingContactScreen extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onBackground
-                                      .withOpacity(0.3),
+                                      .withValues(alpha: 0.3),
                                   border: DashedBorder.fromBorderSide(
                                     dashLength: 10,
                                     side: BorderSide(
                                       color: Theme.of(context)
                                           .colorScheme
                                           .secondary
-                                          .withOpacity(0.4),
+                                          .withValues(alpha: 0.4),
                                       width: 2,
                                     ),
                                   ),
