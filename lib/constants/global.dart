@@ -149,24 +149,39 @@ Future<void> initializeService(Future<void> isService) async {
 
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-  if (androidInfo.version.sdkInt >= 34) {
-    // Android 14 and above
-    if (Platform.isAndroid) {
+
+  // ✅ Android 14 & 15 (API 34+)
+  if (Platform.isAndroid && androidInfo.version.sdkInt >= 34) {
+    try {
+      // 🔔 Notification Permission
       if (await Permission.notification.isDenied) {
-        try {
-          await Permission.notification.request();
-          await DisableBatteryOptimizationLatest.isAutoStartEnabled;
-        } catch (e) {
-          debugPrint("DisableBatteryOptimization error: $e");
-        }
+        await Permission.notification.request();
       }
+
+      // 📍 Location Permissions
+      if (await Permission.locationWhenInUse.isDenied) {
+        await Permission.locationWhenInUse.request();
+      }
+      if (await Permission.locationAlways.isDenied) {
+        await Permission.locationAlways.request();
+      }
+
+      // 🔋 Ignore Battery Optimization
       if (await Permission.ignoreBatteryOptimizations.isDenied) {
         await Permission.ignoreBatteryOptimizations.request();
       }
+
+      // 🚀 Autostart check
+      await DisableBatteryOptimizationLatest.isAutoStartEnabled;
+    } catch (e) {
+      debugPrint("Permission request error: $e");
     }
   }
 
+  // ✅ Android < 14 devices ke liye bhi safe hai
   await DisableBatteryOptimizationLatest.isAutoStartEnabled;
+
+  // 🔄 Service check
   if (isService) {
     if (isService == true) {
       serviceInitialize.isRunning();
@@ -174,10 +189,13 @@ Future<void> initializeService(Future<void> isService) async {
     }
   }
 
+  // 🔔 Notification Channel create
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+
+  // ⚙️ Background Service Config
   await serviceInitialize.configure(
     iosConfiguration: IosConfiguration(
       autoStart: isService,
@@ -202,6 +220,7 @@ Future<void> showNotification(String title, String body) async {
     channelDescription: 'Channel for reminders',
     importance: Importance.high,
     priority: Priority.high,
+    icon: '@drawable/ic_notification_icon',
   );
 
   const NotificationDetails notificationDetails =

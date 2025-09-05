@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:digital_lync/constants/app_dialog_box.dart';
+import 'package:digital_lync/services/app_permissions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
@@ -20,6 +21,11 @@ class LocationMonitor {
           !isDialogOpen) {
         isDialogOpen = true;
         showLocationDialog(permission);
+      }
+
+      // ✅ Extra: agar runtime permission missing ho to dubara request
+      if (permission == LocationPermission.denied) {
+        await AppPermissions.requestAll();
       }
     });
   }

@@ -86,15 +86,16 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
     if (status.isGranted) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: AppText(
-            title: "Background location permission granted.",
-            color: AppColors.WHITE_COLOR),
+          color: AppColors.WHITE_COLOR,
+          title: "Background location permission granted.",
+        ),
         backgroundColor: Colors.green,
       ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: Colors.red,
         content: AppText(
             title: "Permission not granted.", color: AppColors.WHITE_COLOR),
-        backgroundColor: Colors.red,
       ));
     }
   }
