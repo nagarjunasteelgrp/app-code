@@ -7,7 +7,6 @@ import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -128,20 +127,32 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  prefsClear(context) async {
+  prefsClear(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("token");
-    prefs.remove("username");
-    prefs.remove("userId");
-    prefs.remove("email");
-    prefs.remove("mobile");
-    prefs.remove("empId");
+
+    // Remove sensitive keys
+    await prefs.remove("token");
+    await prefs.remove("username");
+    await prefs.remove("userId");
+    await prefs.remove("email");
+    await prefs.remove("mobile");
+    await prefs.remove("empId");
+
     followUpsDateList = [];
-    prefs.setBool('isLogin', false);
+    await prefs.setBool('isLogin', false);
+
+    // Stop background service
     serviceInitialize.invoke("stopService");
     await initializeService(prefs.setBool('isService', false));
+
+    // Clear location callback and stop service
+    BackgroundLocation.getLocationUpdates((_) {});
     await BackgroundLocation.stopLocationService();
-    // await prefs.clear();
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    // Now clear everything
+    await prefs.clear();
+
     notifyListeners();
   }
 }
