@@ -12,9 +12,7 @@ void contactBottomSheet(
   showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
       builder: (context) {
         return ChangeNotifierProvider.value(
@@ -24,8 +22,8 @@ void contactBottomSheet(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.h),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 3.h),
                   AppText(
@@ -39,14 +37,16 @@ void contactBottomSheet(
                   Consumer<TrackingProvider>(
                     builder: (BuildContext context, provider, Widget? child) {
                       return GestureDetector(
-                          onTap: () {
-                            trackingProviders.getImage(
-                                context, ImageSource.camera);
-                          },
-                          child: AppText(
-                              title: Constants.use_Camera,
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontSize: 1.7.h));
+                        onTap: () {
+                          trackingProviders.getImage(
+                              context, ImageSource.camera);
+                        },
+                        child: AppText(
+                          fontSize: 1.7.h,
+                          title: Constants.use_Camera,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      );
                     },
                   ),
                 ],

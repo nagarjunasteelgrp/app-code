@@ -13,21 +13,23 @@ class LocationMonitor {
   static void startLocationMonitoring() {
     _locationTimer?.cancel();
 
-    _locationTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      LocationPermission permission = await Geolocator.checkPermission();
+    _locationTimer = Timer.periodic(
+      const Duration(seconds: 3),
+      (timer) async {
+        bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        LocationPermission permission = await Geolocator.checkPermission();
 
-      if ((!serviceEnabled || permission == LocationPermission.deniedForever) &&
-          !isDialogOpen) {
-        isDialogOpen = true;
-        showLocationDialog(permission);
-      }
-
-      // ✅ Extra: agar runtime permission missing ho to dubara request
-      if (permission == LocationPermission.denied) {
-        await AppPermissions.requestAll();
-      }
-    });
+        if ((!serviceEnabled ||
+                permission == LocationPermission.deniedForever) &&
+            !isDialogOpen) {
+          isDialogOpen = true;
+          showLocationDialog(permission);
+        }
+        if (permission == LocationPermission.denied) {
+          await AppPermissions.requestAll();
+        }
+      },
+    );
   }
 
   static void showLocationDialog(LocationPermission permission) async {
@@ -36,13 +38,13 @@ class LocationMonitor {
         isSettingsDialogOpen = true;
         AppDialogBox.showConfirmationDialog(
           context: Get.context!,
+          title: "Permission Required",
+          customButtonText: "Open Settings",
+          headerTitle:
+              "Location access is permanently denied. Please enable it in settings.",
           onYes: () async {
             await Geolocator.openAppSettings();
           },
-          headerTitle:
-              "Location access is permanently denied. Please enable it in settings.",
-          customButtonText: "Open Settings",
-          title: "Permission Required",
         ).then((_) {
           isSettingsDialogOpen = false;
           isDialogOpen = false;

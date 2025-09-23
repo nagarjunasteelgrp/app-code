@@ -20,17 +20,17 @@ class ContactProvider extends ChangeNotifier {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController searchController = TextEditingController();
 
-  bool isSelected = true;
+  var resMessage;
+  int? contactId;
   List contactList = [];
   bool isLoading = false;
-  bool isAddContactButton = false;
+  bool isSelected = true;
   String? selectedValue;
   bool isExpanded = false;
-  var resMessage;
-  List<dynamic> filteredContactList = [];
-  List<dynamic> displayList = [];
-  int? contactId;
   int? selectedContactIndex;
+  List<dynamic> displayList = [];
+  bool isAddContactButton = false;
+  List<dynamic> filteredContactList = [];
 
   void selectContactIndex(int index) {
     selectedContactIndex = index;

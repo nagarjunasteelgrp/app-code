@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-Widget appButton(
-    {Widget? child,
-    required BuildContext context,
-    VoidCallback? onTap,
-    Color? color,
-    Color? borderColor,
-    margin,
-    padding,
-    double? width,
-    double? height,
-    verticalmargin,
-    double? radius,
-    Widget? icon,
-    List<BoxShadow>? boxShadow,
-    border}) {
+Widget appButton({
+  margin,
+  padding,
+  Color? color,
+  Widget? icon,
+  Widget? child,
+  double? width,
+  double? height,
+  double? radius,
+  verticalMargine,
+  Color? borderColor,
+  VoidCallback? onTap,
+  List<BoxShadow>? boxShadow,
+  required BuildContext context,
+  border,
+}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
-        height: height ?? 5.5.h,
         width: width ?? 35.w,
+        height: height ?? 5.5.h,
         margin: margin ?? const EdgeInsets.all(0),
         padding: padding ?? const EdgeInsets.all(0),
         decoration: BoxDecoration(
-            color: color ?? Theme.of(context).colorScheme.onError,
-            borderRadius: BorderRadius.circular(radius ?? 5.h),
-            boxShadow: boxShadow),
+          boxShadow: boxShadow,
+          borderRadius: BorderRadius.circular(radius ?? 5.h),
+          color: color ?? Theme.of(context).colorScheme.onError,
+        ),
         child: Center(child: child)),
   );
 }

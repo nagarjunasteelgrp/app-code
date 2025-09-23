@@ -6,7 +6,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/modules/contacts/components/contact_update_dailog.dart';
+import 'package:digital_lync/modules/contacts/components/contact_update_dialog.dart';
 import 'package:digital_lync/modules/contacts/components/dialog_box.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
@@ -29,226 +29,217 @@ class ContactScreen extends StatelessWidget {
       value: contactProvider,
       child: Scaffold(
         body: Consumer<ContactProvider>(builder: (context, value, _) {
-          return Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 2.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 7.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 2.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 7.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          contactProvider.toggleListOrder();
+                        },
+                        child: Column(
+                          children: [
+                            appCircleIcon(
+                                context: context,
+                                colors: Theme.of(context).colorScheme.scrim,
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    AppAssets.APP_SORT_ARROW_SVG,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )),
+                            SizedBox(height: 0.7.h),
+                            const AppText(
+                              title: Constants.sort,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                      Consumer<ContactProvider>(
+                          builder: (context, provider, _) {
+                        return GestureDetector(
+                          onTap: () {
+                            provider.clearData();
+                            showCreateContactDialog(context);
+                          },
+                          child: Column(
+                            children: [
+                              appCircleIcon(
+                                  context: context,
+                                  colors:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      AppAssets.APP_CONTACTS_SVG,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  )),
+                              SizedBox(height: 0.7.h),
+                              const AppText(
+                                title: Constants.new_Contact,
+                                fontWeight: FontWeight.w500,
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                      Consumer<ContactProvider>(
+                        builder: (context, provider, child) {
+                          return GestureDetector(
                             onTap: () {
-                              contactProvider.toggleListOrder();
+                              if (provider.contactId != null) {
+                                provider.contactDetailsAPI();
+                                showContactUpdateDialog(context,
+                                    selectedValue: provider.selectedValue);
+                              }
                             },
                             child: Column(
                               children: [
                                 appCircleIcon(
                                     context: context,
-                                    colors: Theme.of(context).colorScheme.scrim,
+                                    colors: Theme.of(context)
+                                        .colorScheme
+                                        .inversePrimary,
                                     child: Center(
-                                      child: SvgPicture.asset(
-                                        AppAssets.APP_SORT_ARROW_SVG,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
+                                      child: Icon(Icons.edit,
+                                          color:
+                                              Theme.of(context).primaryColor),
                                     )),
                                 SizedBox(height: 0.7.h),
-                                AppText(
-                                  title: Constants.sort,
+                                const AppText(
+                                  title: Constants.edit,
                                   fontWeight: FontWeight.w500,
                                 )
                               ],
                             ),
-                          ),
-                          Consumer<ContactProvider>(
-                              builder: (context, provider, _) {
-                            return GestureDetector(
-                              onTap: () {
-                                provider.clearData();
-                                showCreateContactDialog(context);
-                              },
-                              child: Column(
-                                children: [
-                                  appCircleIcon(
-                                      context: context,
-                                      colors: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                          AppAssets.APP_CONTACTS_SVG,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      )),
-                                  SizedBox(height: 0.7.h),
-                                  AppText(
-                                    title: Constants.new_Contact,
-                                    fontWeight: FontWeight.w500,
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
-                          Consumer<ContactProvider>(
-                            builder: (context, provider, child) {
-                              return GestureDetector(
-                                onTap: () {
-                                  if (provider.contactId != null) {
-                                    provider.contactDetailsAPI();
-                                    showContactUpdateDialog(context,
-                                        selectedValue: provider.selectedValue);
-                                  }
-                                },
-                                child: Column(
-                                  children: [
-                                    appCircleIcon(
-                                        context: context,
-                                        colors: Theme.of(context)
-                                            .colorScheme
-                                            .inversePrimary,
-                                        child: Center(
-                                          child: Icon(Icons.edit,
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        )),
-                                    SizedBox(height: 0.7.h),
-                                    AppText(
-                                      title: Constants.edit,
-                                      fontWeight: FontWeight.w500,
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    ),
-                    appDivider(context: context, vertical: 0.6.h),
-                    Consumer<ContactProvider>(
-                      builder: (context, provider, child) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 1.5.h),
-                          child: appTextField(
-                            context: context,
-                            hint: ' Search...',
-                            suffixIcon: Icon(Icons.search,
-                                size: 3.h,
-                                color: Theme.of(context).colorScheme.secondary),
-                            controller: contactProvider.searchController,
-                            onChanged: (query) {
-                              provider.searchContacts(query);
-                            },
+                    ],
+                  ),
+                ),
+                appDivider(context: context, vertical: 0.6.h),
+                Consumer<ContactProvider>(
+                  builder: (context, provider, child) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 1.5.h),
+                      child: appTextField(
+                        context: context,
+                        hint: ' Search...',
+                        suffixIcon: Icon(Icons.search,
+                            size: 3.h,
+                            color: Theme.of(context).colorScheme.secondary),
+                        controller: contactProvider.searchController,
+                        onChanged: (query) {
+                          provider.searchContacts(query);
+                        },
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 1.h),
+                Consumer<ContactProvider>(builder: (context, provider, _) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 1.5.h),
+                    child: dropdownContactsWidget(
+                      title: 'Type',
+                      context: context,
+                      value: provider.selectedValue.toString(),
+                      items: List.generate(provider.dropDown.length, (index) {
+                        var data = provider.dropDown[index];
+                        var value = data.toString();
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 0.5.w),
+                            child: AppText(
+                              title:
+                                  "${data[0].toUpperCase()}${data.substring(1)}",
+                            ),
                           ),
                         );
+                      }),
+                      onChanged: (newValue) {
+                        provider.dropDownSelectedValue(newValue);
+                        provider.contactTypeController =
+                            TextEditingController(text: newValue ?? 'customer');
+                        provider.listOfContacts();
+                        provider.selectedContactIndex = -1;
+                        provider.contactId = null;
                       },
                     ),
-                    SizedBox(height: 1.h),
-                    Consumer<ContactProvider>(builder: (context, provider, _) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 1.5.h),
-                        child: dropdownContactsWidget(
-                          title: 'Type',
-                          context: context,
-                          value: provider.selectedValue.toString(),
-                          items:
-                              List.generate(provider.dropDown.length, (index) {
-                            var data = provider.dropDown[index];
-                            var value = data.toString();
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 0.5.w),
-                                child: AppText(
-                                  title:
-                                      "${data[0].toUpperCase()}${data.substring(1)}",
-                                ),
-                              ),
-                            );
-                          }),
-                          onChanged: (newValue) {
-                            provider.dropDownSelectedValue(newValue);
-                            provider.contactTypeController =
-                                TextEditingController(
-                                    text: newValue ?? 'customer');
-                            provider.listOfContacts();
-                            provider.selectedContactIndex = -1;
-                            provider.contactId = null;
-                          },
-                        ),
-                      );
-                    }),
-                    SizedBox(height: 1.h),
-                    Consumer<ContactProvider>(builder: (context, provider, _) {
-                      provider.displayList = provider.searchQuery.isNotEmpty
-                          ? provider.filteredContactList
-                          : provider.contactList;
-                      return (value.isLoading)
+                  );
+                }),
+                SizedBox(height: 1.h),
+                Consumer<ContactProvider>(builder: (context, provider, _) {
+                  provider.displayList = provider.searchQuery.isNotEmpty
+                      ? provider.filteredContactList
+                      : provider.contactList;
+                  return (value.isLoading)
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 20.h),
+                          child: const Center(child: SpinKitLoader()),
+                        )
+                      : provider.contactList.isEmpty
                           ? Padding(
                               padding: EdgeInsets.only(top: 20.h),
-                              child: const Center(child: SpinKitLoader()),
+                              child: const Center(
+                                child: AppText(
+                                  title: Constants.result_not_found,
+                                ),
+                              ),
                             )
-                          : provider.contactList.isEmpty
-                              ? Padding(
-                                  padding: EdgeInsets.only(top: 20.h),
-                                  child: Center(
-                                    child: AppText(
-                                      title: Constants.result_not_found,
-                                    ),
-                                  ),
-                                )
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: List.generate(
-                                      provider.displayList.length, (index) {
-                                    final contactIndex = provider.isListReversed
-                                        ? provider.displayList.length -
-                                            1 -
-                                            index
-                                        : index;
-                                    final contact =
-                                        provider.displayList[contactIndex];
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 1.5.h, vertical: 0.5.h),
-                                      child: Column(
-                                        children: [
-                                          InkWell(
-                                            onLongPress: () {
-                                              provider.contactId =
-                                                  contact['id'];
-                                              provider.selectContactIndex(
-                                                  contactIndex);
-                                            },
-                                            onTap: () {
-                                              Get.toNamed(RoutesName.TRACKING,
-                                                  arguments: {
-                                                    'id': contact['id'],
-                                                    'companyName':
-                                                        contact['companyName'],
-                                                    'contactType':
-                                                        contact['contactType'],
-                                                  });
-                                              trackingProvider.contactTypeId =
-                                                  contact['id'];
-                                              trackingProvider
-                                                      .contactTypeCompanyName =
-                                                  contact['companyName'];
-                                              trackingProvider.contactTypeName =
-                                                  contact['contactType'];
-                                              trackingProvider
-                                                  .trackingInfoAPI();
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(1.h),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: provider
-                                                                .selectedContactIndex ==
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                  provider.displayList.length, (index) {
+                                final contactIndex = provider.isListReversed
+                                    ? provider.displayList.length - 1 - index
+                                    : index;
+                                final contact =
+                                    provider.displayList[contactIndex];
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 1.5.h, vertical: 0.5.h),
+                                  child: Column(
+                                    children: [
+                                      InkWell(
+                                        onLongPress: () {
+                                          provider.contactId = contact['id'];
+                                          provider
+                                              .selectContactIndex(contactIndex);
+                                        },
+                                        onTap: () {
+                                          Get.toNamed(RoutesName.TRACKING,
+                                              arguments: {
+                                                'id': contact['id'],
+                                                'companyName':
+                                                    contact['companyName'],
+                                                'contactType':
+                                                    contact['contactType'],
+                                              });
+                                          trackingProvider.contactTypeId =
+                                              contact['id'];
+                                          trackingProvider
+                                                  .contactTypeCompanyName =
+                                              contact['companyName'];
+                                          trackingProvider.contactTypeName =
+                                              contact['contactType'];
+                                          trackingProvider.trackingInfoAPI();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(1.h),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color:
+                                                    provider.selectedContactIndex ==
                                                             contactIndex
                                                         ? Theme.of(context)
                                                             .colorScheme
@@ -258,80 +249,75 @@ class ContactScreen extends StatelessWidget {
                                                             .secondary
                                                             .withValues(
                                                                 alpha: 0.2)),
-                                                borderRadius:
-                                                    BorderRadius.circular(1.h),
-                                              ),
-                                              child: Row(
-                                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Expanded(
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  1.5.h),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        1.5.h),
-                                                            border: Border.all(
-                                                              color: provider
-                                                                          .selectedContactIndex ==
-                                                                      contactIndex
-                                                                  ? Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .secondary
-                                                                  : Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .secondary
-                                                                      .withValues(
-                                                                          alpha:
-                                                                              0.5),
-                                                            ),
-                                                          ),
-                                                          child: const Icon(
-                                                              Icons.person),
-                                                        ),
-                                                        SizedBox(width: 2.h),
-                                                        Flexible(
-                                                            child: Text(
-                                                          contact[
-                                                              'companyName'],
-                                                          style: TextStyle(
-                                                            fontSize: 2.h,
-                                                          ),
-                                                        )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 2.h),
-                                                  const Center(
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(Icons
-                                                            .arrow_forward_ios_rounded),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(1.h),
                                           ),
-                                        ],
+                                          child: Row(
+                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.all(1.5.h),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    1.5.h),
+                                                        border: Border.all(
+                                                          color: provider
+                                                                      .selectedContactIndex ==
+                                                                  contactIndex
+                                                              ? Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .secondary
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .secondary
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.5),
+                                                        ),
+                                                      ),
+                                                      child: const Icon(
+                                                          Icons.person),
+                                                    ),
+                                                    SizedBox(width: 2.h),
+                                                    Flexible(
+                                                        child: Text(
+                                                      contact['companyName'],
+                                                      style: TextStyle(
+                                                        fontSize: 2.h,
+                                                      ),
+                                                    )),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(width: 2.h),
+                                              const Center(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons
+                                                        .arrow_forward_ios_rounded),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    );
-                                  }),
+                                    ],
+                                  ),
                                 );
-                    }),
-                  ],
-                ),
-              ),
-            ],
+                              }),
+                            );
+                }),
+              ],
+            ),
           );
         }),
       ),

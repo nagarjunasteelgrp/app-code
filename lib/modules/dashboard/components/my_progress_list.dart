@@ -28,10 +28,6 @@ Widget myProgressList(DashboardProvider provider) {
                       ? AppColors.blueColor2
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(1.2.h),
-                  // border: index == provider.selectedIndex
-                  //     ? null
-                  //     : Border.all(
-                  //         color: Theme.of(context).colorScheme.secondary),
                 ),
                 child: Center(
                   child: AppText(

@@ -47,7 +47,6 @@ class HomeProvider extends ChangeNotifier {
     // print("HomeProvider initialized........6");
     getProfilePicture();
     // print("HomeProvider initialized........7");
-    notifyListeners();
   }
 
   Future<void> userRemainingNotifications() async {
@@ -72,19 +71,24 @@ class HomeProvider extends ChangeNotifier {
         var responseData = jsonDecode(response.body);
         prefs.setString('profilePicture', responseData['profilePicture']);
         showAppSnackBar(
-            type: 'success',
-            context: Get.context!,
-            title: responseData['message']);
+          type: 'success',
+          context: Get.context!,
+          title: responseData['message'],
+        );
       } else {
         var responseData = jsonDecode(response.body);
         showAppSnackBar(
-            type: 'Error',
-            context: Get.context!,
-            title: responseData['message']);
+          type: 'Error',
+          context: Get.context!,
+          title: responseData['message'],
+        );
       }
     } catch (e) {
       showAppSnackBar(
-          type: 'Error', context: Get.context!, title: e.toString());
+        type: 'Error',
+        title: e.toString(),
+        context: Get.context!,
+      );
     } finally {
       notifyListeners();
     }
@@ -97,32 +101,30 @@ class HomeProvider extends ChangeNotifier {
   }
 
   permissionAccessPhone() async {
-    /*  Map<Permission, PermissionStatus> statuses = await [
-      Permission.location,
-    ].request(); */
     if (await Permission.location.request().isGranted) {
       CurrentLocationProvider currentLocationProvider =
           CurrentLocationProvider();
-      await currentLocationProvider.getUserLocation().then((value) async {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        latitude = await sharedPreferences.getDouble("latitude");
-        longitude = await sharedPreferences.getDouble("longitude");
-        addressPlacement = await sharedPreferences.getString("address") ?? '';
-        notifyListeners();
-        getCurrentLocation();
-        notifyListeners();
-      });
+      await currentLocationProvider.getUserLocation().then(
+        (value) async {
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          latitude = sharedPreferences.getDouble("latitude");
+          longitude = sharedPreferences.getDouble("longitude");
+          addressPlacement = sharedPreferences.getString("address") ?? '';
+          notifyListeners();
+          getCurrentLocation();
+          notifyListeners();
+        },
+      );
     }
   }
 
-  initState() async {
+  void initState() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (token != '') {
       await initializeService(sharedPreferences.setBool('isService', true));
       await WakelockPlus.enable();
       await FlutterBackground.hasPermissions;
-      // await FlutterBackground.enableBackgroundExecution();
       notifyListeners();
     }
   }

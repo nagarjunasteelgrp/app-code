@@ -1,7 +1,7 @@
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
-import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
+import 'package:digital_lync/modules/check%20In/provider/checkin_provider.dart';
+import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

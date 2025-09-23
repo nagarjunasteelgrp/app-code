@@ -6,12 +6,14 @@ import 'package:sizer/sizer.dart';
 class ThemeServices {
   static ThemeData getLightTheme() {
     return ThemeData(
-      brightness: Brightness.light,
       useMaterial3: false,
+      brightness: Brightness.light,
       primaryColor: AppColors.WHITE_COLOR,
       scaffoldBackgroundColor: AppColors.WHITE_COLOR,
       appBarTheme: const AppBarTheme(backgroundColor: AppColors.WHITE_COLOR),
       iconTheme: const IconThemeData(color: AppColors.BLACK_COLOR),
+      
+      
       colorScheme: const ColorScheme.light(
         brightness: Brightness.light,
         primary: AppColors.BLUE_COLOR,

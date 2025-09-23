@@ -1,12 +1,12 @@
-import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
-import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
+import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
   showDialog(
@@ -29,20 +29,14 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                   children: [
                     Row(
                       children: [
-                        Column(
+                        const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AppText(
-                              title: 'Date:',
-                            ),
-                            AppText(
-                              title: 'Current Time:',
-                            )
+                            AppText(title: 'Date:'),
+                            AppText(title: 'Current Time:')
                           ],
                         ),
-                        SizedBox(
-                          width: 4.w,
-                        ),
+                        SizedBox(width: 4.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -66,7 +60,6 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                               checkInStatus == true
                                   ? provider.checkInAPI()
                                   : provider.checkOutAPI();
-                              // provider.checkInStatusBtn = !provider.checkInStatus;
                             },
                             child: AppText(
                               title: checkInStatus
@@ -74,9 +67,9 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                                   : Constants.checkOut,
                               color: Theme.of(context).colorScheme.background,
                             ),
+                            height: 5.h,
                             radius: 0.8.h,
                             width: double.infinity,
-                            height: 5.h, // Adjust button height
                           )
                         : const Center(
                             child: SpinKitLoader(),

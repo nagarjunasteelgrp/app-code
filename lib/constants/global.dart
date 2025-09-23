@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:background_location_2/background_location.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/main.dart';
 import 'package:digital_lync/modules/auth/screen/login_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
@@ -75,8 +75,6 @@ personalDetails() async {
   empmId = prefs.getString("empmId") ?? "";
   slpCode = prefs.getString("slpCode") ?? "";
   profilePicture = prefs.getString("profilePicture") ?? "";
-  // print("profilePicture:- $profilePicture");
-  // print("slpCode:- $slpCode");
   await getMapData();
 }
 
@@ -91,8 +89,11 @@ Future<dynamic> getCurrentLocation() async {
     }
     return addressPlacement;
   } catch (e) {
-    // showAppSnackBar(
-    //     context: Get.context!, title: 'Error', subtitle: e.toString());
+    showAppSnackBar(
+      title: 'Error',
+      context: Get.context!,
+      subtitle: e.toString(),
+    );
   }
 }
 
@@ -125,15 +126,18 @@ Future<void> onStart(ServiceInstance service) async {
   }
   BackgroundLocation.startLocationService();
   CurrentLocationProvider locationProvider = CurrentLocationProvider();
-  Timer.periodic(const Duration(minutes: 1), (timer) async {
-    if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        await locationProvider.getUserLocation().then((value) async {
-          await getCurrentLocation();
-        });
+  Timer.periodic(
+    const Duration(minutes: 1),
+    (timer) async {
+      if (service is AndroidServiceInstance) {
+        if (await service.isForegroundService()) {
+          await locationProvider.getUserLocation().then((value) async {
+            await getCurrentLocation();
+          });
+        }
       }
-    }
-  });
+    },
+  );
 }
 
 getMapData() async {
@@ -178,14 +182,13 @@ Future<void> initializeService(Future<void> isService) async {
     }
   }
 
-  // ✅ Android < 14 devices ke liye bhi safe hai
   await DisableBatteryOptimizationLatest.isAutoStartEnabled;
 
   // 🔄 Service check
   if (isService) {
     if (isService == true) {
       serviceInitialize.isRunning();
-      serviceInitialize.isRunning();
+      // serviceInitialize.isRunning();
     }
   }
 
@@ -202,12 +205,12 @@ Future<void> initializeService(Future<void> isService) async {
       onForeground: onStart,
     ),
     androidConfiguration: AndroidConfiguration(
+      onStart: onStart,
       autoStart: isService,
       isForegroundMode: isService,
-      onStart: onStart,
+      notificationChannelId: channel.id,
       initialNotificationTitle: channel.name,
       initialNotificationContent: channel.description!,
-      notificationChannelId: channel.id,
       foregroundServiceNotificationId: notificationId,
     ),
   );

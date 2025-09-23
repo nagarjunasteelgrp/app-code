@@ -5,7 +5,7 @@ import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/constants/app_logout.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
-import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
+import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/contact_screen.dart';
@@ -14,7 +14,7 @@ import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:digital_lync/modules/home/components/bottom_bar.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:digital_lync/modules/menu/screen/menu_screen.dart';
-import 'package:digital_lync/modules/notification/screen/notiication_screen.dart';
+import 'package:digital_lync/modules/notification/screen/notification_screen.dart';
 import 'package:digital_lync/modules/task/screen/tabbar_view_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/material.dart';
@@ -41,16 +41,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("HomeScreen build method called................");
-    return WillPopScope(
-      onWillPop: () => showExitPopup(context),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (!didPop) {
+          final shouldExit = await showExitPopup(context);
+          if (shouldExit) {
+            Get.back();
+          }
+        }
+      },
       child: ChangeNotifierProvider.value(
         value: HomeProvider(),
         child: Consumer<HomeProvider>(
           builder: (context, provider, child) {
             return Scaffold(
               appBar: CommonAppBar(
-                // title:  username != null ? '${empId} (${username.toString()})': '',
                 title: username != null ? username.toString() : '',
                 elevation: provider.selectedIndex == 3 ? 0 : 1,
                 leadingArrow: provider.selectedIndex == 0
@@ -63,11 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       .toggleSelected(true);
                 },
                 onTapLogo: () async {
-                  // checkInProvider.checkInStatus ? null : checkInProvider.checkOutAPI();
                   bool isConfirmed = await AppDialog.showDialog(
-                      context, provider,
-                      title: 'Logout',
-                      message: 'Are you sure you want to logout?');
+                    context,
+                    provider,
+                    title: 'Logout',
+                    message: 'Are you sure you want to logout?',
+                  );
                   if (isConfirmed) {
                     Provider.of<HomeProvider>(context, listen: false)
                         .prefsClear(context);
@@ -82,23 +89,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 actions: [
                   GestureDetector(
-                      onTap: () {
-                        Get.to(
-                          const NotificationScreen(),
-                          transition: Transition.fadeIn,
-                          duration: const Duration(milliseconds: 500),
-                        );
-                        // provider.setSelectedIndex(2,
-                        //     tabIndex: true); // Pass index 3
-                      },
-                      child: const Icon(Icons.notifications_none,
-                          color: AppColors.BLACK_COLOR)),
-                  SizedBox(width: 1.w),
+                    onTap: () {
+                      Get.to(
+                        const NotificationScreen(),
+                        transition: Transition.fadeIn,
+                        duration: const Duration(milliseconds: 500),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.notifications_none,
+                      color: AppColors.BLACK_COLOR,
+                    ),
+                  ),
+                  SizedBox(width: 3.w),
                   Center(
-                      child: Image.asset(
-                    AppAssets.APP_LOGO,
-                    width: 6.w,
-                  )),
+                    child: Image.asset(width: 6.w, AppAssets.APP_LOGO),
+                  ),
                   SizedBox(width: 2.w),
                 ],
               ),

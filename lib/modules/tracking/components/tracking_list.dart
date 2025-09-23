@@ -23,7 +23,7 @@ class TrackingListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TrackingProvider>(builder: (context, provider, child) {
-      return provider.trackingInfoList.length < 0
+      return provider.trackingInfoList.isEmpty
           ? const SizedBox()
           : Column(
               children:

@@ -3,7 +3,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
-import 'package:digital_lync/modules/check%20In/screen/checkIn_screen.dart';
+import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:digital_lync/modules/menu/components/menu_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

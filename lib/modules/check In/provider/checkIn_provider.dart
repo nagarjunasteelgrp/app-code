@@ -24,7 +24,7 @@ class CheckInProvider extends ChangeNotifier {
     checkInListAPI();
   }
 
-  checkInListAPI() async {
+  Future checkInListAPI() async {
     try {
       isLoading = true;
 
@@ -32,7 +32,7 @@ class CheckInProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         checkInList = responseData["attendance"];
-      } else {}
+      }
     } finally {
       isLoading = false;
     }
@@ -47,8 +47,6 @@ class CheckInProvider extends ChangeNotifier {
       var response = await apiServices.checkInAPI(userId: userId);
       if (response.statusCode == 201) {
         var responseData = jsonDecode(response.body);
-        // userCheckInTimeStamp = responseData["attendance"]['clockIn'];
-        // checkInId = responseData['attendance']['id'];
         prefs.setBool('checkInStatus', false);
         checkInListAPI();
         getShardPreferencesData();
@@ -57,8 +55,7 @@ class CheckInProvider extends ChangeNotifier {
         prefs.setString(
             'userCheckInTimeStamp', responseData['attendance']['clockIn']);
         notifyListeners();
-      } else {}
-    } catch (e) {
+      }
     } finally {
       isLoading = false;
       notifyListeners();

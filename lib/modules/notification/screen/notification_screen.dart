@@ -1,7 +1,7 @@
 import 'package:digital_lync/common/app_bar.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/modules/notification/common/delete_notification_dailog.dart';
+import 'package:digital_lync/modules/notification/common/delete_notification_dialog.dart';
 import 'package:digital_lync/modules/notification/provider/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

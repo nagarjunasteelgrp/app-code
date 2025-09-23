@@ -2,11 +2,14 @@ import 'dart:io';
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sizer/sizer.dart';
 
 Future<bool> showExitPopup(context) async {
   return await showDialog(
       context: context,
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
@@ -26,25 +29,24 @@ Future<bool> showExitPopup(context) async {
                   children: [
                     Expanded(
                       child: appButton(
-                          context: context,
-                          onTap: () {
-                            exit(0);
-                          },
-                          child: AppText(
-                            title: 'Yes',
-                            color: Colors.white,
-                          ),
-                          height: 5.h),
+                        height: 5.h,
+                        context: context,
+                        onTap: () => exit(0),
+                        child: const AppText(
+                          title: 'Yes',
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 15),
                     Expanded(
-                        child: appButton(
-                            context: context,
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: AppText(title: 'No', color: Colors.white),
-                            height: 5.h))
+                      child: appButton(
+                        height: 5.h,
+                        context: context,
+                        onTap: () => Get.back(),
+                        child: const AppText(title: 'No', color: Colors.white),
+                      ),
+                    )
                   ],
                 )
               ],

@@ -43,26 +43,26 @@ class DashBoardScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 3.h),
                           Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 1.5.h, vertical: 1.5.h),
                             width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 1.5.h,
+                              horizontal: 1.5.h,
+                            ),
                             decoration: BoxDecoration(
-                                color: AppColors.WHITE_COLOR,
-                                borderRadius: BorderRadius.circular(1.4.h),
-                                border:
-                                    Border.all(color: AppColors.borderColor)),
+                              color: AppColors.WHITE_COLOR,
+                              borderRadius: BorderRadius.circular(1.4.h),
+                              border: Border.all(color: AppColors.borderColor),
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                AppText(
+                                const AppText(
                                   title: 'MY PROGRESS',
                                   fontWeight: FontWeight.bold,
                                 ),
                                 SizedBox(height: 1.5.h),
                                 myProgressList(provider),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
+                                SizedBox(height: 1.h),
                                 appDivider(
                                   vertical: 0.5.h,
                                   context: context,
@@ -80,6 +80,7 @@ class DashBoardScreen extends StatelessWidget {
                                       Column(
                                         children: [
                                           AppText(
+                                            fontWeight: FontWeight.bold,
                                             title:
                                                 provider.myProgressAPIResponse !=
                                                         null
@@ -88,7 +89,6 @@ class DashBoardScreen extends StatelessWidget {
                                                             'noOfVisits']
                                                         .toString()
                                                     : '0',
-                                            fontWeight: FontWeight.bold,
                                           ),
                                           SizedBox(height: 0.5.h),
                                           AppText(
@@ -110,6 +110,7 @@ class DashBoardScreen extends StatelessWidget {
                                       Column(
                                         children: [
                                           AppText(
+                                            fontWeight: FontWeight.bold,
                                             title:
                                                 provider.myProgressAPIResponse !=
                                                         null
@@ -118,7 +119,6 @@ class DashBoardScreen extends StatelessWidget {
                                                             'newContacts']
                                                         .toString()
                                                     : '0',
-                                            fontWeight: FontWeight.bold,
                                           ),
                                           SizedBox(height: 0.5.h),
                                           AppText(
@@ -130,9 +130,9 @@ class DashBoardScreen extends StatelessWidget {
                                         ],
                                       ),
                                       Dash(
-                                        direction: Axis.vertical,
                                         length: 60,
                                         dashLength: 3,
+                                        direction: Axis.vertical,
                                         dashColor: Theme.of(context)
                                             .colorScheme
                                             .secondary,
@@ -140,12 +140,12 @@ class DashBoardScreen extends StatelessWidget {
                                       Column(
                                         children: [
                                           AppText(
+                                            fontWeight: FontWeight.bold,
                                             title: provider
                                                         .myProgressAPIResponse !=
                                                     null
                                                 ? '${provider.myProgressAPIResponse['workingHours'].toString()} hrs'
                                                 : '0 hrs',
-                                            fontWeight: FontWeight.bold,
                                           ),
                                           SizedBox(height: 0.5.h),
                                           AppText(
@@ -160,10 +160,10 @@ class DashBoardScreen extends StatelessWidget {
                                   ),
                                 ),
                                 appDivider(
+                                  vertical: 0.5.h,
                                   context: context,
                                   colors:
                                       Theme.of(context).colorScheme.secondary,
-                                  vertical: 0.5.h,
                                 ),
                                 Center(
                                     child: AppText(
@@ -232,7 +232,7 @@ class DashBoardScreen extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(1.h),
                                       ),
-                                      child: AppText(
+                                      child: const AppText(
                                         fontSize: 18,
                                         title: "This Month",
                                         color: AppColors.WHITE_COLOR,

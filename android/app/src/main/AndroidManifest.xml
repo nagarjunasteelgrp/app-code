@@ -7,7 +7,7 @@
         android:name="android.hardware.camera"
         android:required="false"
         tools:targetApi="5" />
-
+        
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -25,7 +25,7 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29"
-        tools:targetApi="4" /> <!-- ✅ Scoped Storage ke baad se depricated -->
+        tools:targetApi="4" />  
 
     <!-- Application starts -->
     <application
