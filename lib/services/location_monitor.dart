@@ -40,11 +40,9 @@ class LocationMonitor {
           context: Get.context!,
           title: "Permission Required",
           customButtonText: "Open Settings",
+          onYes: () async => await Geolocator.openAppSettings(),
           headerTitle:
               "Location access is permanently denied. Please enable it in settings.",
-          onYes: () async {
-            await Geolocator.openAppSettings();
-          },
         ).then((_) {
           isSettingsDialogOpen = false;
           isDialogOpen = false;
@@ -53,13 +51,13 @@ class LocationMonitor {
     } else {
       AppDialogBox.showConfirmationDialog(
         context: Get.context!,
+        title: "Location Required",
+        customButtonText: "Enable",
+        headerTitle:
+            "Please enable location services to continue using the app.",
         onYes: () async {
           await enableLocationService();
         },
-        headerTitle:
-            "Please enable location services to continue using the app.",
-        customButtonText: "Enable",
-        title: "Location Required",
       ).then((_) {
         isDialogOpen = false;
       });

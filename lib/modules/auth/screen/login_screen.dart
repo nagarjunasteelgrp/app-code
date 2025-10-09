@@ -54,10 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 2.h),
                   Center(
                     child: AppText(
-                      title: "Login to your account",
+                      fontSize: 1.8.h,
                       fontWeight: FontWeight.w500,
                       textAlign: TextAlign.center,
-                      fontSize: 1.8.h,
+                      title: "Login to your account",
                     ),
                   ),
                   appDivider(context: context),
@@ -66,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // SizedBox(height: 2.h),
                         AppText(
                           title: "Enter Your Email or Mobile Number",
                           fontWeight: FontWeight.w500,
@@ -83,7 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                         ),
-
                         SizedBox(height: 2.h),
                         AppText(
                           fontSize: 1.8.h,
@@ -99,19 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: value.passwordController,
                             textInputAction: TextInputAction.done,
                             suffixIcon: GestureDetector(
-                              onTap: () {
-                                value.obscureTextChange();
-                              },
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: value.obscureText
-                                    ? const Icon(
-                                        Icons.visibility,
-                                      )
-                                    : const Icon(
-                                        Icons.visibility_off,
-                                      ),
-                              ),
+                              onTap: () => value.obscureTextChange(),
+                              child: value.obscureText
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off),
                             ),
                           );
                         }),
@@ -124,27 +113,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 1.w),
                         Consumer<LoginProvider>(
-                            builder: (context, provider, _) {
-                          return provider.isLoading
-                              ? const Center(child: SpinKitLoader())
-                              : Center(
-                                  child: appButton(
-                                    width: double.infinity,
-                                    child: AppText(
-                                      title: "Login",
-                                      fontSize: 2.h,
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                          builder: (context, provider, _) {
+                            return provider.isLoading
+                                ? const Center(child: SpinKitLoader())
+                                : Center(
+                                    child: appButton(
+                                      context: context,
+                                      width: double.infinity,
+                                      onTap: () => provider.login(context),
+                                      child: AppText(
+                                        title: "Login",
+                                        fontSize: 2.h,
+                                        fontWeight: FontWeight.w700,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .background,
+                                      ),
                                     ),
-                                    context: context,
-                                    onTap: () {
-                                      provider.login(context);
-                                    },
-                                  ),
-                                );
-                        }),
+                                  );
+                          },
+                        ),
                         SizedBox(height: 1.5.h),
                         RichText(
                           textAlign: TextAlign.center,
@@ -167,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ..onTap = () async {
                                     await launchUrl(
                                       Uri.parse(
-                                          'https://www.nagarjunasteel.com/privacy-policy'),
+                                        'https://www.nagarjunasteel.com/privacy-policy',
+                                      ),
                                     );
                                   },
                               ),

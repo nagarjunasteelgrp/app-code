@@ -38,6 +38,7 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
+                      spacing: 2..h,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -49,6 +50,7 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                             children: [
                               SizedBox(height: 1.h),
                               Row(
+                                spacing: 1.2.h,
                                 children: [
                                   appCircleIcon(
                                       context: context,
@@ -65,22 +67,12 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                                             .colorScheme
                                             .background,
                                       )),
-                                  SizedBox(
-                                    width: 1.2.h,
-                                  ),
-                                  AppText(
-                                    title: 'Task',
-                                    fontSize: 2.h,
-                                  ),
+                                  AppText(title: 'Task', fontSize: 2.h),
                                   const Spacer(),
                                   GestureDetector(
-                                      onTap: () {
-                                        Get.back();
-                                      },
-                                      child: Icon(
-                                        Icons.close,
-                                        size: 2.5.h,
-                                      )),
+                                    onTap: () => Get.back(),
+                                    child: Icon(Icons.close, size: 2.5.h),
+                                  ),
                                 ],
                               ),
                               SizedBox(height: 0.8.h),
@@ -90,33 +82,29 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 2.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: Row(
+                        spacing: 1.w,
                         children: [
                           Flexible(
                             child: appOutlineButton(
-                              onTap: () {
-                                Get.back();
-                              },
+                              height: 4.h,
+                              radius: 1.5.w,
+                              context: context,
+                              width: double.infinity,
+                              onTap: () => Get.back(),
                               boxColor: Theme.of(context)
                                   .colorScheme
                                   .onBackground
                                   .withValues(alpha: 0.3),
-                              width: double.infinity,
-                              height: 4.h,
-                              context: context,
-                              radius: 1.5.w,
                               child: AppText(
-                                  title: Constants.cancel,
-                                  fontSize: 1.5.h,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w600),
+                                fontSize: 1.5.h,
+                                title: Constants.cancel,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 1.w,
                           ),
                           Flexible(
                             child: appButton(
@@ -146,7 +134,6 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                         ],
                       ),
                     ),
-                    SizedBox(height: 2.h),
                   ],
                 ),
               ),

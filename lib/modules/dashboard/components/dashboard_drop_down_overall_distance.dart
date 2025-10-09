@@ -19,17 +19,8 @@ Widget dashBoardDropDownOverallDistance(
         width: 12.h,
         height: 3.8.h,
         decoration: BoxDecoration(
-          // color: AppColors.blueColor2,
           border: Border.all(color: AppColors.borderColor),
           borderRadius: BorderRadius.circular(1.5.h),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey.withValues(alpha:0.5),
-          //     spreadRadius: 1,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 1),
-          //   ),
-          // ],
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 1.h),
@@ -46,8 +37,9 @@ Widget dashBoardDropDownOverallDistance(
               dropdownColor: Theme.of(context).colorScheme.background,
               hint: Text(
                 "--Select--",
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
               ),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,

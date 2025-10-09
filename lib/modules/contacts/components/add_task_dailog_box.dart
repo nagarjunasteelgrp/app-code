@@ -46,10 +46,8 @@ void showAddTaskDialog(BuildContext context) {
                     ],
                   ),
                   IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                     icon: Icon(Icons.close, size: 2.h),
+                    onPressed: () => Navigator.pop(context),
                   )
                 ],
               ),
@@ -61,14 +59,16 @@ void showAddTaskDialog(BuildContext context) {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: AppText(
-                        title: "Subject",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 1.5.h),
+                      fontSize: 1.5.h,
+                      title: "Subject",
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   appDivider(
-                      vertical: 1.0,
-                      context: context,
-                      colors: Theme.of(context).colorScheme.onBackground),
+                    vertical: 1.0,
+                    context: context,
+                    colors: Theme.of(context).colorScheme.onBackground,
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Column(
@@ -76,10 +76,11 @@ void showAddTaskDialog(BuildContext context) {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         AppText(
-                            title: "Name",
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                          title: "Name",
+                          fontSize: 1.5.h,
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(context: context),
                         SizedBox(height: 1.5.h),
@@ -134,10 +135,11 @@ void showAddTaskDialog(BuildContext context) {
                     context: context,
                     radius: 1.w,
                     child: AppText(
-                        title: "Save",
-                        fontSize: 1.5.h,
-                        color: Theme.of(context).colorScheme.background,
-                        fontWeight: FontWeight.w600),
+                      title: "Save",
+                      fontSize: 1.5.h,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.background,
+                    ),
                   ),
                 ),
               ),

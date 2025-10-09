@@ -32,23 +32,19 @@ class ContactDetailsScreen extends StatelessWidget {
         body: Consumer<ContactDetailsProvider>(builder: (context, provider, _) {
           return Column(
             children: [
-              SizedBox(
-                height: 3.h,
-              ),
+              SizedBox(height: 3.h),
               contactTopBar(context: context),
               appDivider(context: context, vertical: 1.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 3.h,
-                  ),
+                  SizedBox(width: 3.h),
                   AppText(
-                      title: Constants.details,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 1.6.h),
+                    fontSize: 1.6.h,
+                    title: Constants.details,
+                    fontWeight: FontWeight.w600,
+                  ),
                   GestureDetector(
-                    onTap: () {},
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 1.0.h),
                       child: Image.asset(AppAssets.EDIT),
@@ -59,9 +55,7 @@ class ContactDetailsScreen extends StatelessWidget {
               appDivider(context: context, vertical: 1.h),
               Expanded(
                 child: (provider.isLoading)
-                    ? const Center(
-                        child: SpinKitLoader(),
-                      )
+                    ? const Center(child: SpinKitLoader())
                     : SingleChildScrollView(
                         child: Column(
                           children: [
@@ -70,15 +64,19 @@ class ContactDetailsScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: AppText(
-                                          title: Constants.company_Name,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      fontWeight: FontWeight.w500,
+                                      title: Constants.company_Name,
+                                    ),
+                                  ),
                                   Expanded(
-                                      child: AppText(
-                                          title: provider.companyName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      title: provider.companyName,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -88,15 +86,19 @@ class ContactDetailsScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: AppText(
-                                          title: Constants.person_Name,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      fontWeight: FontWeight.w500,
+                                      title: Constants.person_Name,
+                                    ),
+                                  ),
                                   Expanded(
-                                      child: AppText(
-                                          title: provider.personName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      title: provider.personName,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -106,15 +108,19 @@ class ContactDetailsScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: AppText(
-                                          title: Constants.contact_Type,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      fontWeight: FontWeight.w500,
+                                      title: Constants.contact_Type,
+                                    ),
+                                  ),
                                   Expanded(
-                                      child: AppText(
-                                          title: provider.contactType,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      title: provider.contactType,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -124,15 +130,19 @@ class ContactDetailsScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: AppText(
-                                          title: Constants.phone_Number,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      fontWeight: FontWeight.w500,
+                                      title: Constants.phone_Number,
+                                    ),
+                                  ),
                                   Expanded(
-                                      child: AppText(
-                                          title: provider.phoneNumber,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 1.5.h)),
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      fontWeight: FontWeight.w600,
+                                      title: provider.phoneNumber,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -143,77 +153,90 @@ class ContactDetailsScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: AppText(
-                                          title: Constants.email_Id,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
-                                  Expanded(
-                                      child: AppText(
-                                          title: provider.email,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 1.5.h)),
-                                ],
-                              ),
-                            ),
-                            appDivider(context: context),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.w),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: AppText(
-                                          title: Constants.address,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
-                                  Expanded(
-                                      child: AppText(
-                                          title: provider.address,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 1.5.h)),
-                                ],
-                              ),
-                            ),
-                            appDivider(context: context),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                      child: AppText(
-                                          title: Constants.tax_ID,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
-                                  Expanded(
-                                      child: AppText(
-                                          title: provider.taxId,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary)),
-                                ],
-                              ),
-                            ),
-                            appDivider(context: context),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                      child: AppText(
-                                          title: Constants.description,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 1.5.h)),
-                                  Expanded(
-                                      child: AppText(
-                                    title: provider.description,
-                                    fontWeight: FontWeight.w600,
                                     fontSize: 1.5.h,
-                                    maxLines: 5,
+                                    title: Constants.email_Id,
+                                    fontWeight: FontWeight.w500,
                                   )),
+                                  Expanded(
+                                      child: AppText(
+                                    fontSize: 1.5.h,
+                                    title: provider.email,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                                ],
+                              ),
+                            ),
+                            appDivider(context: context),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      title: Constants.address,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      title: provider.address,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            appDivider(context: context),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: AppText(
+                                      title: Constants.tax_ID,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 1.5.h,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      title: provider.taxId,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            appDivider(context: context),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: AppText(
+                                      fontSize: 1.5.h,
+                                      fontWeight: FontWeight.w500,
+                                      title: Constants.description,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: AppText(
+                                      maxLines: 5,
+                                      fontSize: 1.5.h,
+                                      title: provider.description,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

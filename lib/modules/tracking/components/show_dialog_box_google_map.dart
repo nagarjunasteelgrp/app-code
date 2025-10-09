@@ -25,19 +25,19 @@ void showMapDialogGoogleMap(
                       child: SpinKitLoader(),
                     )
                   : Container(
+                      height: 250,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)),
-                      height: 250,
                       child: GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(latitude!, longitude!),
-                          zoom: 15,
-                        ),
-                        zoomControlsEnabled: false,
                         compassEnabled: false,
-                        myLocationButtonEnabled: false,
-                        mapToolbarEnabled: false,
                         mapType: MapType.normal,
+                        mapToolbarEnabled: false,
+                        zoomControlsEnabled: false,
+                        myLocationButtonEnabled: false,
+                        initialCameraPosition: CameraPosition(
+                          zoom: 15,
+                          target: LatLng(latitude!, longitude!),
+                        ),
                         markers: {
                           Marker(
                             markerId: MarkerId(address.toString()),

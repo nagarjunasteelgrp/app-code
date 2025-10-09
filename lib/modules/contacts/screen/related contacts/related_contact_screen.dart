@@ -50,6 +50,7 @@ class RelatedContactScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 5.h),
                               child: Row(
+                                spacing: 5.w,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
@@ -89,24 +90,19 @@ class RelatedContactScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
                                   Column(
+                                    spacing: 1.0.h,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       AppText(
-                                          title:
-                                              provider.relatedContactList[index]
-                                                  ['name'],
-                                          fontSize: 1.6.h,
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary),
-                                      SizedBox(
-                                        height: 1.0.h,
+                                        title: provider
+                                            .relatedContactList[index]['name'],
+                                        fontSize: 1.6.h,
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
                                       ),
                                       AppText(
                                         title: provider
@@ -114,25 +110,16 @@ class RelatedContactScreen extends StatelessWidget {
                                         fontSize: 1.6.h,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                      SizedBox(
-                                        height: 1.0.h,
-                                      ),
                                       AppText(
                                         title: provider
                                             .relatedContactList[index]['email'],
                                         fontSize: 1.6.h,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                      SizedBox(
-                                        height: 1.0.h,
-                                      ),
                                       AppText(
                                         title: 'Admin',
                                         fontSize: 1.6.h,
                                         fontWeight: FontWeight.w600,
-                                      ),
-                                      SizedBox(
-                                        height: 1.0.h,
                                       ),
                                     ],
                                   )

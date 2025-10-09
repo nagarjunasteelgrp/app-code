@@ -158,6 +158,10 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                               children: [
                                 Flexible(
                                   child: appOutlineButton(
+                                    height: 4.h,
+                                    radius: 1.5.w,
+                                    context: context,
+                                    width: double.infinity,
                                     onTap: () {
                                       provider.noteController.clear();
                                       Get.back();
@@ -166,22 +170,22 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                         .colorScheme
                                         .onBackground
                                         .withValues(alpha: 0.3),
-                                    width: double.infinity,
-                                    height: 4.h,
-                                    context: context,
-                                    radius: 1.5.w,
                                     child: AppText(
-                                      title: Constants.cancel,
                                       fontSize: 1.5.h,
+                                      title: Constants.cancel,
+                                      fontWeight: FontWeight.w600,
                                       color:
                                           Theme.of(context).colorScheme.primary,
-                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                                 SizedBox(width: 1.w),
                                 Flexible(
                                   child: appButton(
+                                    height: 4.h,
+                                    radius: 1.5.w,
+                                    context: context,
+                                    width: double.infinity,
                                     onTap: () {
                                       if (provider.selectedDate != null) {
                                         {
@@ -189,10 +193,6 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                         }
                                       }
                                     },
-                                    width: double.infinity,
-                                    height: 4.h,
-                                    context: context,
-                                    radius: 1.5.w,
                                     child: AppText(
                                       title: "Save",
                                       fontSize: 1.5.h,

@@ -44,6 +44,7 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                       provider.isLoading == true
                           ? const Center(child: SpinKitLoader())
                           : Row(
+                              spacing: 2.w,
                               children: [
                                 Expanded(
                                   child: appButton(
@@ -70,7 +71,6 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 2.w),
                                 Expanded(
                                   child: appButton(
                                     context: context,

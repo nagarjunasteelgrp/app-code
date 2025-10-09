@@ -15,6 +15,7 @@ Widget contactTopBar({required BuildContext context}) {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Column(
+          spacing: 0.7.h,
           children: [
             appCircleIcon(
                 context: context,
@@ -25,16 +26,14 @@ Widget contactTopBar({required BuildContext context}) {
                     color: Theme.of(context).primaryColor,
                   ),
                 )),
-            SizedBox(
-              height: 0.7.h,
-            ),
-            AppText(
+            const AppText(
               title: Constants.post,
               fontWeight: FontWeight.w500,
             )
           ],
         ),
         Column(
+          spacing: 0.7.h,
           children: [
             appCircleIcon(
                 context: context,
@@ -45,16 +44,14 @@ Widget contactTopBar({required BuildContext context}) {
                     color: Theme.of(context).primaryColor,
                   ),
                 )),
-            SizedBox(
-              height: 0.7.h,
-            ),
-            AppText(
+            const AppText(
               title: Constants.file,
               fontWeight: FontWeight.w500,
             )
           ],
         ),
         Column(
+          spacing: 0.7.h,
           children: [
             appCircleIcon(
                 onTap: () {
@@ -68,28 +65,24 @@ Widget contactTopBar({required BuildContext context}) {
                     color: Theme.of(context).primaryColor,
                   ),
                 )),
-            SizedBox(
-              height: 0.7.h,
-            ),
-            AppText(
+            const AppText(
               title: Constants.new_Tasks,
               fontWeight: FontWeight.w500,
             )
           ],
         ),
         Column(
+          spacing: 0.7.h,
           children: [
             appCircleIcon(
-                context: context,
-                colors: Theme.of(context).colorScheme.onPrimary,
-                child: Center(
-                  child: Icon(Icons.more_horiz_outlined,
-                      color: Theme.of(context).primaryColor),
-                )),
-            SizedBox(
-              height: 0.7.h,
+              context: context,
+              colors: Theme.of(context).colorScheme.onPrimary,
+              child: Center(
+                child: Icon(Icons.more_horiz_outlined,
+                    color: Theme.of(context).primaryColor),
+              ),
             ),
-            AppText(
+            const AppText(
               title: Constants.more,
               fontWeight: FontWeight.w500,
             )

@@ -40,10 +40,9 @@ class ContactScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          contactProvider.toggleListOrder();
-                        },
+                        onTap: () => contactProvider.toggleListOrder(),
                         child: Column(
+                          spacing: 0.7.h,
                           children: [
                             appCircleIcon(
                                 context: context,
@@ -54,7 +53,6 @@ class ContactScreen extends StatelessWidget {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 )),
-                            SizedBox(height: 0.7.h),
                             const AppText(
                               title: Constants.sort,
                               fontWeight: FontWeight.w500,
@@ -70,6 +68,7 @@ class ContactScreen extends StatelessWidget {
                             showCreateContactDialog(context);
                           },
                           child: Column(
+                            spacing: 0.7.h,
                             children: [
                               appCircleIcon(
                                   context: context,
@@ -81,7 +80,6 @@ class ContactScreen extends StatelessWidget {
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   )),
-                              SizedBox(height: 0.7.h),
                               const AppText(
                                 title: Constants.new_Contact,
                                 fontWeight: FontWeight.w500,
@@ -133,9 +131,11 @@ class ContactScreen extends StatelessWidget {
                       child: appTextField(
                         context: context,
                         hint: ' Search...',
-                        suffixIcon: Icon(Icons.search,
-                            size: 3.h,
-                            color: Theme.of(context).colorScheme.secondary),
+                        suffixIcon: Icon(
+                          size: 3.h,
+                          Icons.search,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                         controller: contactProvider.searchController,
                         onChanged: (query) {
                           provider.searchContacts(query);
@@ -207,7 +207,9 @@ class ContactScreen extends StatelessWidget {
                                     provider.displayList[contactIndex];
                                 return Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 1.5.h, vertical: 0.5.h),
+                                    vertical: 0.5.h,
+                                    horizontal: 1.5.h,
+                                  ),
                                   child: Column(
                                     children: [
                                       InkWell(
@@ -253,10 +255,10 @@ class ContactScreen extends StatelessWidget {
                                                 BorderRadius.circular(1.h),
                                           ),
                                           child: Row(
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
                                                 child: Row(
+                                                  spacing: 2.h,
                                                   children: [
                                                     Container(
                                                       padding:
@@ -286,7 +288,6 @@ class ContactScreen extends StatelessWidget {
                                                       child: const Icon(
                                                           Icons.person),
                                                     ),
-                                                    SizedBox(width: 2.h),
                                                     Flexible(
                                                         child: Text(
                                                       contact['companyName'],

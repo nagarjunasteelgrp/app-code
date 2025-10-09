@@ -40,6 +40,7 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: Row(
+                        spacing: 2.w,
                         children: [
                           Expanded(
                             child: Consumer<TaskProvider>(
@@ -78,8 +79,6 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                               },
                             ),
                           ),
-                          SizedBox(width: 2.w),
-                          // Status Filter Dropdown
                           Expanded(
                             child: Consumer<TaskProvider>(
                               builder: (context, provider, child) {
@@ -148,9 +147,9 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                       Row(
                                         children: [
                                           AppText(
+                                            fontSize: 1.7.h,
                                             title: 'Dealer Name: ',
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 1.7.h,
                                           ),
                                           AppText(
                                             fontSize: 1.7.h,
@@ -163,12 +162,14 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 5, vertical: 5),
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary)),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                              ),
+                                            ),
                                             child: AppText(
                                               title:
                                                   provider.followUpsAPIResponse[
@@ -223,14 +224,13 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                           ),
                                           Flexible(
                                             child: AppText(
+                                              maxLines: 2,
                                               fontSize: 1.7.h,
+                                              textOverflow:
+                                                  TextOverflow.ellipsis,
                                               title:
                                                   provider.followUpsAPIResponse[
                                                       index]['notes'],
-                                              maxLines: 2,
-                                              // Optional: Limits the text to 2 lines
-                                              textOverflow:
-                                                  TextOverflow.ellipsis,
                                             ),
                                           )
                                         ],
@@ -245,7 +245,10 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                                   .isAfter(DateTime.now()))
                                           ? const SizedBox()
                                           : appButton(
+                                              radius: 1.h,
+                                              height: 5.5.h,
                                               context: context,
+                                              width: double.infinity,
                                               onTap: () {
                                                 provider.followUpId = provider
                                                         .followUpsAPIResponse[
@@ -253,9 +256,6 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                                 confirmationDialogBox(
                                                     context, provider);
                                               },
-                                              width: double.infinity,
-                                              height: 5.5.h,
-                                              radius: 1.h,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
@@ -270,7 +270,8 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                                         .background,
                                                   ),
                                                 ],
-                                              )),
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),

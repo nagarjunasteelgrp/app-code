@@ -5,8 +5,8 @@ import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
-import 'package:digital_lync/modules/tracking/components/followup_dailog_box.dart';
-import 'package:digital_lync/modules/tracking/components/show_dailog_box_googleMap.dart';
+import 'package:digital_lync/modules/tracking/components/followup_dialog_box.dart';
+import 'package:digital_lync/modules/tracking/components/show_dialog_box_google_map.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'add_notes_dailog.dart';
+import 'add_notes_dialog.dart';
 
 class TrackingListScreen extends StatelessWidget {
   const TrackingListScreen({super.key});
@@ -38,24 +38,25 @@ class TrackingListScreen extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 1.h, vertical: 2.h),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(1.h),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSecondary
-                                .withValues(alpha: 0.1),
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSecondary
-                            .withValues(alpha: 0.1),
-                        border: Border.all(
-                            color: Theme.of(context).colorScheme.secondary)),
+                      borderRadius: BorderRadius.circular(1.h),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondary
+                              .withValues(alpha: 0.1),
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSecondary
+                          .withValues(alpha: 0.1),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -82,9 +83,9 @@ class TrackingListScreen extends StatelessWidget {
                                 height: 5.h,
                                 width: 5.h,
                                 child: SvgPicture.asset(
-                                    AppAssets.APP_GEO_LOCATIONS_SVG,
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                  AppAssets.APP_GEO_LOCATIONS_SVG,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                               SizedBox(width: 2.w),
                               Flexible(
@@ -130,10 +131,11 @@ class TrackingListScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
-                                          AppAssets.APP_ADD_NOTES_SVG,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary),
+                                        AppAssets.APP_ADD_NOTES_SVG,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
                                       SizedBox(width: 2.w),
                                       AppText(
                                         title: 'Add Notes',
@@ -173,9 +175,10 @@ class TrackingListScreen extends StatelessWidget {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
                                   borderRadius: BorderRadius.circular(1.h),
                                 ),
                                 child: Padding(
@@ -189,13 +192,12 @@ class TrackingListScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           SvgPicture.asset(
-                                              AppAssets.APP_ADD_NOTES_SVG,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary),
-                                          SizedBox(
-                                            width: 2.w,
+                                            AppAssets.APP_ADD_NOTES_SVG,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                           ),
+                                          SizedBox(width: 2.w),
                                           AppText(
                                             title: 'Note:',
                                             color: Theme.of(context)
@@ -204,9 +206,7 @@ class TrackingListScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 0.7.h,
-                                      ),
+                                      SizedBox(height: 0.7.h),
                                       Padding(
                                         padding: EdgeInsets.only(left: 0.7.w),
                                         child: Text(
@@ -278,10 +278,11 @@ class TrackingListScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(AppAssets.APP_UPLOAD_DOC_SVG,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary),
+                                SvgPicture.asset(
+                                  AppAssets.APP_UPLOAD_DOC_SVG,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
                                 SizedBox(width: 2.w),
                                 AppText(
                                   title: 'Upload Document',

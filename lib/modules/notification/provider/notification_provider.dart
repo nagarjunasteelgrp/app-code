@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class NotificationProvider extends ChangeNotifier {
-
   bool isLoading = false;
   List notificationList = [];
 
@@ -28,9 +27,7 @@ class NotificationProvider extends ChangeNotifier {
           String formattedDate = formatDate(notification['followUpDate']);
           notification['formattedFollowUpDate'] = formattedDate;
         }
-
         notificationList = decodedResponse;
-        print("notificationList : ${notificationList}");
         notifyListeners();
       } else {
         isLoading = false;

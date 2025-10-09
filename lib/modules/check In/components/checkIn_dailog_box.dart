@@ -24,10 +24,12 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 3.h),
                 child: Column(
+                  spacing: 2.h,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
+                      spacing: 4.w,
                       children: [
                         const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +38,6 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                             AppText(title: 'Current Time:')
                           ],
                         ),
-                        SizedBox(width: 4.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -52,10 +53,12 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                         )
                       ],
                     ),
-                    SizedBox(height: 2.h),
                     provider.isLoading == false
                         ? appButton(
+                            height: 5.h,
+                            radius: 0.8.h,
                             context: context,
+                            width: double.infinity,
                             onTap: () {
                               checkInStatus == true
                                   ? provider.checkInAPI()
@@ -67,13 +70,8 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                                   : Constants.checkOut,
                               color: Theme.of(context).colorScheme.background,
                             ),
-                            height: 5.h,
-                            radius: 0.8.h,
-                            width: double.infinity,
                           )
-                        : const Center(
-                            child: SpinKitLoader(),
-                          ),
+                        : const Center(child: SpinKitLoader()),
                   ],
                 ),
               );

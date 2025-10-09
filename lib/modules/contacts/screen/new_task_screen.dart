@@ -91,16 +91,15 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           }),
           SizedBox(height: 2.h),
           appOutlineButton(
-              onTap: () {
-                showAddTaskDialog(context);
-              },
-              context: context,
-              width: double.infinity,
-              radius: 2.w,
-              child: AppText(
-                title: 'New Tasks',
-                color: Theme.of(context).colorScheme.primary,
-              )),
+            onTap: () => showAddTaskDialog(context),
+            context: context,
+            width: double.infinity,
+            radius: 2.w,
+            child: AppText(
+              title: 'New Tasks',
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ],
       ),
     );

@@ -36,6 +36,7 @@ class CheckInScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
+                            spacing: 3.w,
                             children: [
                               appCircleIcon(
                                 context: context,
@@ -47,7 +48,6 @@ class CheckInScreen extends StatelessWidget {
                                     AppAssets.APP_CHECKING_SVG,
                                     color: Theme.of(context).primaryColor),
                               ),
-                              SizedBox(width: 3.w),
                               AppText(
                                 title: Constants.attendance,
                                 fontSize: 1.8.h,
@@ -81,11 +81,9 @@ class CheckInScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 3.h),
                     Expanded(
-                      child: provider.checkInList.length < 0
-                          ? Center(
-                              child: AppText(
-                                title: Constants.result_not_found,
-                              ),
+                      child: provider.checkInList.isEmpty
+                          ? const Center(
+                              child: AppText(title: Constants.result_not_found),
                             )
                           : SingleChildScrollView(
                               child: Column(
@@ -96,8 +94,10 @@ class CheckInScreen extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.only(left: 2.h),
                                         child: Row(
+                                          spacing: 5.w,
                                           children: [
                                             Column(
+                                              spacing: 1.0.h,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
@@ -107,40 +107,25 @@ class CheckInScreen extends StatelessWidget {
                                                   fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w500,
                                                 ),
-                                                SizedBox(
-                                                  height: 1.0.h,
-                                                ),
                                                 AppText(
+                                                  fontSize: 1.6.h,
                                                   title:
                                                       '${Constants.total_working_hour} :',
-                                                  fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w500,
                                                 ),
-                                                SizedBox(
-                                                  height: 1.0.h,
-                                                ),
                                                 AppText(
+                                                  fontSize: 1.6.h,
                                                   title:
                                                       '${Constants.checkIn} :',
-                                                  fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 1.0.h,
                                                 ),
                                                 AppText(
+                                                  fontSize: 1.6.h,
                                                   title:
                                                       '${Constants.checkOut} :',
-                                                  fontSize: 1.6.h,
                                                   fontWeight: FontWeight.w500,
                                                 ),
-                                                SizedBox(
-                                                  height: 1.0.h,
-                                                ),
                                               ],
-                                            ),
-                                            SizedBox(
-                                              width: 5.w,
                                             ),
                                             Padding(
                                               padding:
@@ -192,22 +177,23 @@ class CheckInScreen extends StatelessWidget {
                                                     height: 1.0.h,
                                                   ),
                                                   AppText(
-                                                      title: provider.checkInList[
-                                                                      index][
-                                                                  'clockOut'] !=
-                                                              null
-                                                          ? DateFormat('yyyy-MM-dd   h:mm a').format(
-                                                              DateTime.parse(provider
-                                                                          .checkInList[
-                                                                      index]
-                                                                  ['clockOut']))
-                                                          : 'Remaining check out time',
-                                                      fontSize: 1.6.h,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onPrimary),
+                                                    title: provider.checkInList[
+                                                                    index]
+                                                                ['clockOut'] !=
+                                                            null
+                                                        ? DateFormat(
+                                                                'yyyy-MM-dd   h:mm a')
+                                                            .format(DateTime.parse(
+                                                                provider.checkInList[
+                                                                        index][
+                                                                    'clockOut']))
+                                                        : 'Remaining check out time',
+                                                    fontSize: 1.6.h,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                  ),
                                                   SizedBox(
                                                     height: 1.0.h,
                                                   ),
@@ -218,9 +204,9 @@ class CheckInScreen extends StatelessWidget {
                                         ),
                                       ),
                                       appDivider(
-                                          context: context, vertical: 1.h),
-                                      // index == 9 ? SizedBox() : appDivider(
-                                      //     context: context, vertical: 1.h),
+                                        vertical: 1.h,
+                                        context: context,
+                                      ),
                                     ],
                                   );
                                 }),

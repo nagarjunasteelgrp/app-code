@@ -78,10 +78,11 @@ void showCreateContactDialog(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         AppText(
-                            title: Constants.contact_Type,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                          fontSize: 1.5.h,
+                          fontWeight: FontWeight.w400,
+                          title: Constants.contact_Type,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                         SizedBox(height: 0.5.h),
                         dropdownWidget(
                           context: context,
@@ -109,19 +110,20 @@ void showCreateContactDialog(
                         ),
                         SizedBox(height: 1.5.h),
                         Row(
+                          spacing: 2,
                           children: [
                             AppText(
-                                title: Constants.company_Name,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                fontSize: 1.5.h),
-                            const SizedBox(width: 2),
+                              fontSize: 1.5.h,
+                              fontWeight: FontWeight.w400,
+                              title: Constants.company_Name,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                             AppText(
-                                title: "*",
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.error,
-                                fontSize: 2.h),
+                              title: "*",
+                              fontSize: 2.h,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                           ],
                         ),
                         SizedBox(height: 0.5.h),
@@ -131,14 +133,14 @@ void showCreateContactDialog(
                         ),
                         SizedBox(height: 1.5.h),
                         Row(
+                          spacing: 2,
                           children: [
                             AppText(
-                                title: Constants.person_Name,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                fontSize: 1.5.h),
-                            const SizedBox(width: 2),
+                              fontSize: 1.5.h,
+                              fontWeight: FontWeight.w400,
+                              title: Constants.person_Name,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                             AppText(
                                 title: "*",
                                 fontWeight: FontWeight.w400,
@@ -153,19 +155,20 @@ void showCreateContactDialog(
                         ),
                         SizedBox(height: 1.5.h),
                         Row(
+                          spacing: 2,
                           children: [
                             AppText(
-                                title: Constants.phone_Number,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                fontSize: 1.5.h),
-                            const SizedBox(width: 2),
+                              fontSize: 1.5.h,
+                              fontWeight: FontWeight.w400,
+                              title: Constants.phone_Number,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                             AppText(
-                                title: "*",
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.error,
-                                fontSize: 2.h),
+                              title: "*",
+                              fontSize: 2.h,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                           ],
                         ),
                         SizedBox(height: 0.5.h),
@@ -216,14 +219,14 @@ void showCreateContactDialog(
                             ]),
                         SizedBox(height: 1.5.h),
                         Row(
+                          spacing: 2,
                           children: [
                             AppText(
-                                title: Constants.email,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                fontSize: 1.5.h),
-                            const SizedBox(width: 2),
+                              fontSize: 1.5.h,
+                              title: Constants.email,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                             AppText(
                                 title: "*",
                                 fontWeight: FontWeight.w400,
@@ -238,14 +241,14 @@ void showCreateContactDialog(
                             keyboardType: TextInputType.emailAddress),
                         SizedBox(height: 1.5.h),
                         Row(
+                          spacing: 2,
                           children: [
                             AppText(
-                                title: Constants.address,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                fontSize: 1.5.h),
-                            const SizedBox(width: 2),
+                              fontSize: 1.5.h,
+                              title: Constants.address,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                             AppText(
                                 title: "*",
                                 fontWeight: FontWeight.w400,
@@ -289,6 +292,7 @@ void showCreateContactDialog(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
                     child: (provider.isAddContactButton == false)
                         ? Row(
+                            spacing: 2.h,
                             children: [
                               Expanded(
                                 child: GestureDetector(
@@ -316,9 +320,6 @@ void showCreateContactDialog(
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 2.h,
                               ),
                               Expanded(
                                 child: GestureDetector(

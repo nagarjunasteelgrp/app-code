@@ -34,7 +34,6 @@ class MenuTile extends StatelessWidget {
     return Consumer<HomeProvider>(builder: (context, value, _) {
       return InkWell(
         onTap: () async {
-          print("Profile Pic Clicked $index");
           if (index == 4) {
             showDialog(
               context: context,
@@ -43,7 +42,6 @@ class MenuTile extends StatelessWidget {
               },
             );
           } else if (index == 5) {
-            // showLocationDisclosureDialog(context);
             await launchUrl(
               Uri.parse('https://www.nagarjunasteel.com/privacy-policy'),
             );
@@ -57,6 +55,7 @@ class MenuTile extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Row(
+                  spacing: 2.w,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -74,9 +73,6 @@ class MenuTile extends StatelessWidget {
                                 fit: BoxFit.fill,
                                 color: Theme.of(context).colorScheme.background,
                               )),
-                    SizedBox(
-                      width: 2.w,
-                    ),
                     AppText(
                       fontWeight: FontWeight.w600,
                       title: title,

@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ class CommonCheckboxState extends State<CommonCheckbox> {
     return Consumer<LoginProvider>(
       builder: (context, value, child) {
         return Row(
+          spacing: 2.w,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -33,7 +33,6 @@ class CommonCheckboxState extends State<CommonCheckbox> {
                   : Icon(Icons.check_box_rounded,
                       color: Theme.of(context).colorScheme.inverseSurface),
             ),
-            SizedBox(width: 2.w),
             AppText(title: widget.label),
           ],
         );

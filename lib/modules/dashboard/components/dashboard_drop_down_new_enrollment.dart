@@ -10,10 +10,10 @@ Widget dashBoardDropDownNewEnrollment(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       AppText(
+        fontSize: 1.8.h,
+        letterSpacing: 0.4,
         title: 'New Enrollment',
         fontWeight: FontWeight.bold,
-        letterSpacing: 0.4,
-        fontSize: 1.8.h,
       ),
       Container(
         width: 12.h,
@@ -35,10 +35,9 @@ Widget dashBoardDropDownNewEnrollment(
               focusColor: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(1.0.w),
               dropdownColor: Theme.of(context).colorScheme.background,
-              hint: Text(
-                "--Select--",
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              hint: AppText(
+                title: "--Select--",
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
@@ -54,18 +53,19 @@ Widget dashBoardDropDownNewEnrollment(
                   child: Padding(
                     padding: EdgeInsets.only(left: 0.5.w),
                     child: AppText(
-                      title: "${data[0].toUpperCase()}${data.substring(1)}",
                       fontSize: 1.5.h,
-                      color: AppColors.lightBlackColor,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.lightBlackColor,
+                      title: "${data[0].toUpperCase()}${data.substring(1)}",
                     ),
                   ),
                 );
               }),
               style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 1.9.h,
-                  color: AppColors.WHITE_COLOR),
+                fontSize: 1.9.h,
+                fontWeight: FontWeight.w800,
+                color: AppColors.WHITE_COLOR,
+              ),
               onChanged: (newValue) {
                 provider.dropDownSelectedValueNewEnrollment(newValue);
               },

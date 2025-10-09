@@ -36,6 +36,7 @@ Widget taskContainerUI(
           ],
         ),
         child: Row(
+          spacing: 3.w,
           children: [
             appCircleIcon(
               width: 5.h,
@@ -52,7 +53,6 @@ Widget taskContainerUI(
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            SizedBox(width: 3.w),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

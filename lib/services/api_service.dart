@@ -182,11 +182,11 @@ class ApiServices {
       Uri.parse(ApiUrl.autoTrackingUrl),
       headers: await getHeaders(),
       body: jsonEncode({
+        "userId": userId,
+        "address": address,
         "latitude": latitude,
         "longitude": longitude,
-        "address": address,
         "trackingType": "auto",
-        "userId": userId,
         "time": DateTime.now().toIso8601String()
       }),
     );
@@ -380,7 +380,6 @@ class ApiServices {
       final responseData = await http.Response.fromStream(response);
       return responseData;
     } catch (e) {
-      print("Error in updateDisplayPicture API: $e");
       rethrow;
     }
   }
@@ -516,6 +515,17 @@ class ApiServices {
   Future<http.Response> estimationAndQty(month, year, slpId) async {
     final response = await http.get(
       Uri.parse(ApiUrl.estimationAndQty(month, year, slpId)),
+      headers: await getHeaders(),
+    );
+    /*  print("estimationAndQty : ${response.request}");
+    print("estimationAndQty : ${response.statusCode}");
+    print("estimationAndQty : ${response.body}"); */
+    return response;
+  }
+
+  Future<http.Response> matchUserToken(int userid) async {
+    final response = await http.get(
+      Uri.parse(ApiUrl.matchUserTokenUrl(userid)),
       headers: await getHeaders(),
     );
     /*  print("estimationAndQty : ${response.request}");

@@ -32,7 +32,6 @@ class LocationService {
 
     // ✅ Step 3: Handle "While in use" vs "Always"
     if (permission == LocationPermission.whileInUse) {
-      // Try upgrading to always (background)
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.always) {
         return Future.error(

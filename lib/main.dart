@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // ✅ First ask for Android 13–15 runtime permissions
     AppPermissions.requestAll().then((_) async {
       bool granted = await AppPermissions.hasAll();
       if (granted) {
@@ -87,6 +86,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: Center(child: CircularProgressIndicator.adaptive()),
             ),

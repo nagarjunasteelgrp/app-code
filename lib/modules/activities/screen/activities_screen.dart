@@ -23,6 +23,7 @@ class ActivitiesScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w),
               child: Row(
+                spacing: 3.w,
                 children: [
                   appCircleIcon(
                     context: context,
@@ -33,7 +34,6 @@ class ActivitiesScreen extends StatelessWidget {
                     child: SvgPicture.asset(AppAssets.APP_ACTIVITIES_SVG,
                         color: Theme.of(context).primaryColor),
                   ),
-                  SizedBox(width: 3.w),
                   AppText(
                     title: Constants.activities,
                     fontSize: 1.8.h,
@@ -46,11 +46,9 @@ class ActivitiesScreen extends StatelessWidget {
             Expanded(
               child: provider.isLoading
                   ? const Center(child: SpinKitLoader())
-                  : provider.taskList.length < 0
-                      ? Center(
-                          child: AppText(
-                            title: Constants.result_not_found,
-                          ),
+                  : provider.taskList.isEmpty
+                      ? const Center(
+                          child: AppText(title: Constants.result_not_found),
                         )
                       : SingleChildScrollView(
                           child: Column(
@@ -61,6 +59,7 @@ class ActivitiesScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(left: 5.h),
                                     child: Row(
+                                      spacing: 5.w,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
@@ -100,9 +99,6 @@ class ActivitiesScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
                                         Padding(
                                           padding: EdgeInsets.only(right: 2.h),
                                           child: Column(
@@ -119,15 +115,15 @@ class ActivitiesScreen extends StatelessWidget {
                                                 height: 1.0.h,
                                               ),
                                               AppText(
-                                                  title: provider
-                                                      .taskList[index]
-                                                          ['dueDate']
-                                                      .substring(0, 10),
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary),
+                                                title: provider.taskList[index]
+                                                        ['dueDate']
+                                                    .substring(0, 10),
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimary,
+                                              ),
                                               SizedBox(
                                                 height: 1.0.h,
                                               ),
@@ -155,8 +151,6 @@ class ActivitiesScreen extends StatelessWidget {
                                     ),
                                   ),
                                   appDivider(context: context, vertical: 1.h),
-                                  // index == 9 ? SizedBox() : appDivider(
-                                  //     context: context, vertical: 1.h),
                                 ],
                               );
                             }),

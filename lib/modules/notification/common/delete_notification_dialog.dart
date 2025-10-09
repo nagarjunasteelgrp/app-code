@@ -20,42 +20,37 @@ customDialogBoxNotification(context) {
             builder: (context, provider, child) {
               return SingleChildScrollView(
                 child: Column(
+                  spacing: 20,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Are you sure you want to delete all notifications?",
-                      style: TextStyle(fontSize: 16),
+                    const AppText(
+                      fontSize: 16,
+                      title:
+                          "Are you sure you want to delete all notifications?",
                     ),
-                    const SizedBox(height: 20),
                     Row(
+                      spacing: 15,
                       children: [
                         Expanded(
                           child: appButton(
-                            context: context,
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: AppText(
-                              title: 'No',
-                              color: Colors.white,
-                            ),
                             height: 5.h,
+                            context: context,
+                            onTap: () => Get.back(),
+                            child:
+                                const AppText(title: 'No', color: Colors.white),
                           ),
                         ),
-                        const SizedBox(width: 15),
                         Expanded(
                           child: appButton(
+                            height: 5.h,
                             context: context,
                             onTap: () async {
                               await provider.deleteAllNotification(context);
                               Get.back();
                             },
-                            child: AppText(
-                              title: 'Yes',
-                              color: Colors.white,
-                            ),
-                            height: 5.h,
+                            child: const AppText(
+                                title: 'Yes', color: Colors.white),
                           ),
                         ),
                       ],

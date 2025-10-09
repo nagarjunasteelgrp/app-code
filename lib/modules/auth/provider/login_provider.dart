@@ -8,19 +8,19 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
+  bool isLoading = false;
+  bool isChecked = false;
+  bool obscureText = true;
+
   ApiServices apiServices = ApiServices();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool isLoading = false;
-  bool isChecked = false;
 
   void toggleCheckbox() {
     isChecked = !isChecked;
     notifyListeners();
   }
-
-  bool obscureText = true;
 
   void obscureTextChange() {
     obscureText = !obscureText;
@@ -31,6 +31,7 @@ class LoginProvider extends ChangeNotifier {
     FocusScope.of(context).unfocus();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
+
     if (email.isEmpty) {
       showAppSnackBar(context: context, title: 'Please enter your username.');
       return;
@@ -39,7 +40,9 @@ class LoginProvider extends ChangeNotifier {
       showAppSnackBar(context: context, title: 'Please enter your password.');
       return;
     }
+
     notifyListeners();
+
     try {
       isLoading = true;
       notifyListeners();
@@ -52,21 +55,21 @@ class LoginProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(value.body);
-        print("Login Response: $response");
+        // print("Login Response: $response");
 
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setBool('isLogin', true);
           prefs.setString('token', response['token']);
           prefs.setInt('userId', response['userInfo']['userId']);
+          prefs.setString('role', response['userInfo']['role'].toString());
           prefs.setString('email', response['userInfo']['email'].toString());
-          prefs.setString('mobile', response['userInfo']['mobile'].toString());
-          prefs.setString(
-              'username', response['userInfo']['username'].toString());
           prefs.setString('empId', response['userInfo']['empId'].toString());
+          prefs.setString('mobile', response['userInfo']['mobile'].toString());
           prefs.setString('empmId', response['userInfo']['empmId'].toString());
           prefs.setString('slpCode', response['userInfo']['slpId'].toString());
-          prefs.setString('role', response['userInfo']['role'].toString());
-          prefs.setBool('isLogin', true);
+          prefs.setString(
+              'username', response['userInfo']['username'].toString());
           prefs.setString('profilePicture',
               response['userInfo']['profilePicture'].toString());
           if (context.mounted) {
@@ -80,19 +83,12 @@ class LoginProvider extends ChangeNotifier {
           notifyListeners();
         } else {
           showAppSnackBar(
-              type: 'Error', context: context, title: response['message']);
+              type: 'Error', context: Get.context!, title: response['message']);
         }
       });
     } catch (e) {
-      print("Login Error: $e");
       isLoading = false;
-      if (context.mounted) {
-        showAppSnackBar(
-          title: 'Error',
-          context: context,
-          subtitle: e.toString(),
-        );
-      }
+      print('-catch error--${e.toString()}');
       notifyListeners();
     }
   }

@@ -39,6 +39,7 @@ class RowTextWidget extends StatelessWidget {
             children: [
               Expanded(
                   child: Column(
+                spacing: 0.5.h,
                 children: [
                   AnimatedDigitWidget(
                     textStyle: GoogleFonts.lato(
@@ -49,7 +50,6 @@ class RowTextWidget extends StatelessWidget {
                     fractionDigits: 2,
                     value: double.tryParse(value1.toString())?.toDouble() ?? 0,
                   ),
-                  SizedBox(height: 0.5.h),
                   AppText(
                     title: label1,
                     color: Theme.of(context).colorScheme.onSecondary,
@@ -71,17 +71,17 @@ class RowTextWidget extends StatelessWidget {
               ),
               Expanded(
                   child: Column(
+                spacing: 0.5.h,
                 children: [
                   AnimatedDigitWidget(
+                    fractionDigits: 2,
                     textStyle: GoogleFonts.lato(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
-                    fractionDigits: 2,
                     value: double.tryParse(value2.toString())?.toDouble() ?? 0,
                   ),
-                  SizedBox(height: 0.5.h),
                   AppText(
                     title: label2,
                     color: Theme.of(context).colorScheme.onSecondary,
@@ -96,24 +96,22 @@ class RowTextWidget extends StatelessWidget {
                     direction: Axis.vertical,
                     dashColor: Theme.of(context).colorScheme.secondary,
                   ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
+                  SizedBox(height: 2.h),
                 ],
               ),
               Expanded(
                   child: Column(
+                spacing: 0.5.h,
                 children: [
                   AnimatedDigitWidget(
+                    fractionDigits: 2,
                     textStyle: GoogleFonts.lato(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
-                    fractionDigits: 2,
                     value: double.tryParse(value3.toString())?.toDouble() ?? 0,
                   ),
-                  SizedBox(height: 0.5.h),
                   AppText(
                     title: label3,
                     color: Theme.of(context).colorScheme.onSecondary,

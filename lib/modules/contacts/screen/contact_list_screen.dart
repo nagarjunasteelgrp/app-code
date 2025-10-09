@@ -48,10 +48,10 @@ class ContactListScreen extends StatelessWidget {
                   border: Border.all(
                       color: Theme.of(context).colorScheme.onBackground),
                 ),
-                // color: Theme.of(context).colorScheme.onBackground,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
                   child: Row(
+                    spacing: 2.w,
                     children: [
                       appCircleIcon(
                         context: context,
@@ -62,7 +62,6 @@ class ContactListScreen extends StatelessWidget {
                         child: SvgPicture.asset(AppAssets.APP_CONTACTS_SVG,
                             color: Theme.of(context).primaryColor),
                       ),
-                      SizedBox(width: 2.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -112,11 +111,12 @@ class ContactListScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: AppText(
-                                  fontSize: 1.5.h,
-                                  title: Constants.person_Name,
-                                  fontWeight: FontWeight.w500,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w500,
+                                    title: Constants.person_Name,
+                                  ),
+                                ),
                                 Expanded(
                                     child: AppText(
                                   fontSize: 1.5.h,
@@ -132,11 +132,12 @@ class ContactListScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: AppText(
-                                  fontSize: 1.5.h,
-                                  fontWeight: FontWeight.w500,
-                                  title: Constants.contact_Type,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w500,
+                                    title: Constants.contact_Type,
+                                  ),
+                                ),
                                 Expanded(
                                   child: AppText(
                                     fontSize: 1.5.h,
@@ -153,11 +154,12 @@ class ContactListScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: AppText(
-                                  fontSize: 1.5.h,
-                                  fontWeight: FontWeight.w500,
-                                  title: Constants.phone_Number,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w500,
+                                    title: Constants.phone_Number,
+                                  ),
+                                ),
                                 Expanded(
                                     child: AppText(
                                   fontSize: 1.5.h,
@@ -173,17 +175,19 @@ class ContactListScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: AppText(
-                                  fontSize: 1.5.h,
-                                  title: Constants.email_Id,
-                                  fontWeight: FontWeight.w500,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    title: Constants.email_Id,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                                 Expanded(
-                                    child: AppText(
-                                  title: provider.email,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 1.5.h,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    title: provider.email,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -205,9 +209,10 @@ class ContactListScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AppText(
-                                      title: Constants.details,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 1.5.h),
+                                    fontSize: 1.5.h,
+                                    title: Constants.details,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                   Icon(Icons.arrow_forward_ios, size: 2.h),
                                 ],
                               ),
@@ -215,7 +220,6 @@ class ContactListScreen extends StatelessWidget {
                           ),
                           appDivider(context: context),
                           GestureDetector(
-                            onTap: () {},
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 5.w),
                               child: Row(
@@ -223,9 +227,10 @@ class ContactListScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AppText(
-                                      title: Constants.activities,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 1.5.h),
+                                    fontSize: 1.5.h,
+                                    title: Constants.activities,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                   Icon(Icons.arrow_forward_ios, size: 2.h),
                                 ],
                               ),
@@ -243,9 +248,10 @@ class ContactListScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AppText(
-                                      title: Constants.tracking,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 1.5.h),
+                                    fontSize: 1.5.h,
+                                    title: Constants.tracking,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                   Icon(Icons.arrow_forward_ios, size: 2.h),
                                 ],
                               ),
@@ -263,9 +269,10 @@ class ContactListScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AppText(
-                                      title: Constants.related_Contacts,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 1.5.h),
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w600,
+                                    title: Constants.related_Contacts,
+                                  ),
                                   Icon(Icons.arrow_forward_ios, size: 2.h),
                                 ],
                               ),

@@ -46,15 +46,15 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                             children: [
                               SizedBox(height: 1.h),
                               AppText(
-                                  title: "Message",
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontSize: 1.6.h),
+                                fontSize: 1.6.h,
+                                title: "Message",
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                               SizedBox(height: 0.8.h),
                               appTextField(
-                                context: context,
                                 maxLines: 4,
+                                context: context,
                                 controller: provider.sendMessageController,
                               ),
                             ],
@@ -68,34 +68,34 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                       child: provider.isLoading == true
                           ? const Center(child: SpinKitLoader())
                           : Row(
+                              spacing: 1.w,
                               children: [
                                 Flexible(
                                   child: appOutlineButton(
-                                    onTap: () {
-                                      Get.back();
-                                    },
+                                    height: 4.h,
+                                    radius: 1.5.w,
+                                    context: context,
+                                    width: double.infinity,
+                                    onTap: () => Get.back(),
                                     boxColor: Theme.of(context)
                                         .colorScheme
                                         .onBackground
                                         .withValues(alpha: 0.3),
-                                    width: double.infinity,
-                                    height: 4.h,
-                                    context: context,
-                                    radius: 1.5.w,
                                     child: AppText(
-                                        title: Constants.cancel,
-                                        fontSize: 1.5.h,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontWeight: FontWeight.w600),
+                                      fontSize: 1.5.h,
+                                      title: Constants.cancel,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 1.w,
                                 ),
                                 Flexible(
                                   child: appButton(
+                                    height: 4.h,
+                                    radius: 1.5.w,
+                                    context: context,
+                                    width: double.infinity,
                                     onTap: () {
                                       provider.sendMessage().then((_) {
                                         provider.sendMessageController.clear();
@@ -105,21 +105,16 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                                           title: 'Message sent successfully.',
                                         );
                                         return provider.messageFetching();
-                                      }).then((_) {
-                                        Get.back();
-                                      });
+                                      }).then((_) => Get.back());
                                     },
-                                    width: double.infinity,
-                                    height: 4.h,
-                                    context: context,
-                                    radius: 1.5.w,
                                     child: AppText(
-                                        title: "Save",
-                                        fontSize: 1.5.h,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background,
-                                        fontWeight: FontWeight.w600),
+                                      title: "Save",
+                                      fontSize: 1.5.h,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ],

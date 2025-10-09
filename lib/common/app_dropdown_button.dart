@@ -31,7 +31,9 @@ Widget dropdownWidget({
       dropdownColor: Theme.of(context).colorScheme.background,
       hint: Text(
         hintValue ?? "--Select--",
-        style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       ),
       icon: Icon(
         Icons.keyboard_arrow_down_rounded,

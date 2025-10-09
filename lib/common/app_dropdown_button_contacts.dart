@@ -42,7 +42,9 @@ Widget dropdownContactsWidget({
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
           hint: Text(
             hintValue ?? "--Select--",
-            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
           icon: Icon(
             size: 3.h,

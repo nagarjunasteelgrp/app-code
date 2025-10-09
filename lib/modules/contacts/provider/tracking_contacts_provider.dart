@@ -6,20 +6,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingCurrentLocationProvider extends ChangeNotifier {
-  ApiServices apiServices = ApiServices();
-  TextEditingController addNotesController = TextEditingController();
-  GoogleMapController? mapController;
-  double? latitude;
-
-  double? longitude;
-
-  bool isLoading = false;
-  List markers = [];
   String address = '';
   int? trackingInfoId;
+
+  double? latitude;
+  double? longitude;
+  LatLng? initialPosition;
+  bool isLoading = false;
+
+  List markers = [];
   List trackingInfoNotesList = [];
   List trackingInfoImagesList = [];
-  LatLng? initialPosition;
+
+  GoogleMapController? mapController;
+  ApiServices apiServices = ApiServices();
+  TextEditingController addNotesController = TextEditingController();
 
   void setMapController(GoogleMapController controller) {
     mapController = controller;

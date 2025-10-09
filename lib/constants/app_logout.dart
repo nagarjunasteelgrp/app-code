@@ -69,17 +69,21 @@ class AppDialog {
   }
 }
 
-Widget logoutButton(
-    {required BuildContext context, String? title, String? message}) {
+Widget logoutButton({
+  String? title,
+  String? message,
+  required BuildContext context,
+}) {
   return Column(
     children: [
       SizedBox(height: 2.h),
       AppText(
-          title: title,
-          maxLines: 2,
-          color: Theme.of(context).colorScheme.primary,
-          fontSize: 20,
-          fontWeight: FontWeight.w700),
+        title: title,
+        maxLines: 2,
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: Theme.of(context).colorScheme.primary,
+      ),
       SizedBox(height: 2.h),
       AppText(
         title: message,
@@ -94,9 +98,10 @@ Widget logoutButton(
         height: 5.h,
         child: Center(
           child: AppText(
-              title: 'Yes',
-              color: Theme.of(context).colorScheme.background,
-              fontWeight: FontWeight.w600),
+            title: 'Yes',
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.background,
+          ),
         ),
         onTap: () {
           Navigator.pop(context, true);

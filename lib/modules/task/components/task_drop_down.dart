@@ -35,8 +35,9 @@ Widget taskStatusDropDown(BuildContext context, TaskProvider provider) {
               dropdownColor: Theme.of(context).colorScheme.background,
               hint: Text(
                 "--Select--",
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
               ),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,

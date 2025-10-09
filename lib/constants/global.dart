@@ -20,29 +20,29 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? token;
-double? latitude;
-double? longitude;
-String? username;
 int? userId;
-String? userEmail;
-dynamic userPhone;
 String? empId;
+String? token;
 String? empmId;
 String? slpCode;
+double? latitude;
+String? username;
+String? userEmail;
+dynamic userPhone;
+double? longitude;
 String? profilePicture;
+List? followUpsDateList;
 String? addressPlacement;
+bool isReachedOut = false;
+TaskProvider? taskProvider;
 ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
-TaskProvider? taskProvider;
-List? followUpsDateList;
-bool isReachedOut = false;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'notificationChannelId',
   'Nagarjuna Steel',
-  description: 'App is up and running',
   importance: Importance.high,
+  description: 'App is up and running',
 );
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -52,28 +52,32 @@ Future<Map<String, String>> getHeaders() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString("token") ?? '';
   userId = sharedPreferences.getInt("userId") ?? 0;
-  // print("Token:- $token");
+
   if (token!.isNotEmpty && JwtDecoder.isExpired(token!)) {
     sharedPreferences.remove("token");
     sharedPreferences.remove("userId");
     token = '';
-    Navigator.push(Get.context!,
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+
+    Navigator.pushAndRemoveUntil(
+      Get.context!,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (Route<dynamic> route) => false,
+    );
   }
+
   return {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 }
 
 personalDetails() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  token = prefs.getString("token") ?? "";
-
-  username = prefs.getString("username") ?? "";
   userId = prefs.getInt("userId") ?? 0;
-  userEmail = prefs.getString("email") ?? "";
-  userPhone = prefs.getString("mobile") ?? "";
   empId = prefs.getString("empId") ?? "";
+  token = prefs.getString("token") ?? "";
   empmId = prefs.getString("empmId") ?? "";
   slpCode = prefs.getString("slpCode") ?? "";
+  userEmail = prefs.getString("email") ?? "";
+  userPhone = prefs.getString("mobile") ?? "";
+  username = prefs.getString("username") ?? "";
   profilePicture = prefs.getString("profilePicture") ?? "";
   await getMapData();
 }
@@ -81,9 +85,13 @@ personalDetails() async {
 Future<dynamic> getCurrentLocation() async {
   try {
     var logResponse = await apiServices.autoTrackingAPI(
-        latitude: latitude, longitude: longitude, address: addressPlacement);
+      latitude: latitude,
+      longitude: longitude,
+      address: addressPlacement,
+    );
     if (logResponse.statusCode == 201) {
       var response = jsonDecode(logResponse.body);
+
       latitude = response['activity']['latitude'] ?? 0.0;
       longitude = response['activity']['longitude'] ?? 0.0;
     }
@@ -105,36 +113,97 @@ Future<void> onStart(ServiceInstance service) async {
   });
 
   if (service is AndroidServiceInstance) {
+    // Set as foreground service
     if (!await service.isForegroundService()) {
       await service.setAsForegroundService();
     }
+    // Show persistent notification
     if (await service.isForegroundService()) {
       flutterLocalNotificationsPlugin.show(
         notificationId,
         'Nagarjuna Steel',
-        'App is up and running',
+        'Location tracking active in background',
         const NotificationDetails(
           android: AndroidNotificationDetails(
             ongoing: true,
             'my_foreground',
             'MY FOREGROUND SERVICE',
             icon: '@mipmap/ic_launcher',
+            playSound: false,
+            autoCancel: false,
+            enableVibration: false,
+            priority: Priority.low,
+            importance: Importance.low,
+            // Make notification sticky
+            category: AndroidNotificationCategory.service,
+            channelDescription: 'Background location tracking service',
           ),
         ),
       );
     }
+    service.setAutoStartOnBootMode(true);
   }
+  // Start background location service
   BackgroundLocation.startLocationService();
+
+  // Initialize location provider
   CurrentLocationProvider locationProvider = CurrentLocationProvider();
+
   Timer.periodic(
-    const Duration(minutes: 1),
+    const Duration(minutes: 5),
     (timer) async {
-      if (service is AndroidServiceInstance) {
-        if (await service.isForegroundService()) {
-          await locationProvider.getUserLocation().then((value) async {
-            await getCurrentLocation();
-          });
+      try {
+        if (service is AndroidServiceInstance) {
+          if (await service.isForegroundService()) {
+            flutterLocalNotificationsPlugin.show(
+              notificationId,
+              'Nagarjuna Steel',
+              'Getting location... ${DateTime.now().toString().substring(11, 16)}',
+              const NotificationDetails(
+                android: AndroidNotificationDetails(
+                  'my_foreground',
+                  'MY FOREGROUND SERVICE',
+                  icon: '@mipmap/ic_launcher',
+                  ongoing: true,
+                  playSound: false,
+                  autoCancel: false,
+                  enableVibration: false,
+                  priority: Priority.low,
+                  importance: Importance.low,
+                  category: AndroidNotificationCategory.service,
+                  channelDescription: 'Background location tracking service',
+                ),
+              ),
+            );
+            await locationProvider.getUserLocation().then((value) async {
+              await getCurrentLocation();
+              flutterLocalNotificationsPlugin.show(
+                notificationId,
+                'Nagarjuna Steel',
+                'Location updated at ${DateTime.now().toString().substring(11, 16)}',
+                const NotificationDetails(
+                  android: AndroidNotificationDetails(
+                    'my_foreground',
+                    'MY FOREGROUND SERVICE',
+                    ongoing: true,
+                    autoCancel: false,
+                    priority: Priority.low,
+                    importance: Importance.low,
+                    icon: '@mipmap/ic_launcher',
+                    category: AndroidNotificationCategory.service,
+                    channelDescription: 'Background location tracking service',
+                  ),
+                ),
+              );
+            }).catchError((error) {
+              print('Location error: $error');
+            });
+          } else {
+            await service.setAsForegroundService();
+          }
         }
+      } catch (e) {
+        print('Timer error: $e');
       }
     },
   );

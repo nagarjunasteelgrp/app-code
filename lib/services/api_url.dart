@@ -1,7 +1,8 @@
 class ApiUrl {
+//----------------------BaseURL--------------------------------//
   static String baseUrl = devUrl;
 
-  static String localUrl = 'https://541d0f3e6c09.ngrok-free.app/api/v1/';
+  static String localUrl = 'http://192.168.29.54:4000/api/v1/';
 
   static String qaUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
@@ -9,29 +10,30 @@ class ApiUrl {
 
   static String productionUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
 
-  static String loginUrl = '${baseUrl}users/login';
+//----------------------API Routs--------------------------------//
 
-  static String resetEmailUrl = '${baseUrl}auth/resetPassword';
+  static String checkInUrl = '${baseUrl}attendance';
 
   static String createContactUrl = '${baseUrl}contacts';
 
-  static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
+  static String loginUrl = '${baseUrl}users/login/salesperson';
+
+  static String trackingInfoUrl = '${baseUrl}activities';
+
+  static String resetEmailUrl = '${baseUrl}auth/resetPassword';
 
   static String contactUpdateUrl(int id) => '${baseUrl}contacts/$id';
 
+  static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
+
   static String contactListUrl(int id, String type) =>
       '${baseUrl}contacts?userId=$id&contactType=$type';
-
-  static String relatedContactsListUrl = '${baseUrl}related-contacts';
-
-  static String trackingInfoUrl = '${baseUrl}activities';
 
   static String trackingNotesUrl = '${baseUrl}tracking-notes';
 
   static String trackingImageUrl = '${baseUrl}tracking-images';
 
-  static String trackingInfoListUrl(int dealerId) =>
-      '${baseUrl}activities?dealerId=$dealerId';
+  static String relatedContactsListUrl = '${baseUrl}related-contacts';
 
   static String autoTrackingUrl = '${baseUrl}activities';
 
@@ -39,9 +41,12 @@ class ApiUrl {
 
   static String checkInListUrl(int id) => '${baseUrl}attendance/user/$id';
 
-  static String checkInUrl = '${baseUrl}attendance';
+  static String matchUserTokenUrl(int userId) => '${baseUrl}users/$userId';
 
   static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
+
+  static String trackingInfoListUrl(int dealerId) =>
+      '${baseUrl}activities?dealerId=$dealerId';
 
   static String myProgressUrl(int id, dynamic startDate, dynamic endDate) =>
       '${baseUrl}app-statistics?userId=$id&fromDate=$endDate&toDate=$startDate';

@@ -14,30 +14,30 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingProvider extends ChangeNotifier {
-  CurrentLocationProvider currentLocationProvider;
   ApiServices apiServices = ApiServices();
-  TextEditingController addNotesController = TextEditingController();
+  CurrentLocationProvider currentLocationProvider;
   ScrollController scrollController = ScrollController();
+  TextEditingController addNotesController = TextEditingController();
 
-  bool isLoading = false;
   File? image;
-  List markers = [];
-  bool _geoLocationBtn = false;
-  bool isFetchingMore = false;
-  int trackingInfoId = 0;
-  LatLng? initialPosition;
   int? userId;
+  int limit = 5;
+  int pager = 0;
+  File? filePath;
+  List markers = [];
+  String? imageType;
+  String? dealerName;
+  int trackingInfoId = 0;
+  bool isLoading = false;
+  LatLng? initialPosition;
+  String? selectedFileName;
+  bool isFetchingMore = false;
+  bool _geoLocationBtn = false;
   dynamic contactTypeId;
   String? contactTypeCompanyName;
   String? contactTypeName;
   List trackingInfoList = [];
   List trackingInfoListStoreData = [];
-  int limit = 5;
-  int pager = 0;
-  String? imageType;
-  String? selectedFileName;
-  File? filePath;
-  String? dealerName;
 
   bool get geoLocationBtn => _geoLocationBtn;
 
@@ -59,7 +59,7 @@ class TrackingProvider extends ChangeNotifier {
   trackingInfoDataPlus() {}
 
   TrackingProvider(this.currentLocationProvider) {
-    intialData();
+    initialData();
     contactTypeId = Get.arguments['id'] ?? '';
     contactTypeCompanyName = Get.arguments['companyName'] ?? '';
     contactTypeName = Get.arguments['contactType'] ?? '';
@@ -68,7 +68,7 @@ class TrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  intialData() async {
+  initialData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     latitude = sharedPreferences.getDouble("latitude");
     longitude = sharedPreferences.getDouble("longitude");
@@ -111,9 +111,9 @@ class TrackingProvider extends ChangeNotifier {
     markers.add(
       Marker(
         icon: BitmapDescriptor.defaultMarker,
-        markerId: MarkerId(latLng.toString()),
-        position: latLng,
         onTap: () {},
+        position: latLng,
+        markerId: MarkerId(latLng.toString()),
       ),
     );
     notifyListeners();

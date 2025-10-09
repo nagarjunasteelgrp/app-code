@@ -6,6 +6,7 @@ import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
+import 'package:digital_lync/routes/routes_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class HomeProvider extends ChangeNotifier {
 
   void setSelectedIndex(int index, {bool tabIndex = false}) {
     selectedIndex = index;
+    matchUserToken();
     if (selectedIndex == 2) {
       taskProvider = TaskProvider();
     }
@@ -60,12 +62,44 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> matchUserToken() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString('token');
+
+    int userId = prefs.getInt('userId') ?? 0;
+
+    final response = await apiServices.matchUserToken(userId);
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      String? currentToken = responseData['currentToken'];
+
+      if (currentToken != token) {
+        print('== Token not match — logging out user ==');
+        prefsClear(Get.context!);
+        showAppSnackBar(
+          type: 'Logged out',
+          context: Get.context!,
+          title: 'Your account active on another device.',
+        );
+      } else {
+        print('== Token match ==');
+      }
+    } else {
+      // print('API Error: ${response.statusCode}');
+      // print('Response body: ${response.body}');
+    }
+  }
+
   void updateProfilePicture(String newProfilePicture) async {
     profilePicture = newProfilePicture;
     try {
       notifyListeners();
       final response = await apiServices.updateDisplayPicture(
-          userId!, File(newProfilePicture));
+        userId!,
+        File(newProfilePicture),
+      );
       if (response.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var responseData = jsonDecode(response.body);
@@ -111,7 +145,6 @@ class HomeProvider extends ChangeNotifier {
           latitude = sharedPreferences.getDouble("latitude");
           longitude = sharedPreferences.getDouble("longitude");
           addressPlacement = sharedPreferences.getString("address") ?? '';
-          notifyListeners();
           getCurrentLocation();
           notifyListeners();
         },
@@ -129,7 +162,8 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  prefsClear(BuildContext context) async {
+  void prefsClear(BuildContext context) async {
+    Get.offNamed(RoutesName.LOGIN);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Remove sensitive keys

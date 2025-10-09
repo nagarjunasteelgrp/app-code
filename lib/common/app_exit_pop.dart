@@ -26,6 +26,7 @@ Future<bool> showExitPopup(context) async {
                 const Text("Do you want to exit?"),
                 const SizedBox(height: 20),
                 Row(
+                  spacing: 15,
                   children: [
                     Expanded(
                       child: appButton(
@@ -38,7 +39,6 @@ Future<bool> showExitPopup(context) async {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 15),
                     Expanded(
                       child: appButton(
                         height: 5.h,

@@ -3,8 +3,8 @@ import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_colors.dart';
-import 'package:digital_lync/modules/dashboard/components/dashboardDropDownNewEnrollment.dart';
-import 'package:digital_lync/modules/dashboard/components/dashboardDropDownOverallDistance.dart';
+import 'package:digital_lync/modules/dashboard/components/dashboard_drop_down_new_enrollment.dart';
+import 'package:digital_lync/modules/dashboard/components/dashboard_drop_down_overall_distance.dart';
 import 'package:digital_lync/modules/dashboard/components/my_progress_list.dart';
 import 'package:digital_lync/modules/dashboard/components/pie_chart.dart';
 import 'package:digital_lync/modules/dashboard/components/row_widget_text.dart';
@@ -108,6 +108,7 @@ class DashBoardScreen extends StatelessWidget {
                                             .secondary,
                                       ),
                                       Column(
+                                        spacing: 0.5.h,
                                         children: [
                                           AppText(
                                             fontWeight: FontWeight.bold,
@@ -120,7 +121,6 @@ class DashBoardScreen extends StatelessWidget {
                                                         .toString()
                                                     : '0',
                                           ),
-                                          SizedBox(height: 0.5.h),
                                           AppText(
                                             title: 'New Contacts',
                                             color: Theme.of(context)
@@ -138,6 +138,7 @@ class DashBoardScreen extends StatelessWidget {
                                             .secondary,
                                       ),
                                       Column(
+                                        spacing: 0.5.h,
                                         children: [
                                           AppText(
                                             fontWeight: FontWeight.bold,
@@ -147,7 +148,6 @@ class DashBoardScreen extends StatelessWidget {
                                                 ? '${provider.myProgressAPIResponse['workingHours'].toString()} hrs'
                                                 : '0 hrs',
                                           ),
-                                          SizedBox(height: 0.5.h),
                                           AppText(
                                             title: 'Working hours',
                                             color: Theme.of(context)
@@ -167,12 +167,12 @@ class DashBoardScreen extends StatelessWidget {
                                 ),
                                 Center(
                                     child: AppText(
+                                  letterSpacing: 0.5,
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
                                   title:
                                       'Total No of Contacts ${provider.myProgressAPIResponse != null ? provider.myProgressAPIResponse['totalNoOfContacts'].toString() : '0'}',
                                   fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                  letterSpacing: 0.5,
                                 )),
                               ],
                             ),
@@ -299,38 +299,43 @@ class DashBoardScreen extends StatelessWidget {
                                   },
                                 ),
                                 RowTextWidget(
-                                    value1: provider.estimationAndQty != null && provider.estimationAndQty['estimation'] != null && provider.estimationAndQty['estimation'].isNotEmpty
-                                        ? provider.estimationAndQty['estimation']
-                                                [0]['Target Amt (Rs)']
-                                            .toString()
-                                        : "0",
-                                    label1: 'Target Amt',
-                                    //
-
-                                    value2: provider.estimationAndQty != null &&
-                                            provider.estimationAndQty['estimation'] !=
-                                                null &&
-                                            provider
-                                                .estimationAndQty['estimation']
-                                                .isNotEmpty
-                                        ? provider
-                                            .estimationAndQty['estimation'][0]
-                                                ['Achieved Amt (Rs)']
-                                            .toString()
-                                        : "0",
-                                    label2: 'Achieved Amt',
-                                    //
-
-                                    value3: provider.estimationAndQty != null &&
-                                            provider.estimationAndQty['estimation'] !=
-                                                null &&
-                                            provider.estimationAndQty['estimation'].isNotEmpty
-                                        ? provider.estimationAndQty['estimation'][0]['Balance Amt (Rs)'].toString()
-                                        : "0",
-                                    label3: 'Due Amt'
-                                    //
-
-                                    ),
+                                  value1: provider.estimationAndQty != null &&
+                                          provider.estimationAndQty[
+                                                  'estimation'] !=
+                                              null &&
+                                          provider
+                                              .estimationAndQty['estimation']
+                                              .isNotEmpty
+                                      ? provider.estimationAndQty['estimation']
+                                              [0]['Target Amt (Rs)']
+                                          .toString()
+                                      : "0",
+                                  label1: 'Target Amt',
+                                  value2: provider.estimationAndQty != null &&
+                                          provider.estimationAndQty[
+                                                  'estimation'] !=
+                                              null &&
+                                          provider
+                                              .estimationAndQty['estimation']
+                                              .isNotEmpty
+                                      ? provider.estimationAndQty['estimation']
+                                              [0]['Achieved Amt (Rs)']
+                                          .toString()
+                                      : "0",
+                                  label2: 'Achieved Amt',
+                                  value3: provider.estimationAndQty != null &&
+                                          provider.estimationAndQty[
+                                                  'estimation'] !=
+                                              null &&
+                                          provider
+                                              .estimationAndQty['estimation']
+                                              .isNotEmpty
+                                      ? provider.estimationAndQty['estimation']
+                                              [0]['Balance Amt (Rs)']
+                                          .toString()
+                                      : "0",
+                                  label3: 'Due Amt',
+                                ),
                                 SizedBox(height: 1.h),
                                 appDivider(
                                     context: context,
@@ -345,12 +350,14 @@ class DashBoardScreen extends StatelessWidget {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 3.w, vertical: 1.h),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                            color: AppColors.borderColor)),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                          color: AppColors.borderColor),
+                                    ),
                                     child: DropdownButton<String>(
                                       isDense: true,
                                       isExpanded: true,
+                                      underline: const SizedBox(),
                                       value: dropDownProvider.selectedValue,
                                       iconEnabledColor: Theme.of(context)
                                           .colorScheme
@@ -359,11 +366,10 @@ class DashBoardScreen extends StatelessWidget {
                                           .colorScheme
                                           .onSecondary,
                                       icon: Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: AppColors.lightBlackColor,
                                         size: 3.h,
+                                        color: AppColors.lightBlackColor,
+                                        Icons.keyboard_arrow_down_rounded,
                                       ),
-                                      underline: const SizedBox(),
                                       borderRadius:
                                           BorderRadius.circular(1.0.w),
                                       dropdownColor: Theme.of(context)
@@ -385,11 +391,11 @@ class DashBoardScreen extends StatelessWidget {
                                             padding:
                                                 EdgeInsets.only(left: 0.5.w),
                                             child: AppText(
+                                              fontSize: 1.5.h,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.lightBlackColor,
                                               title:
                                                   "${value[0].toUpperCase()}${value.substring(1)}",
-                                              fontSize: 1.5.h,
-                                              color: AppColors.lightBlackColor,
-                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         );
@@ -409,8 +415,6 @@ class DashBoardScreen extends StatelessWidget {
 
                                     final bool isQty =
                                         provider.selectedValue == 'Quantity';
-
-                                    // Agar data null ya empty ho to default 0 values
                                     final target = isQty
                                         ? (data != null
                                             ? (data['Target Qty (MT)'] ?? 0.0)
@@ -576,21 +580,16 @@ class DashBoardScreen extends StatelessWidget {
                                 horizontal: 1.5.h, vertical: 1.5.h),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                color: AppColors.WHITE_COLOR,
-                                borderRadius: BorderRadius.circular(1.4.h),
-                                border:
-                                    Border.all(color: AppColors.borderColor)),
+                              color: AppColors.WHITE_COLOR,
+                              borderRadius: BorderRadius.circular(1.4.h),
+                              border: Border.all(color: AppColors.borderColor),
+                            ),
                             child: Column(
+                              spacing: 1.h,
                               children: [
                                 dashBoardDropDownNewEnrollment(
                                     context, provider),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
                                 pieChart(provider: provider),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -669,12 +668,12 @@ class DashBoardScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 1.h),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Row(
+                                      spacing: 1.w,
                                       children: [
                                         Container(
                                           height: 1.5.h,
@@ -687,9 +686,6 @@ class DashBoardScreen extends StatelessWidget {
                                                 .onPrimary,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 1.h,
-                                        ),
                                         AppText(
                                           title: 'Engineers',
                                           color: Theme.of(context)
@@ -699,6 +695,7 @@ class DashBoardScreen extends StatelessWidget {
                                       ],
                                     ),
                                     Row(
+                                      spacing: 1.w,
                                       children: [
                                         Container(
                                           height: 1.5.h,
@@ -710,9 +707,6 @@ class DashBoardScreen extends StatelessWidget {
                                                 .colorScheme
                                                 .onSecondary,
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 1.h,
                                         ),
                                         AppText(
                                           title: 'Masons',
@@ -748,19 +742,22 @@ class DashBoardScreen extends StatelessWidget {
   }) {
     return CircularPercentIndicator(
       radius: 100.0,
-      animation: true,
       lineWidth: 15.0,
-      animationDuration: 1200,
+      animation: true,
       percent: duePercentage!,
+      animationDuration: 1200,
+      progressColor: AppColors.greenColor,
+      backgroundColor: AppColors.yellowColor,
+      circularStrokeCap: CircularStrokeCap.round,
       center: Column(
+        spacing: 0.2.h,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AppText(
+            fontSize: 24,
             title: targetAmount,
             fontWeight: FontWeight.bold,
-            fontSize: 24,
           ),
-          SizedBox(height: 0.2.h),
           AppText(
             fontSize: 12,
             title: title ?? "Target Amount",
@@ -768,9 +765,6 @@ class DashBoardScreen extends StatelessWidget {
           ),
         ],
       ),
-      progressColor: AppColors.greenColor,
-      backgroundColor: AppColors.yellowColor,
-      circularStrokeCap: CircularStrokeCap.round,
     );
   }
 }

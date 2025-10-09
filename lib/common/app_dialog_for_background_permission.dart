@@ -14,9 +14,9 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Row(
+          spacing: 8,
           children: [
             Icon(Icons.location_on, color: Colors.deepPurple),
-            SizedBox(width: 8),
             AppText(
               fontSize: 16,
               title: "Background Location Access",
@@ -41,9 +41,9 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
               ),
               padding: const EdgeInsets.all(12),
               child: const Row(
+                spacing: 10,
                 children: [
                   Icon(Icons.info_outline, color: Colors.deepPurple),
-                  SizedBox(width: 10),
                   Expanded(
                     child: AppText(
                       maxLines: 3,
@@ -62,19 +62,16 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
             onPressed: () => Navigator.pop(context, false),
           ),
           appButton(
+            radius: 12,
+            height: 5.h,
+            width: 20.w,
             context: context,
             onTap: () async {
               Navigator.pop(context);
               await Provider.of<CurrentLocationProvider>(context, listen: false)
                   .getUserLocation();
             },
-            child: const AppText(
-              title: "Allow",
-              color: Colors.white,
-            ),
-            radius: 12,
-            width: 20.w,
-            height: 5.h,
+            child: const AppText(title: "Allow", color: Colors.white),
           ),
         ],
       );

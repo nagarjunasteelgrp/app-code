@@ -26,21 +26,21 @@ class _MessageListScreenState extends State<MessageListScreen> {
             return provider.isLoading == false
                 ? provider.messageFetchingAPIResponse.isNotEmpty
                     ? Column(
+                        spacing: 2.h,
                         children: [
-                          SizedBox(height: 2.h),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 3.w),
-                                  child: AppText(
+                                  child: const AppText(
                                     title: 'Date',
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                              Expanded(
+                              const Expanded(
                                 flex: 3,
                                 child: AppText(
                                   title: 'Message',
@@ -49,7 +49,6 @@ class _MessageListScreenState extends State<MessageListScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 2.h),
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
@@ -69,9 +68,10 @@ class _MessageListScreenState extends State<MessageListScreen> {
                                           horizontal: 1.h, vertical: 1.h),
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary,
+                                        ),
                                         borderRadius:
                                             BorderRadius.circular(2.w),
                                         color: Theme.of(context)
@@ -93,10 +93,10 @@ class _MessageListScreenState extends State<MessageListScreen> {
                                           Expanded(
                                             flex: 3,
                                             child: AppText(
+                                              maxLines: 5,
                                               title: provider
                                                       .messageFetchingAPIResponse[
                                                   index]['message'],
-                                              maxLines: 5,
                                             ),
                                           ),
                                         ],
@@ -109,7 +109,8 @@ class _MessageListScreenState extends State<MessageListScreen> {
                           ),
                         ],
                       )
-                    : Center(child: AppText(title: Constants.result_not_found))
+                    : const Center(
+                        child: AppText(title: Constants.result_not_found))
                 : const Center(child: SpinKitLoader());
           },
         ),
