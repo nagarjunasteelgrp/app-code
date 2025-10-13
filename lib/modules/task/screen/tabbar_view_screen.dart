@@ -10,6 +10,7 @@ import 'package:digital_lync/modules/task/screen/notification_screen.dart';
 import 'package:digital_lync/modules/task/screen/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -45,11 +46,13 @@ class TabBarViewScreen extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(
-                        vertical: 0.2.h, horizontal: 0.2.h),
+                      vertical: 0.2.h,
+                      horizontal: 0.2.h,
+                    ),
                     decoration: BoxDecoration(
-                        color:
-                            Theme.of(context).colorScheme.onSecondaryContainer,
-                        borderRadius: BorderRadius.circular(1.h)),
+                      borderRadius: BorderRadius.circular(1.h),
+                      color: context.theme.colorScheme.onSecondaryContainer,
+                    ),
                     child: ButtonsTabBar(
                       backgroundColor: Colors.white,
                       unselectedBackgroundColor: Colors.transparent,
@@ -61,34 +64,37 @@ class TabBarViewScreen extends StatelessWidget {
                       tabs: [
                         Tab(
                           child: SizedBox(
-                              width: 15.h,
-                              child: Center(
-                                  child: AppText(
-                                title: 'Tasks',
-                                fontSize: 1.7.h,
-                              ))),
+                            width: 15.h,
+                            child: Center(
+                              child: AppText(title: 'Tasks', fontSize: 1.7.h),
+                            ),
+                          ),
                         ),
                         Tab(
                           child: SizedBox(
-                              width: 15.h,
-                              child: Center(
-                                  child: AppText(
-                                      title: 'Announcements',
-                                      fontSize: 1.7.h))),
+                            width: 15.h,
+                            child: Center(
+                              child: AppText(
+                                  title: 'Announcements', fontSize: 1.7.h),
+                            ),
+                          ),
                         ),
                         Tab(
                           child: SizedBox(
-                              width: 15.h,
-                              child: Center(
-                                  child: AppText(
-                                      title: 'Message', fontSize: 1.7.h))),
+                            width: 15.h,
+                            child: Center(
+                              child: AppText(title: 'Message', fontSize: 1.7.h),
+                            ),
+                          ),
                         ),
                         Tab(
                           child: SizedBox(
-                              width: 15.h,
-                              child: Center(
-                                  child: AppText(
-                                      title: 'Follow Ups', fontSize: 1.7.h))),
+                            width: 15.h,
+                            child: Center(
+                              child:
+                                  AppText(title: 'Follow Ups', fontSize: 1.7.h),
+                            ),
+                          ),
                         ),
                       ],
                     ),

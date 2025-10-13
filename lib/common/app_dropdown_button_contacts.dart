@@ -1,5 +1,6 @@
 import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 Widget dropdownContactsWidget({
@@ -15,11 +16,11 @@ Widget dropdownContactsWidget({
     width: width ?? double.infinity,
     padding: EdgeInsets.only(left: 3.5.w, right: 5.0.w),
     decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.onSurface,
+      color: context.theme.colorScheme.onSurface,
       borderRadius: BorderRadius.circular(1.5.w),
       border: Border.all(
         width: 0.5,
-        color: Theme.of(context).colorScheme.onSecondary,
+        color: context.theme.colorScheme.onSecondary,
       ),
     ),
     child: Column(
@@ -35,21 +36,16 @@ Widget dropdownContactsWidget({
           onChanged: onChanged,
           underline: const SizedBox(),
           borderRadius: BorderRadius.circular(1.0.w),
-          focusColor: Theme.of(context).colorScheme.background,
-          dropdownColor: Theme.of(context).colorScheme.background,
-          iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
-          iconDisabledColor: Theme.of(context).colorScheme.onSecondary,
+          focusColor: context.theme.colorScheme.background,
+          dropdownColor: context.theme.colorScheme.background,
+          iconEnabledColor: context.theme.colorScheme.onSecondary,
+          iconDisabledColor: context.theme.colorScheme.onSecondary,
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
-          hint: Text(
-            hintValue ?? "--Select--",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSecondary,
-            ),
+          hint: AppText(
+            title: hintValue ?? "--Select--",
+            color: context.theme.colorScheme.onSecondary,
           ),
-          icon: Icon(
-            size: 3.h,
-            Icons.keyboard_arrow_down_rounded,
-          ),
+          icon: Icon(size: 3.h, Icons.keyboard_arrow_down_rounded),
         ),
         SizedBox(height: 0.5.h),
       ],

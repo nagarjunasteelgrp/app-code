@@ -27,21 +27,21 @@ class TrackingProvider extends ChangeNotifier {
   List markers = [];
   String? imageType;
   String? dealerName;
+  dynamic contactTypeId;
   int trackingInfoId = 0;
   bool isLoading = false;
   LatLng? initialPosition;
+  DateTime? _selectedDate;
+  String? contactTypeName;
   String? selectedFileName;
+  List trackingInfoList = [];
   bool isFetchingMore = false;
   bool _geoLocationBtn = false;
-  dynamic contactTypeId;
   String? contactTypeCompanyName;
-  String? contactTypeName;
-  List trackingInfoList = [];
   List trackingInfoListStoreData = [];
 
   bool get geoLocationBtn => _geoLocationBtn;
 
-  DateTime? _selectedDate;
   TextEditingController noteController = TextEditingController();
 
   DateTime? get selectedDate => _selectedDate;
@@ -55,8 +55,6 @@ class TrackingProvider extends ChangeNotifier {
     _geoLocationBtn = value;
     notifyListeners();
   }
-
-  trackingInfoDataPlus() {}
 
   TrackingProvider(this.currentLocationProvider) {
     initialData();
@@ -161,7 +159,6 @@ class TrackingProvider extends ChangeNotifier {
               showAppSnackBar(
                   type: 'success', context: context, title: res['message']);
               notifyListeners();
-              // Get.back();
               isLoading = false;
               notifyListeners();
             } else {

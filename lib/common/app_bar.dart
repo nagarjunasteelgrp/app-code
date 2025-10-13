@@ -4,6 +4,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'app_text.dart';
@@ -58,28 +59,18 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           : GestureDetector(
               onTap: onTap,
               child: Icon(
-                Icons.arrow_back_ios_new,
-                color: Theme.of(context).colorScheme.secondary,
                 size: 5.w,
+                Icons.arrow_back_ios_new,
+                color: context.theme.colorScheme.secondary,
               ),
             ),
+      actions: actions ?? [],
       title: AppText(
-        title: title ?? Constants.APP_NAME,
-        fontWeight: FontWeight.w600,
         fontSize: titleFontSize,
-        color: Theme.of(context).colorScheme.secondary,
+        fontWeight: FontWeight.w600,
+        title: title ?? Constants.APP_NAME,
+        color: context.theme.colorScheme.secondary,
       ),
-      actions: actions ??
-          [
-            // SvgPicture.asset(AppAssets.APP_SEARCH_SVG),
-            // SizedBox(
-            //   width: 1.5.h,
-            // ),
-            // SvgPicture.asset(AppAssets.APP_NOTIFICATION_SVG),
-            // SizedBox(
-            //   width: 1.5.h,
-            // ),
-          ],
     );
   }
 

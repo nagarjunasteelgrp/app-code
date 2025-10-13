@@ -6,6 +6,7 @@ import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,7 +72,7 @@ class MenuTile extends StatelessWidget {
                                 svgImage!,
                                 height: iconHeight ?? 4.h,
                                 fit: BoxFit.fill,
-                                color: Theme.of(context).colorScheme.background,
+                                color: context.theme.colorScheme.background,
                               )),
                     AppText(
                       fontWeight: FontWeight.w600,
@@ -85,10 +86,8 @@ class MenuTile extends StatelessWidget {
             appDivider(
                 context: context,
                 vertical: 0.4.h,
-                colors: Theme.of(context)
-                    .colorScheme
-                    .secondary
-                    .withValues(alpha: 0.3)),
+                colors:
+                    context.theme.colorScheme.secondary.withValues(alpha: 0.3)),
           ],
         ),
       );

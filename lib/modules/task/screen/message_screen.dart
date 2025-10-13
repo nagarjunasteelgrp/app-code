@@ -4,6 +4,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -68,15 +69,13 @@ class _MessageListScreenState extends State<MessageListScreen> {
                                           horizontal: 1.h, vertical: 1.h),
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                          color: context
+                                              .theme.colorScheme.onSecondary,
                                         ),
                                         borderRadius:
                                             BorderRadius.circular(2.w),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary
+                                        color: context
+                                            .theme.colorScheme.onSecondary
                                             .withValues(alpha: 0.05),
                                       ),
                                       child: Row(

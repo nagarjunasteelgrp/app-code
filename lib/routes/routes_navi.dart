@@ -1,8 +1,8 @@
+import 'package:digital_lync/modules/activities/screen/activities_screen.dart';
 import 'package:digital_lync/modules/auth/screen/login_screen.dart';
 import 'package:digital_lync/modules/auth/screen/reset_email_screen.dart';
-import 'package:digital_lync/modules/activities/screen/activities_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/contact_list_screen.dart';
-import 'package:digital_lync/modules/contacts/screen/details/conatct_details_screen.dart';
+import 'package:digital_lync/modules/contacts/screen/details/contact_details_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/new_task_screen.dart';
 import 'package:digital_lync/modules/contacts/screen/related%20contacts/related_contact_screen.dart';
 import 'package:digital_lync/modules/home/screen/home_screen.dart';

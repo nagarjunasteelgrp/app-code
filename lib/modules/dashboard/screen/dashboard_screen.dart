@@ -12,6 +12,7 @@ import 'package:digital_lync/modules/dashboard/components/travel_summary.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -66,8 +67,7 @@ class DashBoardScreen extends StatelessWidget {
                                 appDivider(
                                   vertical: 0.5.h,
                                   context: context,
-                                  colors:
-                                      Theme.of(context).colorScheme.secondary,
+                                  colors: context.theme.colorScheme.secondary,
                                 ),
                                 SizedBox(height: 1.5.h),
                                 Padding(
@@ -93,9 +93,8 @@ class DashBoardScreen extends StatelessWidget {
                                           SizedBox(height: 0.5.h),
                                           AppText(
                                             title: 'No. of Visits',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary,
+                                            color: context
+                                                .theme.colorScheme.onSecondary,
                                           ),
                                         ],
                                       ),
@@ -103,9 +102,8 @@ class DashBoardScreen extends StatelessWidget {
                                         length: 60,
                                         dashLength: 3,
                                         direction: Axis.vertical,
-                                        dashColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
+                                        dashColor:
+                                            context.theme.colorScheme.secondary,
                                       ),
                                       Column(
                                         spacing: 0.5.h,
@@ -123,9 +121,8 @@ class DashBoardScreen extends StatelessWidget {
                                           ),
                                           AppText(
                                             title: 'New Contacts',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary,
+                                            color: context
+                                                .theme.colorScheme.onSecondary,
                                           ),
                                         ],
                                       ),
@@ -133,9 +130,8 @@ class DashBoardScreen extends StatelessWidget {
                                         length: 60,
                                         dashLength: 3,
                                         direction: Axis.vertical,
-                                        dashColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
+                                        dashColor:
+                                            context.theme.colorScheme.secondary,
                                       ),
                                       Column(
                                         spacing: 0.5.h,
@@ -150,9 +146,8 @@ class DashBoardScreen extends StatelessWidget {
                                           ),
                                           AppText(
                                             title: 'Working hours',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary,
+                                            color: context
+                                                .theme.colorScheme.onSecondary,
                                           ),
                                         ],
                                       ),
@@ -162,14 +157,12 @@ class DashBoardScreen extends StatelessWidget {
                                 appDivider(
                                   vertical: 0.5.h,
                                   context: context,
-                                  colors:
-                                      Theme.of(context).colorScheme.secondary,
+                                  colors: context.theme.colorScheme.secondary,
                                 ),
                                 Center(
                                     child: AppText(
                                   letterSpacing: 0.5,
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
+                                  color: context.theme.colorScheme.onSecondary,
                                   title:
                                       'Total No of Contacts ${provider.myProgressAPIResponse != null ? provider.myProgressAPIResponse['totalNoOfContacts'].toString() : '0'}',
                                   fontWeight: FontWeight.bold,
@@ -198,9 +191,7 @@ class DashBoardScreen extends StatelessWidget {
                                   title:
                                       'Total Distance : ${provider.overallDistance.toStringAsFixed(3)} Km',
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary
+                                  color: context.theme.colorScheme.secondary
                                       .withValues(alpha: 0.7),
                                   letterSpacing: 0.5,
                                   fontSize: 16,
@@ -242,8 +233,7 @@ class DashBoardScreen extends StatelessWidget {
                                 ),
                                 appDivider(
                                     context: context,
-                                    colors:
-                                        Theme.of(context).colorScheme.secondary,
+                                    colors: context.theme.colorScheme.secondary,
                                     vertical: 0.5.h),
                                 SizedBox(height: 1.5.h),
                                 Consumer<DashboardProvider>(
@@ -339,8 +329,7 @@ class DashBoardScreen extends StatelessWidget {
                                 SizedBox(height: 1.h),
                                 appDivider(
                                     context: context,
-                                    colors:
-                                        Theme.of(context).colorScheme.secondary,
+                                    colors: context.theme.colorScheme.secondary,
                                     vertical: 0.5.h),
                                 SizedBox(height: 1.5.h),
                                 Align(
@@ -359,12 +348,10 @@ class DashBoardScreen extends StatelessWidget {
                                       isExpanded: true,
                                       underline: const SizedBox(),
                                       value: dropDownProvider.selectedValue,
-                                      iconEnabledColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
-                                      iconDisabledColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
+                                      iconEnabledColor:
+                                          context.theme.colorScheme.onSecondary,
+                                      iconDisabledColor:
+                                          context.theme.colorScheme.onSecondary,
                                       icon: Icon(
                                         size: 3.h,
                                         color: AppColors.lightBlackColor,
@@ -372,12 +359,10 @@ class DashBoardScreen extends StatelessWidget {
                                       ),
                                       borderRadius:
                                           BorderRadius.circular(1.0.w),
-                                      dropdownColor: Theme.of(context)
-                                          .colorScheme
-                                          .background,
-                                      focusColor: Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                                      dropdownColor:
+                                          context.theme.colorScheme.background,
+                                      focusColor:
+                                          context.theme.colorScheme.background,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 1.9.h,
@@ -589,7 +574,7 @@ class DashBoardScreen extends StatelessWidget {
                               children: [
                                 dashBoardDropDownNewEnrollment(
                                     context, provider),
-                                pieChart(provider: provider),
+                                ChartPie(provider: provider),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -602,9 +587,8 @@ class DashBoardScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(6.h),
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .outline,
+                                            color: context
+                                                .theme.colorScheme.outline,
                                           ),
                                         ),
                                         SizedBox(
@@ -612,9 +596,8 @@ class DashBoardScreen extends StatelessWidget {
                                         ),
                                         AppText(
                                           title: 'Dealers',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                          color: context
+                                              .theme.colorScheme.onSecondary,
                                         ),
                                       ],
                                     ),
@@ -626,8 +609,7 @@ class DashBoardScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(6.h),
-                                            color: Theme.of(context)
-                                                .colorScheme
+                                            color: context.theme.colorScheme
                                                 .onPrimaryContainer,
                                           ),
                                         ),
@@ -636,9 +618,8 @@ class DashBoardScreen extends StatelessWidget {
                                         ),
                                         AppText(
                                           title: 'Fabricator',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                          color: context
+                                              .theme.colorScheme.onSecondary,
                                         ),
                                       ],
                                     ),
@@ -650,8 +631,7 @@ class DashBoardScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(6.h),
-                                            color: Theme.of(context)
-                                                .colorScheme
+                                            color: context.theme.colorScheme
                                                 .onInverseSurface,
                                           ),
                                         ),
@@ -660,9 +640,8 @@ class DashBoardScreen extends StatelessWidget {
                                         ),
                                         AppText(
                                           title: 'Customer',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                          color: context
+                                              .theme.colorScheme.onSecondary,
                                         ),
                                       ],
                                     ),
@@ -681,16 +660,14 @@ class DashBoardScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(6.h),
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary,
+                                            color: context
+                                                .theme.colorScheme.onPrimary,
                                           ),
                                         ),
                                         AppText(
                                           title: 'Engineers',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                          color: context
+                                              .theme.colorScheme.onSecondary,
                                         ),
                                       ],
                                     ),
@@ -703,16 +680,14 @@ class DashBoardScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(6.h),
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary,
+                                            color: context
+                                                .theme.colorScheme.onSecondary,
                                           ),
                                         ),
                                         AppText(
                                           title: 'Masons',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                          color: context
+                                              .theme.colorScheme.onSecondary,
                                         ),
                                       ],
                                     ),

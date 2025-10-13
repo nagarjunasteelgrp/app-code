@@ -51,9 +51,8 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(1.h),
                                       border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary
+                                          color: context
+                                              .theme.colorScheme.secondary
                                               .withValues(alpha: 0.3))),
                                   child: DropdownButton<String>(
                                     value: provider.selectedDateFilter,
@@ -88,9 +87,8 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(1.h),
                                       border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary
+                                          color: context
+                                              .theme.colorScheme.secondary
                                               .withValues(alpha: 0.3))),
                                   child: DropdownButton<String>(
                                     value: provider.selectedStatusFilter,
@@ -139,9 +137,8 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary)),
+                                          color: context
+                                              .theme.colorScheme.secondary)),
                                   child: Column(
                                     children: [
                                       Row(
@@ -165,8 +162,7 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                               border: Border.all(
-                                                color: Theme.of(context)
-                                                    .colorScheme
+                                                color: context.theme.colorScheme
                                                     .secondary,
                                               ),
                                             ),
@@ -256,18 +252,16 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                                 confirmationDialogBox(
                                                     context, provider);
                                               },
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              color: context
+                                                  .theme.colorScheme.primary,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   AppText(
                                                     title: 'Done',
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .background,
+                                                    color: context.theme
+                                                        .colorScheme.background,
                                                   ),
                                                 ],
                                               ),

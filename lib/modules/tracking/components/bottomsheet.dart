@@ -3,6 +3,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -28,9 +29,7 @@ void contactBottomSheet(
                   SizedBox(height: 3.h),
                   AppText(
                     title: Constants.select_Image_Source,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
+                    color: context.theme.colorScheme.secondary
                         .withValues(alpha: 0.5),
                   ),
                   SizedBox(height: 1.3.h),
@@ -44,7 +43,7 @@ void contactBottomSheet(
                         child: AppText(
                           fontSize: 1.7.h,
                           title: Constants.use_Camera,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: context.theme.colorScheme.secondary,
                         ),
                       );
                     },

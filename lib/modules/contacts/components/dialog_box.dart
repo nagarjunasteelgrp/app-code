@@ -31,7 +31,7 @@ void showCreateContactDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: context.theme.colorScheme.background,
           child: Consumer<ContactProvider>(builder: (context, provider, _) {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -47,14 +47,14 @@ void showCreateContactDialog(
                           SizedBox(width: 5.w),
                           appCircleIcon(
                             context: context,
-                            colors: Theme.of(context).colorScheme.primary,
+                            colors: context.theme.colorScheme.primary,
                             radius: 0.5.h,
                             height: 6.w,
                             width: 6.w,
                             child: Padding(
                               padding: const EdgeInsets.all(6.0),
                               child: SvgPicture.asset(AppAssets.APP_CREATE_SVG,
-                                  color: Theme.of(context).primaryColor),
+                                  color: context.theme.primaryColor),
                             ),
                           ),
                           SizedBox(width: 4.w),
@@ -81,7 +81,7 @@ void showCreateContactDialog(
                           fontSize: 1.5.h,
                           fontWeight: FontWeight.w400,
                           title: Constants.contact_Type,
-                          color: Theme.of(context).colorScheme.onSecondary,
+                          color: context.theme.colorScheme.onSecondary,
                         ),
                         SizedBox(height: 0.5.h),
                         dropdownWidget(
@@ -116,13 +116,13 @@ void showCreateContactDialog(
                               fontSize: 1.5.h,
                               fontWeight: FontWeight.w400,
                               title: Constants.company_Name,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -139,12 +139,12 @@ void showCreateContactDialog(
                               fontSize: 1.5.h,
                               fontWeight: FontWeight.w400,
                               title: Constants.person_Name,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                                 title: "*",
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.error,
+                                color: context.theme.colorScheme.error,
                                 fontSize: 2.h),
                           ],
                         ),
@@ -161,13 +161,13 @@ void showCreateContactDialog(
                               fontSize: 1.5.h,
                               fontWeight: FontWeight.w400,
                               title: Constants.phone_Number,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -183,7 +183,7 @@ void showCreateContactDialog(
                         AppText(
                             title: Constants.phone_Number2,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: context.theme.colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -197,7 +197,7 @@ void showCreateContactDialog(
                         AppText(
                             title: Constants.landLine,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: context.theme.colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -208,7 +208,7 @@ void showCreateContactDialog(
                         AppText(
                             title: Constants.gstNumber,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: context.theme.colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -225,12 +225,12 @@ void showCreateContactDialog(
                               fontSize: 1.5.h,
                               title: Constants.email,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                                 title: "*",
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.error,
+                                color: context.theme.colorScheme.error,
                                 fontSize: 2.h),
                           ],
                         ),
@@ -247,12 +247,12 @@ void showCreateContactDialog(
                               fontSize: 1.5.h,
                               title: Constants.address,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                                 title: "*",
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.error,
+                                color: context.theme.colorScheme.error,
                                 fontSize: 2.h),
                           ],
                         ),
@@ -265,7 +265,7 @@ void showCreateContactDialog(
                         AppText(
                             title: Constants.description,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: context.theme.colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -281,7 +281,7 @@ void showCreateContactDialog(
                       : Center(
                           child: AppText(
                           title: provider.resMessage,
-                          color: Theme.of(context).colorScheme.error,
+                          color: context.theme.colorScheme.error,
                         )),
                   provider.resMessage == ''
                       ? const SizedBox()
@@ -302,9 +302,8 @@ void showCreateContactDialog(
                                   },
                                   child: Center(
                                     child: appOutlineButton(
-                                      boxColor: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground
+                                      boxColor: context
+                                          .theme.colorScheme.onBackground
                                           .withValues(alpha: 0.3),
                                       width: double.infinity,
                                       height: 4.h,
@@ -313,9 +312,8 @@ void showCreateContactDialog(
                                       child: AppText(
                                           title: Constants.cancel,
                                           fontSize: 1.5.h,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          color:
+                                              context.theme.colorScheme.primary,
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
@@ -335,9 +333,8 @@ void showCreateContactDialog(
                                       child: AppText(
                                           title: Constants.save,
                                           fontSize: 1.5.h,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .background,
+                                          color: context
+                                              .theme.colorScheme.background,
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),

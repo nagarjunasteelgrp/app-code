@@ -2,6 +2,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 Widget dashBoardDropDownNewEnrollment(
@@ -27,22 +28,22 @@ Widget dashBoardDropDownNewEnrollment(
           child: Center(
             child: DropdownButton<String>(
               isDense: true,
-              iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
-              iconDisabledColor: Theme.of(context).colorScheme.onSecondary,
               isExpanded: true,
               underline: const SizedBox(),
-              value: provider.selectedValueNewEnrollment.toString(),
-              focusColor: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(1.0.w),
-              dropdownColor: Theme.of(context).colorScheme.background,
+              focusColor: context.theme.colorScheme.background,
+              dropdownColor: context.theme.colorScheme.background,
+              value: provider.selectedValueNewEnrollment.toString(),
+              iconEnabledColor: context.theme.colorScheme.onSecondary,
+              iconDisabledColor: context.theme.colorScheme.onSecondary,
               hint: AppText(
                 title: "--Select--",
-                color: Theme.of(context).colorScheme.onSecondary,
+                color: context.theme.colorScheme.onSecondary,
               ),
               icon: Icon(
+                size: 3.h,
                 Icons.keyboard_arrow_down_rounded,
                 color: AppColors.lightBlackColor,
-                size: 3.h,
               ),
               items:
                   List.generate(provider.dropDownNewEnrollment.length, (index) {

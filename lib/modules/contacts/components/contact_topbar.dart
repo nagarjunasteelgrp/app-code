@@ -19,11 +19,11 @@ Widget contactTopBar({required BuildContext context}) {
           children: [
             appCircleIcon(
                 context: context,
-                colors: Theme.of(context).colorScheme.inversePrimary,
+                colors: context.theme.colorScheme.inversePrimary,
                 child: Center(
                   child: SvgPicture.asset(
                     AppAssets.APP_POST_SVG,
-                    color: Theme.of(context).primaryColor,
+                    color: context.theme.primaryColor,
                   ),
                 )),
             const AppText(
@@ -37,11 +37,11 @@ Widget contactTopBar({required BuildContext context}) {
           children: [
             appCircleIcon(
                 context: context,
-                colors: Theme.of(context).colorScheme.scrim,
+                colors: context.theme.colorScheme.scrim,
                 child: Center(
                   child: SvgPicture.asset(
                     AppAssets.APP_FILE_SVG,
-                    color: Theme.of(context).primaryColor,
+                    color: context.theme.primaryColor,
                   ),
                 )),
             const AppText(
@@ -58,11 +58,11 @@ Widget contactTopBar({required BuildContext context}) {
                   Get.toNamed(RoutesName.NEW_TASK);
                 },
                 context: context,
-                colors: Theme.of(context).colorScheme.error,
+                colors: context.theme.colorScheme.error,
                 child: Center(
                   child: SvgPicture.asset(
                     AppAssets.APP_ACTIVITIES_SVG,
-                    color: Theme.of(context).primaryColor,
+                    color: context.theme.primaryColor,
                   ),
                 )),
             const AppText(
@@ -76,10 +76,10 @@ Widget contactTopBar({required BuildContext context}) {
           children: [
             appCircleIcon(
               context: context,
-              colors: Theme.of(context).colorScheme.onPrimary,
+              colors: context.theme.colorScheme.onPrimary,
               child: Center(
                 child: Icon(Icons.more_horiz_outlined,
-                    color: Theme.of(context).primaryColor),
+                    color: context.theme.primaryColor),
               ),
             ),
             const AppText(

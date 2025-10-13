@@ -1,91 +1,76 @@
-// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-Widget appTextField(
-    {required BuildContext context,
-    String? hint,
-    String? label,
-    double? borderRadius,
-    bool? isDense,
-    height,
-    color,
-    image,
-    maxLines,
-    maxLength,
-    keyboardType,
-    validator,
-    title,
-    minLine,
-    controller,
-    suffixIcon,
-    obscureText,
-    prefixIcon,
-    readOnly,
-    onTap,
-    inputFormatters,
-    horizontalPadding,
-    verticalPadding,
-    onEditingComplete,
-    textInputAction,
-    Border? border,
-    onChanged,
-    backgroundColor,
-    enabledBorder,
-    focusedBorder,
-    focusedErrorBorder,
-    errorBorder}) {
+Widget appTextField({
+  onTap,
+  readOnly,
+  maxLines,
+  maxLength,
+  validator,
+  controller,
+  suffixIcon,
+  onChanged,
+  prefixIcon,
+  obscureText,
+  String? hint,
+  keyboardType,
+  verticalPadding,
+  inputFormatters,
+  textInputAction,
+  onEditingComplete,
+  double? borderRadius,
+  required BuildContext context,
+}) {
   return TextFormField(
-    onEditingComplete: onEditingComplete,
-    onChanged: onChanged,
     onTap: onTap,
-    validator: validator,
-    keyboardType: keyboardType,
-    controller: controller,
-    inputFormatters: inputFormatters,
     autofocus: false,
-    textInputAction: textInputAction ?? TextInputAction.done,
-    autovalidateMode: AutovalidateMode.onUserInteraction,
-    cursorColor: Theme.of(context).colorScheme.onPrimary,
-    readOnly: readOnly ?? false,
-    obscureText: obscureText ?? false,
-    style: GoogleFonts.outfit(),
-    maxLines: maxLines ?? 1,
+    validator: validator,
+    onChanged: onChanged,
     maxLength: maxLength,
+    controller: controller,
+    maxLines: maxLines ?? 1,
+    keyboardType: keyboardType,
+    style: GoogleFonts.outfit(),
+    readOnly: readOnly ?? false,
+    inputFormatters: inputFormatters,
+    obscureText: obscureText ?? false,
+    onEditingComplete: onEditingComplete,
+    cursorColor: context.theme.colorScheme.onPrimary,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    textInputAction: textInputAction ?? TextInputAction.done,
     decoration: InputDecoration(
-      fillColor: Theme.of(context).colorScheme.onSurface,
       filled: true,
       isDense: true,
+      hintText: hint,
+      icon: prefixIcon,
+      errorMaxLines: 2,
+      suffixIcon: suffixIcon,
+      border: InputBorder.none,
+      hintStyle: GoogleFonts.outfit(),
+      errorStyle: GoogleFonts.outfit(),
+      fillColor: context.theme.colorScheme.onSurface,
       contentPadding: EdgeInsets.symmetric(
           vertical: verticalPadding ?? 1.6.h, horizontal: 2.5.w),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
         borderSide:
-            Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide,
+            context.theme.inputDecorationTheme.enabledBorder!.borderSide,
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
         borderSide:
-            Theme.of(context).inputDecorationTheme.focusedBorder!.borderSide,
+            context.theme.inputDecorationTheme.focusedBorder!.borderSide,
       ),
       focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
-          borderSide: Theme.of(context)
-              .inputDecorationTheme
-              .focusedErrorBorder!
-              .borderSide),
+          borderSide: context
+              .theme.inputDecorationTheme.focusedErrorBorder!.borderSide),
       errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 3.w),
           borderSide:
-              Theme.of(context).inputDecorationTheme.errorBorder!.borderSide),
-      suffixIcon: suffixIcon,
-      icon: prefixIcon,
-      hintText: hint,
-      errorMaxLines: 2,
-      errorStyle: GoogleFonts.outfit(),
-      hintStyle: GoogleFonts.outfit(),
-      border: InputBorder.none,
+              context.theme.inputDecorationTheme.errorBorder!.borderSide),
     ),
   );
 }

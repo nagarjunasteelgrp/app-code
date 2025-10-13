@@ -14,13 +14,14 @@ Widget profilePckDialogBox(value) {
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
+        spacing: 16,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Profile Picture',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          const AppText(
+            fontSize: 18,
+            title: 'Profile Picture',
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 16),
           CircleAvatar(
             radius: 80,
             backgroundImage: value.profilePicture != 'null' &&
@@ -30,15 +31,14 @@ Widget profilePckDialogBox(value) {
                     : FileImage(File(value.profilePicture!)) as ImageProvider
                 : const AssetImage('assets/images/dummy_person.png'),
           ),
-          const SizedBox(height: 16),
           appButton(
+            context: Get.context!,
             child: AppText(
               title: 'Upload',
               fontSize: 1.7.h,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
-            context: Get.context!,
             onTap: () async {
               final ImagePicker picker = ImagePicker();
               final XFile? image =

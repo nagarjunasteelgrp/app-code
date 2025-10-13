@@ -97,7 +97,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             radius: 2.w,
             child: AppText(
               title: 'New Tasks',
-              color: Theme.of(context).colorScheme.primary,
+              color: context.theme.colorScheme.primary,
             ),
           ),
         ],

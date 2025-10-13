@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -58,7 +59,7 @@ Widget travelSummary() {
                         lastDate: DateTime(2100),
                         builder: (BuildContext context, Widget? child) {
                           return Theme(
-                            data: Theme.of(context).copyWith(
+                            data: context.theme.copyWith(
                               colorScheme: const ColorScheme.light(
                                 primary: AppColors.purpleColor,
                                 onPrimary: Colors.white,

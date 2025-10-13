@@ -2,6 +2,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 Widget myProgressList(DashboardProvider provider) {
@@ -24,18 +25,18 @@ Widget myProgressList(DashboardProvider provider) {
                 padding:
                     EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 0.4.h),
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(1.2.h),
                   color: index == provider.selectedIndex
                       ? AppColors.blueColor2
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(1.2.h),
                 ),
                 child: Center(
                   child: AppText(
                     title: provider.myProgressList[index],
                     fontWeight: FontWeight.bold,
                     color: index == provider.selectedIndex
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).colorScheme.secondary,
+                        ? context.theme.primaryColor
+                        : context.theme.colorScheme.secondary,
                   ),
                 ),
               ),

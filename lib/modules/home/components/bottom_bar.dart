@@ -5,6 +5,7 @@ import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,9 +30,9 @@ class AppBottomBar extends StatelessWidget {
                   showUnselectedLabels: true,
                   currentIndex: value.selectedIndex,
                   key: ValueKey<int>(value.selectedIndex),
-                  backgroundColor: Theme.of(context).primaryColor,
-                  selectedItemColor: Theme.of(context).colorScheme.onError,
-                  unselectedItemColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: context.theme.primaryColor,
+                  selectedItemColor: context.theme.colorScheme.onError,
+                  unselectedItemColor: context.theme.colorScheme.secondary,
                   onTap: (values) {
                     value.setSelectedIndex(values, tabIndex: false);
                   },
@@ -44,8 +45,8 @@ class AppBottomBar extends StatelessWidget {
                           AppAssets.APP_DASHBOARD_SVG,
                           height: 3.h,
                           color: value.selectedIndex == 0
-                              ? Theme.of(context).colorScheme.onError
-                              : Theme.of(context).colorScheme.secondary,
+                              ? context.theme.colorScheme.onError
+                              : context.theme.colorScheme.secondary,
                         ),
                       ),
                       label: Constants.dashboard,
@@ -58,8 +59,8 @@ class AppBottomBar extends StatelessWidget {
                           AppAssets.APP_CONTACTS_SVG,
                           height: 3.h,
                           color: value.selectedIndex == 1
-                              ? Theme.of(context).colorScheme.onError
-                              : Theme.of(context).colorScheme.secondary,
+                              ? context.theme.colorScheme.onError
+                              : context.theme.colorScheme.secondary,
                         ),
                       ),
                       label: Constants.contacts,
@@ -72,8 +73,8 @@ class AppBottomBar extends StatelessWidget {
                           AppAssets.APP_ACTIVITIES_SVG,
                           height: 3.h,
                           color: value.selectedIndex == 2
-                              ? Theme.of(context).colorScheme.onError
-                              : Theme.of(context).colorScheme.secondary,
+                              ? context.theme.colorScheme.onError
+                              : context.theme.colorScheme.secondary,
                         ),
                       ),
                       label: Constants.tasks,
@@ -87,14 +88,14 @@ class AppBottomBar extends StatelessWidget {
                                 AppAssets.APP_CHECKING_SVG,
                                 height: 3.h,
                                 color: value.selectedIndex == 3
-                                    ? Theme.of(context).colorScheme.onError
-                                    : Theme.of(context).colorScheme.secondary,
+                                    ? context.theme.colorScheme.onError
+                                    : context.theme.colorScheme.secondary,
                               )
                             : Icon(
                                 Icons.login,
                                 color: value.selectedIndex == 3
-                                    ? Theme.of(context).colorScheme.onError
-                                    : Theme.of(context).colorScheme.secondary,
+                                    ? context.theme.colorScheme.onError
+                                    : context.theme.colorScheme.secondary,
                               ),
                       ),
                       label: checkInStatus
@@ -109,8 +110,8 @@ class AppBottomBar extends StatelessWidget {
                           AppAssets.MENU,
                           height: 3.h,
                           color: value.selectedIndex == 4
-                              ? Theme.of(context).colorScheme.onError
-                              : Theme.of(context).colorScheme.secondary,
+                              ? context.theme.colorScheme.onError
+                              : context.theme.colorScheme.secondary,
                         ),
                       ),
                       label: Constants.menu,

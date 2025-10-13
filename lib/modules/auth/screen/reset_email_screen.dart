@@ -1,12 +1,13 @@
-import 'package:digital_lync/common/app_divider.dart';
-import 'package:digital_lync/modules/auth/provider/reset_email_provider.dart';
-import 'package:sizer/sizer.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_button.dart';
+import 'package:digital_lync/common/app_divider.dart';
+import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/modules/auth/provider/reset_email_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class ResetEmailScreen extends StatelessWidget {
   const ResetEmailScreen({super.key});
@@ -24,10 +25,10 @@ class ResetEmailScreen extends StatelessWidget {
                 SizedBox(height: 2.h),
                 Center(
                   child: AppText(
-                    title: "Reset your email",
-                    fontWeight: FontWeight.w500,
-                    textAlign: TextAlign.center,
                     fontSize: 1.8.h,
+                    title: "Reset your email",
+                    textAlign: TextAlign.center,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 appDivider(context: context),
@@ -36,36 +37,34 @@ class ResetEmailScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // SizedBox(height: 2.h),
                       AppText(
+                        fontSize: 1.8.h,
                         title: "Enter Your Email",
                         fontWeight: FontWeight.w500,
-                        fontSize: 1.8.h,
                       ),
                       SizedBox(height: 1.h),
                       Consumer<ResetEmailProvider>(
-                          builder: (context, value, _) {
-                        return appTextField(
+                        builder: (context, value, _) {
+                          return appTextField(
+                            context: context,
                             controller: value.resetEmailController,
-                            context: context);
-                      }),
-
+                          );
+                        },
+                      ),
                       SizedBox(height: 2.h),
                       Consumer<ResetEmailProvider>(
                           builder: (context, provider, _) {
                         return Center(
                           child: appButton(
                             width: 80.w,
-                            child: AppText(
-                                title: "Reset",
-                                fontSize: 2.h,
-                                fontWeight: FontWeight.w700,
-                                color:
-                                    Theme.of(context).colorScheme.background),
                             context: context,
-                            onTap: () {
-                              provider.resetEmail(context);
-                            },
+                            onTap: () => provider.resetEmail(context),
+                            child: AppText(
+                              title: "Reset",
+                              fontSize: 2.h,
+                              fontWeight: FontWeight.w700,
+                              color: context.theme.colorScheme.background,
+                            ),
                           ),
                         );
                       }),

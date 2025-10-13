@@ -1,51 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppText extends StatelessWidget {
-  final String? title;
-  final FontWeight? fontWeight;
-  final double? fontSize;
-  final double? letterSpacing;
-  final FontStyle? fontStyle;
   final Color? color;
-  final TextAlign? textAlign;
+  final String? title;
   final int? maxLines;
   final double? height;
-  final dynamic decoration;
+  final double? fontSize;
   final String? fontFamily;
+  final dynamic decoration;
+  final FontStyle? fontStyle;
+  final TextAlign? textAlign;
+  final double? letterSpacing;
+  final FontWeight? fontWeight;
   final TextOverflow? textOverflow;
 
   const AppText({
     super.key,
     this.title,
-    this.fontWeight,
-    this.fontSize,
-    this.letterSpacing,
-    this.fontStyle,
     this.color,
-    this.textAlign,
-    this.maxLines,
     this.height,
+    this.fontSize,
+    this.maxLines,
+    this.textAlign,
+    this.fontStyle,
+    this.fontWeight,
     this.decoration,
     this.fontFamily,
     this.textOverflow,
+    this.letterSpacing,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       title ?? '',
-      textAlign: textAlign ?? TextAlign.start,
-      style: GoogleFonts.lato(
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight ?? FontWeight.w500,
-          color: color ?? Theme.of(context).colorScheme.secondary,
-          fontStyle: fontStyle,
-          letterSpacing: letterSpacing,
-          decoration: decoration ?? TextDecoration.none),
       maxLines: maxLines,
+      textAlign: textAlign ?? TextAlign.start,
       overflow: textOverflow ?? TextOverflow.ellipsis,
+      style: GoogleFonts.lato(
+        height: height,
+        fontSize: fontSize,
+        fontStyle: fontStyle,
+        letterSpacing: letterSpacing,
+        fontWeight: fontWeight ?? FontWeight.w500,
+        decoration: decoration ?? TextDecoration.none,
+        color: color ?? context.theme.colorScheme.secondary,
+      ),
     );
   }
 }

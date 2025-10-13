@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -25,10 +26,10 @@ Widget customMarkerWidget(int index, GlobalKey key) {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 2),
       ),
-      child: Text(
-        '${index + 1}',
-        style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      child: AppText(
+        title: '${index + 1}',
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
       ),
     ),
   );

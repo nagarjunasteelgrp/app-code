@@ -10,6 +10,7 @@ import 'package:digital_lync/modules/tracking/components/show_dialog_box_google_
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
@@ -41,66 +42,59 @@ class TrackingListScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(1.h),
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondary
+                          color: context.theme.colorScheme.onSecondary
                               .withValues(alpha: 0.1),
                           spreadRadius: 2,
                           blurRadius: 10,
                           offset: const Offset(0, 2),
                         ),
                       ],
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSecondary
+                      color: context.theme.colorScheme.onSecondary
                           .withValues(alpha: 0.1),
                       border: Border.all(
-                          color: Theme.of(context).colorScheme.secondary),
+                        color: context.theme.colorScheme.secondary,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
-                          onTap: () {
-                            showMapDialogGoogleMap(
-                                context,
-                                provider.trackingInfoList[index]['latitude'],
-                                provider.trackingInfoList[index]['longitude'],
-                                provider.trackingInfoList[index]['address'] ??
-                                    "");
-                          },
+                          onTap: () => showMapDialogGoogleMap(
+                            context,
+                            provider.trackingInfoList[index]['latitude'],
+                            provider.trackingInfoList[index]['longitude'],
+                            provider.trackingInfoList[index]['address'] ?? "",
+                          ),
                           child: Row(
+                            spacing: 2.w,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               appCircleIcon(
-                                context: context,
-                                colors: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary
-                                    .withValues(alpha: 0.1),
-                                radius: 2.w,
-                                height: 5.h,
                                 width: 5.h,
+                                height: 5.h,
+                                radius: 2.w,
+                                context: context,
+                                colors: context.theme.colorScheme.onPrimary
+                                    .withValues(alpha: 0.1),
                                 child: SvgPicture.asset(
                                   AppAssets.APP_GEO_LOCATIONS_SVG,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: context.theme.colorScheme.primary,
                                 ),
                               ),
-                              SizedBox(width: 2.w),
                               Flexible(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     AppText(
-                                      title: formattedDate.toString(),
                                       fontWeight: FontWeight.w600,
+                                      title: formattedDate.toString(),
                                     ),
                                     AppText(
+                                      maxLines: 10,
                                       title: provider.trackingInfoList[index]
                                               ['address'] ??
                                           "",
-                                      maxLines: 10,
                                     ),
                                   ],
                                 ),
@@ -108,15 +102,17 @@ class TrackingListScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
+                        SizedBox(height: 1.h),
                         SizedBox(height: 2.h),
                         Row(
+                          spacing: 2.w,
                           children: [
                             Expanded(
                               child: appOutlineButton(
+                                  radius: 1.h,
+                                  height: 5.5.h,
                                   context: context,
+                                  width: double.infinity,
                                   onTap: () {
                                     provider.trackingInfoId =
                                         provider.trackingInfoList[index]['id'];
@@ -124,42 +120,34 @@ class TrackingListScreen extends StatelessWidget {
                                         ? showAddNotesDialog(context)
                                         : const SizedBox();
                                   },
-                                  height: 5.5.h,
-                                  radius: 1.h,
-                                  width: double.infinity,
                                   child: Row(
+                                    spacing: 2.w,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
                                         AppAssets.APP_ADD_NOTES_SVG,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color:
+                                            context.theme.colorScheme.onPrimary,
                                       ),
-                                      SizedBox(width: 2.w),
                                       AppText(
                                         title: 'Add Notes',
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color:
+                                            context.theme.colorScheme.onPrimary,
                                       ),
                                     ],
                                   )),
                             ),
-                            SizedBox(width: 2.w),
                             Expanded(
                               child: appOutlineButton(
-                                context: context,
-                                onTap: () {
-                                  followUpDialogBox(context, provider);
-                                },
-                                height: 5.5.h,
                                 radius: 1.h,
+                                height: 5.5.h,
+                                context: context,
                                 width: double.infinity,
+                                onTap: () =>
+                                    followUpDialogBox(context, provider),
                                 child: AppText(
                                   title: 'Follow ups',
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                  color: context.theme.colorScheme.onPrimary,
                                 ),
                               ),
                             ),
@@ -175,9 +163,8 @@ class TrackingListScreen extends StatelessWidget {
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
+                                    color:
+                                        context.theme.colorScheme.onSecondary,
                                   ),
                                   borderRadius: BorderRadius.circular(1.h),
                                 ),
@@ -185,35 +172,35 @@ class TrackingListScreen extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 1.w, vertical: 1.h),
                                   child: Column(
+                                    spacing: 0.7.h,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
+                                        spacing: 2.w,
                                         children: [
                                           SvgPicture.asset(
                                             AppAssets.APP_ADD_NOTES_SVG,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
+                                            color: context
+                                                .theme.colorScheme.secondary,
                                           ),
-                                          SizedBox(width: 2.w),
                                           AppText(
                                             title: 'Note:',
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary,
+                                            color: context
+                                                .theme.colorScheme.onSecondary,
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 0.7.h),
                                       Padding(
                                         padding: EdgeInsets.only(left: 0.7.w),
-                                        child: Text(
-                                          provider.trackingInfoList[index]
-                                                      ['trackingNotes']
-                                                  [notesIndex]['description'] ??
-                                              "",
+                                        child: AppText(
+                                          title:
+                                              provider.trackingInfoList[index]
+                                                              ['trackingNotes']
+                                                          [notesIndex]
+                                                      ['description'] ??
+                                                  "",
                                         ),
                                       ),
                                     ],
@@ -227,43 +214,41 @@ class TrackingListScreen extends StatelessWidget {
                         Consumer<TrackingProvider>(
                             builder: (context, provider, child) {
                           return appButton(
-                              context: context,
-                              onTap: () {
-                                provider.trackingInfoId =
-                                    provider.trackingInfoList[index]['id'];
-                                if (provider.trackingInfoList[index]['id'] !=
-                                    0) {
-                                  // contactBottomSheet(context, provider);
-                                  provider.getImage(
-                                      context, ImageSource.camera);
-                                  provider.imageType = 'image';
-                                }
-                              },
-                              height: 5.5.h,
-                              radius: 1.h,
-                              width: double.infinity,
-                              color: Theme.of(context).colorScheme.primary,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                      AppAssets.APP_CAPTURE_IMAGE_SVG,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background),
-                                  SizedBox(width: 2.w),
-                                  AppText(
-                                    title: 'Capture image',
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                  ),
-                                ],
-                              ));
+                            radius: 1.h,
+                            height: 5.5.h,
+                            context: context,
+                            width: double.infinity,
+                            color: context.theme.colorScheme.primary,
+                            onTap: () {
+                              provider.trackingInfoId =
+                                  provider.trackingInfoList[index]['id'];
+                              if (provider.trackingInfoList[index]['id'] != 0) {
+                                provider.getImage(context, ImageSource.camera);
+                                provider.imageType = 'image';
+                              }
+                            },
+                            child: Row(
+                              spacing: 2.w,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                    AppAssets.APP_CAPTURE_IMAGE_SVG,
+                                    color:
+                                        context.theme.colorScheme.background),
+                                AppText(
+                                  title: 'Capture image',
+                                  color: context.theme.colorScheme.background,
+                                ),
+                              ],
+                            ),
+                          );
                         }),
                         SizedBox(height: 1.h),
                         appOutlineButton(
+                            radius: 1.h,
+                            height: 5.5.h,
                             context: context,
+                            width: double.infinity,
                             onTap: () {
                               provider.trackingInfoId =
                                   provider.trackingInfoList[index]['id'];
@@ -272,22 +257,17 @@ class TrackingListScreen extends StatelessWidget {
                                 provider.openFileExplorer(context);
                               }
                             },
-                            height: 5.5.h,
-                            radius: 1.h,
-                            width: double.infinity,
                             child: Row(
+                              spacing: 2.w,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
                                   AppAssets.APP_UPLOAD_DOC_SVG,
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                  color: context.theme.colorScheme.onPrimary,
                                 ),
-                                SizedBox(width: 2.w),
                                 AppText(
                                   title: 'Upload Document',
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                  color: context.theme.colorScheme.onPrimary,
                                 ),
                               ],
                             )),
@@ -297,6 +277,7 @@ class TrackingListScreen extends StatelessWidget {
                               provider.trackingInfoList[index]['trackingImages']
                                   .length, (imageIndex) {
                             return Column(
+                              spacing: 0.5.h,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AppText(
@@ -306,10 +287,8 @@ class TrackingListScreen extends StatelessWidget {
                                           "image"
                                       ? 'Images'
                                       : 'Pdf',
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
+                                  color: context.theme.colorScheme.onSecondary,
                                 ),
-                                SizedBox(height: 0.5.h),
                                 Padding(
                                   padding: EdgeInsets.symmetric(vertical: 1.h),
                                   child: provider.trackingInfoList[index]
@@ -320,27 +299,25 @@ class TrackingListScreen extends StatelessWidget {
                                           height: 25.h,
                                           width: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground
+                                            color: context
+                                                .theme.colorScheme.onBackground
                                                 .withValues(alpha: 0.3),
                                             border: DashedBorder.fromBorderSide(
                                               dashLength: 10,
                                               side: BorderSide(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                    .withValues(alpha: 0.4),
                                                 width: 2,
+                                                color: context
+                                                    .theme.colorScheme.secondary
+                                                    .withValues(alpha: 0.4),
                                               ),
                                             ),
                                             borderRadius:
                                                 BorderRadius.circular(1.h),
                                           ),
                                           child: CachedNetworkImage(
-                                            height: double.infinity,
-                                            width: double.infinity,
                                             fit: BoxFit.fitWidth,
+                                            width: double.infinity,
+                                            height: double.infinity,
                                             imageUrl:
                                                 provider.trackingInfoList[index]
                                                         ['trackingImages']
@@ -352,32 +329,6 @@ class TrackingListScreen extends StatelessWidget {
                                                 (context, url, error) =>
                                                     const Icon(Icons.error),
                                           ),
-                                          /* CachedNetworkImage(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        fit: BoxFit
-                                                                            .fitWidth,
-                                                                        imageUrl:
-                                                                            provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc']!,
-                                                                        placeholder: (BuildContext
-                                                                                context,
-                                                                            String
-                                                                                url) {
-                                                                          return const Center(
-                                                                              child: SpinKitLoader());
-                                                                        },
-                                                                        errorWidget: (BuildContext context,
-                                                                            String
-                                                                                url,
-                                                                            dynamic
-                                                                                error) {
-                                                                          return const Icon(
-                                                                              Icons.error);
-                                                                        },
-                                                                      ),*/
-                                          // Image.network(
-                                          //     provider.trackingInfoList[index]['trackingImages'][imageIndex]['imgSrc']!,
-                                          //     fit: BoxFit.fill),
                                         )
                                       : AppText(
                                           title:

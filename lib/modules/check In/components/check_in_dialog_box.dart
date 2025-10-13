@@ -5,6 +5,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,10 +16,10 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
       return ChangeNotifierProvider.value(
         value: checkInProvider,
         child: Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: context.theme.colorScheme.background,
+          insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           child: Consumer<CheckInProvider>(
             builder: (context, provider, _) {
               return Padding(
@@ -68,7 +69,7 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                               title: checkInStatus
                                   ? Constants.checkIn
                                   : Constants.checkOut,
-                              color: Theme.of(context).colorScheme.background,
+                              color: context.theme.colorScheme.background,
                             ),
                           )
                         : const Center(child: SpinKitLoader()),

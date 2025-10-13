@@ -6,6 +6,7 @@ import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:digital_lync/modules/menu/components/menu_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -22,19 +23,19 @@ class MenuScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               appDivider(
-                  context: context,
-                  vertical: 1.4.h,
-                  colors: Theme.of(context)
-                      .colorScheme
-                      .secondary
-                      .withValues(alpha: 0.8)),
+                context: context,
+                vertical: 1.4.h,
+                colors:
+                    context.theme.colorScheme.secondary.withValues(alpha: 0.8),
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 4.w),
                 child: AppText(
-                    title: Constants.menu,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 4.w,
-                    color: Theme.of(context).colorScheme.secondary),
+                  fontSize: 4.w,
+                  title: Constants.menu,
+                  fontWeight: FontWeight.w500,
+                  color: context.theme.colorScheme.secondary,
+                ),
               ),
               SizedBox(
                 height: 0.6.h,
@@ -42,16 +43,14 @@ class MenuScreen extends StatelessWidget {
               appDivider(
                   context: context,
                   vertical: 0.4.h,
-                  colors: Theme.of(context)
-                      .colorScheme
-                      .secondary
+                  colors: context.theme.colorScheme.secondary
                       .withValues(alpha: 0.3)),
               MenuTile(
                 iconHeight: 3.5.h,
                 svgImage: AppAssets.APP_CONTACTS_SVG,
                 title: Constants.contacts,
                 index: 1,
-                color: Theme.of(context).colorScheme.onPrimary,
+                color: context.theme.colorScheme.onPrimary,
               ),
               SizedBox(
                 height: 0.2.h,
@@ -62,7 +61,7 @@ class MenuScreen extends StatelessWidget {
                 // Icon(Icons.login
                 title: checkInStatus ? Constants.checkIn : Constants.checkOut,
                 index: 3,
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: context.theme.colorScheme.inversePrimary,
               ),
               SizedBox(
                 height: 0.2.h,
@@ -72,7 +71,7 @@ class MenuScreen extends StatelessWidget {
                 svgImage: AppAssets.APP_ACTIVITIES_SVG,
                 title: Constants.tasks,
                 index: 2,
-                color: Theme.of(context).colorScheme.error,
+                color: context.theme.colorScheme.error,
               ),
               SizedBox(
                 height: 0.2.h,
@@ -82,7 +81,7 @@ class MenuScreen extends StatelessWidget {
                 svgImage: AppAssets.APP_DASHBOARD_SVG,
                 title: Constants.dashboard,
                 index: 0,
-                color: Theme.of(context).colorScheme.primary,
+                color: context.theme.colorScheme.primary,
               ),
               SizedBox(
                 height: 0.2.h,
@@ -92,7 +91,7 @@ class MenuScreen extends StatelessWidget {
                 svgImage: AppAssets.APP_PROFILE_SVG,
                 title: Constants.profile,
                 index: 4,
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: context.theme.colorScheme.inversePrimary,
               ),
               SizedBox(height: 0.2.h),
               MenuTile(
@@ -100,7 +99,7 @@ class MenuScreen extends StatelessWidget {
                 icon: Icons.privacy_tip_outlined,
                 title: Constants.privacyPolicy,
                 index: 5,
-                color: Theme.of(context).colorScheme.primary,
+                color: context.theme.colorScheme.primary,
               ),
             ],
           );

@@ -20,30 +20,27 @@ class AppDialog {
           length: 2,
           child: CupertinoAlertDialog(
             content: Column(
+              spacing: 2.h,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Material(
                   color: Colors.transparent,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: context.theme.primaryColor,
                       borderRadius: BorderRadius.circular(2.h),
                     ),
                     child: TabBar(
                       indicator: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(2.h),
+                        color: context.theme.colorScheme.primary,
                       ),
-                      labelColor: Theme.of(context).colorScheme.background,
                       unselectedLabelColor: AppColors.BLACK_COLOR,
-                      tabs: const [
-                        Tab(text: 'Profile'),
-                        Tab(text: 'Logout'),
-                      ],
+                      labelColor: context.theme.colorScheme.background,
+                      tabs: const [Tab(text: 'Profile'), Tab(text: 'Logout')],
                     ),
                   ),
                 ),
-                SizedBox(height: 2.h),
                 SizedBox(
                   height: 25.h,
                   child: TabBarView(
@@ -58,7 +55,7 @@ class AppDialog {
             ),
             actions: [
               CupertinoDialogAction(
-                child: const Text("Close"),
+                child: const AppText(title: "Close"),
                 onPressed: () => Navigator.pop(context, false),
               ),
             ],
@@ -75,37 +72,34 @@ Widget logoutButton({
   required BuildContext context,
 }) {
   return Column(
+    spacing: 2.h,
     children: [
-      SizedBox(height: 2.h),
       AppText(
-        title: title,
         maxLines: 2,
         fontSize: 20,
+        title: title,
         fontWeight: FontWeight.w700,
-        color: Theme.of(context).colorScheme.primary,
+        color: context.theme.colorScheme.primary,
       ),
-      SizedBox(height: 2.h),
       AppText(
-        title: message,
-        fontSize: 20,
-        textAlign: TextAlign.center,
-        color: Theme.of(context).colorScheme.secondary,
         maxLines: 5,
+        fontSize: 20,
+        title: message,
+        textAlign: TextAlign.center,
+        color: context.theme.colorScheme.secondary,
       ),
-      SizedBox(height: 3.h),
+      const SizedBox(),
       appButton(
-        context: context,
         height: 5.h,
+        context: context,
+        onTap: () => Navigator.pop(context, true),
         child: Center(
           child: AppText(
             title: 'Yes',
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.background,
+            color: context.theme.colorScheme.background,
           ),
         ),
-        onTap: () {
-          Navigator.pop(context, true);
-        },
       ),
     ],
   );
@@ -127,13 +121,14 @@ Widget profileUpdate(value) {
         ),
         const SizedBox(height: 16),
         appButton(
+          height: 5.h,
+          context: Get.context!,
           child: AppText(
             title: 'Upload',
             fontSize: 1.7.h,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
-          context: Get.context!,
           onTap: () async {
             final ImagePicker picker = ImagePicker();
             final XFile? image =
@@ -143,7 +138,6 @@ Widget profileUpdate(value) {
               Get.back();
             }
           },
-          height: 5.h,
         ),
       ],
     ),

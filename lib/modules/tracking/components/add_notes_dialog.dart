@@ -6,6 +6,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,42 +17,44 @@ void showAddNotesDialog(BuildContext context, {VoidCallback? onTapSave}) {
       return ChangeNotifierProvider.value(
         value: trackingProvider,
         child: Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-            elevation: 5,
-            insetAnimationCurve: Curves.bounceIn,
-            backgroundColor: Theme.of(context).colorScheme.background,
-            child: Consumer<TrackingProvider>(builder: (context, provider, _) {
+          elevation: 5,
+          insetAnimationCurve: Curves.bounceIn,
+          backgroundColor: context.theme.colorScheme.background,
+          insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+          child: Consumer<TrackingProvider>(
+            builder: (context, provider, _) {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 3.h),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 1.h,
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const AppText(title: Constants.add_notes),
-                    SizedBox(height: 1.h),
                     appTextField(
-                        context: context,
-                        maxLines: 5,
-                        controller: provider.addNotesController),
-                    SizedBox(height: 1.h),
+                      maxLines: 5,
+                      context: context,
+                      controller: provider.addNotesController,
+                    ),
                     provider.isLoading == false
                         ? appButton(
                             context: context,
                             width: double.infinity,
-                            onTap: () {
-                              provider.trackingAddNotes(context);
-                            },
+                            onTap: () => provider.trackingAddNotes(context),
                             child: AppText(
                               height: 5.h,
                               title: 'Save',
-                              color: Theme.of(context).colorScheme.background,
+                              color: context.theme.colorScheme.background,
                             ),
                           )
                         : const Center(child: SpinKitLoader()),
+                    SizedBox(height: 1.h)
                   ],
                 ),
               );
-            })),
+            },
+          ),
+        ),
       );
     },
   );

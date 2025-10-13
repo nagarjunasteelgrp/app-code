@@ -77,7 +77,7 @@ class HomeProvider extends ChangeNotifier {
 
       if (currentToken != token) {
         print('== Token not match — logging out user ==');
-        prefsClear(Get.context!);
+        prefsClear();
         showAppSnackBar(
           type: 'Logged out',
           context: Get.context!,
@@ -162,7 +162,7 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  void prefsClear(BuildContext context) async {
+  void prefsClear() async {
     Get.offNamed(RoutesName.LOGIN);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

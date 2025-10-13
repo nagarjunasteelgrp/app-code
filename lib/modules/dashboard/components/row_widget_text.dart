@@ -2,6 +2,7 @@ import 'package:animated_digit/animated_digit.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -45,14 +46,14 @@ class RowTextWidget extends StatelessWidget {
                     textStyle: GoogleFonts.lato(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: context.theme.colorScheme.secondary,
                     ),
                     fractionDigits: 2,
                     value: double.tryParse(value1.toString())?.toDouble() ?? 0,
                   ),
                   AppText(
                     title: label1,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: context.theme.colorScheme.onSecondary,
                   ),
                 ],
               )),
@@ -62,7 +63,7 @@ class RowTextWidget extends StatelessWidget {
                     length: 60,
                     dashLength: 3,
                     direction: Axis.vertical,
-                    dashColor: Theme.of(context).colorScheme.secondary,
+                    dashColor: context.theme.colorScheme.secondary,
                   ),
                   SizedBox(
                     height: 2.h,
@@ -78,13 +79,13 @@ class RowTextWidget extends StatelessWidget {
                     textStyle: GoogleFonts.lato(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: context.theme.colorScheme.secondary,
                     ),
                     value: double.tryParse(value2.toString())?.toDouble() ?? 0,
                   ),
                   AppText(
                     title: label2,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: context.theme.colorScheme.onSecondary,
                   ),
                 ],
               )),
@@ -94,7 +95,7 @@ class RowTextWidget extends StatelessWidget {
                     length: 60,
                     dashLength: 3,
                     direction: Axis.vertical,
-                    dashColor: Theme.of(context).colorScheme.secondary,
+                    dashColor: context.theme.colorScheme.secondary,
                   ),
                   SizedBox(height: 2.h),
                 ],
@@ -108,13 +109,13 @@ class RowTextWidget extends StatelessWidget {
                     textStyle: GoogleFonts.lato(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: context.theme.colorScheme.secondary,
                     ),
                     value: double.tryParse(value3.toString())?.toDouble() ?? 0,
                   ),
                   AppText(
                     title: label3,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: context.theme.colorScheme.onSecondary,
                   ),
                 ],
               )),

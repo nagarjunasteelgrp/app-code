@@ -7,6 +7,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/activities/provider/activities_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,17 +27,17 @@ class ActivitiesScreen extends StatelessWidget {
                 spacing: 3.w,
                 children: [
                   appCircleIcon(
-                    context: context,
-                    colors: Theme.of(context).colorScheme.scrim,
-                    radius: 0.5.h,
-                    height: 8.w,
                     width: 8.w,
+                    height: 8.w,
+                    radius: 0.5.h,
+                    context: context,
+                    colors: context.theme.colorScheme.scrim,
                     child: SvgPicture.asset(AppAssets.APP_ACTIVITIES_SVG,
-                        color: Theme.of(context).primaryColor),
+                        color: context.theme.primaryColor),
                   ),
                   AppText(
-                    title: Constants.activities,
                     fontSize: 1.8.h,
+                    title: Constants.activities,
                     fontWeight: FontWeight.w500,
                   ),
                 ],
@@ -62,87 +63,64 @@ class ActivitiesScreen extends StatelessWidget {
                                       spacing: 5.w,
                                       children: [
                                         Column(
+                                          spacing: 1.0.h,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             AppText(
-                                              title: '${Constants.subject} :',
                                               fontSize: 1.6.h,
+                                              title: '${Constants.subject} :',
                                               fontWeight: FontWeight.w500,
-                                            ),
-                                            SizedBox(
-                                              height: 1.0.h,
                                             ),
                                             AppText(
                                               title: '${Constants.due_Date} :',
                                               fontSize: 1.6.h,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                            SizedBox(
-                                              height: 1.0.h,
-                                            ),
                                             AppText(
                                               title: '${Constants.priority} :',
                                               fontSize: 1.6.h,
                                               fontWeight: FontWeight.w500,
-                                            ),
-                                            SizedBox(
-                                              height: 1.0.h,
                                             ),
                                             AppText(
                                               title: '${Constants.owner} :',
                                               fontSize: 1.6.h,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                            SizedBox(
-                                              height: 1.0.h,
-                                            ),
                                           ],
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(right: 2.h),
                                           child: Column(
+                                            spacing: 1.0.h,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               AppText(
-                                                  title:
-                                                      provider.taskList[index]
-                                                          ['subject'],
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w600),
-                                              SizedBox(
-                                                height: 1.0.h,
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
+                                                title: provider.taskList[index]
+                                                    ['subject'],
                                               ),
                                               AppText(
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
                                                 title: provider.taskList[index]
                                                         ['dueDate']
                                                     .substring(0, 10),
-                                                fontSize: 1.6.h,
-                                                fontWeight: FontWeight.w600,
-                                                color: Theme.of(context)
-                                                    .colorScheme
+                                                color: context.theme.colorScheme
                                                     .onPrimary,
                                               ),
-                                              SizedBox(
-                                                height: 1.0.h,
-                                              ),
                                               AppText(
+                                                fontSize: 1.6.h,
+                                                fontWeight: FontWeight.w600,
                                                 title: provider.taskList[index]
                                                     ['priority'],
-                                                fontSize: 1.6.h,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              SizedBox(
-                                                height: 1.0.h,
                                               ),
                                               AppText(
-                                                title: 'Nandan Raikwar',
                                                 fontSize: 1.6.h,
+                                                title: 'Nandan Raikwar',
                                                 fontWeight: FontWeight.w600,
-                                              ),
-                                              SizedBox(
-                                                height: 1.0.h,
                                               ),
                                             ],
                                           ),

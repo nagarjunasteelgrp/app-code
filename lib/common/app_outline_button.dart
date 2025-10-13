@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 Widget appOutlineButton({
-  final Widget? child,
-  required BuildContext context,
-  VoidCallback? onTap,
-  final Color? color,
-  final Color? boxColor,
-  double? margin,
+  border,
   double? width,
   double? height,
-  verticalmargin,
   double? radius,
-  Widget? icon,
+  final Color? color,
+  VoidCallback? onTap,
+  final Widget? child,
+  final Color? boxColor,
   List<BoxShadow>? boxShadow,
-  border,
+  required BuildContext context,
 }) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
-        height: height ?? 6.h,
-        width: width ?? 35.w,
-        decoration: BoxDecoration(
-            color: boxColor ?? Colors.transparent,
-            border: border ??
-                Border.all(
-                    color: color ?? Theme.of(context).colorScheme.primary),
-            borderRadius: BorderRadius.circular(radius ?? 2.h),
-            boxShadow: boxShadow),
-        child: Center(child: child)),
+      width: width ?? 35.w,
+      height: height ?? 6.h,
+      decoration: BoxDecoration(
+        boxShadow: boxShadow,
+        color: boxColor ?? Colors.transparent,
+        borderRadius: BorderRadius.circular(radius ?? 2.h),
+        border: border ??
+            Border.all(color: color ?? context.theme.colorScheme.primary),
+      ),
+      child: Center(child: child),
+    ),
   );
 }

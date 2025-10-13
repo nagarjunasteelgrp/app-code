@@ -10,51 +10,51 @@ class ThemeServices {
       brightness: Brightness.light,
       primaryColor: AppColors.WHITE_COLOR,
       scaffoldBackgroundColor: AppColors.WHITE_COLOR,
-      appBarTheme: const AppBarTheme(backgroundColor: AppColors.WHITE_COLOR),
       iconTheme: const IconThemeData(color: AppColors.BLACK_COLOR),
-      
-      
+      appBarTheme: const AppBarTheme(backgroundColor: AppColors.WHITE_COLOR),
       colorScheme: const ColorScheme.light(
         brightness: Brightness.light,
-        primary: AppColors.BLUE_COLOR,
-        onPrimary: AppColors.SECOND_BLUE_COLOR,
+        error: AppColors.RED_COLOR,
         onError: AppColors.NAVI_BLUE,
+        primary: AppColors.BLUE_COLOR,
+        scrim: AppColors.YELLOW_COLOR,
+        surface: AppColors.CREEM_COLOR,
         secondary: AppColors.BLACK_COLOR,
         onSecondary: AppColors.GREY_COLOR,
         background: AppColors.WHITE_COLOR,
-        onBackground: AppColors.LIGHT_GREY_COLOR,
-        surface: AppColors.CREEM_COLOR,
-        onSurface: AppColors.OFF_WHITE_COLOR,
-        error: AppColors.RED_COLOR,
-        scrim: AppColors.YELLOW_COLOR,
-        inversePrimary: AppColors.GREEN_COLOR,
-        inverseSurface: AppColors.PURPLE_COLOR,
-        onPrimaryContainer: AppColors.AMBER,
-        onInverseSurface: AppColors.LIGHT_GREEN_SEC,
-        outline: AppColors.PURPLE_SEC_COLOR,
-        onSecondaryContainer: AppColors.LIGHT_GREY,
         onSurfaceVariant: AppColors.YELLOW,
+        outline: AppColors.PURPLE_SEC_COLOR,
+        onPrimaryContainer: AppColors.AMBER,
+        onSurface: AppColors.OFF_WHITE_COLOR,
+        inversePrimary: AppColors.GREEN_COLOR,
+        onPrimary: AppColors.SECOND_BLUE_COLOR,
+        inverseSurface: AppColors.PURPLE_COLOR,
+        onBackground: AppColors.LIGHT_GREY_COLOR,
+        onSecondaryContainer: AppColors.LIGHT_GREY,
+        onInverseSurface: AppColors.LIGHT_GREEN_SEC,
       ),
       inputDecorationTheme: const InputDecorationTheme(
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
-          focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
-          errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.RED_COLOR, width: 0.5)),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5))),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.RED_COLOR, width: 0.5)),
+        border: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.GREY_COLOR, width: 0.5)),
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          type: BottomNavigationBarType.fixed,
-          selectedIconTheme: const IconThemeData(color: AppColors.BLUE_COLOR),
-          selectedLabelStyle:
-              GoogleFonts.outfit(fontSize: 1.6.h, fontWeight: FontWeight.w500),
-          unselectedLabelStyle:
-              GoogleFonts.outfit(fontSize: 1.6.h, fontWeight: FontWeight.w500),
-          selectedItemColor: AppColors.BLUE_COLOR,
-          unselectedItemColor: AppColors.BLACK_COLOR),
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: AppColors.BLUE_COLOR,
+        unselectedItemColor: AppColors.BLACK_COLOR,
+        selectedIconTheme: const IconThemeData(color: AppColors.BLUE_COLOR),
+        selectedLabelStyle:
+            GoogleFonts.outfit(fontSize: 1.6.h, fontWeight: FontWeight.w500),
+        unselectedLabelStyle:
+            GoogleFonts.outfit(fontSize: 1.6.h, fontWeight: FontWeight.w500),
+      ),
     );
   }
 }

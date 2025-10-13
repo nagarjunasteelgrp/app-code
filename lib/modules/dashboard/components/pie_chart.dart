@@ -2,18 +2,19 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/modules/dashboard/provider/dashboard_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:sizer/sizer.dart';
 
-class pieChart extends StatefulWidget {
+class ChartPie extends StatefulWidget {
   final DashboardProvider provider;
 
-  const pieChart({super.key, required this.provider});
+  const ChartPie({super.key, required this.provider});
 
   @override
-  State<pieChart> createState() => pieChartState();
+  State<ChartPie> createState() => ChartPieState();
 }
 
-class pieChartState extends State<pieChart> {
+class ChartPieState extends State<ChartPie> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -30,71 +31,68 @@ class pieChartState extends State<pieChart> {
                 sectionsSpace: 5,
                 sections: [
                   PieChartSectionData(
+                    radius: 60,
+                    badgePositionPercentageOffset: 0.9,
+                    color: context.theme.colorScheme.outline,
                     value: widget.provider.dealerSum.toDouble(),
-                    color: Theme.of(context).colorScheme.outline,
-                    radius: 60,
-                    // Reduced radius
-                    badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
-                      height: 4.h,
                       width: 4.h,
+                      height: 4.h,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.outline,
-                        border: Border.all(color: Colors.white, width: 0.3.h),
+                        color: context.theme.colorScheme.outline,
                         borderRadius: BorderRadius.circular(10.h),
+                        border: Border.all(color: Colors.white, width: 0.3.h),
                       ),
                       child: Center(
                         child: AppText(
+                          fontSize: 1.1.h,
+                          color: context.theme.primaryColor,
                           title: widget.provider.dealerSum.toString(),
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 1.1.h,
                         ),
                       ),
                     ),
                     showTitle: false,
                   ),
                   PieChartSectionData(
-                    value: widget.provider.fabricatorsSum.toDouble(),
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                     radius: 60,
-                    // Reduced radius
+                    showTitle: false,
+                    value: widget.provider.fabricatorsSum.toDouble(),
+                    color: context.theme.colorScheme.onPrimaryContainer,
                     badgePositionPercentageOffset: 0.9,
                     badgeWidget: Container(
-                      height: 4.h,
                       width: 4.h,
+                      height: 4.h,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        border: Border.all(color: Colors.white, width: 0.3.h),
                         borderRadius: BorderRadius.circular(10.h),
+                        color: context.theme.colorScheme.onPrimaryContainer,
+                        border: Border.all(color: Colors.white, width: 0.3.h),
                       ),
                       child: Center(
                         child: AppText(
-                          title: widget.provider.fabricatorsSum.toString(),
-                          color: Theme.of(context).primaryColor,
                           fontSize: 1.1.h,
+                          color: context.theme.primaryColor,
+                          title: widget.provider.fabricatorsSum.toString(),
                         ),
                       ),
                     ),
-                    showTitle: false,
                   ),
                   PieChartSectionData(
-                    value: widget.provider.customerSum.toDouble(),
-                    color: Theme.of(context).colorScheme.onInverseSurface,
                     radius: 60,
-                    // Reduced radius
                     badgePositionPercentageOffset: 0.9,
+                    value: widget.provider.customerSum.toDouble(),
+                    color: context.theme.colorScheme.onInverseSurface,
                     badgeWidget: Container(
-                      height: 4.h,
                       width: 4.h,
+                      height: 4.h,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                        border: Border.all(color: Colors.white, width: 0.3.h),
                         borderRadius: BorderRadius.circular(10.h),
+                        color: context.theme.colorScheme.onInverseSurface,
+                        border: Border.all(color: Colors.white, width: 0.3.h),
                       ),
                       child: Center(
                         child: AppText(
                           title: widget.provider.customerSum.toString(),
-                          color: Theme.of(context).primaryColor,
+                          color: context.theme.primaryColor,
                           fontSize: 1.1.h,
                         ),
                       ),
@@ -103,7 +101,7 @@ class pieChartState extends State<pieChart> {
                   ),
                   PieChartSectionData(
                     value: widget.provider.engineersSum.toDouble(),
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: context.theme.colorScheme.onPrimary,
                     radius: 60,
                     // Reduced radius
                     badgePositionPercentageOffset: 0.9,
@@ -111,14 +109,14 @@ class pieChartState extends State<pieChart> {
                       height: 4.h,
                       width: 4.h,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        color: context.theme.colorScheme.onPrimary,
                         border: Border.all(color: Colors.white, width: 0.3.h),
                         borderRadius: BorderRadius.circular(10.h),
                       ),
                       child: Center(
                         child: AppText(
                           title: widget.provider.engineersSum.toString(),
-                          color: Theme.of(context).primaryColor,
+                          color: context.theme.primaryColor,
                           fontSize: 1.1.h,
                         ),
                       ),
@@ -126,28 +124,27 @@ class pieChartState extends State<pieChart> {
                     showTitle: false,
                   ),
                   PieChartSectionData(
-                    value: widget.provider.masonsSum.toDouble(),
-                    color: Theme.of(context).colorScheme.onSecondary,
                     radius: 60,
-                    // Reduced radius
+                    showTitle: false,
                     badgePositionPercentageOffset: 0.9,
+                    value: widget.provider.masonsSum.toDouble(),
+                    color: context.theme.colorScheme.onSecondary,
                     badgeWidget: Container(
-                      height: 4.h,
                       width: 4.h,
+                      height: 4.h,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        color: context.theme.colorScheme.onSecondary,
                         border: Border.all(color: Colors.white, width: 0.3.h),
                         borderRadius: BorderRadius.circular(10.h),
                       ),
                       child: Center(
                         child: AppText(
-                          title: widget.provider.masonsSum.toString(),
-                          color: Theme.of(context).primaryColor,
                           fontSize: 1.1.h,
+                          color: context.theme.primaryColor,
+                          title: widget.provider.masonsSum.toString(),
                         ),
                       ),
                     ),
-                    showTitle: false,
                   ),
                 ],
               ),
@@ -157,18 +154,16 @@ class pieChartState extends State<pieChart> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppText(
-                    title: '${widget.provider.overallEnrollmentSum}',
-                    fontWeight: FontWeight.bold,
                     fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    title: '${widget.provider.overallEnrollmentSum}',
                   ),
                   AppText(
-                    title: 'Total Enrollment',
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withValues(alpha: 0.5),
                     fontSize: 8.sp,
                     fontWeight: FontWeight.bold,
+                    title: 'Total Enrollment',
+                    color: context.theme.colorScheme.secondary
+                        .withValues(alpha: 0.5),
                   ),
                 ],
               ),

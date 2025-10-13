@@ -1,15 +1,16 @@
 import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_text.dart';
-import 'package:digital_lync/constants/app_colors.dart';
+import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-Future<void> showLocationDisclosureDialog(BuildContext context) async {
+Future<void> showLocationDisclosureDialog() async {
   bool? userConsent = await showDialog<bool>(
-    context: context,
+    context: Get.context!,
     builder: (context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -81,23 +82,15 @@ Future<void> showLocationDisclosureDialog(BuildContext context) async {
   if (userConsent == true) {
     final status = await Permission.locationAlways.request();
     if (status.isGranted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.green,
-          content: AppText(
-            color: AppColors.WHITE_COLOR,
-            title: "Background location permission granted.",
-          ),
-        ),
-      );
+      showAppSnackBar(
+          // type: 'Error',
+          context: Get.context!,
+          title: 'Background location permission granted.');
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: AppText(
-              title: "Permission not granted.", color: AppColors.WHITE_COLOR),
-        ),
-      );
+      showAppSnackBar(
+          type: 'Error',
+          context: Get.context!,
+          title: "Permission not granted.");
     }
   }
 }

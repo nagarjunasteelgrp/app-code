@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 class SpinKitLoader extends StatelessWidget {
@@ -8,8 +9,8 @@ class SpinKitLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpinKitThreeBounce(
-      color: Theme.of(context).colorScheme.primary,
       size: 3.h,
+      color: context.theme.colorScheme.primary,
     );
   }
 }

@@ -23,7 +23,7 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                   EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               elevation: 5,
               insetAnimationCurve: Curves.bounceIn,
-              backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: context.theme.colorScheme.background,
               child: SizedBox(
                 width: 80.w,
                 child: Padding(
@@ -55,17 +55,15 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                                     width: double.infinity,
                                     height: 5.5.h,
                                     radius: 1.h,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: context.theme.colorScheme.primary,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         AppText(
                                           title: 'Yes',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .background,
+                                          color: context
+                                              .theme.colorScheme.background,
                                         ),
                                       ],
                                     ),
@@ -80,17 +78,15 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                                     radius: 1.h,
                                     height: 5.5.h,
                                     width: double.infinity,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: context.theme.colorScheme.primary,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         AppText(
                                           title: 'No',
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .background,
+                                          color: context
+                                              .theme.colorScheme.background,
                                         ),
                                       ],
                                     ),

@@ -6,6 +6,7 @@ import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -19,17 +20,15 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
         child: Consumer<TrackingProvider>(
           builder: (context, provider, child) {
             return Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(1.5.h),
-              ),
-              insetPadding:
-                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               elevation: 5,
               insetAnimationCurve: Curves.bounceIn,
-              backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: context.theme.colorScheme.background,
+              insetPadding:EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.5.h),),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
+                  spacing: 2.h,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -42,7 +41,7 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                           AppText(
                             title: "Follow-Up",
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: context.theme.colorScheme.secondary,
                             fontSize: 1.8.h,
                           ),
                           SizedBox(height: 2.h),
@@ -50,7 +49,7 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                           AppText(
                             title: "Dealer",
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: context.theme.colorScheme.secondary,
                             fontSize: 1.6.h,
                           ),
                           SizedBox(height: 0.5.h),
@@ -62,27 +61,22 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary
+                                  color: context.theme.colorScheme.secondary
                                       .withValues(alpha: 0.3)),
                               borderRadius: BorderRadius.circular(0.8.h),
                             ),
-                            child: Text(
-                              provider.dealerName!,
-                              style: TextStyle(
-                                fontSize: 1.5.h,
-                                color: Theme.of(context).hintColor,
-                              ),
+                            child: AppText(
+                              title: provider.dealerName!,
+                              fontSize: 1.5.h,
+                              color: context.theme.hintColor,
                             ),
                           ),
                           SizedBox(height: 2.h),
-                          // Date Picker
                           AppText(
+                            fontSize: 1.6.h,
                             title: "Select Date",
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 1.6.h,
+                            color: context.theme.colorScheme.secondary,
                           ),
                           SizedBox(height: 0.5.h),
                           GestureDetector(
@@ -95,10 +89,12 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                 lastDate: DateTime(2100),
                                 builder: (BuildContext context, Widget? child) {
                                   return Theme(
-                                      data: ThemeData(
-                                          primarySwatch: Colors.red,
-                                          splashColor: Colors.green),
-                                      child: child!);
+                                    data: ThemeData(
+                                      primarySwatch: Colors.red,
+                                      splashColor: Colors.green,
+                                    ),
+                                    child: child!,
+                                  );
                                 },
                               );
                               if (selectedDate != null) {
@@ -113,32 +109,28 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary
-                                        .withValues(alpha: 0.3)),
+                                  color: context.theme.colorScheme.secondary
+                                      .withValues(alpha: 0.3),
+                                ),
                                 borderRadius: BorderRadius.circular(0.8.h),
                               ),
-                              child: Text(
-                                provider.selectedDate != null
-                                    ? "${provider.selectedDate!.day}-${provider.selectedDate!.month}-${provider.selectedDate!.year}" // Display formatted date
+                              child: AppText(
+                                fontSize: 1.5.h,
+                                color: context.theme.hintColor,
+                                title: provider.selectedDate != null
+                                    ? "${provider.selectedDate!.day}-${provider.selectedDate!.month}-${provider.selectedDate!.year}"
                                     : "Select a date",
-                                style: TextStyle(
-                                  fontSize: 1.5.h,
-                                  color: Theme.of(context).hintColor,
-                                ),
                               ),
                             ),
                           ),
 
                           SizedBox(height: 1.5.h),
-
                           // Note Text Field
                           AppText(
+                            fontSize: 1.6.h,
                             title: "Add Note",
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 1.6.h,
+                            color: context.theme.colorScheme.secondary,
                           ),
                           SizedBox(height: 0.5.h),
                           appTextField(
@@ -149,7 +141,6 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                         ],
                       ),
                     ),
-                    SizedBox(height: 2.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: provider.isLoading
@@ -166,16 +157,14 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                       provider.noteController.clear();
                                       Get.back();
                                     },
-                                    boxColor: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
+                                    boxColor: context
+                                        .theme.colorScheme.onBackground
                                         .withValues(alpha: 0.3),
                                     child: AppText(
                                       fontSize: 1.5.h,
                                       title: Constants.cancel,
                                       fontWeight: FontWeight.w600,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: context.theme.colorScheme.primary,
                                     ),
                                   ),
                                 ),
@@ -196,9 +185,8 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                     child: AppText(
                                       title: "Save",
                                       fontSize: 1.5.h,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                                      color:
+                                          context.theme.colorScheme.background,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -206,7 +194,6 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                               ],
                             ),
                     ),
-                    SizedBox(height: 2.h),
                   ],
                 ),
               ),

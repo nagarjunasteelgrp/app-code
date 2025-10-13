@@ -7,50 +7,58 @@ import 'package:get/get.dart';
 import 'package:digital_lync/services/api_service.dart';
 
 class ContactProvider extends ChangeNotifier {
-  ApiServices apiServices = ApiServices();
-  TextEditingController companyNameController = TextEditingController();
-  TextEditingController personNameController = TextEditingController();
-  TextEditingController contactTypeController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController phoneNumber2Controller = TextEditingController();
-  TextEditingController landlineController = TextEditingController();
-  TextEditingController gstNumberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController searchController = TextEditingController();
+  ContactProvider() {
+    selectedValue = dropDown.first;
+    listOfContacts();
+    if (contactId != null) {
+      contactDetailsAPI();
+    }
+  }
 
-  var resMessage;
   int? contactId;
+  dynamic resMessage;
   List contactList = [];
+  String? selectedValue;
   bool isLoading = false;
   bool isSelected = true;
-  String? selectedValue;
   bool isExpanded = false;
+  String _searchQuery = '';
   int? selectedContactIndex;
+  bool _isListReversed = false;
   List<dynamic> displayList = [];
   bool isAddContactButton = false;
   List<dynamic> filteredContactList = [];
+  String get searchQuery => _searchQuery;
+  ApiServices apiServices = ApiServices();
+  bool get isListReversed => _isListReversed;
+  List dropDown = ["dealer", "customer", "fabricator", "engineers", "masons"];
 
-  void selectContactIndex(int index) {
-    selectedContactIndex = index;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController landlineController = TextEditingController();
+  TextEditingController gstNumberController = TextEditingController();
+  TextEditingController personNameController = TextEditingController();
+  TextEditingController companyNameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController contactTypeController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController phoneNumber2Controller = TextEditingController();
+
+  void onDropDownChanged(String? newValue) {
+    selectedValue = newValue;
+    contactTypeController.text = newValue ?? 'dealer';
+    dropDownSelectedValue(newValue);
     notifyListeners();
   }
 
-  List dropDown = [
-    "dealer",
-    "customer",
-    "fabricator",
-    "engineers",
-    "masons",
-  ];
-
-  String _searchQuery = '';
-
-  String get searchQuery => _searchQuery;
-
   void updateSearchQuery(String newQuery) {
     _searchQuery = newQuery;
+    notifyListeners();
+  }
+
+  void selectContactIndex(int index) {
+    selectedContactIndex = index;
     notifyListeners();
   }
 
@@ -62,10 +70,6 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isListReversed = false;
-
-  bool get isListReversed => _isListReversed;
-
   void toggleListOrder() {
     _isListReversed = !_isListReversed;
     notifyListeners();
@@ -76,20 +80,8 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ContactProvider() {
-    selectedValue = dropDown.first;
-    listOfContacts();
-    if (contactId != null) {
-      contactDetailsAPI();
-    }
-  }
-
-  dropDownSelectedValue(newValue) {
-    selectedValue = newValue;
-    notifyListeners();
-  }
-
-  //This API for list of contacts================================
+  //This API for list of contacts
+  void dropDownSelectedValue(String? newValue) => selectedValue = newValue;
   Future<void> listOfContacts() async {
     contactList.clear();
     try {
@@ -110,7 +102,7 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-  // This function calling for clear controller=====================
+  // This function calling for clear controller 
   clearData() {
     companyNameController.clear();
     personNameController.clear();
@@ -170,23 +162,27 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
     try {
       var logResponse = await apiServices.createContact(
-        personName: personName,
-        companyName: companyName,
         email: emailId,
+        address: address,
         phone: phoneNumber,
-        phone2: phoneNumber2,
         landline: landLine,
+        phone2: phoneNumber2,
+        personName: personName,
+        description: description,
+        companyName: companyName,
         gstNumber: gstNumberController.text,
         contactType: contactType.isNotEmpty ? contactType : 'dealer',
-        address: address,
-        description: description,
       );
       if (logResponse.statusCode == 201) {
         isAddContactButton = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
         showAppSnackBar(
-            type: 'success', context: context, title: responseBody['message']);
+          type: 'success',
+          context: Get.context!,
+          title: responseBody['message'],
+        );
+
         resMessage = '';
         companyNameController.clear();
         personNameController.clear();
@@ -211,7 +207,12 @@ class ContactProvider extends ChangeNotifier {
     } catch (e) {
       isAddContactButton = false;
       notifyListeners();
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+
+      showAppSnackBar(
+        title: 'Error',
+        context: Get.context!,
+        subtitle: e.toString(),
+      );
     }
   }
 
@@ -224,16 +225,16 @@ class ContactProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         if (responseData is Map && responseData.isNotEmpty) {
-          companyNameController.text = responseData['companyName'];
-          personNameController.text = responseData['personName'];
-          contactTypeController.text = responseData['contactType'];
-          phoneNumberController.text = responseData['phone'];
           emailController.text = responseData['email'];
           addressController.text = responseData['address'];
-          descriptionController.text = responseData['description'];
+          phoneNumberController.text = responseData['phone'];
           landlineController.text = responseData['landline'];
-          gstNumberController.text = responseData['gstNumber'] ?? '';
           phoneNumber2Controller.text = responseData['phone2'];
+          personNameController.text = responseData['personName'];
+          descriptionController.text = responseData['description'];
+          companyNameController.text = responseData['companyName'];
+          contactTypeController.text = responseData['contactType'];
+          gstNumberController.text = responseData['gstNumber'] ?? '';
         }
         notifyListeners();
       }
@@ -245,7 +246,7 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-  // This API for update contact data=============================
+  // This API for update contact data
   Future<void> contactUpdate(BuildContext context) async {
     FocusScope.of(context).unfocus();
     if (companyNameController.text.isEmpty) {

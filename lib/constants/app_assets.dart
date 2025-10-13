@@ -1,9 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class AppAssets {
-
   // ======================= IMAGES ===================================
-  // static const String APP_LOGO = 'assets/images/app_logo.png';
   static const String APP_LOGO = 'assets/images/app_logo_n.png';
   static const String CHEACK_IN = 'assets/images/checkIn.png';
   static const String CHEACK_IN_2 = 'assets/images/check_in_2.png';

@@ -9,11 +9,11 @@ import 'package:sizer/sizer.dart';
 
 class AppDialogBox {
   static Future<void> showConfirmationDialog({
-    required BuildContext context,
-    required VoidCallback onYes,
-    required String headerTitle,
     required String title,
     String? customButtonText,
+    required VoidCallback onYes,
+    required String headerTitle,
+    required BuildContext context,
   }) async {
     bool isLoading = false;
     await showDialog(
@@ -43,17 +43,17 @@ class AppDialogBox {
                 ],
               ),
               content: Column(
+                spacing: 4.w,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AppText(
+                    maxLines: 2,
+                    fontSize: 14,
                     title: headerTitle,
                     fontWeight: FontWeight.w500,
                     textAlign: TextAlign.center,
-                    fontSize: 14,
-                    maxLines: 2,
                     color: AppColors.BLACK_COLOR,
                   ),
-                  SizedBox(height: 4.h),
                   isLoading
                       ? const Center(
                           child: SpinKitLoader(),

@@ -6,10 +6,10 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/common/app_textfield.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/app_colors.dart';
-import 'package:digital_lync/modules/auth/components/check_box.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       bool isDialogShown = prefs.getBool('isLocationDialogShown') ?? false;
 
       if (!isDialogShown) {
-        showLocationDisclosureDialog(context);
+        showLocationDisclosureDialog();
         await prefs.setBool('isLocationDialogShown', true);
       }
     });
@@ -67,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppText(
-                          title: "Enter Your Email or Mobile Number",
-                          fontWeight: FontWeight.w500,
                           fontSize: 1.8.h,
+                          fontWeight: FontWeight.w500,
+                          title: "Enter Your Email or Mobile Number",
                         ),
                         SizedBox(height: 1.h),
                         Consumer<LoginProvider>(
@@ -104,14 +104,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         }),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.2.h),
-                          child: Consumer<LoginProvider>(
-                              builder: (context, value, child) {
-                            return const CommonCheckbox(label: "Remember Me");
-                          }),
+                        Consumer<LoginProvider>(
+                          builder: (context, value, child) {
+                            return CheckboxListTile.adaptive(
+                              value: value.isChecked,
+                              contentPadding: EdgeInsets.zero,
+                              title: const AppText(title: "Remember Me"),
+                              onChanged: (values) => value.toggleCheckbox(),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              checkboxShape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadiusGeometry.all(
+                                  Radius.circular(3),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        SizedBox(height: 1.w),
                         Consumer<LoginProvider>(
                           builder: (context, provider, _) {
                             return provider.isLoading
@@ -125,9 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         title: "Login",
                                         fontSize: 2.h,
                                         fontWeight: FontWeight.w700,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background,
+                                        color: context
+                                            .theme.colorScheme.background,
                                       ),
                                     ),
                                   );

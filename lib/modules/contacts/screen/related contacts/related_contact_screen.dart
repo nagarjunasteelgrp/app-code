@@ -100,9 +100,8 @@ class RelatedContactScreen extends StatelessWidget {
                                             .relatedContactList[index]['name'],
                                         fontSize: 1.6.h,
                                         fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color:
+                                            context.theme.colorScheme.onPrimary,
                                       ),
                                       AppText(
                                         title: provider

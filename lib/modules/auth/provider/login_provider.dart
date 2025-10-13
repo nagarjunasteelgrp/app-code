@@ -55,7 +55,6 @@ class LoginProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(value.body);
-        // print("Login Response: $response");
 
         if (value.statusCode == 200) {
           SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -3,7 +3,7 @@ import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 Widget taskContainerUI(
@@ -45,39 +45,36 @@ Widget taskContainerUI(
               colors: colors,
               context: context,
               child: SvgPicture.asset(
+                color: context.theme.primaryColor,
                 type == 'Notification'
                     ? AppAssets.APP_NOTIFICATION_SVG
                     : type == 'Meeting'
                         ? AppAssets.APP_MEETING_SVG
                         : AppAssets.APP_TASK_ICON_SVG,
-                color: Theme.of(context).primaryColor,
               ),
             ),
             Expanded(
               child: Column(
+                spacing: 0.5.h,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
                     title: title,
                     fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: context.theme.colorScheme.secondary,
                   ),
-                  SizedBox(height: 0.5.h),
-                  Text(
-                    description!,
-                    style: GoogleFonts.lato(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
+                  AppText(
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    title: description!,
+                    fontWeight: FontWeight.w500,
+                    textOverflow: TextOverflow.ellipsis,
+                    color: context.theme.colorScheme.secondary,
                   ),
-                  SizedBox(height: 0.5.h),
                   AppText(
                     title: dateTime,
                     fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: context.theme.colorScheme.secondary,
                   ),
                 ],
               ),

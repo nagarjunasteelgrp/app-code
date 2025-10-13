@@ -7,6 +7,7 @@ import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -20,17 +21,18 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
         child: Consumer<TaskProvider>(
           builder: (context, provider, child) {
             return Dialog(
+              elevation: 5,
+              insetAnimationCurve: Curves.bounceIn,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(1.5.h),
               ),
+              backgroundColor: context.theme.colorScheme.background,
               insetPadding:
                   EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-              elevation: 5,
-              insetAnimationCurve: Curves.bounceIn,
-              backgroundColor: Theme.of(context).colorScheme.background,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
+                  spacing: 2.h,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -49,7 +51,7 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                                 fontSize: 1.6.h,
                                 title: "Message",
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: context.theme.colorScheme.secondary,
                               ),
                               SizedBox(height: 0.8.h),
                               appTextField(
@@ -62,7 +64,6 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 2.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: provider.isLoading == true
@@ -77,16 +78,14 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                                     context: context,
                                     width: double.infinity,
                                     onTap: () => Get.back(),
-                                    boxColor: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
+                                    boxColor: context
+                                        .theme.colorScheme.onBackground
                                         .withValues(alpha: 0.3),
                                     child: AppText(
                                       fontSize: 1.5.h,
                                       title: Constants.cancel,
                                       fontWeight: FontWeight.w600,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: context.theme.colorScheme.primary,
                                     ),
                                   ),
                                 ),
@@ -110,9 +109,8 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                                     child: AppText(
                                       title: "Save",
                                       fontSize: 1.5.h,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                                      color:
+                                          context.theme.colorScheme.background,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -120,7 +118,6 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                               ],
                             ),
                     ),
-                    SizedBox(height: 2.h),
                   ],
                 ),
               ),

@@ -9,6 +9,7 @@ import 'package:digital_lync/modules/contacts/provider/contacts_details_provider
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -207,9 +208,8 @@ class ContactDetailsScreen extends StatelessWidget {
                                       fontSize: 1.5.h,
                                       title: provider.taxId,
                                       fontWeight: FontWeight.w500,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
+                                      color:
+                                          context.theme.colorScheme.onPrimary,
                                     ),
                                   ),
                                 ],

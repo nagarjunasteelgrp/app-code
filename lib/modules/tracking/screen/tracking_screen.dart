@@ -39,6 +39,7 @@ class TrackingScreen extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
                       child: Column(
+                        spacing: 2.h,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
@@ -49,30 +50,28 @@ class TrackingScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(1.5.h),
                               border: Border.all(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                                color: context.theme.colorScheme.onBackground,
                               ),
                             ),
                             child: Column(
+                              spacing: 1.h,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AppText(
-                                  title: provider.contactTypeCompanyName,
-                                  fontWeight: FontWeight.bold,
                                   fontSize: 2.h,
+                                  fontWeight: FontWeight.bold,
+                                  title: provider.contactTypeCompanyName,
                                 ),
-                                SizedBox(height: 1.h),
                                 Row(
+                                  spacing: 1.h,
                                   children: [
                                     const AppText(title: 'Contact Type :'),
-                                    SizedBox(width: 1.h),
                                     AppText(title: provider.contactTypeName),
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 2.h),
                           appOutlineButton(
                               radius: 1.h,
                               height: 5.5.h,
@@ -84,18 +83,15 @@ class TrackingScreen extends StatelessWidget {
                                 children: [
                                   SvgPicture.asset(
                                     AppAssets.APP_GEO_LOCATIONS_SVG,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: context.theme.colorScheme.primary,
                                   ),
                                   SizedBox(width: 2.w),
                                   AppText(
                                     title: 'Capture geo location',
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: context.theme.colorScheme.primary,
                                   ),
                                 ],
                               )),
-                          SizedBox(height: 2.h),
                           const TrackingListScreen(),
                         ],
                       ),

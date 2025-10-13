@@ -1,13 +1,12 @@
-import 'dart:io';
-
+import 'package:digital_lync/common/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 void showAppSnackBar({
   subtitle,
   String? type,
   required String title,
-  ContentType? contentType,
   required BuildContext context,
 }) {
   final snackBar = SnackBar(
@@ -16,17 +15,17 @@ void showAppSnackBar({
     backgroundColor: Colors.transparent,
     content: Container(
       decoration: BoxDecoration(
-        color: type == 'success' || type == ''
-            ? Theme.of(context).colorScheme.inversePrimary
-            : Theme.of(context).colorScheme.error,
         borderRadius: BorderRadius.circular(10),
+        color: type == 'success' || type == ''
+            ? context.theme.colorScheme.inversePrimary
+            : context.theme.colorScheme.error,
       ),
       child: Padding(
         padding: EdgeInsets.all(2.h),
-        child: Text(
-          title,
-          style:
-              TextStyle(fontSize: 1.8.h, color: Theme.of(context).primaryColor),
+        child: AppText(
+          title: title,
+          fontSize: 1.8.h,
+          color: context.theme.primaryColor,
         ),
       ),
     ),

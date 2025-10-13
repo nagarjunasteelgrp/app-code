@@ -4,10 +4,11 @@ import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/task/components/task_container_ui.dart';
-import 'package:digital_lync/modules/task/components/task_status_dailog_box.dart';
+import 'package:digital_lync/modules/task/components/task_status_dialog_box.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -28,18 +29,19 @@ class TaskScreen extends StatelessWidget {
                   onTap: () {
                     showMenu(
                       context: context,
+                      elevation: 8.0,
                       position: const RelativeRect.fromLTRB(100, 200, 20, 0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(1.h)),
                       items: [
                         PopupMenuItem(
+                          value: 'All',
                           onTap: () {
                             Future.delayed(Duration.zero, () {
                               provider.filterTasks('all');
                             });
                           },
-                          value: 'All',
-                          child: const Text('All'),
+                          child: const AppText(title: 'All'),
                         ),
                         PopupMenuItem(
                           onTap: () {
@@ -48,7 +50,7 @@ class TaskScreen extends StatelessWidget {
                             });
                           },
                           value: 'Assigned',
-                          child: const Text('Assigned'),
+                          child: const AppText(title: 'Assigned'),
                         ),
                         PopupMenuItem(
                           onTap: () {
@@ -57,7 +59,7 @@ class TaskScreen extends StatelessWidget {
                             });
                           },
                           value: 'In Progress',
-                          child: const Text('In Progress'),
+                          child: const AppText(title: 'In Progress'),
                         ),
                         PopupMenuItem(
                           onTap: () {
@@ -66,10 +68,9 @@ class TaskScreen extends StatelessWidget {
                             });
                           },
                           value: 'Completed',
-                          child: const Text('Completed'),
+                          child: const AppText(title: 'Completed'),
                         ),
                       ],
-                      elevation: 8.0,
                     );
                   },
                   child: Padding(
@@ -85,7 +86,7 @@ class TaskScreen extends StatelessWidget {
                 Expanded(
                   child: provider.isLoading == false
                       ? provider.filteredTaskAPIResponse.isEmpty
-                          ? Center(
+                          ? const Center(
                               child: AppText(
                               title: Constants.result_not_found,
                             ))
@@ -118,18 +119,15 @@ class TaskScreen extends StatelessWidget {
                                           colors: value.filteredTaskAPIResponse[
                                                       index]['status'] ==
                                                   "assigned"
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .outline
+                                              ? context
+                                                  .theme.colorScheme.outline
                                                   .withValues(alpha: 0.8)
                                               : value.filteredTaskAPIResponse[
                                                           index]['status'] ==
                                                       "completed"
-                                                  ? Theme.of(context)
-                                                      .colorScheme
+                                                  ? context.theme.colorScheme
                                                       .onInverseSurface
-                                                  : Theme.of(context)
-                                                      .colorScheme
+                                                  : context.theme.colorScheme
                                                       .onSurfaceVariant,
                                           title: value.filteredTaskAPIResponse[
                                               index]['title'],

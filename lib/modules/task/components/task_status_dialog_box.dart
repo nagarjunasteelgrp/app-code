@@ -10,6 +10,7 @@ import 'package:digital_lync/modules/task/components/task_drop_down.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -23,14 +24,14 @@ void taskStatusDialogBox(BuildContext context, statusId) {
         child: Consumer<TaskProvider>(
           builder: (context, provider, child) {
             return Dialog(
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(1.h),
               ),
               insetPadding:
                   EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-              elevation: 5,
               insetAnimationCurve: Curves.bounceIn,
-              backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: context.theme.colorScheme.background,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
@@ -54,8 +55,7 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                                 children: [
                                   appCircleIcon(
                                       context: context,
-                                      colors:
-                                          Theme.of(context).colorScheme.error,
+                                      colors: context.theme.colorScheme.error,
                                       radius: 1.w,
                                       height: 3.5.h,
                                       width: 3.5.h,
@@ -63,9 +63,8 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                                         AppAssets.APP_ACTIVITIES_SVG,
                                         height: 3.h,
                                         fit: BoxFit.fill,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background,
+                                        color: context
+                                            .theme.colorScheme.background,
                                       )),
                                   AppText(title: 'Task', fontSize: 2.h),
                                   const Spacer(),
@@ -94,15 +93,13 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                               context: context,
                               width: double.infinity,
                               onTap: () => Get.back(),
-                              boxColor: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
+                              boxColor: context.theme.colorScheme.onBackground
                                   .withValues(alpha: 0.3),
                               child: AppText(
                                 fontSize: 1.5.h,
                                 title: Constants.cancel,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: context.theme.colorScheme.primary,
                               ),
                             ),
                           ),
@@ -126,8 +123,7 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                               child: AppText(
                                   title: "Save",
                                   fontSize: 1.5.h,
-                                  color:
-                                      Theme.of(context).colorScheme.background,
+                                  color: context.theme.colorScheme.background,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),

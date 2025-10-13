@@ -31,7 +31,7 @@ void showContactUpdateDialog(
         child: Dialog(
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: context.theme.colorScheme.background,
           insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           child: Consumer<ContactProvider>(builder: (context, provider, _) {
             return SingleChildScrollView(
@@ -51,12 +51,12 @@ void showContactUpdateDialog(
                             height: 6.w,
                             radius: 0.5.h,
                             context: context,
-                            colors: Theme.of(context).colorScheme.primary,
+                            colors: context.theme.colorScheme.primary,
                             child: Padding(
                               padding: const EdgeInsets.all(6.0),
                               child: SvgPicture.asset(
                                 AppAssets.APP_CREATE_SVG,
-                                color: Theme.of(context).primaryColor,
+                                color: context.theme.primaryColor,
                               ),
                             ),
                           ),
@@ -84,36 +84,23 @@ void showContactUpdateDialog(
                           fontSize: 1.5.h,
                           fontWeight: FontWeight.w400,
                           title: Constants.contact_Type,
-                          color: Theme.of(context).colorScheme.onSecondary,
+                          color: context.theme.colorScheme.onSecondary,
                         ),
                         SizedBox(height: 0.5.h),
                         dropdownWidget(
                           context: context,
                           value: provider.selectedValue.toString(),
-                          items: [
-                            ...List.generate(
-                              provider.dropDown.length,
-                              (index) {
-                                var data = provider.dropDown[index];
-                                var value = data.toString();
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 0.5.w),
-                                    child: AppText(title: data),
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                          onChanged: (newValue) {
-                            provider.dropDownSelectedValue(newValue);
-                            provider.contactTypeController =
-                                TextEditingController(
-                              text: newValue ?? 'dealer',
+                          items: provider.dropDown.map((data) {
+                            return DropdownMenuItem<String>(
+                              value: data,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 0.5.w),
+                                child: AppText(title: data),
+                              ),
                             );
-                            provider.selectedValue = newValue;
-                            provider.notifyListeners();
+                          }).toList(),
+                          onChanged: (newValue) {
+                            provider.onDropDownChanged(newValue);
                           },
                         ),
                         SizedBox(height: 1.5.h),
@@ -124,13 +111,13 @@ void showContactUpdateDialog(
                               fontSize: 1.5.h,
                               fontWeight: FontWeight.w400,
                               title: Constants.company_Name,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -147,13 +134,13 @@ void showContactUpdateDialog(
                               fontSize: 1.5.h,
                               fontWeight: FontWeight.w400,
                               title: Constants.person_Name,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -170,13 +157,13 @@ void showContactUpdateDialog(
                               fontSize: 1.5.h,
                               fontWeight: FontWeight.w400,
                               title: Constants.phone_Number,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -192,7 +179,7 @@ void showContactUpdateDialog(
                         AppText(
                             title: Constants.phone_Number2,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: context.theme.colorScheme.onSecondary,
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -207,7 +194,7 @@ void showContactUpdateDialog(
                           fontSize: 1.5.h,
                           title: Constants.landLine,
                           fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.onSecondary,
+                          color: context.theme.colorScheme.onSecondary,
                         ),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -220,7 +207,7 @@ void showContactUpdateDialog(
                           fontSize: 1.5.h,
                           title: Constants.gstNumber,
                           fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.onSecondary,
+                          color: context.theme.colorScheme.onSecondary,
                         ),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -237,13 +224,13 @@ void showContactUpdateDialog(
                               fontSize: 1.5.h,
                               title: Constants.email,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -260,13 +247,13 @@ void showContactUpdateDialog(
                               fontSize: 1.5.h,
                               title: Constants.address,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onSecondary,
+                              color: context.theme.colorScheme.onSecondary,
                             ),
                             AppText(
                               title: "*",
                               fontSize: 2.h,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.error,
+                              color: context.theme.colorScheme.error,
                             ),
                           ],
                         ),
@@ -280,7 +267,7 @@ void showContactUpdateDialog(
                           fontSize: 1.5.h,
                           fontWeight: FontWeight.w400,
                           title: Constants.description,
-                          color: Theme.of(context).colorScheme.onSecondary,
+                          color: context.theme.colorScheme.onSecondary,
                         ),
                         SizedBox(height: 0.5.h),
                         appTextField(
@@ -296,7 +283,7 @@ void showContactUpdateDialog(
                       : Center(
                           child: AppText(
                           title: provider.resMessage,
-                          color: Theme.of(context).colorScheme.error,
+                          color: context.theme.colorScheme.error,
                         )),
                   provider.resMessage == ''
                       ? const SizedBox()
@@ -317,21 +304,20 @@ void showContactUpdateDialog(
                                   },
                                   child: Center(
                                     child: appOutlineButton(
-                                      boxColor: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground
-                                          .withValues(alpha: 0.3),
-                                      width: double.infinity,
                                       height: 4.h,
-                                      context: context,
                                       radius: 1.w,
+                                      context: context,
+                                      width: double.infinity,
+                                      boxColor: context
+                                          .theme.colorScheme.onBackground
+                                          .withValues(alpha: 0.3),
                                       child: AppText(
-                                          title: Constants.cancel,
-                                          fontSize: 1.5.h,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          fontWeight: FontWeight.w600),
+                                        fontSize: 1.5.h,
+                                        title: Constants.cancel,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            context.theme.colorScheme.primary,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -343,17 +329,17 @@ void showContactUpdateDialog(
                                   },
                                   child: Center(
                                     child: appButton(
-                                      width: double.infinity,
                                       height: 4.h,
-                                      context: context,
                                       radius: 1.w,
+                                      context: context,
+                                      width: double.infinity,
                                       child: AppText(
-                                          title: Constants.save,
-                                          fontSize: 1.5.h,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .background,
-                                          fontWeight: FontWeight.w600),
+                                        fontSize: 1.5.h,
+                                        title: Constants.save,
+                                        fontWeight: FontWeight.w600,
+                                        color: context
+                                            .theme.colorScheme.background,
+                                      ),
                                     ),
                                   ),
                                 ),

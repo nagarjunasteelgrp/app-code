@@ -4,6 +4,7 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/modules/task/components/task_container_ui.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -20,10 +21,9 @@ class NotificationScreen extends StatelessWidget {
           builder: (context, provider, child) {
             return provider.isLoading == false
                 ? provider.notificationAPIResponse.isEmpty
-                    ? Center(
-                        child: AppText(
-                        title: Constants.result_not_found,
-                      ))
+                    ? const Center(
+                        child: AppText(title: Constants.result_not_found),
+                      )
                     : SingleChildScrollView(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -44,13 +44,10 @@ class NotificationScreen extends StatelessWidget {
                                           DateFormat('dd-MM-yyyy hh:mm a')
                                               .format(dateTime.toLocal());
                                       return taskContainerUI(
-                                        onTap: () {
-                                          // taskStatusDailogBox(context);
-                                        },
+                                        onTap: () {},
                                         context,
-                                        colors: Theme.of(context)
-                                            .colorScheme
-                                            .outline
+                                        colors: context
+                                            .theme.colorScheme.outline
                                             .withValues(alpha: 0.8),
                                         title:
                                             value.notificationAPIResponse[index]
@@ -78,4 +75,3 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 }
-// : Center(child: SpinKitLoader())

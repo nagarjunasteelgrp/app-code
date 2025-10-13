@@ -46,11 +46,11 @@ class ContactScreen extends StatelessWidget {
                           children: [
                             appCircleIcon(
                                 context: context,
-                                colors: Theme.of(context).colorScheme.scrim,
+                                colors: context.theme.colorScheme.scrim,
                                 child: Center(
                                   child: SvgPicture.asset(
                                     AppAssets.APP_SORT_ARROW_SVG,
-                                    color: Theme.of(context).primaryColor,
+                                    color: context.theme.primaryColor,
                                   ),
                                 )),
                             const AppText(
@@ -72,12 +72,11 @@ class ContactScreen extends StatelessWidget {
                             children: [
                               appCircleIcon(
                                   context: context,
-                                  colors:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                  colors: context.theme.colorScheme.onPrimary,
                                   child: Center(
                                     child: SvgPicture.asset(
                                       AppAssets.APP_CONTACTS_SVG,
-                                      color: Theme.of(context).primaryColor,
+                                      color: context.theme.primaryColor,
                                     ),
                                   )),
                               const AppText(
@@ -102,13 +101,11 @@ class ContactScreen extends StatelessWidget {
                               children: [
                                 appCircleIcon(
                                     context: context,
-                                    colors: Theme.of(context)
-                                        .colorScheme
-                                        .inversePrimary,
+                                    colors: context
+                                        .theme.colorScheme.inversePrimary,
                                     child: Center(
                                       child: Icon(Icons.edit,
-                                          color:
-                                              Theme.of(context).primaryColor),
+                                          color: context.theme.primaryColor),
                                     )),
                                 SizedBox(height: 0.7.h),
                                 const AppText(
@@ -134,7 +131,7 @@ class ContactScreen extends StatelessWidget {
                         suffixIcon: Icon(
                           size: 3.h,
                           Icons.search,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: context.theme.colorScheme.secondary,
                         ),
                         controller: contactProvider.searchController,
                         onChanged: (query) {
@@ -240,17 +237,15 @@ class ContactScreen extends StatelessWidget {
                                           padding: EdgeInsets.all(1.h),
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                                color:
-                                                    provider.selectedContactIndex ==
-                                                            contactIndex
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary
-                                                            .withValues(
-                                                                alpha: 0.2)),
+                                                color: provider
+                                                            .selectedContactIndex ==
+                                                        contactIndex
+                                                    ? context.theme.colorScheme
+                                                        .secondary
+                                                    : context.theme.colorScheme
+                                                        .secondary
+                                                        .withValues(
+                                                            alpha: 0.2)),
                                             borderRadius:
                                                 BorderRadius.circular(1.h),
                                           ),
@@ -289,12 +284,12 @@ class ContactScreen extends StatelessWidget {
                                                           Icons.person),
                                                     ),
                                                     Flexible(
-                                                        child: Text(
-                                                      contact['companyName'],
-                                                      style: TextStyle(
+                                                      child: AppText(
                                                         fontSize: 2.h,
+                                                        title: contact[
+                                                            'companyName'],
                                                       ),
-                                                    )),
+                                                    ),
                                                   ],
                                                 ),
                                               ),

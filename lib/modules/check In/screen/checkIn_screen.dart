@@ -5,10 +5,11 @@ import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/modules/check%20In/components/checkIn_dailog_box.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
+import 'package:digital_lync/modules/check%20in/components/check_in_dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -28,8 +29,8 @@ class CheckInScreen extends StatelessWidget {
           return provider.isLoading
               ? const Center(child: SpinKitLoader())
               : Column(
+                  spacing: 3.h,
                   children: [
-                    SizedBox(height: 3.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: Row(
@@ -39,37 +40,36 @@ class CheckInScreen extends StatelessWidget {
                             spacing: 3.w,
                             children: [
                               appCircleIcon(
-                                context: context,
-                                colors: Theme.of(context).colorScheme.scrim,
-                                radius: 0.5.h,
-                                height: 8.w,
                                 width: 8.w,
+                                height: 8.w,
+                                radius: 0.5.h,
+                                context: context,
+                                colors: context.theme.colorScheme.scrim,
                                 child: SvgPicture.asset(
                                     AppAssets.APP_CHECKING_SVG,
-                                    color: Theme.of(context).primaryColor),
+                                    color: context.theme.primaryColor),
                               ),
                               AppText(
-                                title: Constants.attendance,
                                 fontSize: 1.8.h,
                                 fontWeight: FontWeight.w500,
+                                title: Constants.attendance,
                               ),
                             ],
                           ),
                           appOutlineButton(
-                            context: context,
                             height: 4.h,
                             radius: 0.6.h,
-                            onTap: () {
-                              showCheckInDialog(context);
-                            },
+                            context: context,
+                            onTap: () => showCheckInDialog(context),
                             child: Row(
+                              spacing: 1.w,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 AppText(
-                                    title: checkInStatus
-                                        ? Constants.checkIn
-                                        : Constants.checkOut),
-                                SizedBox(width: 1.h),
+                                  title: checkInStatus
+                                      ? Constants.checkIn
+                                      : Constants.checkOut,
+                                ),
                                 checkInStatus
                                     ? const SizedBox()
                                     : const Icon(Icons.login)
@@ -79,7 +79,6 @@ class CheckInScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 3.h),
                     Expanded(
                       child: provider.checkInList.isEmpty
                           ? const Center(
@@ -169,9 +168,8 @@ class CheckInScreen extends StatelessWidget {
                                                                 ['clockIn'])),
                                                     fontSize: 1.6.h,
                                                     fontWeight: FontWeight.w600,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary,
+                                                    color: context.theme
+                                                        .colorScheme.onPrimary,
                                                   ),
                                                   SizedBox(
                                                     height: 1.0.h,
@@ -190,9 +188,8 @@ class CheckInScreen extends StatelessWidget {
                                                         : 'Remaining check out time',
                                                     fontSize: 1.6.h,
                                                     fontWeight: FontWeight.w600,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimary,
+                                                    color: context.theme
+                                                        .colorScheme.onPrimary,
                                                   ),
                                                   SizedBox(
                                                     height: 1.0.h,

@@ -35,7 +35,8 @@ class LocationService {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.always) {
         return Future.error(
-            'Background location permission not granted. Please enable "Allow all the time".');
+          'Background location permission not granted. Please enable "Allow all the time".',
+        );
       }
     }
 

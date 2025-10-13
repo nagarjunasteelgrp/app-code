@@ -23,7 +23,7 @@ Future<bool> showExitPopup(context) async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Do you want to exit?"),
+                const AppText(title: "Do you want to exit?"),
                 const SizedBox(height: 20),
                 Row(
                   spacing: 15,

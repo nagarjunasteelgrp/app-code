@@ -27,7 +27,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           GestureDetector(
             child: Icon(
               Icons.delete_outline,
-              color: Theme.of(context).colorScheme.inverseSurface,
+              color: context.theme.colorScheme.inverseSurface,
             ),
             onTap: () => customDialogBoxNotification(context),
           ),
@@ -41,11 +41,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return (provider.isLoading == true)
                 ? const Center(child: SpinKitLoader())
                 : provider.notificationList.isEmpty
-                    ? const Center(child: Text("No Notification"))
+                    ? const Center(child: AppText(title: "No Notification"))
                     : Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 2.h,
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: 2.h),
                         child: SingleChildScrollView(
                           child: Column(
                             children: List.generate(
@@ -61,9 +59,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary
+                                        color: context
+                                            .theme.colorScheme.secondary
                                             .withValues(alpha: 0.3),
                                       ),
                                     ),
