@@ -14,19 +14,16 @@ Widget dropdownContactsWidget({
 }) {
   return Container(
     width: width ?? double.infinity,
-    padding: EdgeInsets.only(left: 3.5.w, right: 5.0.w),
+    padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
     decoration: BoxDecoration(
       color: context.theme.colorScheme.onSurface,
       borderRadius: BorderRadius.circular(1.5.w),
-      border: Border.all(
-        width: 0.5,
-        color: context.theme.colorScheme.onSecondary,
-      ),
+      border:
+          Border.all(width: 0.5, color: context.theme.colorScheme.onSecondary),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 1.h),
         AppText(title: title, fontSize: 1.5.h),
         DropdownButton<String>(
           items: items,
@@ -45,9 +42,9 @@ Widget dropdownContactsWidget({
             title: hintValue ?? "--Select--",
             color: context.theme.colorScheme.onSecondary,
           ),
+          iconSize: 10,
           icon: Icon(size: 3.h, Icons.keyboard_arrow_down_rounded),
         ),
-        SizedBox(height: 0.5.h),
       ],
     ),
   );

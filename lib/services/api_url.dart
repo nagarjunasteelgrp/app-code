@@ -1,6 +1,6 @@
 class ApiUrl {
 //----------------------BaseURL--------------------------------//
-  static String baseUrl = devUrl;
+  static String baseUrl = productionUrl;
 
   static String localUrl = 'http://192.168.29.54:4000/api/v1/';
 

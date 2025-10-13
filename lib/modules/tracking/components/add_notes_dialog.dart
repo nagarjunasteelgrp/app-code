@@ -34,18 +34,19 @@ void showAddNotesDialog(BuildContext context, {VoidCallback? onTapSave}) {
                     appTextField(
                       maxLines: 5,
                       context: context,
+                      hint: 'Add your description',
                       controller: provider.addNotesController,
                     ),
                     provider.isLoading == false
                         ? appButton(
                             context: context,
                             width: double.infinity,
-                            onTap: () => provider.trackingAddNotes(context),
                             child: AppText(
-                              height: 5.h,
                               title: 'Save',
+                              fontSize: 1.8.h,
                               color: context.theme.colorScheme.background,
                             ),
+                            onTap: () => provider.trackingAddNotes(context),
                           )
                         : const Center(child: SpinKitLoader()),
                     SizedBox(height: 1.h)

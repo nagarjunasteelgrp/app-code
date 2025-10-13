@@ -34,91 +34,93 @@ class ContactScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 2.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 7.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () => contactProvider.toggleListOrder(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () => contactProvider.toggleListOrder(),
+                      child: Column(
+                        spacing: 0.7.h,
+                        children: [
+                          appCircleIcon(
+                            context: context,
+                            colors: context.theme.colorScheme.scrim,
+                            child: Center(
+                                child: SvgPicture.asset(
+                              AppAssets.APP_SORT_ARROW_SVG,
+                              colorFilter: ColorFilter.mode(
+                                context.theme.primaryColor,
+                                BlendMode.srcIn,
+                              ),
+                            )),
+                          ),
+                          const AppText(
+                            title: Constants.sort,
+                            fontWeight: FontWeight.w500,
+                          )
+                        ],
+                      ),
+                    ),
+                    Consumer<ContactProvider>(builder: (context, provider, _) {
+                      return GestureDetector(
+                        onTap: () {
+                          provider.clearData();
+                          showCreateContactDialog(context);
+                        },
                         child: Column(
                           spacing: 0.7.h,
                           children: [
                             appCircleIcon(
                                 context: context,
-                                colors: context.theme.colorScheme.scrim,
+                                colors: context.theme.colorScheme.onPrimary,
                                 child: Center(
                                   child: SvgPicture.asset(
-                                    AppAssets.APP_SORT_ARROW_SVG,
-                                    color: context.theme.primaryColor,
+                                    AppAssets.APP_CONTACTS_SVG,
+                                    colorFilter: ColorFilter.mode(
+                                      context.theme.primaryColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                 )),
                             const AppText(
-                              title: Constants.sort,
+                              title: Constants.new_Contact,
                               fontWeight: FontWeight.w500,
                             )
                           ],
                         ),
-                      ),
-                      Consumer<ContactProvider>(
-                          builder: (context, provider, _) {
+                      );
+                    }),
+                    Consumer<ContactProvider>(
+                      builder: (context, provider, child) {
                         return GestureDetector(
                           onTap: () {
-                            provider.clearData();
-                            showCreateContactDialog(context);
+                            if (provider.contactId != null) {
+                              provider.contactDetailsAPI();
+                              showContactUpdateDialog(context,
+                                  selectedValue: provider.selectedValue);
+                            }
                           },
                           child: Column(
                             spacing: 0.7.h,
                             children: [
                               appCircleIcon(
                                   context: context,
-                                  colors: context.theme.colorScheme.onPrimary,
+                                  colors:
+                                      context.theme.colorScheme.inversePrimary,
                                   child: Center(
-                                    child: SvgPicture.asset(
-                                      AppAssets.APP_CONTACTS_SVG,
-                                      color: context.theme.primaryColor,
-                                    ),
+                                    child: Icon(Icons.edit,
+                                        color: context.theme.primaryColor),
                                   )),
                               const AppText(
-                                title: Constants.new_Contact,
+                                title: Constants.edit,
                                 fontWeight: FontWeight.w500,
                               )
                             ],
                           ),
                         );
-                      }),
-                      Consumer<ContactProvider>(
-                        builder: (context, provider, child) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (provider.contactId != null) {
-                                provider.contactDetailsAPI();
-                                showContactUpdateDialog(context,
-                                    selectedValue: provider.selectedValue);
-                              }
-                            },
-                            child: Column(
-                              children: [
-                                appCircleIcon(
-                                    context: context,
-                                    colors: context
-                                        .theme.colorScheme.inversePrimary,
-                                    child: Center(
-                                      child: Icon(Icons.edit,
-                                          color: context.theme.primaryColor),
-                                    )),
-                                SizedBox(height: 0.7.h),
-                                const AppText(
-                                  title: Constants.edit,
-                                  fontWeight: FontWeight.w500,
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                      },
+                    ),
+                  ],
                 ),
                 appDivider(context: context, vertical: 0.6.h),
                 Consumer<ContactProvider>(
@@ -142,38 +144,35 @@ class ContactScreen extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 1.h),
-                Consumer<ContactProvider>(builder: (context, provider, _) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 1.5.h),
-                    child: dropdownContactsWidget(
-                      title: 'Type',
-                      context: context,
-                      value: provider.selectedValue.toString(),
-                      items: List.generate(provider.dropDown.length, (index) {
-                        var data = provider.dropDown[index];
-                        var value = data.toString();
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0.5.w),
+                Consumer<ContactProvider>(
+                  builder: (context, provider, _) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 1.5.h),
+                      child: dropdownContactsWidget(
+                        title: 'Type',
+                        context: context,
+                        value: provider.selectedValue.toString(),
+                        items: provider.dropDown.map((data) {
+                          return DropdownMenuItem<String>(
+                            value: data,
                             child: AppText(
                               title:
                                   "${data[0].toUpperCase()}${data.substring(1)}",
                             ),
-                          ),
-                        );
-                      }),
-                      onChanged: (newValue) {
-                        provider.dropDownSelectedValue(newValue);
-                        provider.contactTypeController =
-                            TextEditingController(text: newValue ?? 'customer');
-                        provider.listOfContacts();
-                        provider.selectedContactIndex = -1;
-                        provider.contactId = null;
-                      },
-                    ),
-                  );
-                }),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          provider.contactId = null;
+                          provider.listOfContacts();
+                          provider.selectedContactIndex = -1;
+                          provider.dropDownSelectedValue(newValue);
+                          provider.contactTypeController.text =
+                              newValue ?? 'customer';
+                        },
+                      ),
+                    );
+                  },
+                ),
                 SizedBox(height: 1.h),
                 Consumer<ContactProvider>(builder: (context, provider, _) {
                   provider.displayList = provider.searchQuery.isNotEmpty

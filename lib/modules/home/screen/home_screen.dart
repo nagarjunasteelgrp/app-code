@@ -49,77 +49,74 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         }
       },
-      child: ChangeNotifierProvider.value(
-        value: HomeProvider(),
-        child: Consumer<HomeProvider>(
-          builder: (context, provider, child) {
-            return Scaffold(
-              appBar: CommonAppBar(
-                elevation: provider.selectedIndex == 3 ? 0 : 1,
-                title: username != null ? username.toString() : '',
-                onTap: () {
-                  Provider.of<ContactProvider>(context, listen: false)
-                      .toggleSelected(true);
-                },
-                leadingArrow: provider.selectedIndex == 0
-                    ? Provider.of<ContactProvider>(context).isSelected
-                        ? false
-                        : true
-                    : false,
-                onTapLogo: () async {
-                  bool isConfirmed = await AppDialog.showDialog(
-                    context,
-                    provider,
-                    title: 'Logout',
-                    message: 'Are you sure you want to logout?',
-                  );
-                  if (isConfirmed) {
-                    Provider.of<HomeProvider>(context, listen: false)
-                        .prefsClear();
-                  }
-                },
-                actions: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        const NotificationScreen(),
-                        transition: Transition.fadeIn,
-                        duration: const Duration(milliseconds: 500),
-                      );
-                    },
-                    child: const Icon(
-                      Icons.notifications_none,
-                      color: AppColors.BLACK_COLOR,
-                    ),
+      child: Consumer<HomeProvider>(
+        builder: (context, provider, child) {
+          return Scaffold(
+            appBar: CommonAppBar(
+              elevation: provider.selectedIndex == 3 ? 0 : 1,
+              title: username != null ? username.toString() : '',
+              onTap: () {
+                Provider.of<ContactProvider>(context, listen: false)
+                    .toggleSelected(true);
+              },
+              leadingArrow: provider.selectedIndex == 0
+                  ? Provider.of<ContactProvider>(context).isSelected
+                      ? false
+                      : true
+                  : false,
+              onTapLogo: () async {
+                bool isConfirmed = await AppDialog.showDialog(
+                  context,
+                  provider,
+                  title: 'Logout',
+                  message: 'Are you sure you want to logout?',
+                );
+                if (isConfirmed) {
+                  Provider.of<HomeProvider>(context, listen: false)
+                      .prefsClear();
+                }
+              },
+              actions: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      const NotificationScreen(),
+                      transition: Transition.fadeIn,
+                      duration: const Duration(milliseconds: 500),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.notifications_none,
+                    color: AppColors.BLACK_COLOR,
                   ),
-                  SizedBox(width: 5.w),
-                  Center(
-                    child: Image.asset(width: 6.w, AppAssets.APP_LOGO),
-                  ),
-                  SizedBox(width: 2.w),
-                ],
-              ),
-              body: Consumer<HomeProvider>(builder: (context, value, _) {
-                contactProvider.selectContactIndex(-1);
-                contactProvider.contactId = null;
-                return value.selectedIndex == 4
-                    ? const MenuScreen()
-                    : value.selectedIndex == 1
-                        ? const ContactScreen()
-                        : value.selectedIndex == 3
-                            ? const CheckInScreen()
-                            : value.selectedIndex == 0
-                                ? (isReachedOut
-                                    ? const DashBoardScreen()
-                                    : const ReachedScreen())
-                                : value.selectedIndex == 2
-                                    ? const TabBarViewScreen()
-                                    : const SizedBox();
-              }),
-              bottomNavigationBar: const AppBottomBar(),
-            );
-          },
-        ),
+                ),
+                SizedBox(width: 5.w),
+                Center(
+                  child: Image.asset(width: 6.w, AppAssets.APP_LOGO),
+                ),
+                SizedBox(width: 2.w),
+              ],
+            ),
+            body: Consumer<HomeProvider>(builder: (context, value, _) {
+              contactProvider.selectContactIndex(-1);
+              contactProvider.contactId = null;
+              return value.selectedIndex == 4
+                  ? const MenuScreen()
+                  : value.selectedIndex == 1
+                      ? const ContactScreen()
+                      : value.selectedIndex == 3
+                          ? const CheckInScreen()
+                          : value.selectedIndex == 0
+                              ? (isReachedOut
+                                  ? const DashBoardScreen()
+                                  : const ReachedScreen())
+                              : value.selectedIndex == 2
+                                  ? const TabBarViewScreen()
+                                  : const SizedBox();
+            }),
+            bottomNavigationBar: const AppBottomBar(),
+          );
+        },
       ),
     );
   }

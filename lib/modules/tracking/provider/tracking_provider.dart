@@ -19,8 +19,8 @@ class TrackingProvider extends ChangeNotifier {
   ScrollController scrollController = ScrollController();
   TextEditingController addNotesController = TextEditingController();
 
-  File? image;
   int? userId;
+  File? image;
   int limit = 5;
   int pager = 0;
   File? filePath;
@@ -39,12 +39,10 @@ class TrackingProvider extends ChangeNotifier {
   bool _geoLocationBtn = false;
   String? contactTypeCompanyName;
   List trackingInfoListStoreData = [];
-
   bool get geoLocationBtn => _geoLocationBtn;
+  DateTime? get selectedDate => _selectedDate;
 
   TextEditingController noteController = TextEditingController();
-
-  DateTime? get selectedDate => _selectedDate;
 
   void updateSelectedDate(DateTime date) {
     _selectedDate = date;
@@ -221,42 +219,52 @@ class TrackingProvider extends ChangeNotifier {
   }
 
   Future<void> trackingAddNotes(BuildContext context) async {
-    isLoading = true;
-    notifyListeners();
     FocusScope.of(context).unfocus();
     String addNotes = addNotesController.text.trim();
+
     if (addNotes.isEmpty) {
       showAppSnackBar(context: context, title: 'Please enter your notes.');
       return;
     }
+    isLoading = true;
     notifyListeners();
+
     try {
       var logResponse = await apiServices.trackingNotes(
-          description: addNotesController.text, trackingInfoId: trackingInfoId);
+          description: addNotes, trackingInfoId: trackingInfoId);
+
+      var response = jsonDecode(logResponse.body);
+
       if (logResponse.statusCode == 201) {
-        isLoading = false;
-        notifyListeners();
-        var response = jsonDecode(logResponse.body);
         showAppSnackBar(
-            type: 'success', context: context, title: response['message']);
+          type: 'success',
+          context: context,
+          title: response['message'],
+        );
         addNotesController.clear();
         trackingInfoAPI();
         Get.back();
       } else {
-        isLoading = false;
-        notifyListeners();
-        var response = jsonDecode(logResponse.body);
         showAppSnackBar(
-            type: 'Error', context: context, title: response['message']);
+          type: 'Error',
+          context: context,
+          title: response['message'],
+        );
       }
     } catch (e) {
+      showAppSnackBar(
+        type: 'Error',
+        context: context,
+        title: 'Something went wrong',
+        subtitle: e.toString(),
+      );
+    } finally {
       isLoading = false;
       notifyListeners();
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
     }
   }
 
-  trackingImages(BuildContext context) async {
+  Future trackingImages(BuildContext context) async {
     return await apiServices.trackingImages(
       trackingInfoId: trackingInfoId,
       image: (imageType == "image") ? image! : filePath!,

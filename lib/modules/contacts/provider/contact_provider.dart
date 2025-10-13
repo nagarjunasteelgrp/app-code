@@ -102,7 +102,7 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-  // This function calling for clear controller 
+  // This function calling for clear controller
   clearData() {
     companyNameController.clear();
     personNameController.clear();
@@ -284,17 +284,17 @@ class ContactProvider extends ChangeNotifier {
     isAddContactButton = true;
     try {
       var logResponse = await apiServices.contactUpdate(
-        personName: personNameController.text,
-        companyName: companyNameController.text,
+        contactUserId: contactId,
         email: emailController.text,
+        address: addressController.text,
+        landline: landlineController.text,
         phone: phoneNumberController.text,
         phone2: phoneNumber2Controller.text,
-        landline: landlineController.text,
         gstNumber: gstNumberController.text,
+        personName: personNameController.text,
+        companyName: companyNameController.text,
         contactType: contactTypeController.text,
-        address: addressController.text,
         description: descriptionController.text,
-        contactUserId: contactId,
       );
 
       if (logResponse.statusCode == 200) {

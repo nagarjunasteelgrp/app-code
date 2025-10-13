@@ -73,25 +73,29 @@ class TrackingScreen extends StatelessWidget {
                             ),
                           ),
                           appOutlineButton(
-                              radius: 1.h,
-                              height: 5.5.h,
-                              context: context,
-                              width: double.infinity,
-                              onTap: () => showMapDialog(context),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    AppAssets.APP_GEO_LOCATIONS_SVG,
-                                    color: context.theme.colorScheme.primary,
+                            radius: 1.h,
+                            height: 5.5.h,
+                            context: context,
+                            width: double.infinity,
+                            onTap: () => showMapDialog(context),
+                            child: Row(
+                              spacing: 2.w,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  AppAssets.APP_GEO_LOCATIONS_SVG,
+                                  colorFilter: ColorFilter.mode(
+                                    context.theme.colorScheme.primary,
+                                    BlendMode.srcIn,
                                   ),
-                                  SizedBox(width: 2.w),
-                                  AppText(
-                                    title: 'Capture geo location',
-                                    color: context.theme.colorScheme.primary,
-                                  ),
-                                ],
-                              )),
+                                ),
+                                AppText(
+                                  title: 'Capture geo location',
+                                  color: context.theme.colorScheme.primary,
+                                ),
+                              ],
+                            ),
+                          ),
                           const TrackingListScreen(),
                         ],
                       ),
