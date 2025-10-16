@@ -23,7 +23,7 @@ Widget profilePckDialogBox(value) {
             fontWeight: FontWeight.bold,
           ),
           CircleAvatar(
-            radius: 80,
+            radius: 50,
             backgroundImage: value.profilePicture != 'null' &&
                     value.profilePicture != null
                 ? value.profilePicture!.startsWith('http')
@@ -32,6 +32,7 @@ Widget profilePckDialogBox(value) {
                 : const AssetImage('assets/images/dummy_person.png'),
           ),
           appButton(
+            height: 4.h,
             context: Get.context!,
             child: AppText(
               title: 'Upload',
@@ -45,10 +46,9 @@ Widget profilePckDialogBox(value) {
                   await picker.pickImage(source: ImageSource.gallery);
               if (image != null) {
                 value.updateProfilePicture(image.path);
-                Navigator.of(Get.context!).pop();
+                Get.back();
               }
             },
-            height: 4.h,
           ),
         ],
       ),

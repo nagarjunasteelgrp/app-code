@@ -42,7 +42,9 @@ class TrackingListScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 2.h),
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 1.h, vertical: 2.h),
+                          horizontal: 1.h,
+                          vertical: 2.h,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(1.h),
                           boxShadow: [
@@ -54,11 +56,11 @@ class TrackingListScreen extends StatelessWidget {
                                   .withValues(alpha: 0.1),
                             ),
                           ],
-                          color: context.theme.colorScheme.onSecondary
-                              .withValues(alpha: 0.1),
                           border: Border.all(
                             color: context.theme.colorScheme.secondary,
                           ),
+                          color: context.theme.colorScheme.onSecondary
+                              .withValues(alpha: 0.1),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

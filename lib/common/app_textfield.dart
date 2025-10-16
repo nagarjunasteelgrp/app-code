@@ -8,19 +8,19 @@ Widget appTextField({
   readOnly,
   maxLines,
   maxLength,
-  validator,
-  controller,
-  suffixIcon,
   onChanged,
+  validator,
+  controller, 
+  suffixIcon,
   prefixIcon,
   obscureText,
   String? hint,
-  keyboardType,
   verticalPadding,
   inputFormatters,
   textInputAction,
   onEditingComplete,
   double? borderRadius,
+  TextInputType? textInputType,
   required BuildContext context,
 }) {
   return TextFormField(
@@ -31,7 +31,7 @@ Widget appTextField({
     maxLength: maxLength,
     controller: controller,
     maxLines: maxLines ?? 1,
-    keyboardType: keyboardType,
+    keyboardType: textInputType,
     style: GoogleFonts.outfit(),
     readOnly: readOnly ?? false,
     inputFormatters: inputFormatters,
@@ -64,13 +64,14 @@ Widget appTextField({
             context.theme.inputDecorationTheme.focusedBorder!.borderSide,
       ),
       focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
-          borderSide: context
-              .theme.inputDecorationTheme.focusedErrorBorder!.borderSide),
+        borderRadius: BorderRadius.circular(borderRadius ?? 1.5.w),
+        borderSide:
+            context.theme.inputDecorationTheme.focusedErrorBorder!.borderSide,
+      ),
       errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 3.w),
-          borderSide:
-              context.theme.inputDecorationTheme.errorBorder!.borderSide),
+        borderRadius: BorderRadius.circular(borderRadius ?? 3.w),
+        borderSide: context.theme.inputDecorationTheme.errorBorder!.borderSide,
+      ),
     ),
   );
 }

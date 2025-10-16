@@ -11,6 +11,7 @@ import 'package:digital_lync/modules/contacts/components/dialog_box.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/tracking/screen/tracking_screen.dart';
 import 'package:digital_lync/routes/routes_path.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -30,10 +31,11 @@ class ContactScreen extends StatelessWidget {
       child: Scaffold(
         body: Consumer<ContactProvider>(builder: (context, value, _) {
           return SingleChildScrollView(
+            padding: EdgeInsets.only(top: 1.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 2.h),
+                appDivider(context: context, vertical: 0.5.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -46,13 +48,14 @@ class ContactScreen extends StatelessWidget {
                             context: context,
                             colors: context.theme.colorScheme.scrim,
                             child: Center(
-                                child: SvgPicture.asset(
-                              AppAssets.APP_SORT_ARROW_SVG,
-                              colorFilter: ColorFilter.mode(
-                                context.theme.primaryColor,
-                                BlendMode.srcIn,
+                              child: SvgPicture.asset(
+                                AppAssets.APP_SORT_ARROW_SVG,
+                                colorFilter: ColorFilter.mode(
+                                  context.theme.primaryColor,
+                                  BlendMode.srcIn,
+                                ),
                               ),
-                            )),
+                            ),
                           ),
                           const AppText(
                             title: Constants.sort,
@@ -61,35 +64,36 @@ class ContactScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Consumer<ContactProvider>(builder: (context, provider, _) {
-                      return GestureDetector(
-                        onTap: () {
-                          provider.clearData();
-                          showCreateContactDialog(context);
-                        },
-                        child: Column(
-                          spacing: 0.7.h,
-                          children: [
-                            appCircleIcon(
+                    Consumer<ContactProvider>(
+                      builder: (context, provider, _) {
+                        return GestureDetector(
+                          onTap: () {
+                            provider.clearData();
+                            showCreateContactDialog(context);
+                          },
+                          child: Column(
+                            spacing: 0.7.h,
+                            children: [
+                              appCircleIcon(
                                 context: context,
                                 colors: context.theme.colorScheme.onPrimary,
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    AppAssets.APP_CONTACTS_SVG,
-                                    colorFilter: ColorFilter.mode(
-                                      context.theme.primaryColor,
-                                      BlendMode.srcIn,
-                                    ),
+                                child: SvgPicture.asset(
+                                  AppAssets.APP_CONTACTS_SVG,
+                                  colorFilter: ColorFilter.mode(
+                                    context.theme.primaryColor,
+                                    BlendMode.srcIn,
                                   ),
-                                )),
-                            const AppText(
-                              title: Constants.new_Contact,
-                              fontWeight: FontWeight.w500,
-                            )
-                          ],
-                        ),
-                      );
-                    }),
+                                ),
+                              ),
+                              AppText(
+                                fontWeight: FontWeight.w500,
+                                title: Constants.new_Contact,
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                     Consumer<ContactProvider>(
                       builder: (context, provider, child) {
                         return GestureDetector(
@@ -104,16 +108,20 @@ class ContactScreen extends StatelessWidget {
                             spacing: 0.7.h,
                             children: [
                               appCircleIcon(
-                                  context: context,
-                                  colors:
-                                      context.theme.colorScheme.inversePrimary,
-                                  child: Center(
-                                    child: Icon(Icons.edit,
-                                        color: context.theme.primaryColor),
-                                  )),
-                              const AppText(
+                                context: context,
+                                colors:
+                                    context.theme.colorScheme.inversePrimary,
+                                child: Icon(
+                                  Icons.edit,
+                                  color: context.theme.primaryColor,
+                                ),
+                              ),
+                              AppText(
                                 title: Constants.edit,
                                 fontWeight: FontWeight.w500,
+                                color: provider.contactId != null
+                                    ? context.theme.textTheme.bodyLarge!.color
+                                    : context.theme.disabledColor,
                               )
                             ],
                           ),
@@ -122,7 +130,7 @@ class ContactScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                appDivider(context: context, vertical: 0.6.h),
+                appDivider(context: context, vertical: 0.5.h),
                 Consumer<ContactProvider>(
                   builder: (context, provider, child) {
                     return Padding(
@@ -163,9 +171,8 @@ class ContactScreen extends StatelessWidget {
                         }).toList(),
                         onChanged: (newValue) {
                           provider.contactId = null;
-                          provider.listOfContacts();
-                          provider.selectedContactIndex = -1;
                           provider.dropDownSelectedValue(newValue);
+                          provider.selectedContactIndex = -1;
                           provider.contactTypeController.text =
                               newValue ?? 'customer';
                         },
@@ -174,143 +181,129 @@ class ContactScreen extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 1.h),
-                Consumer<ContactProvider>(builder: (context, provider, _) {
-                  provider.displayList = provider.searchQuery.isNotEmpty
-                      ? provider.filteredContactList
-                      : provider.contactList;
-                  return (value.isLoading)
-                      ? Padding(
-                          padding: EdgeInsets.only(top: 20.h),
-                          child: const Center(child: SpinKitLoader()),
-                        )
-                      : provider.contactList.isEmpty
-                          ? Padding(
-                              padding: EdgeInsets.only(top: 20.h),
-                              child: const Center(
-                                child: AppText(
-                                  title: Constants.result_not_found,
-                                ),
-                              ),
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(
-                                  provider.displayList.length, (index) {
-                                final contactIndex = provider.isListReversed
-                                    ? provider.displayList.length - 1 - index
-                                    : index;
-                                final contact =
-                                    provider.displayList[contactIndex];
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 0.5.h,
-                                    horizontal: 1.5.h,
+                Consumer<ContactProvider>(
+                  builder: (context, provider, _) {
+                    return (value.isLoading)
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 20.h),
+                            child: const Center(child: SpinKitLoader()),
+                          )
+                        : provider.contactList.isEmpty
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 20.h),
+                                child: Center(
+                                  child: AppText(
+                                    title: Constants.result_not_found,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      InkWell(
-                                        onLongPress: () {
-                                          provider.contactId = contact['id'];
-                                          provider
-                                              .selectContactIndex(contactIndex);
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                itemCount: provider.displayList.length,
+                                itemBuilder: (context, index) {
+                                  final contactIndex = provider.isListReversed
+                                      ? provider.displayList.length - 1 - index
+                                      : index;
+                                  final contact =
+                                      provider.displayList[contactIndex];
+
+                                  return InkWell(
+                                    onLongPress: () {
+                                      provider.contactId = contact['id'];
+                                      provider.selectContactIndex(contactIndex);
+                                    },
+                                    onTap: () {
+                                      Get.toNamed(
+                                        RoutesName.TRACKING,
+                                        arguments: {
+                                          'id': contact['id'],
+                                          'companyName': contact['companyName'],
+                                          'contactType': contact['contactType'],
                                         },
-                                        onTap: () {
-                                          Get.toNamed(RoutesName.TRACKING,
-                                              arguments: {
-                                                'id': contact['id'],
-                                                'companyName':
-                                                    contact['companyName'],
-                                                'contactType':
-                                                    contact['contactType'],
-                                              });
-                                          trackingProvider.contactTypeId =
-                                              contact['id'];
-                                          trackingProvider
-                                                  .contactTypeCompanyName =
-                                              contact['companyName'];
-                                          trackingProvider.contactTypeName =
-                                              contact['contactType'];
-                                          trackingProvider.trackingInfoAPI();
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(1.h),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: provider
-                                                            .selectedContactIndex ==
-                                                        contactIndex
-                                                    ? context.theme.colorScheme
-                                                        .secondary
-                                                    : context.theme.colorScheme
-                                                        .secondary
-                                                        .withValues(
-                                                            alpha: 0.2)),
-                                            borderRadius:
-                                                BorderRadius.circular(1.h),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Row(
-                                                  spacing: 2.h,
-                                                  children: [
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.all(1.5.h),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    1.5.h),
-                                                        border: Border.all(
-                                                          color: provider
-                                                                      .selectedContactIndex ==
-                                                                  contactIndex
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary
-                                                                  .withValues(
-                                                                      alpha:
-                                                                          0.5),
-                                                        ),
-                                                      ),
-                                                      child: const Icon(
-                                                          Icons.person),
-                                                    ),
-                                                    Flexible(
-                                                      child: AppText(
-                                                        fontSize: 2.h,
-                                                        title: contact[
-                                                            'companyName'],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(width: 2.h),
-                                              const Center(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons
-                                                        .arrow_forward_ios_rounded),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                      );
+
+                                      trackingProvider.contactTypeId =
+                                          contact['id'];
+                                      trackingProvider.contactTypeCompanyName =
+                                          contact['companyName'];
+                                      trackingProvider.contactTypeName =
+                                          contact['contactType'];
+                                      trackingProvider.trackingInfoAPI();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(1.h),
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 0.5.h, horizontal: 1.5.h),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(1.h),
+                                        border: Border.all(
+                                          color:
+                                              provider.selectedContactIndex ==
+                                                      contactIndex
+                                                  ? context.theme.colorScheme
+                                                      .secondary
+                                                  : context.theme.colorScheme
+                                                      .secondary
+                                                      .withValues(alpha: 0.2),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                            );
-                }),
+                                      child: Row(
+                                        spacing: 2.w,
+                                        children: [
+                                          Expanded(
+                                            child: Row(
+                                              spacing: 2.h,
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                      EdgeInsets.all(1.5.h),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      1.5.h,
+                                                    ),
+                                                    border: Border.all(
+                                                      color: provider
+                                                                  .selectedContactIndex ==
+                                                              contactIndex
+                                                          ? context
+                                                              .theme
+                                                              .colorScheme
+                                                              .secondary
+                                                          : context
+                                                              .theme
+                                                              .colorScheme
+                                                              .secondary
+                                                              .withValues(
+                                                                  alpha: 0.5),
+                                                    ),
+                                                  ),
+                                                  child: Icon(
+                                                    size: 2.h,
+                                                    CupertinoIcons.person_alt,
+                                                  ),
+                                                ),
+                                                Flexible(
+                                                  child: AppText(
+                                                    fontSize: 2.h,
+                                                    title:
+                                                        contact['companyName'],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Icon(Icons.arrow_forward_ios_rounded),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                  },
+                ),
               ],
             ),
           );

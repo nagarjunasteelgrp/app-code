@@ -8,50 +8,41 @@ import 'package:sizer/sizer.dart';
 
 Future<bool> showExitPopup(context) async {
   return await showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          content: Container(
-            height: 90,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 2.h,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(child: AppText(title: "Do you want to exit?")),
+            Row(
+              spacing: 3.w,
               children: [
-                const AppText(title: "Do you want to exit?"),
-                const SizedBox(height: 20),
-                Row(
-                  spacing: 15,
-                  children: [
-                    Expanded(
-                      child: appButton(
-                        height: 5.h,
-                        context: context,
-                        onTap: () => exit(0),
-                        child: const AppText(
-                          title: 'Yes',
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: appButton(
-                        height: 5.h,
-                        context: context,
-                        onTap: () => Get.back(),
-                        child: const AppText(title: 'No', color: Colors.white),
-                      ),
-                    )
-                  ],
+                Expanded(
+                  child: appButton(
+                    height: 5.h,
+                    context: context,
+                    onTap: () => exit(0),
+                    child: AppText(title: 'Yes', color: Colors.white),
+                  ),
+                ),
+                Expanded(
+                  child: appButton(
+                    height: 5.h,
+                    context: context,
+                    onTap: () => Get.back(),
+                    child: AppText(title: 'No', color: Colors.white),
+                  ),
                 )
               ],
-            ),
-          ),
-        );
-      });
+            )
+          ],
+        ),
+      );
+    },
+  );
 }

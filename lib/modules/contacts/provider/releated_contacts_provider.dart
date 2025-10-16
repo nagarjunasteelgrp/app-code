@@ -21,7 +21,7 @@ class RelatedContactProvider extends ChangeNotifier {
         List contacts = responseData;
         relatedContactList = contacts;
         notifyListeners();
-      } else {}
+      }
     } finally {
       isLoading = false;
       notifyListeners();

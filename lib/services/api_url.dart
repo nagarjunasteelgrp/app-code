@@ -16,9 +16,9 @@ class ApiUrl {
 
   static String createContactUrl = '${baseUrl}contacts';
 
-  static String loginUrl = '${baseUrl}users/login/salesperson';
-
   static String trackingInfoUrl = '${baseUrl}activities';
+
+  static String loginUrl = '${baseUrl}users/login/salesperson';
 
   static String resetEmailUrl = '${baseUrl}auth/resetPassword';
 

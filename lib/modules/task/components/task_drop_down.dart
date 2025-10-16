@@ -14,8 +14,8 @@ Widget taskStatusDropDown(BuildContext context, TaskProvider provider) {
         height: 4.h,
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(color: context.theme.colorScheme.onBackground),
           borderRadius: BorderRadius.circular(1.h),
+          border: Border.all(color: context.theme.colorScheme.onBackground),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 1.h),
@@ -39,26 +39,24 @@ Widget taskStatusDropDown(BuildContext context, TaskProvider provider) {
                 Icons.keyboard_arrow_down_rounded,
                 color: context.theme.colorScheme.inverseSurface,
               ),
-              items: List.generate(provider.dropDown.length, (index) {
-                var data = provider.dropDown[index];
-                var value = data.toString();
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
+              onChanged: (newValue) =>
+                  provider.dropDownSelectedValue(newValue!),
+              items: provider.dropDown.map<DropdownMenuItem<String>>((data) {
+                String value = data.toString();
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Padding(
                     padding: EdgeInsets.only(left: 0.5.w),
                     child: AppText(
-                      title: "${data[0].toUpperCase()}${data.substring(1)}",
                       fontSize: 1.5.h,
-                      color: context.theme.colorScheme.secondary,
                       fontWeight: FontWeight.bold,
+                      color: context.theme.colorScheme.secondary,
+                      title: "${data[0].toUpperCase()}${data.substring(1)}",
                     ),
                   ),
                 );
-              }),
-              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 1.9.h),
-              onChanged: (newValue) {
-                provider.dropDownSelectedValue(newValue);
-              },
+              }).toList(),
             ),
           ),
         ),

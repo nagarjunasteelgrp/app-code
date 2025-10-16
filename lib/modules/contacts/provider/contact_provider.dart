@@ -48,7 +48,6 @@ class ContactProvider extends ChangeNotifier {
   void onDropDownChanged(String? newValue) {
     selectedValue = newValue;
     contactTypeController.text = newValue ?? 'dealer';
-    dropDownSelectedValue(newValue);
     notifyListeners();
   }
 
@@ -64,9 +63,18 @@ class ContactProvider extends ChangeNotifier {
 
   void searchContacts(String query) {
     updateSearchQuery(query);
-    filteredContactList = contactList.where((contact) {
-      return contact['companyName'].toLowerCase().contains(query.toLowerCase());
-    }).toList();
+
+    if (query.isEmpty) {
+      filteredContactList = List.from(contactList);
+      displayList = List.from(contactList);
+    } else {
+      filteredContactList = contactList.where((contact) {
+        return contact['companyName']
+            .toLowerCase()
+            .contains(query.toLowerCase());
+      }).toList();
+      displayList = List.from(filteredContactList);
+    }
     notifyListeners();
   }
 
@@ -80,18 +88,39 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //This API for list of contacts
-  void dropDownSelectedValue(String? newValue) => selectedValue = newValue;
+  void dropDownSelectedValue(String? newValue) {
+    selectedValue = newValue;
+    notifyListeners();
+    Future.microtask(() {
+      if (selectedValue == newValue) {
+        listOfContacts();
+      }
+    });
+  }
+
   Future<void> listOfContacts() async {
     contactList.clear();
     try {
       isLoading = true;
       notifyListeners();
-      var response =
-          await apiServices.contactListAPI(type: selectedValue.toString());
+
+      var response = await apiServices.contactListAPI(
+          type: selectedValue ?? dropDown.first);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        contactList = responseData['contacts'];
+        contactList = responseData['contacts'] ?? [];
+
+        if (_searchQuery.isEmpty) {
+          displayList = List.from(contactList);
+        } else {
+          filteredContactList = contactList.where((contact) {
+            return contact['companyName']
+                .toLowerCase()
+                .contains(_searchQuery.toLowerCase());
+          }).toList();
+          displayList = List.from(filteredContactList);
+        }
+
         notifyListeners();
       }
     } catch (e) {
@@ -102,21 +131,6 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-  // This function calling for clear controller
-  clearData() {
-    companyNameController.clear();
-    personNameController.clear();
-    phoneNumberController.clear();
-    phoneNumber2Controller.clear();
-    landlineController.clear();
-    gstNumberController.clear();
-    emailController.clear();
-    addressController.clear();
-    descriptionController.clear();
-    notifyListeners();
-  }
-
-  // This API for create contact====================================
   Future<void> createContact(BuildContext context) async {
     FocusScope.of(context).unfocus();
     String companyName = companyNameController.text.trim();
@@ -207,7 +221,6 @@ class ContactProvider extends ChangeNotifier {
     } catch (e) {
       isAddContactButton = false;
       notifyListeners();
-
       showAppSnackBar(
         title: 'Error',
         context: Get.context!,
@@ -309,5 +322,19 @@ class ContactProvider extends ChangeNotifier {
       isAddContactButton = false;
       showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
     }
+  }
+
+  // This function calling for clear controller
+  clearData() {
+    companyNameController.clear();
+    personNameController.clear();
+    phoneNumberController.clear();
+    phoneNumber2Controller.clear();
+    landlineController.clear();
+    gstNumberController.clear();
+    emailController.clear();
+    addressController.clear();
+    descriptionController.clear();
+    notifyListeners();
   }
 }

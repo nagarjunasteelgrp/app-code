@@ -44,8 +44,8 @@ void showContactUpdateDialog(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        spacing: 5.w,
                         children: [
+                          SizedBox(width: 5.w),
                           appCircleIcon(
                             width: 6.w,
                             height: 6.w,
@@ -56,10 +56,14 @@ void showContactUpdateDialog(
                               padding: const EdgeInsets.all(6.0),
                               child: SvgPicture.asset(
                                 AppAssets.APP_CREATE_SVG,
-                                color: context.theme.primaryColor,
+                                colorFilter: ColorFilter.mode(
+                                  context.theme.primaryColor,
+                                  BlendMode.src,
+                                ),
                               ),
                             ),
                           ),
+                          SizedBox(width: 4.w),
                           AppText(title: 'Update Contact', fontSize: 2.h),
                         ],
                       ),
@@ -94,8 +98,8 @@ void showContactUpdateDialog(
                             return DropdownMenuItem<String>(
                               value: data,
                               child: Padding(
-                                padding: EdgeInsets.only(left: 0.5.w),
                                 child: AppText(title: data),
+                                padding: EdgeInsets.only(left: 0.5.w),
                               ),
                             );
                           }).toList(),
@@ -124,6 +128,7 @@ void showContactUpdateDialog(
                         SizedBox(height: 0.5.h),
                         appTextField(
                           context: context,
+                          textInputAction: TextInputAction.next,
                           controller: provider.companyNameController,
                         ),
                         SizedBox(height: 1.5.h),
@@ -147,6 +152,7 @@ void showContactUpdateDialog(
                         SizedBox(height: 0.5.h),
                         appTextField(
                           context: context,
+                          textInputAction: TextInputAction.next,
                           controller: provider.personNameController,
                         ),
                         SizedBox(height: 1.5.h),
@@ -169,22 +175,26 @@ void showContactUpdateDialog(
                         ),
                         SizedBox(height: 0.5.h),
                         appTextField(
-                            context: context,
-                            controller: provider.phoneNumberController,
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(10),
-                            ]),
+                          context: context,
+                          textInputType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          controller: provider.phoneNumberController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
+                        ),
                         SizedBox(height: 1.5.h),
                         AppText(
-                            title: Constants.phone_Number2,
-                            fontWeight: FontWeight.w400,
-                            color: context.theme.colorScheme.onSecondary,
-                            fontSize: 1.5.h),
+                          fontSize: 1.5.h,
+                          fontWeight: FontWeight.w400,
+                          title: Constants.phone_Number2,
+                          color: context.theme.colorScheme.onSecondary,
+                        ),
                         SizedBox(height: 0.5.h),
                         appTextField(
                             context: context,
-                            keyboardType: TextInputType.phone,
+                            textInputType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
                             controller: provider.phoneNumber2Controller,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(10),
@@ -199,7 +209,8 @@ void showContactUpdateDialog(
                         SizedBox(height: 0.5.h),
                         appTextField(
                           context: context,
-                          keyboardType: TextInputType.phone,
+                          textInputType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
                           controller: provider.landlineController,
                         ),
                         SizedBox(height: 1.5.h),
@@ -211,11 +222,13 @@ void showContactUpdateDialog(
                         ),
                         SizedBox(height: 0.5.h),
                         appTextField(
-                            context: context,
-                            controller: provider.gstNumberController,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(15),
-                            ]),
+                          context: context,
+                          textInputAction: TextInputAction.next,
+                          controller: provider.gstNumberController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(15),
+                          ],
+                        ),
                         SizedBox(height: 1.5.h),
                         Row(
                           spacing: 2,
@@ -238,6 +251,8 @@ void showContactUpdateDialog(
                         appTextField(
                           context: context,
                           controller: provider.emailController,
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.emailAddress,
                         ),
                         SizedBox(height: 1.5.h),
                         Row(
@@ -260,7 +275,9 @@ void showContactUpdateDialog(
                         SizedBox(height: 0.5.h),
                         appTextField(
                           context: context,
+                          textInputAction: TextInputAction.next,
                           controller: provider.addressController,
+                          textInputType: TextInputType.streetAddress,
                         ),
                         SizedBox(height: 1.5.h),
                         AppText(
@@ -272,6 +289,7 @@ void showContactUpdateDialog(
                         SizedBox(height: 0.5.h),
                         appTextField(
                           context: context,
+                          textInputAction: TextInputAction.next,
                           controller: provider.descriptionController,
                         ),
                       ],
@@ -287,9 +305,7 @@ void showContactUpdateDialog(
                         )),
                   provider.resMessage == ''
                       ? const SizedBox()
-                      : SizedBox(
-                          height: 2.h,
-                        ),
+                      : SizedBox(height: 2.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.h),
                     child: (provider.isAddContactButton == false)
@@ -324,9 +340,6 @@ void showContactUpdateDialog(
                               ),
                               Expanded(
                                 child: GestureDetector(
-                                  onTap: () {
-                                    provider.contactUpdate(context);
-                                  },
                                   child: Center(
                                     child: appButton(
                                       height: 4.h,
@@ -342,6 +355,7 @@ void showContactUpdateDialog(
                                       ),
                                     ),
                                   ),
+                                  onTap: () => provider.contactUpdate(context),
                                 ),
                               ),
                             ],

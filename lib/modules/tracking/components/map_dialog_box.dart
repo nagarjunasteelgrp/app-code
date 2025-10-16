@@ -20,95 +20,94 @@ void showMapDialog(BuildContext context, {VoidCallback? onTapSave}) {
       return ChangeNotifierProvider.value(
         value: trackingProvider,
         child: Dialog(
-            elevation: 5,
-            insetAnimationCurve: Curves.bounceIn,
-            backgroundColor: context.theme.colorScheme.background,
-            insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-            child: Consumer<TrackingProvider>(
-              builder: (context, provider, _) {
-                return latitude == 0.0 || longitude == 0.0
-                    ? const Center(child: SpinKitLoader())
-                    : Padding(
-                        padding: EdgeInsets.all(2.h),
-                        child: ChangeNotifierProvider.value(
-                          value: CurrentLocationProvider(),
-                          child: Consumer<CurrentLocationProvider>(builder:
-                              (context, currentLocationProvider, child) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AppText(
-                                  title: 'Address',
-                                  color: context.theme.colorScheme.onSecondary,
+          elevation: 5,
+          insetAnimationCurve: Curves.bounceIn,
+          backgroundColor: context.theme.colorScheme.background,
+          insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+          child: Consumer<TrackingProvider>(
+            builder: (context, provider, _) {
+              return latitude == 0.0 || longitude == 0.0
+                  ? const Center(child: SpinKitLoader())
+                  : Padding(
+                      padding: EdgeInsets.all(2.h),
+                      child: ChangeNotifierProvider.value(
+                        value: CurrentLocationProvider(),
+                        child: Consumer<CurrentLocationProvider>(
+                            builder: (context, currentLocationProvider, child) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText(
+                                title: 'Address',
+                                color: context.theme.colorScheme.onSecondary,
+                              ),
+                              SizedBox(height: 0.5.h),
+                              (addressPlacement != "")
+                                  ? AppText(
+                                      maxLines: 5,
+                                      title: addressPlacement,
+                                      textOverflow: TextOverflow.ellipsis,
+                                      color:
+                                          context.theme.colorScheme.secondary,
+                                    )
+                                  : const SizedBox(),
+                              SizedBox(height: 1.0.h),
+                              Container(
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2.h),
                                 ),
-                                SizedBox(height: 0.5.h),
-                                (addressPlacement != "")
-                                    ? AppText(
-                                        maxLines: 5,
-                                        title: addressPlacement,
-                                        textOverflow: TextOverflow.ellipsis,
-                                        color:
-                                            context.theme.colorScheme.secondary,
-                                      )
-                                    : const SizedBox(),
-                                SizedBox(height: 1.0.h),
-                                Container(
-                                  height: 30.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(2.h),
-                                  ),
-                                  child: GoogleMap(
-                                    scrollGesturesEnabled: false,
-                                    myLocationEnabled: true,
-                                    myLocationButtonEnabled: false,
-                                    onMapCreated:
-                                        (GoogleMapController controller) {
-                                      currentLocationProvider.mapController =
-                                          controller;
-                                    },
-                                    onTap: (LatLng latLng) async {},
-                                    markers: Set.from(provider.markers),
-                                    initialCameraPosition: CameraPosition(
-                                      target: LatLng(
-                                          latitude ?? 0.0, longitude ?? 0.0),
-                                      zoom: 12.0,
+                                child: GoogleMap(
+                                  myLocationEnabled: true,
+                                  scrollGesturesEnabled: false,
+                                  myLocationButtonEnabled: false,
+                                  onMapCreated:
+                                      (GoogleMapController controller) {
+                                    currentLocationProvider.mapController =
+                                        controller;
+                                  },
+                                  zoomControlsEnabled: false,
+                                  markers: Set.from(provider.markers),
+                                  initialCameraPosition: CameraPosition(
+                                    zoom: 12.0,
+                                    target: LatLng(
+                                      latitude ?? 0.0,
+                                      longitude ?? 0.0,
                                     ),
-                                    zoomControlsEnabled: false,
-                                    gestureRecognizers: <Factory<
-                                        OneSequenceGestureRecognizer>>{
-                                      Factory<OneSequenceGestureRecognizer>(
-                                        () => EagerGestureRecognizer(),
-                                      ),
-                                    },
                                   ),
+                                  gestureRecognizers: <Factory<
+                                      OneSequenceGestureRecognizer>>{
+                                    Factory<OneSequenceGestureRecognizer>(
+                                      () => EagerGestureRecognizer(),
+                                    ),
+                                  },
                                 ),
-                                SizedBox(height: 2.h),
-                                provider.isLoading == false
-                                    ? appButton(
-                                        color:
-                                            context.theme.colorScheme.primary,
-                                        context: context,
-                                        onTap: () {
-                                          provider.trackingMap(context);
-                                        },
-                                        child: AppText(
-                                          title: 'Save',
-                                          color: context
-                                              .theme.colorScheme.background,
-                                        ),
-                                        width: double.infinity,
-                                        height: 5.h,
-                                      )
-                                    : const Center(
-                                        child: SpinKitLoader(),
+                              ),
+                              SizedBox(height: 2.h),
+                              provider.isLoading == false
+                                  ? appButton(
+                                      height: 5.h,
+                                      context: context,
+                                      width: double.infinity,
+                                      color: context.theme.colorScheme.primary,
+                                      onTap: () =>
+                                          provider.trackingMap(context),
+                                      child: AppText(
+                                        title: 'Save',
+                                        color: context
+                                            .theme.colorScheme.background,
                                       ),
-                              ],
-                            );
-                          }),
-                        ));
-              },
-            )),
+                                    )
+                                  : const Center(child: SpinKitLoader()),
+                            ],
+                          );
+                        }),
+                      ),
+                    );
+            },
+          ),
+        ),
       );
     },
   );

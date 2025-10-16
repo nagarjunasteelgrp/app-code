@@ -11,47 +11,54 @@ import 'app_text.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final List<Widget>? actions;
   final bool leadingArrow;
-  final double titleFontSize;
   final double? elevation;
   final VoidCallback? onTap;
+  final double titleFontSize;
+  final List<Widget>? actions;
   final VoidCallback? onTapLogo;
 
   const CommonAppBar({
     super.key,
     this.title,
-    this.elevation,
     this.onTap,
-    this.onTapLogo,
-    this.leadingArrow = false,
-    this.titleFontSize = 20,
     this.actions,
+    this.onTapLogo,
+    this.elevation,
+    this.titleFontSize = 20,
+    this.leadingArrow = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      actions: actions ?? [],
       elevation: elevation ?? 1,
+      title: AppText(
+        fontSize: titleFontSize,
+        fontWeight: FontWeight.w600,
+        title: title ?? Constants.APP_NAME,
+        color: context.theme.colorScheme.secondary,
+      ),
       leading: leadingArrow == false
           ? Consumer<HomeProvider>(
               builder: (context, provider, child) {
-                return GestureDetector(
+                return InkWell(
                   onTap: onTapLogo,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Transform.scale(
-                        scale: 0.5,
-                        child: provider.profilePicture != 'null' &&
-                                provider.profilePicture != null
-                            ? CircleAvatar(
-                                radius: 30,
-                                backgroundImage: provider.profilePicture!
-                                        .startsWith('http')
+                  child: Transform.scale(
+                    scale: 0.6,
+                    child: provider.profilePicture != 'null' &&
+                            provider.profilePicture != null
+                        ? CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                provider.profilePicture!.startsWith('http')
                                     ? NetworkImage(provider.profilePicture!)
-                                    : FileImage(File(provider.profilePicture!))
-                                        as ImageProvider)
-                            : SvgPicture.asset(AppAssets.APP_PROFILE_SVG)),
+                                    : FileImage(
+                                        File(provider.profilePicture!),
+                                      ),
+                          )
+                        : SvgPicture.asset(AppAssets.APP_PROFILE_SVG),
                   ),
                 );
               },
@@ -64,13 +71,6 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: context.theme.colorScheme.secondary,
               ),
             ),
-      actions: actions ?? [],
-      title: AppText(
-        fontSize: titleFontSize,
-        fontWeight: FontWeight.w600,
-        title: title ?? Constants.APP_NAME,
-        color: context.theme.colorScheme.secondary,
-      ),
     );
   }
 

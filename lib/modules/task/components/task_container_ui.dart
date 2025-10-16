@@ -45,7 +45,8 @@ Widget taskContainerUI(
               colors: colors,
               context: context,
               child: SvgPicture.asset(
-                color: context.theme.primaryColor,
+                colorFilter: ColorFilter.mode(
+                    context.theme.primaryColor, BlendMode.srcIn),
                 type == 'Notification'
                     ? AppAssets.APP_NOTIFICATION_SVG
                     : type == 'Meeting'

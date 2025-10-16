@@ -38,8 +38,11 @@ void showAddTaskDialog(BuildContext context) {
                         width: 6.w,
                         child: Padding(
                           padding: const EdgeInsets.all(4),
-                          child: SvgPicture.asset(AppAssets.APP_NEW_TASK_SVG,
-                              color: context.theme.primaryColor),
+                          child: SvgPicture.asset(
+                            AppAssets.APP_NEW_TASK_SVG,
+                            colorFilter: ColorFilter.mode(
+                                context.theme.primaryColor, BlendMode.srcIn),
+                          ),
                         ),
                       ),
                       AppText(title: 'New Tasks', fontSize: 2.h),
@@ -115,11 +118,10 @@ void showAddTaskDialog(BuildContext context) {
                             fontSize: 1.5.h),
                         SizedBox(height: 0.5.h),
                         appTextField(
-                            context: context,
-                            suffixIcon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              size: 3.h,
-                            )),
+                          context: context,
+                          suffixIcon: Icon(
+                              size: 3.h, Icons.keyboard_arrow_down_rounded),
+                        ),
                       ],
                     ),
                   ),

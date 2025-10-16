@@ -33,6 +33,16 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getProfilePicture() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    profilePicture = prefs.getString("profilePicture");
+    notifyListeners();
+  }
+
+  void refreshProfilePicture() {
+    getProfilePicture();
+  }
+
   HomeProvider() {
     // print("HomeProvider initialized........0");
     userRemainingNotifications();
@@ -100,9 +110,9 @@ class HomeProvider extends ChangeNotifier {
         userId!,
         File(newProfilePicture),
       );
+      var responseData = jsonDecode(response.body);
       if (response.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        var responseData = jsonDecode(response.body);
         prefs.setString('profilePicture', responseData['profilePicture']);
         showAppSnackBar(
           type: 'success',
@@ -110,7 +120,6 @@ class HomeProvider extends ChangeNotifier {
           title: responseData['message'],
         );
       } else {
-        var responseData = jsonDecode(response.body);
         showAppSnackBar(
           type: 'Error',
           context: Get.context!,
@@ -126,12 +135,6 @@ class HomeProvider extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
-  }
-
-  getProfilePicture() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    profilePicture = prefs.getString("profilePicture");
-    notifyListeners();
   }
 
   permissionAccessPhone() async {

@@ -7,21 +7,24 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class TaskProvider extends ChangeNotifier {
-  TextEditingController sendMessageController = TextEditingController();
-  bool isLoading = false;
-  List notificationAPIResponse = [];
-  List taskAPIResponse = [];
-  String? dateTime;
-  String? selectedValue;
-  dynamic statusId;
   dynamic status;
-  int? currentIndex;
-  List filteredTaskAPIResponse = [];
-  List messageFetchingAPIResponse = [];
-  List followUpsAPIResponse = [];
   int? followUpId;
-  String selectedDateFilter = 'today';
+  dynamic statusId;
+  String? dateTime;
+  int? currentIndex;
+  String? selectedValue;
+  bool isLoading = false;
+  List taskAPIResponse = [];
+  List followUpsAPIResponse = [];
+  List notificationAPIResponse = [];
+  List filteredTaskAPIResponse = [];
   String selectedStatusFilter = 'all';
+  String selectedDateFilter = 'today';
+  List messageFetchingAPIResponse = [];
+  List dropDown = ['Completed', 'InProgress', 'Assigned'];
+  List<String> statusFilters = ['all', 'pending', 'done'];
+  List<String> dateFilters = ['today', 'week', 'month', 'premonth'];
+  TextEditingController sendMessageController = TextEditingController();
 
   TaskProvider() {
     messageFetchingAPIResponse = [];
@@ -33,8 +36,28 @@ class TaskProvider extends ChangeNotifier {
     followUpsFetching();
   }
 
-  List<String> dateFilters = ['today', 'week', 'month', 'premonth'];
-  List<String> statusFilters = ['all', 'pending', 'done'];
+  changeIndex(int index) {
+    currentIndex = index;
+    notifyListeners();
+  }
+
+  String formatDate(String date) {
+    try {
+      DateTime parsedDate = DateTime.parse(date);
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      return 'Invalid Date';
+    }
+  }
+
+  String formatDateWithTime(String date) {
+    try {
+      DateTime parsedDate = DateTime.parse(date).toLocal();
+      return DateFormat('dd-MM-yyyy hh:mm a').format(parsedDate);
+    } catch (e) {
+      return 'Invalid Date';
+    }
+  }
 
   void updateDateFilter(String value) {
     selectedDateFilter = value;
@@ -48,18 +71,7 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeIndex(int index) {
-    currentIndex = index;
-    notifyListeners();
-  }
-
-  List dropDown = [
-    'Completed',
-    'InProgress',
-    'Assigned',
-  ];
-
-  dropDownSelectedValue(newValue) {
+  dropDownSelectedValue(String newValue) {
     selectedValue = newValue;
     status = newValue.toLowerCase();
     notifyListeners();
@@ -124,24 +136,53 @@ class TaskProvider extends ChangeNotifier {
         var responseData = jsonDecode(response.body);
         notificationAPIResponse = responseData['communications'];
         notifyListeners();
-      } else {}
+      }
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> sendMessage() async {
-    notifyListeners();
+  Future<void> sendMessage(BuildContext context) async {
+    String message = sendMessageController.text.trim();
+    if (message.isEmpty) {
+      showAppSnackBar(
+        context: context,
+        title: 'Please enter a message before sending.',
+      );
+      return;
+    }
     try {
       isLoading = true;
       notifyListeners();
-      var response =
-          await apiServices.sendMessage(message: sendMessageController.text);
-      if (response.statusCode == 200) {
+      var response = await apiServices.sendMessage(message: message);
+
+      if (response.statusCode == 201) {
+        var responseData = jsonDecode(response.body);
+
+        showAppSnackBar(
+          type: 'success',
+          context: context,
+          title: responseData['message'] ?? 'Message sent successfully.',
+        );
+        sendMessageController.clear();
+        Get.back();
         await messageFetching();
         notifyListeners();
-      } else {}
+      } else {
+        var responseData = jsonDecode(response.body);
+        showAppSnackBar(
+          context: context,
+          title: responseData['message'] ??
+              'Failed to send message. Please try again.',
+        );
+      }
+    } catch (e) {
+      print('Error sending message: $e');
+      showAppSnackBar(
+        context: context,
+        title: 'Something went wrong. Please try again.',
+      );
     } finally {
       isLoading = false;
       notifyListeners();
@@ -152,8 +193,10 @@ class TaskProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      final response =
-          await apiServices.statusUpdateAPI(status: status, statusId: statusId);
+      final response = await apiServices.statusUpdateAPI(
+        status: status,
+        statusId: statusId,
+      );
       if (response.statusCode == 200) {
         taskByUserIdAPI();
         isLoading = false;
@@ -235,23 +278,5 @@ class TaskProvider extends ChangeNotifier {
           taskAPIResponse.where((task) => task['status'] == status).toList();
     }
     notifyListeners();
-  }
-
-  String formatDate(String date) {
-    try {
-      DateTime parsedDate = DateTime.parse(date);
-      return DateFormat('dd-MM-yyyy').format(parsedDate);
-    } catch (e) {
-      return 'Invalid Date';
-    }
-  }
-
-  String formatDateWithTime(String date) {
-    try {
-      DateTime parsedDate = DateTime.parse(date).toLocal();
-      return DateFormat('dd-MM-yyyy hh:mm a').format(parsedDate);
-    } catch (e) {
-      return 'Invalid Date';
-    }
   }
 }

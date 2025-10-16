@@ -28,10 +28,10 @@ void taskStatusDialogBox(BuildContext context, statusId) {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(1.h),
               ),
-              insetPadding:
-                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               insetAnimationCurve: Curves.bounceIn,
               backgroundColor: context.theme.colorScheme.background,
+              insetPadding:
+                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
@@ -54,18 +54,21 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                                 spacing: 1.2.h,
                                 children: [
                                   appCircleIcon(
-                                      context: context,
-                                      colors: context.theme.colorScheme.error,
-                                      radius: 1.w,
-                                      height: 3.5.h,
-                                      width: 3.5.h,
-                                      child: SvgPicture.asset(
-                                        AppAssets.APP_ACTIVITIES_SVG,
-                                        height: 3.h,
-                                        fit: BoxFit.fill,
-                                        color: context
-                                            .theme.colorScheme.background,
-                                      )),
+                                    radius: 1.w,
+                                    width: 3.5.h,
+                                    height: 3.5.h,
+                                    context: context,
+                                    colors: context.theme.colorScheme.error,
+                                    child: SvgPicture.asset(
+                                      AppAssets.APP_ACTIVITIES_SVG,
+                                      height: 3.h,
+                                      fit: BoxFit.fill,
+                                      colorFilter: ColorFilter.mode(
+                                        context.theme.colorScheme.background,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
                                   AppText(title: 'Task', fontSize: 2.h),
                                   const Spacer(),
                                   GestureDetector(
@@ -105,26 +108,28 @@ void taskStatusDialogBox(BuildContext context, statusId) {
                           ),
                           Flexible(
                             child: appButton(
+                              height: 4.h,
+                              context: context,
+                              width: double.infinity,
                               onTap: () {
                                 provider
                                     .statusUpdateAPI(statusId)
                                     .then((value) {
                                   showAppSnackBar(
-                                      type: 'success',
-                                      context: context,
-                                      title: 'Status updated successfully');
+                                    type: 'success',
+                                    context: context,
+                                    title: 'Status updated successfully',
+                                  );
                                   Get.back();
                                 });
                               },
-                              width: double.infinity,
-                              height: 4.h,
-                              context: context,
                               radius: 1.5.w,
                               child: AppText(
-                                  title: "Save",
-                                  fontSize: 1.5.h,
-                                  color: context.theme.colorScheme.background,
-                                  fontWeight: FontWeight.w600),
+                                title: "Save",
+                                fontSize: 1.5.h,
+                                fontWeight: FontWeight.w600,
+                                color: context.theme.colorScheme.background,
+                              ),
                             ),
                           ),
                         ],

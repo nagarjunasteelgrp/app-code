@@ -4,8 +4,11 @@ A new Flutter project.
 
 ## Getting Started
 
-<!-- 3.19.6 Flutter SDK -->
-<!-- 3.3.4 (Flutter) -->
+<!-- 3.35.2 Flutter SDK -->
+<!-- 3.9.0 (Flutter) -->
+
+
+<!-- fvm flutter build appbundle --build-name=1.5 --build-number=12 -->
 
 This project is a starting point for a Flutter application.
 

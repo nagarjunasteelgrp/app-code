@@ -195,9 +195,7 @@ class ContactListScreen extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 Get.toNamed(RoutesName.CONTACT_DETAILS,
-                                        arguments: {
-                                      'id': provider.contactId,
-                                    })!
+                                        arguments: {'id': provider.contactId})!
                                     .then((value) {
                                   provider.contactDetailsAPI();
                                 });
@@ -257,9 +255,8 @@ class ContactListScreen extends StatelessWidget {
                           ),
                           appDivider(context: context),
                           GestureDetector(
-                            onTap: () {
-                              Get.toNamed(RoutesName.RELATED_CONTACT);
-                            },
+                            onTap: () =>
+                                Get.toNamed(RoutesName.RELATED_CONTACT),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 5.w),
                               child: Row(

@@ -8,59 +8,55 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class DashboardProvider extends ChangeNotifier {
-  final List<String> items = ['Amount', 'Quantity'];
-  String _selectedValue = 'Amount';
-
-  dynamic _estimationAndQty;
-  dynamic _selectedData;
-
-  String get selectedValue => _selectedValue;
-  dynamic get selectedData => _selectedData;
-
-  int _selectedIndex = 0;
   bool isLoading = false;
+  GoogleMapController? mapController;
+
   dynamic endDate;
   dynamic startDate;
-
-  int get selectedIndex => _selectedIndex;
-  dynamic myProgressAPIResponse;
-  List? newEnrollmentAPIResponse;
-  String filterNewEnrollment = 'week';
-  String filterOverallDistance = 'week';
-  num fabricatorsSum = 0;
-  num dealerSum = 0;
-  num customerSum = 0;
-  num engineersSum = 0;
-  num masonsSum = 0;
-  num overallEnrollmentSum = 0;
-  num overallDistance = 0;
+  dynamic _selectedData;
   dynamic estimationAndQty;
+  dynamic _estimationAndQty;
   dynamic monthlyReportResponse;
+  dynamic myProgressAPIResponse;
   dynamic monthlySalesQtyResponse;
-  dynamic startTimeForActivityLocation;
   dynamic endTimeForActivityLocation;
   dynamic dateSelectedActivityLocation;
-  dynamic startTimeSelectedActivityLocation;
-  dynamic totalDistanceCoveredActivityLocation;
+  dynamic startTimeForActivityLocation;
   dynamic totalLocationActivityLocation;
+  dynamic startTimeSelectedActivityLocation;
+  dynamic get selectedData => _selectedData;
+  dynamic totalDistanceCoveredActivityLocation;
+
+  num dealerSum = 0;
+  num masonsSum = 0;
+  num customerSum = 0;
+  num engineersSum = 0;
+  int _selectedIndex = 0;
+  num fabricatorsSum = 0;
+  num overallDistance = 0;
+  num overallEnrollmentSum = 0;
+
+  String _selectedValue = 'Amount';
+  String? selectedValueNewEnrollment;
+  String filterNewEnrollment = 'week';
+  String? selectedValueOverallDistance;
+  String filterOverallDistance = 'week';
+  int get selectedIndex => _selectedIndex;
+  String get selectedValue => _selectedValue;
+
   List<LatLng> points = [];
   List<String> addresses = [];
   List<LatLng> routePoints = [];
+  List? newEnrollmentAPIResponse;
+  final List<String> items = ['Amount', 'Quantity'];
+  List dropDownNewEnrollment = ['TODAY', 'WEEK', 'MONTH', 'YEAR'];
+  List dropDownOverallDistance = ['TODAY', 'WEEK', 'MONTH', 'YEAR'];
+  List myProgressList = ['TODAY', 'THIS WEEK', 'THIS MONTH', 'THIS YEAR'];
 
   set selectedIndex(int index) {
     _selectedIndex = index;
     notifyListeners();
   }
-
-  List myProgressList = [
-    'TODAY',
-    'THIS WEEK',
-    'THIS MONTH',
-    'THIS YEAR',
-  ];
-
-  String? selectedValueNewEnrollment;
-  String? selectedValueOverallDistance;
 
   DashboardProvider() {
     overallEnrollmentAPI('today');
@@ -95,9 +91,6 @@ class DashboardProvider extends ChangeNotifier {
     selectedValueOverallDistance = dropDownOverallDistance.first;
   }
 
-  List dropDownNewEnrollment = ['TODAY', 'WEEK', 'MONTH', 'YEAR'];
-
-  List dropDownOverallDistance = ['TODAY', 'WEEK', 'MONTH', 'YEAR'];
   // Update dropdown selection
   void setSelectedValue(String value) {
     _selectedValue = value;
@@ -310,12 +303,10 @@ class DashboardProvider extends ChangeNotifier {
     endTimeForActivityLocation = selectedDate.add(const Duration(days: 1));
     dateSelectedActivityLocation =
         DateFormat('MMMM d, yyyy').format(startTimeForActivityLocation);
-    await activityLocation(startTimeForActivityLocation,
-        endTimeForActivityLocation); // Your API function
-    notifyListeners(); // Refresh UI
+    await activityLocation(
+        startTimeForActivityLocation, endTimeForActivityLocation);
+    notifyListeners();
   }
-
-  GoogleMapController? mapController;
 
   Future<void> activityLocation(
       startTimeForActivityLocation, endTimeForActivityLocation) async {
@@ -383,7 +374,6 @@ class DashboardProvider extends ChangeNotifier {
     } catch (e) {
       isLoading = false;
       notifyListeners();
-      // print("Error in activityLocation: $e");
     }
   }
 
@@ -393,9 +383,9 @@ class DashboardProvider extends ChangeNotifier {
     if (waypoints.length < 2) return [];
 
     final origin = waypoints.first;
+
     final destination = waypoints.last;
 
-    // Exclude origin and destination from waypoints
     final intermediateWaypoints = waypoints.sublist(1, waypoints.length - 1);
 
     final waypointString = intermediateWaypoints
@@ -450,7 +440,6 @@ class DashboardProvider extends ChangeNotifier {
         isLoading = false;
         monthlyReportResponse = jsonDecode(response.body);
         monthlySalesQty(currentMonth: currentMonth, currentFY: currentFY);
-        // print("Monthly Report Response: $monthlyReportResponse");
         notifyListeners();
       } else {
         isLoading = false;
@@ -533,21 +522,19 @@ class DashboardProvider extends ChangeNotifier {
     int nextYear = now.year + 1;
 
     if (now.month < 4) {
-      // Before April → belongs to previous financial year
       currentYear = now.year - 1;
       nextYear = now.year;
     }
 
     String fy =
         'FY${currentYear.toString().substring(2)}${nextYear.toString().substring(2)}';
-    return fy; // e.g., "FY2526"
+    return fy;
   }
 
   Future<void> loadRouteWithWaypoints() async {
     try {
       if (points.length < 2) return;
 
-      // isLoading = true;
       notifyListeners();
 
       final decodedRoute = await fetchRouteCoordinatesWithWaypoints(

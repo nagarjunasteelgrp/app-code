@@ -4,19 +4,15 @@ import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_utils/src/extensions/export.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class MessageListScreen extends StatefulWidget {
-  const MessageListScreen({super.key});
+class MessageListScreen extends StatelessWidget {
+  final ScrollController? scrollController;
+  const MessageListScreen({super.key, this.scrollController});
 
-  @override
-  State<MessageListScreen> createState() => _MessageListScreenState();
-}
-
-class _MessageListScreenState extends State<MessageListScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -29,88 +25,109 @@ class _MessageListScreenState extends State<MessageListScreen> {
                     ? Column(
                         spacing: 2.h,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 3.w),
-                                  child: const AppText(
-                                    title: 'Date',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              const Expanded(
-                                flex: 3,
-                                child: AppText(
-                                  title: 'Message',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: List.generate(
-                                  provider.messageFetchingAPIResponse.length,
-                                  (index) {
-                                    DateTime dateTime = DateTime.parse(provider
-                                            .messageFetchingAPIResponse[index]
-                                        ['createdAt']);
-                                    String formattedDate =
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(dateTime);
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 0.h, vertical: 1.h),
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 1.h, vertical: 1.h),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: context
-                                              .theme.colorScheme.onSecondary,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(2.w),
+                            child: ListView.builder(
+                              controller: scrollController,
+                              padding: EdgeInsets.symmetric(vertical: 1.h),
+                              itemCount:
+                                  provider.messageFetchingAPIResponse.length +
+                                      1,
+                              itemBuilder: (context, index) {
+                                if (index == 0) {
+                                  return Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 1.h, vertical: 1.h),
+                                    child: Table(
+                                      border: TableBorder.all(
+                                        width: 1,
                                         color: context
-                                            .theme.colorScheme.onSecondary
-                                            .withValues(alpha: 0.05),
+                                            .theme.colorScheme.onSecondary,
                                       ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: Center(
-                                              child:
-                                                  AppText(title: formattedDate),
-                                            ),
+                                      columnWidths: const {
+                                        0: FlexColumnWidth(1),
+                                        1: FlexColumnWidth(3),
+                                      },
+                                      children: [
+                                        TableRow(
+                                          decoration: BoxDecoration(
+                                            color: context
+                                                .theme.colorScheme.onSecondary
+                                                .withValues(alpha: 0.1),
                                           ),
-                                          Expanded(
-                                            flex: 3,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(2.w),
+                                              child: const AppText(
+                                                title: 'Date',
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(2.w),
+                                              child: const AppText(
+                                                title: 'Message',
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+
+                                // Data rows
+                                final dataIndex = index - 1;
+                                DateTime dateTime = DateTime.parse(provider
+                                        .messageFetchingAPIResponse[dataIndex]
+                                    ['createdAt']);
+                                String formattedDate =
+                                    DateFormat('dd/MM/yyyy').format(dateTime);
+
+                                return Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 1.h, vertical: 1.h),
+                                  child: Table(
+                                    border: TableBorder.all(
+                                      width: 1,
+                                      color:
+                                          context.theme.colorScheme.onSecondary,
+                                    ),
+                                    columnWidths: const {
+                                      0: FlexColumnWidth(1),
+                                      1: FlexColumnWidth(3),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(2.w),
+                                            child:
+                                                AppText(title: formattedDate),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(2.w),
                                             child: AppText(
                                               maxLines: 5,
                                               title: provider
                                                       .messageFetchingAPIResponse[
-                                                  index]['message'],
+                                                  dataIndex]['message'],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
                       )
                     : const Center(
-                        child: AppText(title: Constants.result_not_found))
-                : const Center(child: SpinKitLoader());
+                        child: AppText(title: Constants.result_not_found),
+                      )
+                : SpinKitLoader();
           },
         ),
       ),

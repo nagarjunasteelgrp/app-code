@@ -44,10 +44,10 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   void addMarker(LatLng latLng, String address) {
     markers.add(
       Marker(
-        icon: BitmapDescriptor.defaultMarker,
-        markerId: MarkerId(latLng.toString()),
-        position: latLng,
         onTap: () {},
+        position: latLng,
+        markerId: MarkerId(latLng.toString()),
+        icon: BitmapDescriptor.defaultMarker,
       ),
     );
     notifyListeners();
@@ -64,9 +64,7 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      var response = await apiServices.trackingInfoList(
-          id: // trackingInfoId!
-              3);
+      var response = await apiServices.trackingInfoList(id: 3);
       if (response.statusCode == 200) {
         markers.clear();
         var responseData = jsonDecode(response.body);

@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,10 +18,8 @@ class TrackingProvider extends ChangeNotifier {
   ScrollController scrollController = ScrollController();
   TextEditingController addNotesController = TextEditingController();
 
-  int? userId;
   File? image;
   int limit = 5;
-  int pager = 0;
   File? filePath;
   List markers = [];
   String? imageType;
@@ -30,7 +27,6 @@ class TrackingProvider extends ChangeNotifier {
   dynamic contactTypeId;
   int trackingInfoId = 0;
   bool isLoading = false;
-  LatLng? initialPosition;
   DateTime? _selectedDate;
   String? contactTypeName;
   String? selectedFileName;
@@ -46,11 +42,6 @@ class TrackingProvider extends ChangeNotifier {
 
   void updateSelectedDate(DateTime date) {
     _selectedDate = date;
-    notifyListeners();
-  }
-
-  set geoLocationBtn(bool value) {
-    _geoLocationBtn = value;
     notifyListeners();
   }
 
@@ -103,18 +94,6 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  void addMarker(LatLng latLng, String address) {
-    markers.add(
-      Marker(
-        icon: BitmapDescriptor.defaultMarker,
-        onTap: () {},
-        position: latLng,
-        markerId: MarkerId(latLng.toString()),
-      ),
-    );
-    notifyListeners();
-  }
-
   openFileExplorer(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -128,13 +107,19 @@ class TrackingProvider extends ChangeNotifier {
           if (response.statusCode == 201) {
             var res = jsonDecode(response.body);
             showAppSnackBar(
-                type: 'success', context: context, title: res['message']);
+              type: 'success',
+              context: context,
+              title: res['message'],
+            );
             trackingInfoAPI();
             notifyListeners();
           } else {
             var res = jsonDecode(response.body);
             showAppSnackBar(
-                type: 'Error', context: context, title: res['message']);
+              type: 'Error',
+              context: context,
+              title: res['message'],
+            );
             notifyListeners();
           }
         });
@@ -301,7 +286,7 @@ class TrackingProvider extends ChangeNotifier {
   }
 
   Future<void> loadMoreData() async {
-    if (isFetchingMore) return; // Avoid multiple requests
+    if (isFetchingMore) return;
     isFetchingMore = true;
     notifyListeners();
     int currentLength = trackingInfoList.length;

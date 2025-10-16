@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/global.dart';
+import 'package:digital_lync/modules/home/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,9 +42,7 @@ class LoginProvider extends ChangeNotifier {
       showAppSnackBar(context: context, title: 'Please enter your password.');
       return;
     }
-
     notifyListeners();
-
     try {
       isLoading = true;
       notifyListeners();
@@ -73,16 +73,24 @@ class LoginProvider extends ChangeNotifier {
               response['userInfo']['profilePicture'].toString());
           if (context.mounted) {
             showAppSnackBar(
-                type: 'success', context: context, title: response['message']);
+              type: 'success',
+              context: context,
+              title: response['message'],
+            );
           }
           await personalDetails();
           await getHeaders();
           isReachedOut = false;
+
+          final homeProvider =
+              Provider.of<HomeProvider>(context, listen: false);
+          homeProvider.refreshProfilePicture();
+
           Get.offNamed(RoutesName.HOME);
           notifyListeners();
         } else {
           showAppSnackBar(
-              type: 'Error', context: Get.context!, title: response['message']);
+              type: 'Error', context: context, title: response['message']);
         }
       });
     } catch (e) {
