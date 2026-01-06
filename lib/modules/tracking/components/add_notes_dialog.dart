@@ -19,7 +19,7 @@ void showAddNotesDialog(BuildContext context, {VoidCallback? onTapSave}) {
         child: Dialog(
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
-          backgroundColor: context.theme.colorScheme.background,
+          backgroundColor: context.theme.colorScheme.surface,
           insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           child: Consumer<TrackingProvider>(
             builder: (context, provider, _) {
@@ -44,7 +44,7 @@ void showAddNotesDialog(BuildContext context, {VoidCallback? onTapSave}) {
                             child: AppText(
                               title: 'Save',
                               fontSize: 1.8.h,
-                              color: context.theme.colorScheme.background,
+                              color: context.theme.colorScheme.surface,
                             ),
                             onTap: () => provider.trackingAddNotes(context),
                           )

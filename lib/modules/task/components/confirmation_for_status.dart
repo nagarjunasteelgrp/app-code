@@ -16,14 +16,14 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
         child: Consumer<TaskProvider>(
           builder: (context, provider, child) {
             return Dialog(
+              elevation: 5,
+              insetAnimationCurve: Curves.bounceIn,
+              backgroundColor: context.theme.colorScheme.surface,
+              insetPadding:
+                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(1.5.h),
               ),
-              insetPadding:
-                  EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-              elevation: 5,
-              insetAnimationCurve: Curves.bounceIn,
-              backgroundColor: context.theme.colorScheme.background,
               child: SizedBox(
                 width: 80.w,
                 child: Padding(
@@ -62,8 +62,8 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                                       children: [
                                         AppText(
                                           title: 'Yes',
-                                          color: context
-                                              .theme.colorScheme.background,
+                                          color:
+                                              context.theme.colorScheme.surface,
                                         ),
                                       ],
                                     ),
@@ -85,8 +85,8 @@ void confirmationDialogBox(BuildContext context, TaskProvider provider) {
                                       children: [
                                         AppText(
                                           title: 'No',
-                                          color: context
-                                              .theme.colorScheme.background,
+                                          color:
+                                              context.theme.colorScheme.surface,
                                         ),
                                       ],
                                     ),

@@ -1,20 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/app_snackbar.dart';
-import 'package:digital_lync/constants/global.dart';
-import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
-import 'package:digital_lync/services/api_service.dart';
+import 'package:digital_lync/services/api/api_service.dart';
+import 'package:digital_lync/services/location_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingProvider extends ChangeNotifier {
+  ImagePicker picker = ImagePicker();
   ApiServices apiServices = ApiServices();
-  CurrentLocationProvider currentLocationProvider;
+
   ScrollController scrollController = ScrollController();
   TextEditingController addNotesController = TextEditingController();
 
@@ -37,29 +36,38 @@ class TrackingProvider extends ChangeNotifier {
   List trackingInfoListStoreData = [];
   bool get geoLocationBtn => _geoLocationBtn;
   DateTime? get selectedDate => _selectedDate;
-
   TextEditingController noteController = TextEditingController();
+
+  TrackingProvider() {
+    initialData();
+    contactTypeId = Get.arguments['id'] ?? '';
+    contactTypeName = Get.arguments['contactType'] ?? '';
+    contactTypeCompanyName = Get.arguments['companyName'] ?? '';
+    trackingInfoAPI();
+    onScrollForPagination();
+    notifyListeners();
+  }
 
   void updateSelectedDate(DateTime date) {
     _selectedDate = date;
     notifyListeners();
   }
 
-  TrackingProvider(this.currentLocationProvider) {
-    initialData();
-    contactTypeId = Get.arguments['id'] ?? '';
-    contactTypeCompanyName = Get.arguments['companyName'] ?? '';
-    contactTypeName = Get.arguments['contactType'] ?? '';
-    trackingInfoAPI();
-    onScrollForPagination();
-    notifyListeners();
+  void onScrollForPagination() {
+    scrollController.addListener(
+      () {
+        if (scrollController.position.pixels ==
+                scrollController.position.maxScrollExtent &&
+            !isFetchingMore) {
+          loadMoreData();
+        }
+      },
+    );
   }
 
   initialData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    latitude = sharedPreferences.getDouble("latitude");
-    longitude = sharedPreferences.getDouble("longitude");
-    addressPlacement = sharedPreferences.getString("address") ?? '';
+    LocationService locationService = LocationService();
+    locationService.determinePosition();
     notifyListeners();
   }
 
@@ -76,14 +84,13 @@ class TrackingProvider extends ChangeNotifier {
         var responseData = jsonDecode(response.body);
         noteController.clear();
         _selectedDate = null;
-        showAppSnackBar(
-            type: 'success', context: context, title: responseData['message']);
+        showAppSnackBar(type: 'success', title: responseData['message']);
         isLoading = false;
         Get.back();
         notifyListeners();
       } else {
         var responseData = jsonDecode(response.body);
-        showAppSnackBar(context: context, title: responseData['message']);
+        showAppSnackBar(title: responseData['message']);
         isLoading = false;
         Get.back();
         notifyListeners();
@@ -94,10 +101,10 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  openFileExplorer(BuildContext context) async {
+  void openFileExplorer(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['jpg', 'pdf', 'doc'],
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf', 'doc'],
     );
     if (result != null) {
       filePath = File(result.files.single.path!);
@@ -108,7 +115,6 @@ class TrackingProvider extends ChangeNotifier {
             var res = jsonDecode(response.body);
             showAppSnackBar(
               type: 'success',
-              context: context,
               title: res['message'],
             );
             trackingInfoAPI();
@@ -117,7 +123,6 @@ class TrackingProvider extends ChangeNotifier {
             var res = jsonDecode(response.body);
             showAppSnackBar(
               type: 'Error',
-              context: context,
               title: res['message'],
             );
             notifyListeners();
@@ -127,63 +132,67 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  Future getImage(BuildContext context, ImageSource source) async {
-    final picker = ImagePicker();
-    await picker.pickImage(source: source).then((value) {
-      if (value != null) {
-        image = File(value.path);
-        if (image != null) {
-          isLoading = true;
-          notifyListeners();
-          trackingImages(context).then((response) {
-            if (response.statusCode == 201) {
-              var res = jsonDecode(response.body);
-              trackingInfoAPI();
-              showAppSnackBar(
-                  type: 'success', context: context, title: res['message']);
-              notifyListeners();
-              isLoading = false;
-              notifyListeners();
-            } else {
-              var res = jsonDecode(response.body);
-              showAppSnackBar(
-                  type: 'Error', context: context, title: res['message']);
-              isLoading = false;
-              notifyListeners();
-              Get.back();
-            }
-          });
-        }
-        notifyListeners();
-      } else {
+  Future getImage(ImageSource source) async {
+    try {
+      final picked = await picker.pickImage(
+        source: source,
+        imageQuality: 65,
+      );
+
+      if (picked == null) {
         isLoading = false;
         notifyListeners();
+        return;
       }
-    });
-    notifyListeners();
+
+      image = File(picked.path);
+
+      isLoading = true;
+      notifyListeners();
+
+      final response = await trackingImages(Get.context!);
+
+      final res = jsonDecode(response.body);
+
+      if (response.statusCode == 201) {
+        trackingInfoAPI();
+
+        showAppSnackBar(type: 'success', title: res['message']);
+      } else {
+        showAppSnackBar(type: 'Error', title: res['message']);
+        Get.back();
+      }
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      rethrow;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
-  Future<void> trackingMap(BuildContext context) async {
+  Future<void> trackingMap(BuildContext context,
+      {required double latitude,
+      required double longitude,
+      required String addressPlacement}) async {
     isLoading = true;
     notifyListeners();
     FocusScope.of(context).unfocus();
     notifyListeners();
     try {
       var logResponse = await apiServices.trackingInfo(
-          latitude: latitude,
-          longitude: longitude,
-          address: addressPlacement,
-          dealerId: contactTypeId);
+        latitude: latitude,
+        longitude: longitude,
+        dealerId: contactTypeId,
+        address: addressPlacement,
+      );
       if (logResponse.statusCode == 201) {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
         trackingInfoId = response['activity']['id'];
-        showAppSnackBar(
-          type: 'success',
-          context: context,
-          title: response['message'],
-        );
+        showAppSnackBar(type: 'success', title: response['message']);
         addNotesController.clear();
         trackingInfoAPI();
         notifyListeners();
@@ -192,14 +201,13 @@ class TrackingProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
-        showAppSnackBar(
-            type: 'Error', context: context, title: response['message']);
+        showAppSnackBar(type: 'Error', title: response['message']);
         Get.back();
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      showAppSnackBar(title: 'Error', subtitle: e.toString());
     }
   }
 
@@ -208,7 +216,7 @@ class TrackingProvider extends ChangeNotifier {
     String addNotes = addNotesController.text.trim();
 
     if (addNotes.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your notes.');
+      showAppSnackBar(title: 'Please enter your notes.');
       return;
     }
     isLoading = true;
@@ -216,30 +224,26 @@ class TrackingProvider extends ChangeNotifier {
 
     try {
       var logResponse = await apiServices.trackingNotes(
-          description: addNotes, trackingInfoId: trackingInfoId);
+        description: addNotes,
+        trackingInfoId: trackingInfoId,
+      );
 
       var response = jsonDecode(logResponse.body);
 
       if (logResponse.statusCode == 201) {
         showAppSnackBar(
           type: 'success',
-          context: context,
           title: response['message'],
         );
         addNotesController.clear();
         trackingInfoAPI();
         Get.back();
       } else {
-        showAppSnackBar(
-          type: 'Error',
-          context: context,
-          title: response['message'],
-        );
+        showAppSnackBar(type: 'Error', title: response['message']);
       }
     } catch (e) {
       showAppSnackBar(
         type: 'Error',
-        context: context,
         title: 'Something went wrong',
         subtitle: e.toString(),
       );
@@ -300,15 +304,5 @@ class TrackingProvider extends ChangeNotifier {
     }
     isFetchingMore = false;
     notifyListeners();
-  }
-
-  void onScrollForPagination() {
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
-          !isFetchingMore) {
-        loadMoreData();
-      }
-    });
   }
 }

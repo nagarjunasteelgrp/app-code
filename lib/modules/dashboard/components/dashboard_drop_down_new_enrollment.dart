@@ -31,8 +31,8 @@ Widget dashBoardDropDownNewEnrollment(
               isExpanded: true,
               underline: const SizedBox(),
               borderRadius: BorderRadius.circular(1.0.w),
-              focusColor: context.theme.colorScheme.background,
-              dropdownColor: context.theme.colorScheme.background,
+              focusColor: context.theme.colorScheme.surface,
+              dropdownColor: context.theme.colorScheme.surface,
               value: provider.selectedValueNewEnrollment.toString(),
               iconEnabledColor: context.theme.colorScheme.onSecondary,
               iconDisabledColor: context.theme.colorScheme.onSecondary,
@@ -67,9 +67,8 @@ Widget dashBoardDropDownNewEnrollment(
                 fontWeight: FontWeight.w800,
                 color: AppColors.WHITE_COLOR,
               ),
-              onChanged: (newValue) {
-                provider.dropDownSelectedValueNewEnrollment(newValue);
-              },
+              onChanged: (newValue) =>
+                  provider.dropDownSelectedValueNewEnrollment(newValue),
             ),
           ),
         ),

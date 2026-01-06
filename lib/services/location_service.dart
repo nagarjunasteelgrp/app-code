@@ -24,7 +24,6 @@ class LocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are permanently denied, direct user to settings
       return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.',
       );
@@ -41,8 +40,8 @@ class LocationService {
     }
 
     // Step 4: Get current position
-    return await Geolocator.getCurrentPosition(
-      timeLimit: const Duration(seconds: 10),
+    return Geolocator.getCurrentPosition(
+      locationSettings: AndroidSettings(accuracy: LocationAccuracy.best),
     );
   }
 }

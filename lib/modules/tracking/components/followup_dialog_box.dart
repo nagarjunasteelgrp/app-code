@@ -56,15 +56,16 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                           ),
                           SizedBox(height: 0.5.h),
                           Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(0.8.h),
-                              ),
-                              child: appTextField(
-                                readOnly: true,
-                                context: context,
-                                hint: provider.dealerName,
-                              )),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(0.8.h),
+                            ),
+                            child: appTextField(
+                              readOnly: true,
+                              context: context,
+                              hint: provider.dealerName,
+                            ),
+                          ),
                           SizedBox(height: 2.h),
                           AppText(
                             fontSize: 1.6.h,
@@ -74,48 +75,44 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                           ),
                           SizedBox(height: 0.5.h),
                           Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(0.8.h),
-                              ),
-                              child: appTextField(
-                                readOnly: true,
-                                onTap: () async {
-                                  DateTime? selectedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate:
-                                        provider.selectedDate ?? DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                    builder:
-                                        (BuildContext context, Widget? child) {
-                                      return Theme(
-                                        data: ThemeData(
-                                          primarySwatch: Colors.red,
-                                          splashColor: Colors.green,
-                                        ),
-                                        child: child!,
-                                      );
-                                    },
-                                  );
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(0.8.h),
+                            ),
+                            child: appTextField(
+                              readOnly: true,
+                              onTap: () async {
+                                DateTime? selectedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate:
+                                      provider.selectedDate ?? DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2100),
+                                  builder:
+                                      (BuildContext context, Widget? child) {
+                                    return Theme(
+                                      data: ThemeData(
+                                        primarySwatch: Colors.red,
+                                        splashColor: Colors.green,
+                                      ),
+                                      child: child!,
+                                    );
+                                  },
+                                );
 
-                                  if (selectedDate != null) {
-                                    provider.updateSelectedDate(selectedDate);
-                                  }
-                                },
-                                context: context,
-                                hint: "Select a date",
-                                controller: TextEditingController(
-                                    text: provider.selectedDate != null
-                                        ? "${provider.selectedDate!.day}-${provider.selectedDate!.month}-${provider.selectedDate!.year}"
-                                        : ""),
-                              )
-                              /*  AppText(
-                              fontSize: 1.5.h,
-                              color: context.theme.hintColor,
-                              title: ,
-                            ), */
+                                if (selectedDate != null) {
+                                  provider.updateSelectedDate(selectedDate);
+                                }
+                              },
+                              context: context,
+                              hint: "Select a date",
+                              controller: TextEditingController(
+                                text: provider.selectedDate != null
+                                    ? "${provider.selectedDate!.day}-${provider.selectedDate!.month}-${provider.selectedDate!.year}"
+                                    : "",
                               ),
+                            ),
+                          ),
                           SizedBox(height: 1.5.h),
                           AppText(
                             fontSize: 1.6.h,
@@ -150,7 +147,7 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                       Get.back();
                                     },
                                     boxColor: context
-                                        .theme.colorScheme.onBackground
+                                        .theme.colorScheme.onSecondaryFixed
                                         .withValues(alpha: 0.3),
                                     child: AppText(
                                       fontSize: 1.5.h,
@@ -168,17 +165,14 @@ void followUpDialogBox(BuildContext context, TrackingProvider provider) {
                                     width: double.infinity,
                                     onTap: () {
                                       if (provider.selectedDate != null) {
-                                        {
-                                          provider.followUpsAPI(context);
-                                        }
+                                        provider.followUpsAPI(context);
                                       }
                                     },
                                     child: AppText(
                                       title: "Save",
                                       fontSize: 1.5.h,
                                       fontWeight: FontWeight.w600,
-                                      color:
-                                          context.theme.colorScheme.background,
+                                      color: context.theme.colorScheme.surface,
                                     ),
                                   ),
                                 ),

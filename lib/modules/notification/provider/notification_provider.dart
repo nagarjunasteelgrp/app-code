@@ -46,15 +46,14 @@ class NotificationProvider extends ChangeNotifier {
       var response = await apiServices.deleteAllNotificationAPIURL();
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        showAppSnackBar(
-            type: 'success', context: context, title: responseData['message']);
+        showAppSnackBar(type: 'success', title: responseData['message']);
         notification();
         isLoading = false;
         Get.back();
         notifyListeners();
       } else {
         var responseData = jsonDecode(response.body);
-        showAppSnackBar(context: context, title: responseData['message']);
+        showAppSnackBar(title: responseData['message']);
         isLoading = false;
         Get.back();
         notifyListeners();

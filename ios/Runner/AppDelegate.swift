@@ -10,7 +10,7 @@ import GoogleMaps
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     SwiftFlutterBackgroundServicePlugin.taskIdentifier = "your.custom.task.identifier"
-    GMSServices.provideAPIKey("AIzaSyB6P55VaSsCmcFlxWNVwetPXqEFZzwTeKI")
+    GMSServices.provideAPIKey("AIzaSyBZYRXjb6gS8k5GhLiIR4RHNabqJYH1XZc")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

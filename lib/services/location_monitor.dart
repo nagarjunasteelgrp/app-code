@@ -6,19 +6,17 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 
 class LocationMonitor {
+  static Timer? locationTimer;
   static bool isDialogOpen = false;
   static bool isSettingsDialogOpen = false;
-  static Timer? _locationTimer;
 
   static void startLocationMonitoring() {
-    _locationTimer?.cancel();
-
-    _locationTimer = Timer.periodic(
-      const Duration(seconds: 3),
+    locationTimer?.cancel();
+    locationTimer = Timer.periodic(
+      const Duration(minutes: 2),
       (timer) async {
         bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
         LocationPermission permission = await Geolocator.checkPermission();
-
         if ((!serviceEnabled ||
                 permission == LocationPermission.deniedForever) &&
             !isDialogOpen) {

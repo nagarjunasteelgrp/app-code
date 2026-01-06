@@ -5,6 +5,7 @@ import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/constants.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/check%20in/components/check_in_dialog_box.dart';
 import 'package:flutter/material.dart';
@@ -25,194 +26,181 @@ class CheckInScreen extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: checkInProvider,
       child: Scaffold(
-        body: Consumer<CheckInProvider>(builder: (context, provider, child) {
-          return provider.isLoading
-              ? const Center(child: SpinKitLoader())
-              : Column(
-                  spacing: 3.h,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            spacing: 3.w,
-                            children: [
-                              appCircleIcon(
-                                width: 8.w,
-                                height: 8.w,
-                                radius: 0.5.h,
-                                context: context,
-                                colors: context.theme.colorScheme.scrim,
-                                child: SvgPicture.asset(
-                                    AppAssets.APP_CHECKING_SVG,
-                                    color: context.theme.primaryColor),
-                              ),
-                              AppText(
-                                fontSize: 1.8.h,
-                                fontWeight: FontWeight.w500,
-                                title: Constants.attendance,
-                              ),
-                            ],
-                          ),
-                          appOutlineButton(
-                            height: 4.h,
-                            radius: 0.6.h,
-                            context: context,
-                            onTap: () => showCheckInDialog(context),
-                            child: Row(
-                              spacing: 1.w,
-                              mainAxisAlignment: MainAxisAlignment.center,
+        body: Consumer<CheckInProvider>(
+          builder: (context, provider, child) {
+            return provider.isLoading
+                ? const Center(child: SpinKitLoader())
+                : Column(
+                    children: [
+                      appDivider(context: context, vertical: 0.0),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              spacing: 3.w,
                               children: [
-                                AppText(
-                                  title: checkInStatus
-                                      ? Constants.checkIn
-                                      : Constants.checkOut,
+                                appCircleIcon(
+                                  width: 8.w,
+                                  height: 8.w,
+                                  radius: 0.5.h,
+                                  context: context,
+                                  colors: context.theme.colorScheme.scrim,
+                                  child: SvgPicture.asset(
+                                    AppAssets.APP_CHECKING_SVG,
+                                    colorFilter: ColorFilter.mode(
+                                      context.theme.primaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
                                 ),
-                                checkInStatus
-                                    ? const SizedBox()
-                                    : const Icon(Icons.login)
+                                AppText(
+                                  fontSize: 1.8.h,
+                                  fontWeight: FontWeight.w500,
+                                  title: Constants.attendance,
+                                ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: provider.checkInList.isEmpty
-                          ? const Center(
-                              child: AppText(title: Constants.result_not_found),
-                            )
-                          : SingleChildScrollView(
-                              child: Column(
-                                children: List.generate(
-                                    provider.checkInList.length, (index) {
-                                  return Column(
+                            ValueListenableBuilder<bool>(
+                              valueListenable: checkInStatus,
+                              builder: (context, value, child) {
+                                return appOutlineButton(
+                                  height: 4.h,
+                                  radius: 0.6.h,
+                                  context: context,
+                                  onTap: () => showCheckInDialog(context),
+                                  child: Row(
+                                    spacing: 1.w,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      AppText(
+                                        title: value
+                                            ? Constants.checkIn
+                                            : Constants.checkOut,
+                                      ),
+                                      value
+                                          ? const SizedBox()
+                                          : const Icon(Icons.login)
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      appDivider(context: context, vertical: 0.0),
+                      Expanded(
+                        child: provider.checkInList.isEmpty
+                            ? const Center(
+                                child:
+                                    AppText(title: Constants.result_not_found),
+                              )
+                            : ListView.separated(
+                                padding: EdgeInsets.only(left: 2.h),
+                                itemCount: provider.checkInList.length,
+                                separatorBuilder: (context, index) =>
+                                    appDivider(vertical: 1.h, context: context),
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    spacing: 5.w,
+                                    children: [
+                                      Column(
+                                        spacing: 1.0.h,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            title: '${Constants.user_name} :',
+                                          ),
+                                          AppText(
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            title:
+                                                '${Constants.total_working_hour} :',
+                                          ),
+                                          AppText(
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            title: '${Constants.checkIn} :',
+                                          ),
+                                          AppText(
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                            title: '${Constants.checkOut} :',
+                                          ),
+                                        ],
+                                      ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 2.h),
-                                        child: Row(
-                                          spacing: 5.w,
+                                        padding: EdgeInsets.only(right: 2.h),
+                                        child: Column(
+                                          spacing: 1.0.h,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Column(
-                                              spacing: 1.0.h,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                AppText(
-                                                  title:
-                                                      '${Constants.user_name} :',
-                                                  fontSize: 1.6.h,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                AppText(
-                                                  fontSize: 1.6.h,
-                                                  title:
-                                                      '${Constants.total_working_hour} :',
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                AppText(
-                                                  fontSize: 1.6.h,
-                                                  title:
-                                                      '${Constants.checkIn} :',
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                AppText(
-                                                  fontSize: 1.6.h,
-                                                  title:
-                                                      '${Constants.checkOut} :',
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ],
+                                            AppText(
+                                              fontSize: 1.6.h,
+                                              fontWeight: FontWeight.w600,
+                                              title: provider.checkInList[index]
+                                                  ['user']['name'],
                                             ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 2.h),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  AppText(
-                                                    title: provider
-                                                            .checkInList[index]
-                                                        ['user']['name'],
-                                                    fontSize: 1.6.h,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 1.0.h,
-                                                  ),
-                                                  AppText(
-                                                    title: provider.checkInList[
-                                                                    index][
-                                                                'workingHours'] !=
-                                                            null
-                                                        ? provider
-                                                            .checkInList[index]
-                                                                ['workingHours']
-                                                            .toStringAsFixed(3)
-                                                        : 'Remaining check out time',
-                                                    fontSize: 1.6.h,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 1.0.h,
-                                                  ),
-                                                  AppText(
-                                                    title: DateFormat(
-                                                            'yyyy-MM-dd   h:mm a')
-                                                        .format(DateTime.parse(
-                                                            provider.checkInList[
-                                                                    index]
-                                                                ['clockIn'])),
-                                                    fontSize: 1.6.h,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: context.theme
-                                                        .colorScheme.onPrimary,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 1.0.h,
-                                                  ),
-                                                  AppText(
-                                                    title: provider.checkInList[
-                                                                    index]
-                                                                ['clockOut'] !=
-                                                            null
-                                                        ? DateFormat(
-                                                                'yyyy-MM-dd   h:mm a')
-                                                            .format(DateTime.parse(
-                                                                provider.checkInList[
-                                                                        index][
-                                                                    'clockOut']))
-                                                        : 'Remaining check out time',
-                                                    fontSize: 1.6.h,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: context.theme
-                                                        .colorScheme.onPrimary,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 1.0.h,
-                                                  ),
-                                                ],
+                                            AppText(
+                                              fontSize: 1.6.h,
+                                              fontWeight: FontWeight.w600,
+                                              title: provider.checkInList[index]
+                                                          ['workingHours'] !=
+                                                      null
+                                                  ? provider.checkInList[index]
+                                                          ['workingHours']
+                                                      .toStringAsFixed(3)
+                                                  : 'Remaining check out time',
+                                            ),
+                                            AppText(
+                                              fontSize: 1.6.h,
+                                              fontWeight: FontWeight.w600,
+                                              color: context
+                                                  .theme.colorScheme.onPrimary,
+                                              title: DateFormat(
+                                                'yyyy-MM-dd   h:mm a',
+                                              ).format(
+                                                DateTime.parse(
+                                                    provider.checkInList[index]
+                                                        ['clockIn']),
                                               ),
-                                            )
+                                            ),
+                                            AppText(
+                                              fontSize: 1.6.h,
+                                              fontWeight: FontWeight.w600,
+                                              color: context
+                                                  .theme.colorScheme.onPrimary,
+                                              title: provider.checkInList[index]
+                                                          ['clockOut'] !=
+                                                      null
+                                                  ? DateFormat(
+                                                      'yyyy-MM-dd   h:mm a',
+                                                    ).format(
+                                                      DateTime.parse(
+                                                        provider.checkInList[
+                                                            index]['clockOut'],
+                                                      ),
+                                                    )
+                                                  : 'Remaining check out time',
+                                            ),
                                           ],
                                         ),
-                                      ),
-                                      appDivider(
-                                        vertical: 1.h,
-                                        context: context,
-                                      ),
+                                      )
                                     ],
                                   );
-                                }),
+                                },
                               ),
-                            ),
-                    ),
-                  ],
-                );
-        }),
+                      ),
+                    ],
+                  );
+          },
+        ),
       ),
     );
   }

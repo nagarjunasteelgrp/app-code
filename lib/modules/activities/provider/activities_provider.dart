@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:digital_lync/services/api_service.dart';
+import 'package:digital_lync/helper/shared_prefs_helper.dart';
+import 'package:digital_lync/services/api/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
   var userId;
@@ -14,8 +14,7 @@ class ActivitiesProvider extends ChangeNotifier {
   }
 
   getUserId() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    userId = sharedPreferences.getInt('user_id')!;
+    userId = SharedPrefsHelper.getInt('user_id')!;
     getTaskAPI(userId);
   }
 

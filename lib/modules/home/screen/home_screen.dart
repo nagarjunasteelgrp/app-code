@@ -6,7 +6,6 @@ import 'package:digital_lync/constants/app_logout.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
-import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/contacts/screen/contact_screen.dart';
 import 'package:digital_lync/modules/dashboard/components/reached_screen.dart';
 import 'package:digital_lync/modules/dashboard/screen/dashboard_screen.dart';
@@ -20,23 +19,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Provider.of<CurrentLocationProvider>(context, listen: false)
-          .getUserLocation();
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -55,66 +39,58 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: CommonAppBar(
               elevation: provider.selectedIndex == 3 ? 0 : 1,
               title: username != null ? username.toString() : '',
-              onTap: () {
-                Provider.of<ContactProvider>(context, listen: false)
-                    .toggleSelected(true);
-              },
               leadingArrow: provider.selectedIndex == 0
                   ? Provider.of<ContactProvider>(context).isSelected
                       ? false
                       : true
                   : false,
+              onTap: () => Provider.of<ContactProvider>(context, listen: false)
+                  .toggleSelected(true),
               onTapLogo: () async {
-                bool isConfirmed = await AppDialog.showDialog(
-                  context,
-                  provider,
-                  title: 'Logout',
-                  message: 'Are you sure you want to logout?',
-                );
+                bool isConfirmed = await AppDialog.showDialog(context, provider,
+                    title: 'Logout',
+                    message: 'Are you sure you want to logout?');
                 if (isConfirmed) {
-                  Provider.of<HomeProvider>(context, listen: false)
-                      .prefsClear();
+                  appLogout();
                 }
               },
               actions: [
-                GestureDetector(
-                  onTap: () {
-                    Get.to(
-                      const NotificationScreen(),
-                      transition: Transition.fadeIn,
-                      duration: const Duration(milliseconds: 500),
-                    );
-                  },
-                  child: const Icon(
+                IconButton(
+                  onPressed: () => Get.to(
+                    () => const NotificationScreen(),
+                    transition: Transition.fadeIn,
+                    duration: const Duration(milliseconds: 500),
+                  ),
+                  icon: Icon(
                     Icons.notifications_none,
                     color: AppColors.BLACK_COLOR,
                   ),
                 ),
-                SizedBox(width: 5.w),
-                Center(
-                  child: Image.asset(width: 6.w, AppAssets.APP_LOGO),
-                ),
+                SizedBox(width: 2.w),
+                Center(child: Image.asset(width: 6.w, AppAssets.APP_LOGO)),
                 SizedBox(width: 2.w),
               ],
             ),
-            body: Consumer<HomeProvider>(builder: (context, value, _) {
-              contactProvider.selectContactIndex(-1);
-              contactProvider.contactId = null;
-              return value.selectedIndex == 4
-                  ? const MenuScreen()
-                  : value.selectedIndex == 1
-                      ? const ContactScreen()
-                      : value.selectedIndex == 3
-                          ? const CheckInScreen()
-                          : value.selectedIndex == 0
-                              ? (isReachedOut
-                                  ? const DashBoardScreen()
-                                  : const ReachedScreen())
-                              : value.selectedIndex == 2
-                                  ? const TabBarViewScreen()
-                                  : const SizedBox();
-            }),
             bottomNavigationBar: const AppBottomBar(),
+            body: Consumer<HomeProvider>(
+              builder: (context, value, _) {
+                contactProvider.selectContactIndex(-1);
+                contactProvider.contactId = null;
+                return value.selectedIndex == 4
+                    ? const MenuScreen()
+                    : value.selectedIndex == 1
+                        ? const ContactScreen()
+                        : value.selectedIndex == 3
+                            ? const CheckInScreen()
+                            : value.selectedIndex == 0
+                                ? (isReachedOut
+                                    ? const DashBoardScreen()
+                                    : const ReachedScreen())
+                                : value.selectedIndex == 2
+                                    ? const TabBarViewScreen()
+                                    : const SizedBox();
+              },
+            ),
           );
         },
       ),

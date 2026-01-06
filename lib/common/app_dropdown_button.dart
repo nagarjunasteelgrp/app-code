@@ -16,7 +16,7 @@ Widget dropdownWidget({
     padding: EdgeInsets.symmetric(horizontal: 2.0.w),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(1.5.w),
-      color: context.theme.colorScheme.onSurface,
+      color: context.theme.colorScheme.onPrimaryFixed,
       border: Border.all(
         width: 0.5,
         color: context.theme.colorScheme.onSecondary,
@@ -29,8 +29,8 @@ Widget dropdownWidget({
       onChanged: onChanged,
       underline: const SizedBox(),
       borderRadius: BorderRadius.circular(1.0.w),
-      focusColor: context.theme.colorScheme.background,
-      dropdownColor: context.theme.colorScheme.background,
+      focusColor: context.theme.colorScheme.surface,
+      dropdownColor: context.theme.colorScheme.surface,
       iconEnabledColor: context.theme.colorScheme.onSecondary,
       iconDisabledColor: context.theme.colorScheme.onSecondary,
       icon: Icon(size: 3.h, Icons.keyboard_arrow_down_rounded),

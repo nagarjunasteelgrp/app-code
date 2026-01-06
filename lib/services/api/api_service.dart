@@ -176,19 +176,24 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> autoTrackingAPI(
-      {double? latitude, double? longitude, String? address}) async {
+  Future<http.Response> autoTrackingAPI({
+    int? userId,
+    String? address,
+    double? latitude,
+    double? longitude,
+  }) async {
+    var body = jsonEncode({
+      "userId": userId,
+      "address": address,
+      "latitude": latitude,
+      "longitude": longitude,
+      "trackingType": "auto",
+      "time": DateTime.now().toIso8601String()
+    });
     final response = await http.post(
-      Uri.parse(ApiUrl.autoTrackingUrl),
+      body: body,
       headers: await getHeaders(),
-      body: jsonEncode({
-        "userId": userId,
-        "address": address,
-        "latitude": latitude,
-        "longitude": longitude,
-        "trackingType": "auto",
-        "time": DateTime.now().toIso8601String()
-      }),
+      Uri.parse(ApiUrl.autoTrackingUrl),
     );
     /*   print("autoTrackingAPI : ${response.request}");
     print("autoTrackingAPI : ${response.statusCode}");
@@ -197,9 +202,9 @@ class ApiServices {
   }
 
   Future<http.Response> trackingImages({
-    required int trackingInfoId,
     required File image,
     required String imageType,
+    required int trackingInfoId,
   }) async {
     var headers = await getHeaders();
     var request =
@@ -264,8 +269,11 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> checkOutAPI(
-      {required int checkInId, int? userId, dynamic checkInTime}) async {
+  Future<http.Response> checkOutAPI({
+    int? userId,
+    dynamic checkInTime,
+    required int checkInId,
+  }) async {
     final response = await http.put(
       Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers: await getHeaders(),
@@ -275,7 +283,7 @@ class ApiServices {
         "clockOut": DateTime.now().toIso8601String()
       }),
     );
-    /*  print("checkOutAPI : ${response.request}");
+    /* print("checkOutAPI : ${response.request}");
     print("checkOutAPI : ${response.statusCode}");
     print("checkOutAPI : ${response.body}"); */
     return response;

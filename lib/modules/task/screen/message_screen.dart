@@ -36,7 +36,9 @@ class MessageListScreen extends StatelessWidget {
                                 if (index == 0) {
                                   return Container(
                                     margin: EdgeInsets.symmetric(
-                                        horizontal: 1.h, vertical: 1.h),
+                                      vertical: 1.h,
+                                      horizontal: 1.h,
+                                    ),
                                     child: Table(
                                       border: TableBorder.all(
                                         width: 1,
@@ -86,7 +88,9 @@ class MessageListScreen extends StatelessWidget {
 
                                 return Container(
                                   margin: EdgeInsets.symmetric(
-                                      horizontal: 1.h, vertical: 1.h),
+                                    vertical: 1.h,
+                                    horizontal: 1.h,
+                                  ),
                                   child: Table(
                                     border: TableBorder.all(
                                       width: 1,

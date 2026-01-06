@@ -107,8 +107,7 @@ class TaskProvider extends ChangeNotifier {
       var response = await apiServices.followUpsPutApi(followUpId: followUpId);
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
-        showAppSnackBar(
-            type: 'success', context: context, title: responseData['message']);
+        showAppSnackBar(type: 'success', title: responseData['message']);
         followUpId = null;
         followUpsFetching();
         isLoading = false;
@@ -116,7 +115,7 @@ class TaskProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         var responseData = jsonDecode(response.body);
-        showAppSnackBar(context: context, title: responseData['message']);
+        showAppSnackBar(title: responseData['message']);
         isLoading = false;
         Get.back();
         notifyListeners();
@@ -147,7 +146,6 @@ class TaskProvider extends ChangeNotifier {
     String message = sendMessageController.text.trim();
     if (message.isEmpty) {
       showAppSnackBar(
-        context: context,
         title: 'Please enter a message before sending.',
       );
       return;
@@ -162,7 +160,6 @@ class TaskProvider extends ChangeNotifier {
 
         showAppSnackBar(
           type: 'success',
-          context: context,
           title: responseData['message'] ?? 'Message sent successfully.',
         );
         sendMessageController.clear();
@@ -172,7 +169,6 @@ class TaskProvider extends ChangeNotifier {
       } else {
         var responseData = jsonDecode(response.body);
         showAppSnackBar(
-          context: context,
           title: responseData['message'] ??
               'Failed to send message. Please try again.',
         );
@@ -180,7 +176,6 @@ class TaskProvider extends ChangeNotifier {
     } catch (e) {
       print('Error sending message: $e');
       showAppSnackBar(
-        context: context,
         title: 'Something went wrong. Please try again.',
       );
     } finally {
@@ -193,12 +188,14 @@ class TaskProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
+      Get.back();
       final response = await apiServices.statusUpdateAPI(
         status: status,
         statusId: statusId,
       );
       if (response.statusCode == 200) {
         taskByUserIdAPI();
+        showAppSnackBar(type: 'success', title: 'Status updated successfully');
         isLoading = false;
         notifyListeners();
       } else {

@@ -39,8 +39,8 @@ class ContactListScreen extends StatelessWidget {
                 height: 9.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  border:
-                      Border.all(color: context.theme.colorScheme.onBackground),
+                  border: Border.all(
+                      color: context.theme.colorScheme.onSecondaryFixed),
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 3.w),

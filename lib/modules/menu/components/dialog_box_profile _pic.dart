@@ -8,9 +8,7 @@ import 'package:sizer/sizer.dart';
 
 Widget profilePckDialogBox(value) {
   return Dialog(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

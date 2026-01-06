@@ -14,8 +14,8 @@ Future<bool> showExitPopup(context) async {
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(
-          mainAxisSize: MainAxisSize.min,
           spacing: 2.h,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(child: AppText(title: "Do you want to exit?")),

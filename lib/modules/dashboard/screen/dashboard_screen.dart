@@ -35,10 +35,7 @@ class DashBoardScreen extends StatelessWidget {
               final dropDownProvider = Provider.of<DashboardProvider>(context);
 
               return provider.isLoading == true
-                  ? const Align(
-                      alignment: Alignment.center,
-                      child: SpinKitLoader(),
-                    )
+                  ? Center(child: SpinKitLoader())
                   : SingleChildScrollView(
                       child: Column(
                         children: [
@@ -160,49 +157,84 @@ class DashBoardScreen extends StatelessWidget {
                                   colors: context.theme.colorScheme.secondary,
                                 ),
                                 Center(
-                                    child: AppText(
-                                  letterSpacing: 0.5,
-                                  color: context.theme.colorScheme.onSecondary,
-                                  title:
-                                      'Total No of Contacts ${provider.myProgressAPIResponse != null ? provider.myProgressAPIResponse['totalNoOfContacts'].toString() : '0'}',
-                                  fontWeight: FontWeight.bold,
-                                )),
+                                  child: AppText(
+                                    letterSpacing: 0.5,
+                                    color:
+                                        context.theme.colorScheme.onSecondary,
+                                    title:
+                                        'Total No of Contacts ${provider.myProgressAPIResponse != null ? provider.myProgressAPIResponse['totalNoOfContacts'].toString() : '0'}',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           SizedBox(height: 3.h),
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 1.5.h, vertical: 1.5.h),
+                              vertical: 1.5.h,
+                              horizontal: 1.5.h,
+                            ),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                color: AppColors.WHITE_COLOR,
-                                borderRadius: BorderRadius.circular(1.4.h),
-                                border:
-                                    Border.all(color: AppColors.borderColor)),
+                              color: AppColors.WHITE_COLOR,
+                              borderRadius: BorderRadius.circular(1.4.h),
+                              border: Border.all(color: AppColors.borderColor),
+                            ),
                             child: Column(
+                              spacing: 2.h,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 dashBoardDropDownOverallDistance(
-                                    context, provider),
-                                SizedBox(height: 2.h),
-                                Center(
-                                    child: AppText(
-                                  title:
-                                      'Total Distance : ${provider.overallDistance.toStringAsFixed(3)} Km',
-                                  fontWeight: FontWeight.bold,
-                                  color: context.theme.colorScheme.secondary
-                                      .withValues(alpha: 0.7),
-                                  letterSpacing: 0.5,
-                                  fontSize: 16,
-                                )),
+                                  context,
+                                  provider,
+                                ),
+                                Row(
+                                  spacing: 1.w,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    AppText(
+                                      fontSize: 16,
+                                      letterSpacing: 0.5,
+                                      title: 'Total Distance:',
+                                      fontWeight: FontWeight.bold,
+                                      color: context.theme.colorScheme.secondary
+                                          .withValues(alpha: 0.7),
+                                    ),
+                                    AnimatedDigitWidget(
+                                      fractionDigits: 2,
+                                      textStyle: GoogleFonts.lato(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            context.theme.colorScheme.secondary,
+                                      ),
+                                      value: double.tryParse(provider
+                                                  .overallDistance
+                                                  .toStringAsFixed(3)
+                                                  .toString())
+                                              ?.toDouble() ??
+                                          0,
+                                    ),
+                                    AppText(
+                                      title: 'KM',
+                                      fontSize: 16,
+                                      letterSpacing: 0.5,
+                                      fontWeight: FontWeight.bold,
+                                      color: context.theme.colorScheme.secondary
+                                          .withValues(alpha: 0.7),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
                           SizedBox(height: 3.h),
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 1.5.h, vertical: 1.5.h),
+                              vertical: 1.5.h,
+                              horizontal: 1.5.h,
+                            ),
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: AppColors.WHITE_COLOR,
@@ -217,7 +249,9 @@ class DashBoardScreen extends StatelessWidget {
                                     SizedBox(width: 1.h),
                                     Container(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 2.h, vertical: 0.7.h),
+                                        vertical: 0.7.h,
+                                        horizontal: 2.h,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: AppColors.blueColor2,
                                         borderRadius:
@@ -232,9 +266,10 @@ class DashBoardScreen extends StatelessWidget {
                                   ],
                                 ),
                                 appDivider(
-                                    context: context,
-                                    colors: context.theme.colorScheme.secondary,
-                                    vertical: 0.5.h),
+                                  vertical: 0.5.h,
+                                  context: context,
+                                  colors: context.theme.colorScheme.secondary,
+                                ),
                                 SizedBox(height: 1.5.h),
                                 Consumer<DashboardProvider>(
                                   builder: (context, provider, _) {
@@ -360,9 +395,9 @@ class DashBoardScreen extends StatelessWidget {
                                       borderRadius:
                                           BorderRadius.circular(1.0.w),
                                       dropdownColor:
-                                          context.theme.colorScheme.background,
+                                          context.theme.colorScheme.surface,
                                       focusColor:
-                                          context.theme.colorScheme.background,
+                                          context.theme.colorScheme.surface,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 1.9.h,
@@ -573,13 +608,16 @@ class DashBoardScreen extends StatelessWidget {
                               spacing: 1.h,
                               children: [
                                 dashBoardDropDownNewEnrollment(
-                                    context, provider),
+                                  context,
+                                  provider,
+                                ),
                                 ChartPie(provider: provider),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
+                                      spacing: 1.w,
                                       children: [
                                         Container(
                                           height: 1.5.h,
@@ -591,9 +629,6 @@ class DashBoardScreen extends StatelessWidget {
                                                 .theme.colorScheme.outline,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 1.h,
-                                        ),
                                         AppText(
                                           title: 'Dealers',
                                           color: context
@@ -602,6 +637,7 @@ class DashBoardScreen extends StatelessWidget {
                                       ],
                                     ),
                                     Row(
+                                      spacing: 1.w,
                                       children: [
                                         Container(
                                           height: 1.5.h,
@@ -613,9 +649,6 @@ class DashBoardScreen extends StatelessWidget {
                                                 .onPrimaryContainer,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 1.h,
-                                        ),
                                         AppText(
                                           title: 'Fabricator',
                                           color: context
@@ -624,6 +657,7 @@ class DashBoardScreen extends StatelessWidget {
                                       ],
                                     ),
                                     Row(
+                                      spacing: 1.w,
                                       children: [
                                         Container(
                                           height: 1.5.h,
@@ -634,9 +668,6 @@ class DashBoardScreen extends StatelessWidget {
                                             color: context.theme.colorScheme
                                                 .onInverseSurface,
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 1.h,
                                         ),
                                         AppText(
                                           title: 'Customer',

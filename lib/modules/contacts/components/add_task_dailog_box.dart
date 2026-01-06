@@ -16,7 +16,7 @@ void showAddTaskDialog(BuildContext context) {
       return Dialog(
         elevation: 5,
         insetAnimationCurve: Curves.bounceIn,
-        backgroundColor: context.theme.colorScheme.background,
+        backgroundColor: context.theme.colorScheme.surface,
         insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -70,7 +70,7 @@ void showAddTaskDialog(BuildContext context) {
                   appDivider(
                     vertical: 1.0,
                     context: context,
-                    colors: context.theme.colorScheme.onBackground,
+                    colors: context.theme.colorScheme.onSecondaryFixed,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -140,7 +140,7 @@ void showAddTaskDialog(BuildContext context) {
                       title: "Save",
                       fontSize: 1.5.h,
                       fontWeight: FontWeight.w600,
-                      color: context.theme.colorScheme.background,
+                      color: context.theme.colorScheme.surface,
                     ),
                   ),
                 ),

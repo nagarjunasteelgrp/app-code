@@ -12,14 +12,9 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class ReachedScreen extends StatefulWidget {
+class ReachedScreen extends StatelessWidget {
   const ReachedScreen({super.key});
 
-  @override
-  State<ReachedScreen> createState() => _ReachedScreenState();
-}
-
-class _ReachedScreenState extends State<ReachedScreen> {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -44,8 +39,9 @@ class _ReachedScreenState extends State<ReachedScreen> {
                   : 0.0;
 
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 2.h,
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding:
@@ -84,10 +80,12 @@ class _ReachedScreenState extends State<ReachedScreen> {
                         ),
                         SizedBox(height: 3.h),
                         Center(
-                            child: AppText(
-                                title: "Congratulations!",
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700)),
+                          child: AppText(
+                            fontSize: 24,
+                            title: "Congratulations!",
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         SizedBox(height: 2.h),
                         Center(
                             child: AppText(
@@ -121,43 +119,48 @@ class _ReachedScreenState extends State<ReachedScreen> {
                         ),
                         SizedBox(height: 2.h),
                         Center(
-                            child: AppText(
-                                title:
-                                    "You’re doing great! Stay  focused on your target",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: AppColors.greenColor2)),
+                          child: AppText(
+                            title:
+                                "You’re doing great! Stay  focused on your target",
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.greenColor2,
+                          ),
+                        ),
                         SizedBox(height: 2.h),
                         Consumer<HomeProvider>(
                           builder: (context, provider, child) {
                             return appButton(
-                                onTap: () {
-                                  provider.setReachedOut(true);
-                                  provider.setSelectedIndex(0);
-                                  Get.offNamed(RoutesName.HOME);
-                                },
-                                context: context,
-                                height: 5.7.h,
-                                radius: 1.5.h,
-                                width: double.infinity,
-                                child: AppText(
-                                    title: "Continue Journey",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: AppColors.WHITE_COLOR));
+                              height: 5.7.h,
+                              radius: 1.5.h,
+                              context: context,
+                              width: double.infinity,
+                              onTap: () {
+                                provider.setReachedOut(true);
+                                provider.setSelectedIndex(0);
+                                Get.offNamed(RoutesName.HOME);
+                              },
+                              child: AppText(
+                                fontSize: 16,
+                                title: "Continue Journey",
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.WHITE_COLOR,
+                              ),
+                            );
                           },
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 2.h),
                   Center(
-                      child: AppText(
-                          title:
-                              "$remainingDays Days remaining to complete the target",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: AppColors.BLACK_COLOR.withAlpha(150))),
+                    child: AppText(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.BLACK_COLOR.withAlpha(150),
+                      title:
+                          "$remainingDays Days remaining to complete the target",
+                    ),
+                  ),
                 ],
               );
             },

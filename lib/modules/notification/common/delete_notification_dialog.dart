@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-customDialogBoxNotification(context) {
+Future customDialogBoxNotification(context) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {

@@ -76,10 +76,9 @@ class AppDialogBox {
                             ),
                             Expanded(
                               child: appButton(
+                                context: context,
                                 onTap: () {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
+                                  setState(() => isLoading = true);
                                   Future.delayed(const Duration(seconds: 2),
                                       () {
                                     onYes();
@@ -88,10 +87,10 @@ class AppDialogBox {
                                   });
                                 },
                                 child: AppText(
-                                    title: customButtonText ?? 'yes',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                                context: context,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  title: customButtonText ?? 'yes',
+                                ),
                               ),
                             ),
                           ],

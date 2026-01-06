@@ -2,8 +2,10 @@ import 'package:digital_lync/common/app_button.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/constants.dart';
-import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
+import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/check%20In/screen/checkin_screen.dart';
+import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
+import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,7 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
         child: Dialog(
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
-          backgroundColor: context.theme.colorScheme.background,
+          backgroundColor: context.theme.colorScheme.surface,
           insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           child: Consumer<CheckInProvider>(
             builder: (context, provider, _) {
@@ -26,8 +28,8 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                 padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 3.h),
                 child: Column(
                   spacing: 2.h,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       spacing: 4.w,
@@ -55,21 +57,25 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                       ],
                     ),
                     provider.isLoading == false
-                        ? appButton(
-                            height: 5.h,
-                            radius: 0.8.h,
-                            context: context,
-                            width: double.infinity,
-                            onTap: () {
-                              checkInStatus == true
-                                  ? provider.checkInAPI()
-                                  : provider.checkOutAPI();
-                            },
-                            child: AppText(
-                              title: checkInStatus
-                                  ? Constants.checkIn
-                                  : Constants.checkOut,
-                              color: context.theme.colorScheme.background,
+                        ? ValueListenableBuilder<bool>(
+                            valueListenable: checkInStatus,
+                            builder: (context, value, child) => appButton(
+                              height: 5.h,
+                              radius: 0.8.h,
+                              context: context,
+                              width: double.infinity,
+                              onTap: () {
+                                value
+                                    ? provider.checkInAPI()
+                                    : provider.checkOutAPI();
+                                context.read<HomeProvider>().matchUserToken();
+                              },
+                              child: AppText(
+                                title: value
+                                    ? Constants.checkIn
+                                    : Constants.checkOut,
+                                color: context.theme.colorScheme.surface,
+                              ),
                             ),
                           )
                         : const Center(child: SpinKitLoader()),

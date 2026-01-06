@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class AnnouncementScreen extends StatelessWidget {
+  const AnnouncementScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,34 +33,33 @@ class NotificationScreen extends StatelessWidget {
                                 children: [
                                   Column(
                                     children: List.generate(
-                                        value.notificationAPIResponse.length,
-                                        (index) {
-                                      final dateTimeString =
-                                          value.notificationAPIResponse[index]
-                                              ['createdAt'];
-                                      final dateTime =
-                                          DateTime.parse(dateTimeString);
-                                      value.dateTime =
-                                          DateFormat('dd-MM-yyyy hh:mm a')
-                                              .format(dateTime.toLocal());
-                                      return taskContainerUI(
-                                        onTap: () {},
-                                        context,
-                                        colors: context
-                                            .theme.colorScheme.outline
-                                            .withValues(alpha: 0.8),
-                                        title:
+                                      value.notificationAPIResponse.length,
+                                      (index) {
+                                        final dateTimeString =
                                             value.notificationAPIResponse[index]
-                                                ['title'],
-                                        description:
-                                            value.notificationAPIResponse[index]
-                                                ['description'],
-                                        type:
-                                            value.notificationAPIResponse[index]
-                                                ['titleType'],
-                                        dateTime: value.dateTime,
-                                      );
-                                    }),
+                                                ['createdAt'];
+                                        final dateTime =
+                                            DateTime.parse(dateTimeString);
+                                        value.dateTime =
+                                            DateFormat('dd-MM-yyyy hh:mm a')
+                                                .format(dateTime.toLocal());
+                                        return taskContainerUI(
+                                          context,
+                                          onTap: () {},
+                                          colors: context
+                                              .theme.colorScheme.outline
+                                              .withValues(alpha: 0.8),
+                                          title: value.notificationAPIResponse[
+                                              index]['title'],
+                                          description:
+                                              value.notificationAPIResponse[
+                                                  index]['description'],
+                                          type: value.notificationAPIResponse[
+                                              index]['titleType'],
+                                          dateTime: value.dateTime,
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ],
                               );

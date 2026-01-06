@@ -1,6 +1,5 @@
 import 'package:digital_lync/modules/activities/provider/activities_provider.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
-import 'package:digital_lync/modules/auth/provider/reset_email_provider.dart';
 import 'package:digital_lync/modules/check%20In/provider/checkin_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contact_provider.dart';
 import 'package:digital_lync/modules/contacts/provider/contacts_details_provider.dart';
@@ -26,11 +25,9 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (context) => CheckInProvider()),
   ChangeNotifierProvider(create: (context) => DashboardProvider()),
   ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
-  ChangeNotifierProvider(create: (context) => ResetEmailProvider()),
   ChangeNotifierProvider(create: (context) => NotificationProvider()),
   ChangeNotifierProvider(create: (context) => RelatedContactProvider()),
   ChangeNotifierProvider(create: (context) => ContactDetailsProvider()),
   ChangeNotifierProvider(create: (context) => CurrentLocationProvider()),
-  ChangeNotifierProvider(
-      create: (context) => TrackingProvider(CurrentLocationProvider())),
+  ChangeNotifierProvider(create: (context) => TrackingProvider()),
 ];

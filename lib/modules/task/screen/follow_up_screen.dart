@@ -10,14 +10,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class FollowUpScreen extends StatefulWidget {
+class FollowUpScreen extends StatelessWidget {
   const FollowUpScreen({super.key});
 
-  @override
-  State<FollowUpScreen> createState() => _FollowUpScreenState();
-}
-
-class _FollowUpScreenState extends State<FollowUpScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -32,9 +27,10 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: AppText(
-                          title: Constants.filter,
-                          fontSize: 2.h,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 2.h,
+                        title: Constants.filter,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 1.h),
                     Padding(
@@ -49,24 +45,27 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 2.w, vertical: 1.h),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(1.h),
-                                      border: Border.all(
-                                          color: context
-                                              .theme.colorScheme.secondary
-                                              .withValues(alpha: 0.3))),
+                                    borderRadius: BorderRadius.circular(1.h),
+                                    border: Border.all(
+                                      color: context.theme.colorScheme.secondary
+                                          .withValues(alpha: 0.3),
+                                    ),
+                                  ),
                                   child: DropdownButton<String>(
-                                    value: provider.selectedDateFilter,
-                                    underline: const SizedBox(),
-                                    isExpanded: true,
                                     isDense: true,
+                                    isExpanded: true,
+                                    underline: const SizedBox(),
+                                    value: provider.selectedDateFilter,
                                     items: provider.dateFilters
-                                        .map((filter) => DropdownMenuItem(
-                                              value: filter,
-                                              child: AppText(
-                                                title: filter.capitalize!,
-                                                fontSize: 2.h,
-                                              ),
-                                            ))
+                                        .map(
+                                          (filter) => DropdownMenuItem(
+                                            value: filter,
+                                            child: AppText(
+                                              fontSize: 2.h,
+                                              title: filter.capitalize!,
+                                            ),
+                                          ),
+                                        )
                                         .toList(),
                                     onChanged: (value) {
                                       if (value != null) {
@@ -83,13 +82,16 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                               builder: (context, provider, child) {
                                 return Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 2.w, vertical: 1.h),
+                                    vertical: 1.h,
+                                    horizontal: 2.w,
+                                  ),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(1.h),
-                                      border: Border.all(
-                                          color: context
-                                              .theme.colorScheme.secondary
-                                              .withValues(alpha: 0.3))),
+                                    borderRadius: BorderRadius.circular(1.h),
+                                    border: Border.all(
+                                      color: context.theme.colorScheme.secondary
+                                          .withValues(alpha: 0.3),
+                                    ),
+                                  ),
                                   child: DropdownButton<String>(
                                     value: provider.selectedStatusFilter,
                                     underline: const SizedBox(),
@@ -97,13 +99,15 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                     isDense: true,
                                     isExpanded: true,
                                     items: provider.statusFilters
-                                        .map((filter) => DropdownMenuItem(
-                                              value: filter,
-                                              child: AppText(
-                                                title: filter.capitalize!,
-                                                fontSize: 2.h,
-                                              ),
-                                            ))
+                                        .map(
+                                          (filter) => DropdownMenuItem(
+                                            value: filter,
+                                            child: AppText(
+                                              title: filter.capitalize!,
+                                              fontSize: 2.h,
+                                            ),
+                                          ),
+                                        )
                                         .toList(),
                                     onChanged: (value) {
                                       if (value != null) {
@@ -135,10 +139,12 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 8),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: context
-                                              .theme.colorScheme.secondary)),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color:
+                                          context.theme.colorScheme.secondary,
+                                    ),
+                                  ),
                                   child: Column(
                                     children: [
                                       Row(
@@ -261,7 +267,7 @@ class _FollowUpScreenState extends State<FollowUpScreen> {
                                                   AppText(
                                                     title: 'Done',
                                                     color: context.theme
-                                                        .colorScheme.background,
+                                                        .colorScheme.surface,
                                                   ),
                                                 ],
                                               ),

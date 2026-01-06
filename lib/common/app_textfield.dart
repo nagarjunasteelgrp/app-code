@@ -10,7 +10,7 @@ Widget appTextField({
   maxLength,
   onChanged,
   validator,
-  controller, 
+  controller,
   suffixIcon,
   prefixIcon,
   obscureText,
@@ -50,7 +50,7 @@ Widget appTextField({
       border: InputBorder.none,
       hintStyle: GoogleFonts.outfit(),
       errorStyle: GoogleFonts.outfit(),
-      fillColor: context.theme.colorScheme.onSurface,
+      fillColor: context.theme.colorScheme.onPrimaryFixed,
       contentPadding: EdgeInsets.symmetric(
           vertical: verticalPadding ?? 1.6.h, horizontal: 2.5.w),
       enabledBorder: OutlineInputBorder(

@@ -4,7 +4,7 @@ import 'package:digital_lync/constants/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:digital_lync/services/api_service.dart';
+import 'package:digital_lync/services/api/api_service.dart';
 
 class ContactProvider extends ChangeNotifier {
   ContactProvider() {
@@ -191,12 +191,7 @@ class ContactProvider extends ChangeNotifier {
         isAddContactButton = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
-        showAppSnackBar(
-          type: 'success',
-          context: Get.context!,
-          title: responseBody['message'],
-        );
-
+        showAppSnackBar(type: 'success', title: responseBody['message']);
         resMessage = '';
         companyNameController.clear();
         personNameController.clear();
@@ -221,11 +216,7 @@ class ContactProvider extends ChangeNotifier {
     } catch (e) {
       isAddContactButton = false;
       notifyListeners();
-      showAppSnackBar(
-        title: 'Error',
-        context: Get.context!,
-        subtitle: e.toString(),
-      );
+      showAppSnackBar(title: 'Error', subtitle: e.toString());
     }
   }
 
@@ -320,7 +311,7 @@ class ContactProvider extends ChangeNotifier {
       }
     } catch (e) {
       isAddContactButton = false;
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      showAppSnackBar(title: 'Error', subtitle: e.toString());
     }
   }
 

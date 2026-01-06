@@ -54,17 +54,16 @@ Widget contactTopBar({required BuildContext context}) {
           spacing: 0.7.h,
           children: [
             appCircleIcon(
-                onTap: () {
-                  Get.toNamed(RoutesName.NEW_TASK);
-                },
-                context: context,
-                colors: context.theme.colorScheme.error,
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppAssets.APP_ACTIVITIES_SVG,
-                    color: context.theme.primaryColor,
-                  ),
-                )),
+              onTap: () {
+                Get.toNamed(RoutesName.NEW_TASK);
+              },
+              context: context,
+              colors: context.theme.colorScheme.error,
+              child: Center(
+                child: SvgPicture.asset(AppAssets.APP_ACTIVITIES_SVG,
+                    color: context.theme.primaryColor),
+              ),
+            ),
             const AppText(
               title: Constants.new_Tasks,
               fontWeight: FontWeight.w500,

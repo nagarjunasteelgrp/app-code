@@ -37,8 +37,7 @@ void contactBottomSheet(
                     builder: (BuildContext context, provider, Widget? child) {
                       return GestureDetector(
                         onTap: () {
-                          trackingProviders.getImage(
-                              context, ImageSource.camera);
+                          trackingProviders.getImage(ImageSource.camera);
                         },
                         child: AppText(
                           fontSize: 1.7.h,

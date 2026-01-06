@@ -39,24 +39,26 @@ class RowTextWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
-                  child: Column(
-                spacing: 0.5.h,
-                children: [
-                  AnimatedDigitWidget(
-                    textStyle: GoogleFonts.lato(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: context.theme.colorScheme.secondary,
+                child: Column(
+                  spacing: 0.5.h,
+                  children: [
+                    AnimatedDigitWidget(
+                      fractionDigits: 2,
+                      value:
+                          double.tryParse(value1.toString())?.toDouble() ?? 0,
+                      textStyle: GoogleFonts.lato(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: context.theme.colorScheme.secondary,
+                      ),
                     ),
-                    fractionDigits: 2,
-                    value: double.tryParse(value1.toString())?.toDouble() ?? 0,
-                  ),
-                  AppText(
-                    title: label1,
-                    color: context.theme.colorScheme.onSecondary,
-                  ),
-                ],
-              )),
+                    AppText(
+                      title: label1,
+                      color: context.theme.colorScheme.onSecondary,
+                    ),
+                  ],
+                ),
+              ),
               Column(
                 children: [
                   Dash(
@@ -76,12 +78,12 @@ class RowTextWidget extends StatelessWidget {
                 children: [
                   AnimatedDigitWidget(
                     fractionDigits: 2,
+                    value: double.tryParse(value2.toString())?.toDouble() ?? 0,
                     textStyle: GoogleFonts.lato(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: context.theme.colorScheme.secondary,
                     ),
-                    value: double.tryParse(value2.toString())?.toDouble() ?? 0,
                   ),
                   AppText(
                     title: label2,
@@ -101,24 +103,26 @@ class RowTextWidget extends StatelessWidget {
                 ],
               ),
               Expanded(
-                  child: Column(
-                spacing: 0.5.h,
-                children: [
-                  AnimatedDigitWidget(
-                    fractionDigits: 2,
-                    textStyle: GoogleFonts.lato(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: context.theme.colorScheme.secondary,
+                child: Column(
+                  spacing: 0.5.h,
+                  children: [
+                    AnimatedDigitWidget(
+                      fractionDigits: 2,
+                      textStyle: GoogleFonts.lato(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: context.theme.colorScheme.secondary,
+                      ),
+                      value:
+                          double.tryParse(value3.toString())?.toDouble() ?? 0,
                     ),
-                    value: double.tryParse(value3.toString())?.toDouble() ?? 0,
-                  ),
-                  AppText(
-                    title: label3,
-                    color: context.theme.colorScheme.onSecondary,
-                  ),
-                ],
-              )),
+                    AppText(
+                      title: label3,
+                      color: context.theme.colorScheme.onSecondary,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ],

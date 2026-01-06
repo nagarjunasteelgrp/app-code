@@ -1,6 +1,6 @@
 class ApiUrl {
-//----------------------BaseURL--------------------------------//
-  static String baseUrl = productionUrl;
+  //----------------------BaseURL--------------------------------//
+  static String baseUrl = devUrl;
 
   static String localUrl = 'http://192.168.29.54:4000/api/v1/';
 
@@ -10,40 +10,46 @@ class ApiUrl {
 
   static String productionUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
 
-//----------------------API Routs--------------------------------//
+  //----------------------API Routs--------------------------------//
 
   static String checkInUrl = '${baseUrl}attendance';
+
+  static String followUpsUrl = '${baseUrl}followUp';
+
+  static String sendMessageUrl = '${baseUrl}messages';
+
+  static String followUpsPutUrl = '${baseUrl}followUp';
 
   static String createContactUrl = '${baseUrl}contacts';
 
   static String trackingInfoUrl = '${baseUrl}activities';
 
-  static String loginUrl = '${baseUrl}users/login/salesperson';
-
-  static String resetEmailUrl = '${baseUrl}auth/resetPassword';
-
-  static String contactUpdateUrl(int id) => '${baseUrl}contacts/$id';
-
-  static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
-
   static String contactListUrl(int id, String type) =>
       '${baseUrl}contacts?userId=$id&contactType=$type';
+
+  static String autoTrackingUrl = '${baseUrl}activities';
 
   static String trackingNotesUrl = '${baseUrl}tracking-notes';
 
   static String trackingImageUrl = '${baseUrl}tracking-images';
 
-  static String relatedContactsListUrl = '${baseUrl}related-contacts';
+  static String loginUrl = '${baseUrl}users/login/salesperson';
 
-  static String autoTrackingUrl = '${baseUrl}activities';
+  static String resetEmailUrl = '${baseUrl}auth/resetPassword';
+
+  static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
 
   static String getTaskListUrl(int id) => '${baseUrl}task/user/$id';
+
+  static String contactUpdateUrl(int id) => '${baseUrl}contacts/$id';
+
+  static String contactDetailsUrl(int id) => '${baseUrl}contacts/$id';
+
+  static String relatedContactsListUrl = '${baseUrl}related-contacts';
 
   static String checkInListUrl(int id) => '${baseUrl}attendance/user/$id';
 
   static String matchUserTokenUrl(int userId) => '${baseUrl}users/$userId';
-
-  static String checkOutUrl(int id) => '${baseUrl}attendance/$id';
 
   static String trackingInfoListUrl(int dealerId) =>
       '${baseUrl}activities?dealerId=$dealerId';
@@ -69,12 +75,6 @@ class ApiUrl {
 
   static String updateDisplayPictureUrl() =>
       '${baseUrl}users/updateProfilePicture';
-
-  static String sendMessageUrl = '${baseUrl}messages';
-
-  static String followUpsUrl = '${baseUrl}followUp';
-
-  static String followUpsPutUrl = '${baseUrl}followUp';
 
   static String followUpsUrlByUserId(userId, status, period) =>
       '${baseUrl}followUp/?userId=$userId&status=$status&period=$period';

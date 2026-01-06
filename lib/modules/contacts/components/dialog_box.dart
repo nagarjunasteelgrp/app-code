@@ -30,7 +30,7 @@ void showCreateContactDialog(
         child: Dialog(
           elevation: 5,
           insetAnimationCurve: Curves.bounceIn,
-          backgroundColor: context.theme.colorScheme.background,
+          backgroundColor: context.theme.colorScheme.surface,
           insetPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
           child: Consumer<ContactProvider>(builder: (context, provider, _) {
             return SingleChildScrollView(
@@ -177,7 +177,7 @@ void showCreateContactDialog(
                           textInputAction: TextInputAction.next,
                           controller: provider.phoneNumberController,
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(10)
+                            LengthLimitingTextInputFormatter(10),
                           ],
                         ),
                         SizedBox(height: 1.5.h),
@@ -323,7 +323,7 @@ void showCreateContactDialog(
                                       context: context,
                                       width: double.infinity,
                                       boxColor: context
-                                          .theme.colorScheme.onBackground
+                                          .theme.colorScheme.onSecondaryFixed
                                           .withValues(alpha: 0.3),
                                       child: AppText(
                                         fontSize: 1.5.h,
@@ -350,8 +350,8 @@ void showCreateContactDialog(
                                       child: AppText(
                                         title: Constants.save,
                                         fontSize: 1.5.h,
-                                        color: context
-                                            .theme.colorScheme.background,
+                                        color:
+                                            context.theme.colorScheme.surface,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),

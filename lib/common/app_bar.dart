@@ -64,7 +64,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
             )
           : GestureDetector(
-              onTap: onTap,
+              onTap: onTap ?? () => Get.back(),
               child: Icon(
                 size: 5.w,
                 Icons.arrow_back_ios_new,

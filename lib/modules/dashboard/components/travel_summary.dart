@@ -15,8 +15,8 @@ Widget travelSummary() {
   return Consumer<DashboardProvider>(
     builder: (context, provider, child) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 1.5.h),
         width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 1.5.h),
         decoration: BoxDecoration(
           color: AppColors.WHITE_COLOR,
           borderRadius: BorderRadius.circular(1.4.h),
@@ -30,10 +30,11 @@ Widget travelSummary() {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const AppText(
-                    fontSize: 20,
-                    title: "Travel Summary",
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.lightBlackColor),
+                  fontSize: 20,
+                  title: "Travel Summary",
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.lightBlackColor,
+                ),
                 Container(
                   padding:
                       EdgeInsets.symmetric(horizontal: 1.5.h, vertical: 0.4.h),
@@ -50,7 +51,7 @@ Widget travelSummary() {
                       ),
                     ],
                   ),
-                  child: GestureDetector(
+                  child: InkResponse(
                     onTap: () async {
                       final pickedDate = await showDatePicker(
                         context: context,
@@ -82,6 +83,7 @@ Widget travelSummary() {
                       }
                     },
                     child: const Row(
+                      spacing: 5,
                       children: [
                         AppText(
                           title: "Date",
@@ -89,7 +91,6 @@ Widget travelSummary() {
                           fontWeight: FontWeight.w500,
                           color: AppColors.purpleColor,
                         ),
-                        SizedBox(width: 5),
                         Icon(
                           size: 20,
                           color: AppColors.purpleColor,
@@ -102,10 +103,11 @@ Widget travelSummary() {
               ],
             ),
             const AppText(
-                title: "Activity ",
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightBlackColor),
+              title: "Activity ",
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: AppColors.lightBlackColor,
+            ),
             Row(
               children: [
                 Expanded(
@@ -114,19 +116,21 @@ Widget travelSummary() {
                     children: [
                       SvgPicture.asset(AppAssets.dateSvg),
                       Column(
+                        spacing: 5,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const AppText(
-                              title: "Date",
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.lightBlackColor,
-                              fontSize: 14),
-                          const SizedBox(height: 5),
+                            fontSize: 14,
+                            title: "Date",
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.lightBlackColor,
+                          ),
                           AppText(
-                              title: provider.dateSelectedActivityLocation
-                                  .toString(),
-                              fontSize: 12,
-                              color: AppColors.tooLightBlackColor),
+                            fontSize: 12,
+                            color: AppColors.tooLightBlackColor,
+                            title: provider.dateSelectedActivityLocation
+                                .toString(),
+                          ),
                         ],
                       )
                     ],
@@ -228,39 +232,25 @@ Widget travelSummary() {
             ),
             provider.points.isNotEmpty
                 ? SizedBox(
-                    height: 220,
+                    height: 40.h,
                     width: double.infinity,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(1.5.h),
                       child: GoogleMap(
-                        myLocationEnabled: false,
-                        tiltGesturesEnabled: true,
-                        zoomGesturesEnabled: true,
                         zoomControlsEnabled: false,
-                        scrollGesturesEnabled: true,
-                        rotateGesturesEnabled: true,
-                        myLocationButtonEnabled: false,
-                        onMapCreated: (GoogleMapController controller) {
-                          provider.mapController = controller;
+                        onMapCreated: (GoogleMapController controller) =>
+                            provider.mapController = controller,
+                        gestureRecognizers: <Factory<
+                            OneSequenceGestureRecognizer>>{
+                          Factory<OneSequenceGestureRecognizer>(
+                              () => EagerGestureRecognizer()),
                         },
                         initialCameraPosition: CameraPosition(
-                          zoom: 7.5,
+                          zoom: 13,
                           target: provider.points.isNotEmpty
                               ? provider.points[0]
                               : const LatLng(0, 0),
                         ),
-                        markers: {
-                          for (int i = 0; i < provider.points.length; i++)
-                            Marker(
-                              markerId: MarkerId(i.toString()),
-                              position: provider.points[i],
-                              icon: BitmapDescriptor.defaultMarkerWithHue(
-                                  BitmapDescriptor.hueBlue),
-                              infoWindow: InfoWindow(
-                                  title: '${i + 1}',
-                                  snippet: provider.addresses[i]),
-                            )
-                        },
                         polylines: {
                           Polyline(
                             width: 4,
@@ -271,20 +261,41 @@ Widget travelSummary() {
                                 : provider.points,
                           )
                         },
-                        gestureRecognizers: <Factory<
-                            OneSequenceGestureRecognizer>>{
-                          Factory<OneSequenceGestureRecognizer>(
-                              () => EagerGestureRecognizer()),
+                        markers: {
+                          for (int i = 0; i < provider.points.length; i++)
+                            Marker(
+                              position: provider.points[i],
+                              markerId: MarkerId(i.toString()),
+                              // CHANGE: COLOR LOGIC
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                i == 0
+                                    ? BitmapDescriptor
+                                        .hueGreen // Start Point = GREEN
+                                    : i == provider.points.length - 1
+                                        ? BitmapDescriptor
+                                            .hueRed // End Point = RED
+                                        : BitmapDescriptor
+                                            .hueBlue, // Middle Points = BLUE
+                              ),
+                              infoWindow: InfoWindow(
+                                snippet: provider.addresses[i],
+                                title: i == 0
+                                    ? 'Start Point'
+                                    : i == provider.points.length - 1
+                                        ? 'End Point'
+                                        : 'Location ${i + 1}',
+                              ),
+                            )
                         },
                       ),
                     ),
                   )
                 : const Center(
                     child: AppText(
-                      title: "No route available for selected date",
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: AppColors.tooLightBlackColor,
+                      title: "No route available for selected date",
                     ),
                   )
           ],

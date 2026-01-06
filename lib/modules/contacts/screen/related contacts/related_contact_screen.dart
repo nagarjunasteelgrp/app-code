@@ -39,9 +39,7 @@ class RelatedContactScreen extends StatelessWidget {
           Consumer<RelatedContactProvider>(builder: (context, provider, _) {
             return Expanded(
               child: (provider.isLoading)
-                  ? const Center(
-                      child: SpinKitLoader(),
-                    )
+                  ? const Center(child: SpinKitLoader())
                   : Column(
                       children: List.generate(
                           provider.relatedContactList.length, (index) {

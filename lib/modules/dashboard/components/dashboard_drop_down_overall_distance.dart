@@ -11,10 +11,10 @@ Widget dashBoardDropDownOverallDistance(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       AppText(
+        fontSize: 1.8.h,
+        letterSpacing: 0.4,
         title: 'Overall Distance',
         fontWeight: FontWeight.bold,
-        letterSpacing: 0.4,
-        fontSize: 1.8.h,
       ),
       Container(
         width: 12.h,
@@ -31,8 +31,8 @@ Widget dashBoardDropDownOverallDistance(
               isExpanded: true,
               underline: const SizedBox(),
               borderRadius: BorderRadius.circular(1.0.w),
-              focusColor: context.theme.colorScheme.background,
-              dropdownColor: context.theme.colorScheme.background,
+              focusColor: context.theme.colorScheme.surface,
+              dropdownColor: context.theme.colorScheme.surface,
               value: provider.selectedValueOverallDistance.toString(),
               iconEnabledColor: context.theme.colorScheme.onSecondary,
               iconDisabledColor: context.theme.colorScheme.onSecondary,
@@ -54,10 +54,10 @@ Widget dashBoardDropDownOverallDistance(
                   child: Padding(
                     padding: EdgeInsets.only(left: 0.5.w),
                     child: AppText(
-                      title: "${data[0].toUpperCase()}${data.substring(1)}",
                       fontSize: 1.5.h,
-                      color: AppColors.lightBlackColor,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.lightBlackColor,
+                      title: "${data[0].toUpperCase()}${data.substring(1)}",
                     ),
                   ),
                 );

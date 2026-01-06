@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:digital_lync/services/api_service.dart';
+import 'package:digital_lync/helper/shared_prefs_helper.dart';
+import 'package:digital_lync/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackingCurrentLocationProvider extends ChangeNotifier {
   String address = '';
@@ -54,9 +54,8 @@ class TrackingCurrentLocationProvider extends ChangeNotifier {
   }
 
   getMapData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    latitude = prefs.getDouble("latitude");
-    longitude = prefs.getDouble("longitude");
+    latitude = SharedPrefsHelper.getDouble("latitude");
+    longitude = SharedPrefsHelper.getDouble("longitude");
     notifyListeners();
   }
 

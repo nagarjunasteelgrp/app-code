@@ -1,5 +1,4 @@
 import 'package:digital_lync/common/app_button.dart';
-import 'package:digital_lync/common/app_dialog_for_background_permission.dart';
 import 'package:digital_lync/common/app_divider.dart';
 import 'package:digital_lync/common/app_loader.dart';
 import 'package:digital_lync/common/app_text.dart';
@@ -9,35 +8,13 @@ import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/modules/auth/provider/login_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final prefs = await SharedPreferences.getInstance();
-
-      bool isDialogShown = prefs.getBool('isLocationDialogShown') ?? false;
-
-      if (!isDialogShown) {
-        showLocationDisclosureDialog();
-        await prefs.setBool('isLocationDialogShown', true);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -110,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             title: const AppText(title: "Remember Me"),
                             onChanged: (values) => value.toggleCheckbox(),
                             activeColor: context.theme.colorScheme.primary,
-                            checkColor: context.theme.colorScheme.background,
+                            checkColor: context.theme.colorScheme.surface,
                             controlAffinity: ListTileControlAffinity.leading,
                             checkboxShape: const RoundedRectangleBorder(
                               borderRadius: BorderRadiusGeometry.all(
@@ -133,8 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       title: "Login",
                                       fontSize: 2.h,
                                       fontWeight: FontWeight.w700,
-                                      color:
-                                          context.theme.colorScheme.background,
+                                      color: context.theme.colorScheme.surface,
                                     ),
                                   ),
                                 );
@@ -162,8 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ..onTap = () async {
                                   await launchUrl(
                                     Uri.parse(
-                                      'https://www.nagarjunasteel.com/privacy-policy',
-                                    ),
+                                        'https://www.nagarjunasteel.com/privacy-policy'),
                                   );
                                 },
                             ),

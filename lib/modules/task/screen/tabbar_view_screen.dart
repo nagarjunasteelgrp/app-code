@@ -1,12 +1,13 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
+import 'package:digital_lync/constants/app_colors.dart';
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/modules/task/components/message_dialog_box.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:digital_lync/modules/task/screen/follow_up_screen.dart';
 import 'package:digital_lync/modules/task/screen/message_screen.dart';
-import 'package:digital_lync/modules/task/screen/notification_screen.dart';
+import 'package:digital_lync/modules/task/screen/announcement_screen.dart';
 import 'package:digital_lync/modules/task/screen/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -78,13 +79,9 @@ class _TabBarViewScreenState extends State<TabBarViewScreen>
                   ),
                   child: ButtonsTabBar(
                     controller: tabController,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.WHITE_COLOR,
                     onTap: (index) => provider.changeIndex(index),
-                    unselectedBackgroundColor: Colors.transparent,
-                    labelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    unselectedBackgroundColor: AppColors.lightGreyColor,
                     tabs: [
                       Tab(
                         child: SizedBox(
@@ -128,7 +125,7 @@ class _TabBarViewScreenState extends State<TabBarViewScreen>
                     controller: tabController,
                     children: [
                       TaskScreen(),
-                      NotificationScreen(),
+                      AnnouncementScreen(),
                       MessageListScreen(scrollController: scrollController),
                       FollowUpScreen(),
                     ],

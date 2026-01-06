@@ -51,88 +51,85 @@ class ActivitiesScreen extends StatelessWidget {
                       ? const Center(
                           child: AppText(title: Constants.result_not_found),
                         )
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: List.generate(provider.taskList.length,
-                                (index) {
-                              return Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 5.h),
-                                    child: Row(
-                                      spacing: 5.w,
-                                      children: [
-                                        Column(
+                      : ListView.builder(
+                          itemCount: provider.taskList.length,
+                          itemBuilder: (context, index) {
+                            final task = provider.taskList[index];
+
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5.h),
+                                  child: Row(
+                                    spacing: 5.w,
+                                    children: [
+                                      Column(
+                                        spacing: 1.0.h,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            fontSize: 1.6.h,
+                                            title: '${Constants.subject} :',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          AppText(
+                                            title: '${Constants.due_Date} :',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          AppText(
+                                            title: '${Constants.priority} :',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          AppText(
+                                            title: '${Constants.owner} :',
+                                            fontSize: 1.6.h,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 2.h),
+                                        child: Column(
                                           spacing: 1.0.h,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             AppText(
                                               fontSize: 1.6.h,
-                                              title: '${Constants.subject} :',
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
+                                              title: task['subject'],
                                             ),
                                             AppText(
-                                              title: '${Constants.due_Date} :',
                                               fontSize: 1.6.h,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
+                                              title: task['dueDate']
+                                                  .substring(0, 10),
+                                              color: context
+                                                  .theme.colorScheme.onPrimary,
                                             ),
                                             AppText(
-                                              title: '${Constants.priority} :',
                                               fontSize: 1.6.h,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
+                                              title: task['priority'],
                                             ),
                                             AppText(
-                                              title: '${Constants.owner} :',
                                               fontSize: 1.6.h,
-                                              fontWeight: FontWeight.w500,
+                                              title: 'Nandan Raikwar',
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 2.h),
-                                          child: Column(
-                                            spacing: 1.0.h,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AppText(
-                                                fontSize: 1.6.h,
-                                                fontWeight: FontWeight.w600,
-                                                title: provider.taskList[index]
-                                                    ['subject'],
-                                              ),
-                                              AppText(
-                                                fontSize: 1.6.h,
-                                                fontWeight: FontWeight.w600,
-                                                title: provider.taskList[index]
-                                                        ['dueDate']
-                                                    .substring(0, 10),
-                                                color: context.theme.colorScheme
-                                                    .onPrimary,
-                                              ),
-                                              AppText(
-                                                fontSize: 1.6.h,
-                                                fontWeight: FontWeight.w600,
-                                                title: provider.taskList[index]
-                                                    ['priority'],
-                                              ),
-                                              AppText(
-                                                fontSize: 1.6.h,
-                                                title: 'Nandan Raikwar',
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
-                                  appDivider(context: context, vertical: 1.h),
-                                ],
-                              );
-                            }),
-                          ),
+                                ),
+                                appDivider(context: context, vertical: 1.h),
+                              ],
+                            );
+                          },
                         ),
             ),
           ],

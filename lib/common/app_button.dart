@@ -15,7 +15,6 @@ Widget appButton({
   VoidCallback? onTap,
   List<BoxShadow>? boxShadow,
   required BuildContext context,
-  border,
 }) {
   return GestureDetector(
     onTap: onTap,

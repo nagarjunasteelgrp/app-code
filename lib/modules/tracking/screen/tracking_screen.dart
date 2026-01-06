@@ -4,7 +4,6 @@ import 'package:digital_lync/common/app_outline_button.dart';
 import 'package:digital_lync/common/app_text.dart';
 import 'package:digital_lync/constants/app_assets.dart';
 import 'package:digital_lync/constants/global.dart';
-import 'package:digital_lync/modules/contacts/provider/current_location_provider.dart';
 import 'package:digital_lync/modules/tracking/components/map_dialog_box.dart';
 import 'package:digital_lync/modules/tracking/components/tracking_list.dart';
 import 'package:digital_lync/modules/tracking/provider/tracking_provider.dart';
@@ -14,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-TrackingProvider trackingProvider = TrackingProvider(CurrentLocationProvider());
+TrackingProvider trackingProvider = TrackingProvider();
 
 class TrackingScreen extends StatelessWidget {
   const TrackingScreen({super.key});
@@ -22,22 +21,21 @@ class TrackingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: CurrentLocationProvider(),
-      child: ChangeNotifierProvider.value(
-        value: trackingProvider,
-        child: Scaffold(
-          appBar: CommonAppBar(
-            leadingArrow: true,
-            onTap: () => Get.back(),
-            title: username.toString(),
-          ),
-          body: Consumer<TrackingProvider>(builder: (context, provider, child) {
+      value: trackingProvider,
+      child: Scaffold(
+        appBar: CommonAppBar(
+          leadingArrow: true,
+          onTap: () => Get.back(),
+          title: username.toString(),
+        ),
+        body: Consumer<TrackingProvider>(
+          builder: (context, provider, child) {
             return provider.isLoading == false
                 ? SingleChildScrollView(
                     controller: trackingProvider.scrollController,
                     child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                          EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
                       child: Column(
                         spacing: 2.h,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,12 +43,13 @@ class TrackingScreen extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.symmetric(
                               vertical: 2.h,
-                              horizontal: 2.h,
+                              horizontal: 2.w,
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(1.5.h),
                               border: Border.all(
-                                color: context.theme.colorScheme.onBackground,
+                                color:
+                                    context.theme.colorScheme.onSecondaryFixed,
                               ),
                             ),
                             child: Column(
@@ -90,6 +89,7 @@ class TrackingScreen extends StatelessWidget {
                                   ),
                                 ),
                                 AppText(
+                                  fontWeight: FontWeight.w700,
                                   title: 'Capture geo location',
                                   color: context.theme.colorScheme.primary,
                                 ),
@@ -102,7 +102,7 @@ class TrackingScreen extends StatelessWidget {
                     ),
                   )
                 : const Center(child: SpinKitLoader());
-          }),
+          },
         ),
       ),
     );

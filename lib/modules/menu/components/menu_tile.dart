@@ -73,7 +73,7 @@ class MenuTile extends StatelessWidget {
                                 height: iconHeight ?? 4.h,
                                 fit: BoxFit.fill,
                                 colorFilter: ColorFilter.mode(
-                                  context.theme.colorScheme.background,
+                                  context.theme.colorScheme.surface,
                                   BlendMode.srcIn,
                                 ),
                               ),

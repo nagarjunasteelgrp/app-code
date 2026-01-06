@@ -22,11 +22,12 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
             return Dialog(
               elevation: 5,
               insetAnimationCurve: Curves.bounceIn,
-              backgroundColor: context.theme.colorScheme.background,
+              backgroundColor: context.theme.colorScheme.surface,
               insetPadding:
                   EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(1.5.h)),
+                borderRadius: BorderRadius.circular(1.5.h),
+              ),
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -70,7 +71,7 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                                   width: double.infinity,
                                   onTap: () => Get.back(),
                                   boxColor: context
-                                      .theme.colorScheme.onBackground
+                                      .theme.colorScheme.onSecondaryFixed
                                       .withValues(alpha: 0.3),
                                   child: AppText(
                                     fontSize: 1.5.h,
@@ -91,7 +92,7 @@ void messageDialogBox(BuildContext context, TaskProvider provider) {
                                     title: "Save",
                                     fontSize: 1.5.h,
                                     fontWeight: FontWeight.w600,
-                                    color: context.theme.colorScheme.background,
+                                    color: context.theme.colorScheme.surface,
                                   ),
                                 ),
                               ),

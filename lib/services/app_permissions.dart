@@ -1,33 +1,40 @@
+import 'package:digital_lync/common/app_dialog_for_background_permission.dart';
+import 'package:digital_lync/services/location_monitor.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AppPermissions {
-  /// Request all runtime permissions (Android 13–15)
+  static Future<void> checkAndShowDialog() async {
+    bool isGranted = await AppPermissions.hasAll();
+
+    if (!isGranted) {
+      if (Get.context != null) {
+        await showLocationDisclosureDialog();
+      }
+    } else {
+      LocationMonitor.startLocationMonitoring();
+    }
+  }
+
   static Future<void> requestAll() async {
-    // 🔔 Notification (Android 13+)
+    // 1. Notification (Android 13+)
     if (await Permission.notification.isDenied) {
       await Permission.notification.request();
     }
-
-    // 📍 Foreground location
     if (await Permission.locationWhenInUse.isDenied) {
       await Permission.locationWhenInUse.request();
     }
-
-    // 🌍 Background location (Android 10+)
     if (await Permission.locationAlways.isDenied) {
       await Permission.locationAlways.request();
     }
-
-    // 🔋 Battery optimization ignore
     if (await Permission.ignoreBatteryOptimizations.isDenied) {
       await Permission.ignoreBatteryOptimizations.request();
     }
   }
 
-  /// Check if required permissions are granted
   static Future<bool> hasAll() async {
-    return await Permission.notification.isGranted &&
-        await Permission.locationWhenInUse.isGranted &&
-        await Permission.locationAlways.isGranted;
+    bool notification = await Permission.notification.isGranted;
+    bool locationAlways = await Permission.locationAlways.isGranted;
+    return notification && locationAlways;
   }
 }

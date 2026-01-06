@@ -32,6 +32,7 @@ class ChartPieState extends State<ChartPie> {
                 sections: [
                   PieChartSectionData(
                     radius: 60,
+                    showTitle: false,
                     badgePositionPercentageOffset: 0.9,
                     color: context.theme.colorScheme.outline,
                     value: widget.provider.dealerSum.toDouble(),
@@ -51,7 +52,6 @@ class ChartPieState extends State<ChartPie> {
                         ),
                       ),
                     ),
-                    showTitle: false,
                   ),
                   PieChartSectionData(
                     radius: 60,
@@ -78,6 +78,7 @@ class ChartPieState extends State<ChartPie> {
                   ),
                   PieChartSectionData(
                     radius: 60,
+                    showTitle: false,
                     badgePositionPercentageOffset: 0.9,
                     value: widget.provider.customerSum.toDouble(),
                     color: context.theme.colorScheme.onInverseSurface,
@@ -97,14 +98,13 @@ class ChartPieState extends State<ChartPie> {
                         ),
                       ),
                     ),
-                    showTitle: false,
                   ),
                   PieChartSectionData(
-                    value: widget.provider.engineersSum.toDouble(),
-                    color: context.theme.colorScheme.onPrimary,
                     radius: 60,
-                    // Reduced radius
+                    showTitle: false,
                     badgePositionPercentageOffset: 0.9,
+                    color: context.theme.colorScheme.onPrimary,
+                    value: widget.provider.engineersSum.toDouble(),
                     badgeWidget: Container(
                       height: 4.h,
                       width: 4.h,
@@ -121,7 +121,6 @@ class ChartPieState extends State<ChartPie> {
                         ),
                       ),
                     ),
-                    showTitle: false,
                   ),
                   PieChartSectionData(
                     radius: 60,
@@ -160,8 +159,8 @@ class ChartPieState extends State<ChartPie> {
                   ),
                   AppText(
                     fontSize: 8.sp,
-                    fontWeight: FontWeight.bold,
                     title: 'Total Enrollment',
+                    fontWeight: FontWeight.bold,
                     color: context.theme.colorScheme.secondary
                         .withValues(alpha: 0.5),
                   ),

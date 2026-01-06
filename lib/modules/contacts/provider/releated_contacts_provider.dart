@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:digital_lync/services/api_service.dart';
+import 'package:digital_lync/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class RelatedContactProvider extends ChangeNotifier {

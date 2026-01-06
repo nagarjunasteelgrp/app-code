@@ -3,10 +3,10 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:sizer/sizer.dart';
 
 Widget appOutlineButton({
-  border,
   double? width,
   double? height,
   double? radius,
+  BoxBorder? border,
   final Color? color,
   VoidCallback? onTap,
   final Widget? child,

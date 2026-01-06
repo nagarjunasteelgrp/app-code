@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:digital_lync/constants/app_snackbar.dart';
 import 'package:digital_lync/constants/validation.dart';
-import 'package:digital_lync/services/api_service.dart';
+import 'package:digital_lync/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,13 +30,7 @@ class ContactDetailsProvider extends ChangeNotifier {
   String? description;
   int? contactUserId;
   String? selectedValue;
-  List dropDown = [
-    "customer",
-    "fabricator",
-    "dealer",
-    "engineers",
-    "masons",
-  ];
+  List dropDown = ["customer", "fabricator", "dealer", "engineers", "masons"];
 
   dropDownSelectedValue(newValue) {
     selectedValue = newValue;
@@ -44,7 +38,6 @@ class ContactDetailsProvider extends ChangeNotifier {
   }
 
   ContactDetailsProvider() {
-    // contactId = Get.arguments['id'] ?? '';
     selectedValue = dropDown.first;
     notifyListeners();
     contactDetailsAPI();
@@ -97,43 +90,37 @@ class ContactDetailsProvider extends ChangeNotifier {
     String description = descriptionController.text.trim();
 
     if (companyName.isEmpty) {
-      showAppSnackBar(
-          context: context, title: 'Please enter your companyName.');
+      showAppSnackBar(title: 'Please enter your companyName.');
       return;
     }
     if (personName.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your personName.');
+      showAppSnackBar(title: 'Please enter your personName.');
       return;
     }
     if (phoneNumber.isEmpty) {
-      showAppSnackBar(
-          context: context, title: 'Please enter your phoneNumber.');
+      showAppSnackBar(title: 'Please enter your phoneNumber.');
       return;
     } else if (phoneNumber.length != 10) {
-      showAppSnackBar(
-          context: context,
-          title: 'Please enter a valid 10-digit phoneNumber.');
+      showAppSnackBar(title: 'Please enter a valid 10-digit phoneNumber.');
       return;
     }
     if (emailId.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your email.');
+      showAppSnackBar(title: 'Please enter your email.');
       return;
     } else if (!Validation.isValidEmail(emailController.text.trim())) {
-      showAppSnackBar(
-          context: context, title: 'Please enter a valid email address.');
+      showAppSnackBar(title: 'Please enter a valid email address.');
       return;
     }
     if (taxId.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your taxId.');
+      showAppSnackBar(title: 'Please enter your taxId.');
       return;
     }
     if (address.isEmpty) {
-      showAppSnackBar(context: context, title: 'Please enter your address.');
+      showAppSnackBar(title: 'Please enter your address.');
       return;
     }
     if (description.isEmpty) {
-      showAppSnackBar(
-          context: context, title: 'Please enter your description.');
+      showAppSnackBar(title: 'Please enter your description.');
       return;
     }
     isLoading = true;
@@ -153,8 +140,7 @@ class ContactDetailsProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
-        showAppSnackBar(
-            type: 'success', context: context, title: responseBody['message']);
+        showAppSnackBar(type: 'success', title: responseBody['message']);
         Get.back();
         contactDetailsAPI();
         notifyListeners();
@@ -162,14 +148,13 @@ class ContactDetailsProvider extends ChangeNotifier {
         isLoading = false;
         notifyListeners();
         var responseBody = jsonDecode(logResponse.body);
-        showAppSnackBar(
-            type: 'Error', context: context, title: responseBody['message']);
+        showAppSnackBar(type: 'Error', title: responseBody['message']);
         Get.back();
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
-      showAppSnackBar(context: context, title: 'Error', subtitle: e.toString());
+      showAppSnackBar(title: 'Error', subtitle: e.toString());
     }
   }
 }

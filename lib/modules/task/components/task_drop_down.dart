@@ -6,16 +6,16 @@ import 'package:sizer/sizer.dart';
 
 Widget taskStatusDropDown(BuildContext context, TaskProvider provider) {
   return Column(
+    spacing: 1.h,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const AppText(title: 'Task Status'),
-      SizedBox(height: 0.5.h),
       Container(
         height: 4.h,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(1.h),
-          border: Border.all(color: context.theme.colorScheme.onBackground),
+          border: Border.all(color: context.theme.colorScheme.onSecondaryFixed),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 1.h),
@@ -26,8 +26,8 @@ Widget taskStatusDropDown(BuildContext context, TaskProvider provider) {
               underline: const SizedBox(),
               value: provider.selectedValue.toString(),
               borderRadius: BorderRadius.circular(1.0.w),
-              focusColor: context.theme.colorScheme.background,
-              dropdownColor: context.theme.colorScheme.background,
+              focusColor: context.theme.colorScheme.surface,
+              dropdownColor: context.theme.colorScheme.surface,
               iconEnabledColor: context.theme.colorScheme.onSecondary,
               iconDisabledColor: context.theme.colorScheme.onSecondary,
               hint: AppText(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math; // Math import kiya distance ke liye
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,15 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 class DashboardProvider extends ChangeNotifier {
   bool isLoading = false;
   GoogleMapController? mapController;
+
+  num dealerSum = 0;
+  num masonsSum = 0;
+  num customerSum = 0;
+  num engineersSum = 0;
+  int _selectedIndex = 0;
+  num fabricatorsSum = 0;
+  num overallDistance = 0;
+  num overallEnrollmentSum = 0;
 
   dynamic endDate;
   dynamic startDate;
@@ -26,15 +36,6 @@ class DashboardProvider extends ChangeNotifier {
   dynamic startTimeSelectedActivityLocation;
   dynamic get selectedData => _selectedData;
   dynamic totalDistanceCoveredActivityLocation;
-
-  num dealerSum = 0;
-  num masonsSum = 0;
-  num customerSum = 0;
-  num engineersSum = 0;
-  int _selectedIndex = 0;
-  num fabricatorsSum = 0;
-  num overallDistance = 0;
-  num overallEnrollmentSum = 0;
 
   String _selectedValue = 'Amount';
   String? selectedValueNewEnrollment;
@@ -60,52 +61,41 @@ class DashboardProvider extends ChangeNotifier {
 
   DashboardProvider() {
     overallEnrollmentAPI('today');
-
     overallDistanceAPI('today');
 
     final now = DateTime.now();
-
     final formatter = DateFormat('yyyy-MM-dd');
 
     startDate = formatter.format(now);
-
     endDate = formatter.format(now.subtract(const Duration(days: 1)));
 
     startTimeForActivityLocation = now.subtract(const Duration(days: 1));
-
     endTimeForActivityLocation = now;
 
     dateSelectedActivityLocation =
         DateFormat('MMMM d, yyyy').format(startTimeForActivityLocation);
 
     myProgressAPI();
-
     monthlyAmountAndQuantity();
-
     monthlyReport();
-
     activityLocation(startTimeForActivityLocation, endTimeForActivityLocation);
 
     selectedValueNewEnrollment = dropDownNewEnrollment.first;
-
     selectedValueOverallDistance = dropDownOverallDistance.first;
   }
 
-  // Update dropdown selection
   void setSelectedValue(String value) {
     _selectedValue = value;
     _updateSelectedData();
     notifyListeners();
   }
 
-  // Set API response data
   void setEstimationAndQty(dynamic data) {
     _estimationAndQty = data;
     _updateSelectedData();
     notifyListeners();
   }
 
-  // Compute selected data based on dropdown
   void _updateSelectedData() {
     if (_selectedValue == 'Amount') {
       _selectedData = (_estimationAndQty != null &&
@@ -185,7 +175,8 @@ class DashboardProvider extends ChangeNotifier {
             previousYearDate.day != now.day) {
           final previousYearLastDay = DateTime(now.year - 1, now.month + 1, 0);
           endDate = formatter.format(
-              DateTime(now.year - 1, now.month, previousYearLastDay.day));
+            DateTime(now.year - 1, now.month, previousYearLastDay.day),
+          );
         } else {
           endDate = formatter.format(previousYearDate);
         }
@@ -308,6 +299,7 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // --- CHANGED: Activity Location Logic (Sorting added) ---
   Future<void> activityLocation(
       startTimeForActivityLocation, endTimeForActivityLocation) async {
     notifyListeners();
@@ -317,37 +309,45 @@ class DashboardProvider extends ChangeNotifier {
 
       var response = await apiServices.activities(
           startTimeForActivityLocation, endTimeForActivityLocation);
-      // var response = await apiServices.activities("2025-04-05", "2025-04-06");
 
       if (response.statusCode == 200) {
         isLoading = false;
         final decodedResponse = jsonDecode(response.body);
-        final activities = decodedResponse['activity'] as List<dynamic>;
+        List<dynamic> activities = decodedResponse['activity'] as List<dynamic>;
+
         points.clear();
         addresses.clear();
         routePoints.clear();
+
         if (activities.isNotEmpty) {
+          // STEP 1: Sort by 'createdAt' (Oldest -> Newest)
+          // Isse ensure hoga ki line waise bane jaise employee travel kiya
+          activities.sort((a, b) {
+            DateTime timeA = DateTime.parse(a['createdAt']);
+            DateTime timeB = DateTime.parse(b['createdAt']);
+            return timeA.compareTo(timeB); // Ascending Order
+          });
+
           for (int i = 0; i < activities.length; i++) {
             final item = activities[i];
             points.add(LatLng(item['latitude'], item['longitude']));
             addresses.add(item['address']);
           }
+
+          // Route draw karna
           await loadRouteWithWaypoints();
 
-          // 1. Yesterday's date
+          // 1. Date from First activity
           final date = DateTime.parse(activities.first['createdAt']);
           dateSelectedActivityLocation =
               DateFormat('MMMM d, yyyy').format(date);
-          /* print(
-              "Date Selected Activity Location: $dateSelectedActivityLocation"); */
 
-          // 2. Last index time
+          // 2. Latest Time (Last Activity)
+          // Ab ye sahi "Latest" time dikhayega kyunki list sorted hai
           final lastItem = activities.last;
           final time = DateTime.parse(lastItem['createdAt']);
           startTimeSelectedActivityLocation =
               DateFormat('h:mm a').format(time.toLocal());
-          /*   print(
-              "Start Time Selected Activity Location: $startTimeSelectedActivityLocation"); */
 
           // 3. Total distance
           double totalDistance = 0.0;
@@ -356,8 +356,6 @@ class DashboardProvider extends ChangeNotifier {
           }
           totalDistanceCoveredActivityLocation =
               "${totalDistance.toStringAsFixed(2)} km";
-          /* print(
-              "Total Distance Covered Activity Location: $totalDistanceCoveredActivityLocation"); */
 
           // 4. Total locations
           totalLocationActivityLocation = activities.length;
@@ -377,47 +375,120 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<LatLng>> fetchRouteCoordinatesWithWaypoints({
-    required List<LatLng> waypoints,
-  }) async {
+  // --- CHANGED: Optimized Tracking Route Function ---
+  Future<List<LatLng>> fetchRouteCoordinatesWithWaypoints(
+      {required List<LatLng> waypoints}) async {
     if (waypoints.length < 2) return [];
 
-    final origin = waypoints.first;
+    // 1. FILTER: Noise Removal (40 Meters)
+    // Ye unnecessary zig-zag ko hatayega
+    List<LatLng> filteredWaypoints = [];
+    filteredWaypoints.add(waypoints.first); // Start point
 
-    final destination = waypoints.last;
+    for (int i = 1; i < waypoints.length; i++) {
+      LatLng currentPoint = waypoints[i];
+      LatLng prevPoint = filteredWaypoints.last;
 
-    final intermediateWaypoints = waypoints.sublist(1, waypoints.length - 1);
+      double distanceInMeters =
+          calculateDistanceInMeters(prevPoint, currentPoint);
 
-    final waypointString = intermediateWaypoints
-        .map((point) => '${point.latitude},${point.longitude}')
-        .join('|');
+      if (distanceInMeters > 40) {
+        filteredWaypoints.add(currentPoint);
+      }
+    }
 
+    // Ensure last point is added (Latest Location)
+    if (filteredWaypoints.last != waypoints.last) {
+      filteredWaypoints.add(waypoints.last);
+    }
+
+    // 2. GOOGLE API LIMIT CHECK (Max 25 Waypoints)
+    List<LatLng> finalWaypointsToSend = [];
+    finalWaypointsToSend.add(filteredWaypoints.first);
+
+    List<LatLng> intermediates = [];
+    if (filteredWaypoints.length > 2) {
+      intermediates =
+          filteredWaypoints.sublist(1, filteredWaypoints.length - 1);
+    }
+
+    // Downsampling logic
+    if (intermediates.length > 23) {
+      int step = (intermediates.length / 23).ceil();
+      for (int i = 0; i < intermediates.length; i += step) {
+        finalWaypointsToSend.add(intermediates[i]);
+      }
+    } else {
+      finalWaypointsToSend.addAll(intermediates);
+    }
+
+    // Ensure Destination is added
+    if (finalWaypointsToSend.last != filteredWaypoints.last) {
+      finalWaypointsToSend.add(filteredWaypoints.last);
+    }
+
+    final origin = finalWaypointsToSend.first;
+    final destination = finalWaypointsToSend.last;
+
+    // Intermediate points string with 'via:'
+    String waypointString = "";
+
+    if (finalWaypointsToSend.length > 2) {
+      final pointsToMap =
+          finalWaypointsToSend.sublist(1, finalWaypointsToSend.length - 1);
+
+      // 'via:' prefix snaps points to the road without adding stop markers
+      waypointString = pointsToMap
+          .map((point) => 'via:${point.latitude},${point.longitude}')
+          .join('|');
+    }
+    final mode = "two_wheeler";
     final url = Uri.parse(
       'https://maps.googleapis.com/maps/api/directions/json'
       '?origin=${origin.latitude},${origin.longitude}'
       '&destination=${destination.latitude},${destination.longitude}'
-      '&waypoints=$waypointString'
+      '${waypointString.isNotEmpty ? '&waypoints=$waypointString' : ''}'
+      '&mode=$mode'
       '&key=${Constants.GoogleMapApiKey}',
     );
 
-    final response = await http.get(url);
-    final data = json.decode(response.body);
+    try {
+      final response = await http.get(url);
+      final data = json.decode(response.body);
 
-    if (data['status'] != 'OK') {
-      throw Exception('Directions API error: ${data['status']}');
-    }
-
-    final polylinePoints = <LatLng>[];
-    for (var leg in data['routes'][0]['legs']) {
-      for (var step in leg['steps']) {
-        final points =
-            PolylinePoints.decodePolyline(step['polyline']['points']);
-        polylinePoints
-            .addAll(points.map((e) => LatLng(e.latitude, e.longitude)));
+      if (data['status'] != 'OK') {
+        print('Directions API Error: ${data['status']}');
+        return [];
       }
-    }
 
-    return polylinePoints;
+      final polylinePoints = <LatLng>[];
+      if (data['routes'] != null && data['routes'].isNotEmpty) {
+        for (var leg in data['routes'][0]['legs']) {
+          for (var step in leg['steps']) {
+            final points =
+                PolylinePoints.decodePolyline(step['polyline']['points']);
+            polylinePoints
+                .addAll(points.map((e) => LatLng(e.latitude, e.longitude)));
+          }
+        }
+      }
+      return polylinePoints;
+    } catch (e) {
+      print("API Exception: $e");
+      return [];
+    }
+  }
+
+  double calculateDistanceInMeters(LatLng p1, LatLng p2) {
+    var p = 0.017453292519943295;
+    var c = math.cos;
+    var a = 0.5 -
+        c((p2.latitude - p1.latitude) * p) / 2 +
+        c(p1.latitude * p) *
+            c(p2.latitude * p) *
+            (1 - c((p2.longitude - p1.longitude) * p)) /
+            2;
+    return 12742 * math.asin(math.sqrt(a)) * 1000;
   }
 
   Future<void> monthlyReport() async {
@@ -544,7 +615,6 @@ class DashboardProvider extends ChangeNotifier {
       routePoints = decodedRoute;
     } catch (e) {
       routePoints = [];
-      print('Route error: $e');
     } finally {
       isLoading = false;
       notifyListeners();

@@ -65,12 +65,13 @@ class TaskScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(right: 2.w, top: 1.h),
                     child: Align(
-                        alignment: Alignment.topRight,
-                        child: SvgPicture.asset(
-                          AppAssets.APP_FILTER_SVG,
-                          colorFilter:
-                              ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                        )),
+                      alignment: Alignment.topRight,
+                      child: SvgPicture.asset(
+                        AppAssets.APP_FILTER_SVG,
+                        colorFilter:
+                            ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -82,7 +83,7 @@ class TaskScreen extends StatelessWidget {
                           : Consumer<TaskProvider>(
                               builder: (context, value, child) {
                                 return ListView.builder(
-                                  padding: EdgeInsets.symmetric(vertical: 2.h),
+                                  padding: EdgeInsets.symmetric(vertical: 1.h),
                                   itemCount:
                                       value.filteredTaskAPIResponse.length,
                                   itemBuilder: (context, index) {

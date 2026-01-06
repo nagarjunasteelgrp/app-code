@@ -70,6 +70,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.activity:activity:1.10.1'
+            force 'androidx.activity:activity-ktx:1.10.1'
+        }
+    }
 }
 
 flutter {
@@ -78,5 +84,7 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
-    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.core:core-ktx:1.9.0"    
+    implementation 'androidx.activity:activity:1.10.1'
+    implementation 'androidx.activity:activity-ktx:1.10.1'
 }
