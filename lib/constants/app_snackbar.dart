@@ -23,6 +23,7 @@ void showAppSnackBar({
         padding: EdgeInsets.all(2.h),
         child: AppText(
           title: title,
+          maxLines: 2,
           fontSize: 1.8.h,
           color: Get.context!.theme.primaryColor,
         ),

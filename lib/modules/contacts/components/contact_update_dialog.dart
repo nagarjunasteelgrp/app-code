@@ -327,17 +327,18 @@ void showContactUpdateDialog(
                                         radius: 1.w,
                                         context: context,
                                         width: double.infinity,
-                                        boxColor: context
-                                            .theme
-                                            .colorScheme
-                                            .onBackground
-                                            .withValues(alpha: 0.3),
+                                        border: Border.all(
+                                          color: context
+                                              .theme.colorScheme.onPrimaryFixed,
+                                        ),
+                                        boxColor:
+                                            context.theme.colorScheme.error,
                                         child: AppText(
                                           fontSize: 1.5.h,
                                           title: Constants.cancel,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              context.theme.colorScheme.primary,
+                                          color: context
+                                              .theme.colorScheme.onPrimaryFixed,
                                         ),
                                       ),
                                     ),

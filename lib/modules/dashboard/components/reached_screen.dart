@@ -112,7 +112,6 @@ class ReachedScreen extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           lineHeight: 8.0,
                           percent: (achPercent / 100).clamp(0.0, 1.0),
-                          linearStrokeCap: LinearStrokeCap.round,
                           barRadius: const Radius.circular(10),
                           backgroundColor: AppColors.lightGreyColor,
                           progressColor: AppColors.blueColor,

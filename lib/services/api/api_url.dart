@@ -1,8 +1,8 @@
 class ApiUrl {
   //----------------------BaseURL--------------------------------//
-  static String baseUrl = devUrl;
+  static String baseUrl = productionUrl;
 
-  static String localUrl = 'http://192.168.29.54:4000/api/v1/';
+  static String localUrl = 'http://192.168.29.53:4001/api/v1/';
 
   static String qaUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 

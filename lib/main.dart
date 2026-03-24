@@ -8,8 +8,8 @@ import 'package:digital_lync/services/app_permissions.dart';
 import 'package:digital_lync/theme/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -18,6 +18,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   await SharedPrefsHelper.init();
 
   await flutterLocalNotificationsPlugin.initialize(
@@ -25,17 +26,16 @@ void main() async {
       android: AndroidInitializationSettings('ic_notification_white'),
     ),
   );
+
   tz.initializeTimeZones();
+
   tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
   FlutterNativeSplash.remove();
 
   runApp(MultiProvider(providers: providers, child: const MyApp()));
@@ -56,9 +56,7 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            ),
+            home: Scaffold(body: Center(child: CircularProgressIndicator())),
           );
         } else {
           bool isLogin = snapshot.data ?? false;

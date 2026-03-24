@@ -17,7 +17,6 @@ class AppPermissions {
   }
 
   static Future<void> requestAll() async {
-    // 1. Notification (Android 13+)
     if (await Permission.notification.isDenied) {
       await Permission.notification.request();
     }

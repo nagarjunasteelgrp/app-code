@@ -12,6 +12,7 @@ class CurrentLocationProvider extends ChangeNotifier {
   double? longitude;
   GoogleMapController? mapController;
   bool isFetchingLocation = false;
+  bool isLocationValid = false;
   Completer<void>? locationCompleter;
 
   final LocationService _locationService = LocationService();
@@ -23,94 +24,126 @@ class CurrentLocationProvider extends ChangeNotifier {
   /// 🔹 Dialog open lifecycle
   Future<void> bootstrap() async {
     await loadFromPrefs();
-    fetchLiveLocation();
+  }
+
+  void startLocationFetching() {
+    if (!isFetchingLocation) {
+      fetchLiveLocation();
+    }
   }
 
   /// 🔹 Load cached data immediately
   Future<void> loadFromPrefs() async {
+    address = SharedPrefsHelper.getString('address');
     latitude = SharedPrefsHelper.getDouble('latitude');
     longitude = SharedPrefsHelper.getDouble('longitude');
-    address = SharedPrefsHelper.getString('address');
-
     notifyListeners();
-
     if (latitude != null && longitude != null && mapController != null) {
       _moveCamera(latitude!, longitude!);
     }
   }
 
-  /// 🔹 SINGLE-SOURCE live location flow
+  /// 🔹 Validate if location data is proper for API
+  bool validateLocationData() {
+    if (latitude == null || longitude == null) return false;
+    if (latitude == 0.0 || longitude == 0.0) return false;
+    if (address == null || address!.trim().isEmpty) return false;
+    if (address!.length < 5) return false;
+    return true;
+  }
+
   Future<void> fetchLiveLocation() async {
-    if (locationCompleter != null) {
-      debugPrint('⛔ fetchLiveLocation already running');
-      return;
+    if (isFetchingLocation) return;
+
+    // Check if GPS service is enabled before proceeding
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      debugPrint('🔴 GPS service is disabled, trying to enable...');
+      bool opened = await Geolocator.openLocationSettings();
+      if (!opened) {
+        debugPrint('🔴 Failed to open GPS settings');
+        return;
+      }
+      // Check again after opening settings
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        debugPrint('🔴 GPS service still disabled');
+        return;
+      }
+      debugPrint('🟢 GPS service enabled successfully');
     }
 
     locationCompleter = Completer<void>();
     isFetchingLocation = true;
+    isLocationValid = false;
     notifyListeners();
     debugPrint('🟡 START fetchLiveLocation');
-    try { 
+
+    try {
       // STEP 1 — permission & service check
-      debugPrint('🟡 STEP 1: determinePosition');
-      await _locationService.determinePosition();
+      debugPrint('🟡 STEP 1: checkLocationPermission');
+      bool hasPermission = await _locationService.checkLocationPermission();
+      if (!hasPermission) {
+        debugPrint('🔴 Permission denied');
+        return;
+      }
       debugPrint('🟢 STEP 1 DONE');
-      // STEP 2 — get GPS position (timeout safe)
-      debugPrint('🟡 STEP 2: getCurrentPosition');
-      Position position;
+
+      // STEP 2 — Get Last Known Position for INSTANT feedback
+      debugPrint('🟡 STEP 2: getLastKnownPosition');
+      Position? lastKnownPosition = await Geolocator.getLastKnownPosition();
+      if (lastKnownPosition != null) {
+        latitude = lastKnownPosition.latitude;
+        longitude = lastKnownPosition.longitude;
+        debugPrint('🟢 Got Last Known Position: $latitude, $longitude');
+        await updateLocationOnUI(latitude!, longitude!);
+      }
+
+      // STEP 3 — get FRESH GPS position with SHORT timeout (5 seconds)
+      debugPrint('🟡 STEP 3: getCurrentPosition');
+      Position freshPosition;
       try {
-        position = await Geolocator.getCurrentPosition(
+        freshPosition = await Geolocator.getCurrentPosition(
           locationSettings: LocationSettings(
-            accuracy: LocationAccuracy.best,
-            timeLimit: Duration(seconds: 10),
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 5),
           ),
         );
       } on TimeoutException {
-        debugPrint('⚠️ GPS timeout — using last known location');
-
-        final last = await Geolocator.getLastKnownPosition();
-        if (last == null) {
-          throw Exception('No last known location available');
+        debugPrint('⚠️ GPS timeout — using last known/cached');
+        if (lastKnownPosition == null) {
+          try {
+            freshPosition = await Geolocator.getCurrentPosition(
+              locationSettings: LocationSettings(
+                timeLimit: Duration(seconds: 3),
+                accuracy: LocationAccuracy.best,
+              ),
+            );
+          } catch (e) {
+            throw Exception('No location available');
+          }
+        } else {
+          freshPosition = lastKnownPosition;
         }
-        position = last;
       }
 
-      debugPrint('🟢 POSITION: ${position.latitude}, ${position.longitude}');
+      debugPrint(
+          '🟢 FRESH POSITION: ${freshPosition.latitude}, ${freshPosition.longitude}');
 
-      latitude = position.latitude;
-      longitude = position.longitude;
-      print(
-          "LAT AND LAT : latitude:- $latitude || longitude:- $longitude || position.latitude:- ${position.latitude} || position.longitude:- ${position.longitude}");
-      // STEP 3 — reverse geocoding
-      debugPrint('🟡 STEP 3: reverse geocoding');
+      latitude = freshPosition.latitude;
+      longitude = freshPosition.longitude;
+      await updateLocationOnUI(latitude!, longitude!);
 
-      final placemarks = await placemarkFromCoordinates(latitude!, longitude!);
+      // Validate location data after update
+      isLocationValid = validateLocationData();
 
-      if (placemarks.isNotEmpty) {
-        final p = placemarks.first;
-        address =
-            "${p.thoroughfare ?? ''} ${p.street ?? ''}, ${p.subLocality ?? ''}, ${p.locality ?? ''}, ${p.country ?? ''}";
-      }
-
-      // STEP 4 — save to prefs
-      debugPrint('🟡 STEP 4: ${address}');
-      debugPrint('🟡 STEP 5: save SharedPreferences');
-
-      await SharedPrefsHelper.setDouble('latitude', latitude!);
-      await SharedPrefsHelper.setDouble('longitude', longitude!);
-      await SharedPrefsHelper.setString('address', address ?? '');
-
-      // STEP 5 — move camera
-      if (mapController != null) {
-        debugPrint('🟡 STEP 6: move camera');
-        _moveCamera(latitude!, longitude!);
-      }
+      debugPrint('🟢 Location Valid: $isLocationValid');
 
       debugPrint('🟢 LOCATION FLOW SUCCESS');
     } catch (e, s) {
       debugPrint('🔴 LOCATION FLOW FAILED');
-      debugPrint('Error: $e');
       debugPrint('Stack: $s');
+      isLocationValid = false;
     } finally {
       debugPrint('🟢 FINALLY: stop loader');
       isFetchingLocation = false;
@@ -118,6 +151,31 @@ class CurrentLocationProvider extends ChangeNotifier {
       locationCompleter = null;
       notifyListeners();
     }
+  }
+
+  Future<void> updateLocationOnUI(double lat, double lng) async {
+    // Reverse Geocoding
+    try {
+      final placemark = await placemarkFromCoordinates(lat, lng);
+      if (placemark.isNotEmpty) {
+        final p = placemark.first;
+        address =
+            "${p.thoroughfare ?? ''} ${p.street ?? ''}, ${p.subLocality ?? ''}, ${p.locality ?? ''}, ${p.country ?? ''}";
+      }
+    } catch (e) {
+      debugPrint('⚠️ Geocoding failed: $e');
+    }
+
+    // Save to prefs
+    await SharedPrefsHelper.setDouble('latitude', lat);
+    await SharedPrefsHelper.setDouble('longitude', lng);
+    await SharedPrefsHelper.setString('address', address ?? '');
+
+    // Move camera
+    if (mapController != null) {
+      _moveCamera(lat, lng);
+    }
+    notifyListeners();
   }
 
   void _moveCamera(double lat, double lng) {

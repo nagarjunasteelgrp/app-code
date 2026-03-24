@@ -338,21 +338,19 @@ void showCreateContactDialog(
                               ),
                               Expanded(
                                 child: GestureDetector(
-                                  onTap: () {
-                                    provider.createContact(context);
-                                  },
+                                  onTap: () => provider.createContact(context),
                                   child: Center(
                                     child: appButton(
-                                      width: double.infinity,
+                                      radius: 1.w,
                                       height: 4.h,
                                       context: context,
-                                      radius: 1.w,
+                                      width: double.infinity,
                                       child: AppText(
-                                        title: Constants.save,
                                         fontSize: 1.5.h,
+                                        title: Constants.save,
+                                        fontWeight: FontWeight.w600,
                                         color:
                                             context.theme.colorScheme.surface,
-                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),

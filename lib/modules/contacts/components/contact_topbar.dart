@@ -23,7 +23,10 @@ Widget contactTopBar({required BuildContext context}) {
                 child: Center(
                   child: SvgPicture.asset(
                     AppAssets.APP_POST_SVG,
-                    color: context.theme.primaryColor,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.primaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 )),
             const AppText(
@@ -41,7 +44,10 @@ Widget contactTopBar({required BuildContext context}) {
                 child: Center(
                   child: SvgPicture.asset(
                     AppAssets.APP_FILE_SVG,
-                    color: context.theme.primaryColor,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.primaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 )),
             const AppText(
@@ -61,7 +67,8 @@ Widget contactTopBar({required BuildContext context}) {
               colors: context.theme.colorScheme.error,
               child: Center(
                 child: SvgPicture.asset(AppAssets.APP_ACTIVITIES_SVG,
-                    color: context.theme.primaryColor),
+                    colorFilter: ColorFilter.mode(
+                        context.theme.primaryColor, BlendMode.srcIn)),
               ),
             ),
             const AppText(

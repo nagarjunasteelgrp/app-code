@@ -172,10 +172,12 @@ class TrackingProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> trackingMap(BuildContext context,
-      {required double latitude,
-      required double longitude,
-      required String addressPlacement}) async {
+  Future<void> trackingMap(
+    BuildContext context, {
+    required double latitude,
+    required double longitude,
+    required String addressPlacement,
+  }) async {
     isLoading = true;
     notifyListeners();
     FocusScope.of(context).unfocus();
@@ -196,18 +198,25 @@ class TrackingProvider extends ChangeNotifier {
         addNotesController.clear();
         trackingInfoAPI();
         notifyListeners();
-        Get.back();
+        if (context.mounted && Navigator.canPop(context)) {
+          Get.back();
+        }
       } else {
         isLoading = false;
         notifyListeners();
         var response = jsonDecode(logResponse.body);
         showAppSnackBar(type: 'Error', title: response['message']);
-        Get.back();
+        if (context.mounted && Navigator.canPop(context)) {
+          Get.back();
+        }
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
       showAppSnackBar(title: 'Error', subtitle: e.toString());
+      if (context.mounted && Navigator.canPop(context)) {
+        Get.back();
+      }
     }
   }
 
@@ -231,10 +240,7 @@ class TrackingProvider extends ChangeNotifier {
       var response = jsonDecode(logResponse.body);
 
       if (logResponse.statusCode == 201) {
-        showAppSnackBar(
-          type: 'success',
-          title: response['message'],
-        );
+        showAppSnackBar(type: 'success', title: response['message']);
         addNotesController.clear();
         trackingInfoAPI();
         Get.back();

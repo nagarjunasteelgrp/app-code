@@ -12,21 +12,11 @@ class ApiServices {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({"username": email, "password": password}),
     );
-    /* print("login : ${response.request}");
+    /*  print("login : ${response.request}");
     print("login : ${response.statusCode}");
-    print("login : ${response.body}"); */
-    return response;
-  }
-
-  Future<http.Response> resetEmail({String? email}) async {
-    final response = await http.post(
-      Uri.parse(ApiUrl.resetEmailUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({"email": email}),
-    );
-    /*  print("resetEmail : ${response.request}");
-    print("resetEmail : ${response.statusCode}");
-    print("resetEmail : ${response.body}"); */
+    print("login : ${response.body}");
+    print("email : ${email}");
+    print("password : ${password}"); */
     return response;
   }
 
@@ -136,8 +126,10 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> trackingNotes(
-      {String? description, int? trackingInfoId}) async {
+  Future<http.Response> trackingNotes({
+    String? description,
+    int? trackingInfoId,
+  }) async {
     final response = await http.post(
       Uri.parse(ApiUrl.trackingNotesUrl),
       headers: await getHeaders(),
@@ -152,11 +144,12 @@ class ApiServices {
     return response;
   }
 
-  Future<http.Response> trackingInfo(
-      {double? latitude,
-      double? longitude,
-      String? address,
-      int? dealerId}) async {
+  Future<http.Response> trackingInfo({
+    double? latitude,
+    double? longitude,
+    String? address,
+    int? dealerId,
+  }) async {
     final response = await http.post(
       Uri.parse(ApiUrl.trackingInfoUrl),
       headers: await getHeaders(),
@@ -188,7 +181,7 @@ class ApiServices {
       "latitude": latitude,
       "longitude": longitude,
       "trackingType": "auto",
-      "time": DateTime.now().toIso8601String()
+      "time": DateTime.now().toIso8601String(),
     });
     final response = await http.post(
       body: body,
@@ -251,6 +244,7 @@ class ApiServices {
     /*  print("checkInList : ${response.request}");
     print("checkInList : ${response.statusCode}");
     print("checkInList : ${response.body}"); */
+
     return response;
   }
 
@@ -260,10 +254,12 @@ class ApiServices {
     final response = await http.post(
       Uri.parse(ApiUrl.checkInUrl),
       headers: await getHeaders(),
-      body: jsonEncode(
-          {"userId": userId, "clockIn": DateTime.now().toIso8601String()}),
+      body: jsonEncode({
+        "userId": userId,
+        "clockIn": DateTime.now().toUtc().toString(),
+      }),
     );
-    /*   print("checkInAPI : ${response.request}");
+    /* print("checkInAPI : ${response.request}");
     print("checkInAPI : ${response.statusCode}");
     print("checkInAPI : ${response.body}"); */
     return response;
@@ -275,12 +271,12 @@ class ApiServices {
     required int checkInId,
   }) async {
     final response = await http.put(
-      Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       headers: await getHeaders(),
+      Uri.parse(ApiUrl.checkOutUrl(checkInId)),
       body: jsonEncode({
         "userId": userId,
         "clockIn": checkInTime,
-        "clockOut": DateTime.now().toIso8601String()
+        "clockOut": DateTime.now().toUtc().toString()
       }),
     );
     /* print("checkOutAPI : ${response.request}");
@@ -338,9 +334,7 @@ class ApiServices {
     final response = await http.patch(
       Uri.parse(ApiUrl.statusUpdateUrl(statusId!)),
       headers: await getHeaders(),
-      body: jsonEncode({
-        "status": status,
-      }),
+      body: jsonEncode({"status": status}),
     );
     /*   print("statusUpdateAPI : ${response.request}");
     print("statusUpdateAPI : ${response.statusCode}");

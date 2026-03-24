@@ -98,11 +98,19 @@ class MenuScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 0.2.h),
                   MenuTile(
-                    iconHeight: 3.5.h,
-                    icon: Icons.privacy_tip_outlined,
-                    title: Constants.privacyPolicy,
                     index: 5,
+                    iconHeight: 3.5.h,
+                    title: Constants.privacyPolicy,
+                    icon: Icons.privacy_tip_outlined,
                     color: context.theme.colorScheme.primary,
+                  ),
+                  SizedBox(height: 0.2.h),
+                  MenuTile(
+                    index: 6,
+                    iconHeight: 3.5.h,
+                    title: Constants.rate_Us,
+                    icon: Icons.rate_review_outlined,
+                    color: context.theme.colorScheme.scrim,
                   ),
                 ],
               );

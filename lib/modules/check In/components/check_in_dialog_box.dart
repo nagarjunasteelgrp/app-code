@@ -8,6 +8,7 @@ import 'package:digital_lync/modules/check%20In/provider/checkIn_provider.dart';
 import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -34,7 +35,8 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                     Row(
                       spacing: 4.w,
                       children: [
-                        const Column(
+                        Column(
+                          spacing: 1.h,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(title: 'Date:'),
@@ -42,15 +44,16 @@ void showCheckInDialog(BuildContext context, {VoidCallback? onTapSave}) {
                           ],
                         ),
                         Column(
+                          spacing: 1.h,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(
-                              title:
-                                  '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                              title: DateFormat('dd-MM-yyyy')
+                                  .format(DateTime.now()),
                             ),
                             AppText(
                               title:
-                                  '${DateTime.now().hour}:${DateTime.now().minute}',
+                                  DateFormat('hh:mm a').format(DateTime.now()),
                             ),
                           ],
                         )

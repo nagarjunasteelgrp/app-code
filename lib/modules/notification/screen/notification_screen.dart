@@ -58,9 +58,8 @@ class NotificationScreen extends StatelessWidget {
                   ),
                   child: ListTile(
                     title: AppText(
-                      title: "${notification['dealerName']}",
-                      fontSize: 11.sp,
                       fontWeight: FontWeight.bold,
+                      title: "${notification['dealerName']}",
                     ),
                     subtitle: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -70,19 +69,16 @@ class NotificationScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 1.h),
                           child: AppText(
                             maxLines: 5,
-                            fontSize: 12.sp,
                             title: "${notification['notes']}",
                           ),
                         ),
                         AppText(
-                          fontSize: 10.sp,
                           fontWeight: FontWeight.w800,
                           title: "${notification['formattedFollowUpDate']}",
                         ),
                       ],
                     ),
                     trailing: AppText(
-                      fontSize: 12.sp,
                       fontWeight: FontWeight.w900,
                       title: notification['status'],
                     ),

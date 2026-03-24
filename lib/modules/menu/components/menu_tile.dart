@@ -6,6 +6,7 @@ import 'package:digital_lync/modules/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,6 +47,11 @@ class MenuTile extends StatelessWidget {
               await launchUrl(
                 Uri.parse('https://www.nagarjunasteel.com/privacy-policy'),
               );
+            } else if (index == 6) {
+              final InAppReview inAppReview = InAppReview.instance;
+              if (await inAppReview.isAvailable()) {
+                await inAppReview.openStoreListing();
+              }
             } else {
               value.setSelectedIndex(index, tabIndex: false);
             }

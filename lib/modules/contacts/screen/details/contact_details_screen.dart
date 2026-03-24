@@ -24,11 +24,9 @@ class ContactDetailsScreen extends StatelessWidget {
       value: contactDetailsProvider,
       child: Scaffold(
         appBar: CommonAppBar(
-          title: Constants.APP_NAME,
           leadingArrow: true,
-          onTap: () {
-            Get.back();
-          },
+          onTap: () => Get.back(),
+          title: Constants.APP_NAME,
         ),
         body: Consumer<ContactDetailsProvider>(builder: (context, provider, _) {
           return Column(

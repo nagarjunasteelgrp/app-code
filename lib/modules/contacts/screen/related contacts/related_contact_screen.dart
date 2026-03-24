@@ -32,9 +32,10 @@ class RelatedContactScreen extends StatelessWidget {
           contactTopBar(context: context),
           appDivider(context: context, vertical: 1.h),
           AppText(
-              title: Constants.related_Contacts,
-              fontWeight: FontWeight.w600,
-              fontSize: 1.6.h),
+            fontSize: 1.6.h,
+            fontWeight: FontWeight.w600,
+            title: Constants.related_Contacts,
+          ),
           appDivider(context: context, vertical: 1.h),
           Consumer<RelatedContactProvider>(builder: (context, provider, _) {
             return Expanded(

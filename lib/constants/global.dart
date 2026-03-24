@@ -31,8 +31,7 @@ TaskProvider? taskProvider;
 ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
 ValueNotifier<bool> checkInStatus = ValueNotifier<bool>(true);
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<Map<String, String>> getHeaders() async {
   token = SharedPrefsHelper.getString("token");
@@ -73,6 +72,24 @@ void onStart(ServiceInstance service) async {
     });
   }
 
+  // Immediate first tracking on service start
+  await performTracking(service);
+
+  Timer.periodic(
+    const Duration(minutes: 2),
+    (timer) async {
+      bool isServiceEnabled = SharedPrefsHelper.getBool('isService') ?? false;
+      if (!isServiceEnabled) {
+        timer.cancel();
+        service.stopSelf();
+        return;
+      }
+      await performTracking(service);
+    },
+  );
+}
+
+Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
   Future<void> updateNotification(String text) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
@@ -84,120 +101,107 @@ void onStart(ServiceInstance service) async {
     }
   }
 
-  Timer.periodic(
-    const Duration(minutes: 2),
-    (timer) async {
-      if (service is AndroidServiceInstance) {
-        if (await service.isForegroundService() == false) {
-          timer.cancel();
-          return;
-        }
-      }
+  if (service is AndroidServiceInstance) {
+    if (await service.isForegroundService() == false) {
+      timer?.cancel();
+      return;
+    }
+  }
 
-      try {
-        // Data Fetching
-        int? bgUserId = SharedPrefsHelper.getInt("userId");
-        String? bgToken = SharedPrefsHelper.getString("token");
-        if (bgUserId == null || bgToken == null || bgToken.isEmpty) {
-          return;
-        }
-        // GPS Check
-        bool isLocationServiceEnabled =
-            await Geolocator.isLocationServiceEnabled();
-        if (!isLocationServiceEnabled) {
-          await updateNotification("⚠️ GPS is OFF");
-          return;
-        }
-        LocationPermission permission = await Geolocator.checkPermission();
-        if (permission == LocationPermission.denied ||
-            permission == LocationPermission.deniedForever) {
-          await updateNotification("⚠️ Permission Denied");
-          return;
-        }
-        await updateNotification("Getting location...");
+  try {
+    // Data Fetching
+    int? bgUserId = SharedPrefsHelper.getInt("userId");
 
-        Position? position;
-        try {
-          position = await Geolocator.getCurrentPosition(
-            locationSettings: AndroidSettings(
-              forceLocationManager: true,
-              timeLimit: const Duration(seconds: 45),
-              accuracy: LocationAccuracy.bestForNavigation,
-            ),
-          );
-        } catch (e) {
-          position = await Geolocator.getLastKnownPosition();
-        }
+    String? bgToken = SharedPrefsHelper.getString("token");
 
-        if (position == null) {
-          await updateNotification("Weak GPS Signal");
-          return;
-        }
+    if (bgUserId == null || bgToken == null || bgToken.isEmpty) {
+      return;
+    }
+    // GPS Check
+    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!isLocationServiceEnabled) {
+      await updateNotification("⚠️ GPS is OFF");
+      return;
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      await updateNotification("⚠️ Permission Denied");
+      return;
+    }
+    await updateNotification("Getting location...");
 
-        // --- 🚨 SECURITY CHECK: FAKE GPS 🚨 ---
-        if (position.isMocked) {
-          print("🚨 FAKE GPS DETECTED! Triggering Logout.");
+    Position? position;
+    try {
+      position = await Geolocator.getCurrentPosition(
+        locationSettings: AndroidSettings(
+          forceLocationManager: true,
+          timeLimit: const Duration(seconds: 45),
+          accuracy: LocationAccuracy.bestForNavigation,
+        ),
+      );
+    } catch (e) {
+      position = await Geolocator.getLastKnownPosition();
+    }
 
-          // 1. Notification show karna
-          await showNotification(
-            "Security Warning ⚠️",
-            "Your mobile is sending fake location. Turn off fake location otherwise user will be blocked.",
-          );
-          // 2. Shared Prefs Clear karna (Backup agar app background me kill ho gayi ho)
-          await SharedPrefsHelper.remove("token");
-          await SharedPrefsHelper.setBool('isLogin', false);
-          // 3. UI ko Signal bhejna ki "Bhai, User ko Logout kar do"
-          service.invoke("force_logout_event");
-          // 4. Service Stop karna
-          service.stopSelf();
-          timer.cancel();
-          return;
-        }
-        // --- SECURITY END ---
-        List<Placemark> placeMarks = await placemarkFromCoordinates(
-            position.latitude, position.longitude);
+    if (position == null) {
+      await updateNotification("Weak GPS Signal");
+      return;
+    }
 
-        Placemark placeMark = placeMarks[0];
+    // --- 🚨 SECURITY CHECK: FAKE GPS 🚨 ---
+    if (position.isMocked) {
+      print("🚨 FAKE GPS DETECTED! Triggering Logout.");
+      // 1. Notification show
+      await showNotification(
+        "Security Warning ⚠️",
+        "Your mobile is sending fake location. Turn off fake location otherwise user will be blocked.",
+      );
+      await SharedPrefsHelper.remove("token");
+      await SharedPrefsHelper.setBool('isLogin', false);
+      service.invoke("force_logout_event");
+      service.stopSelf();
+      timer?.cancel();
+      return;
+    }
+    // --- SECURITY END ---
+    List<Placemark> placeMarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
 
-        String addressValue =
-            "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
+    Placemark placeMark = placeMarks[0];
 
-        var logResponse = await apiServices.autoTrackingAPI(
-          userId: bgUserId,
-          address: addressValue,
-          latitude: position.latitude,
-          longitude: position.longitude,
-        );
+    String addressValue =
+        "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
 
-        if (logResponse.statusCode == 200 || logResponse.statusCode == 201) {
-          final response = jsonDecode(logResponse.body);
-          print('Location Updated📍 ${DateTime.now()}   response:--$response');
-          await updateNotification(
-            "Location Updated: ${DateTime.now().toString().substring(11, 16)}",
-          );
-        }
-      } catch (e) {
-        print('Main Timer Loop Error: $e');
-      }
-    },
-  );
+    var logResponse = await apiServices.autoTrackingAPI(
+      userId: bgUserId,
+      address: addressValue,
+      latitude: position.latitude,
+      longitude: position.longitude,
+    );
+
+    if (logResponse.statusCode == 200 || logResponse.statusCode == 201) {
+      final response = jsonDecode(logResponse.body);
+      print('Location Updated📍 ${DateTime.now()}   response:--$response');
+      await updateNotification(
+        "Location Updated: ${DateTime.now().toString().substring(11, 16)}",
+      );
+    }
+  } catch (e) {
+    print('Main Timer Loop Error: $e');
+  }
 }
 
 // --- INITIALIZE SERVICE ---
 Future<void> initializeService({required Future<void> isService}) async {
   final service = FlutterBackgroundService();
-  // Ye check karega agar background service ne "force_logout_event" bheja hai
   service.on('force_logout_event').listen((event) {
-    print("Received Logout Signal from Background Service");
-    // UI Thread par Logout Call karein
     appLogout();
   });
 
-  // Notification Channel Setup (CRITICAL to prevent "Bad notification" crash)
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  const channel = AndroidNotificationChannel(
     Constants.notificationChannelId,
     'Nagarjuna Steel',
-    playSound: true,
     importance: Importance.defaultImportance,
     description: 'Background location tracking service',
   );
@@ -229,8 +233,8 @@ Future<void> showNotification(String title, String body) async {
     'reminder_channel',
     priority: Priority.high,
     importance: Importance.high,
-    visibility: NotificationVisibility.public,
     channelDescription: 'Channel for reminders',
+    visibility: NotificationVisibility.public,
   );
 
   const NotificationDetails notificationDetails =
@@ -259,7 +263,6 @@ void appLogout() async {
     if (await service.isRunning()) {
       service.invoke("stopService");
     }
-    // Remove sensitive keys
     await SharedPrefsHelper.remove("token");
     await SharedPrefsHelper.remove("username");
     await SharedPrefsHelper.remove("userId");
@@ -267,9 +270,8 @@ void appLogout() async {
     await SharedPrefsHelper.remove("mobile");
     await SharedPrefsHelper.remove("empId");
     await SharedPrefsHelper.setBool('isLogin', false);
-    // Update local flags
+    await SharedPrefsHelper.setBool('checkInStatus', true);
     await SharedPrefsHelper.setBool('isService', false);
-    // Final wipe
     await SharedPrefsHelper.clear();
     Get.offNamed(RoutesName.LOGIN);
   } catch (e) {

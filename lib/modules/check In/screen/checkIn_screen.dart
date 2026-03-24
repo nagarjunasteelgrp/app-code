@@ -163,13 +163,23 @@ class CheckInScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w600,
                                               color: context
                                                   .theme.colorScheme.onPrimary,
-                                              title: DateFormat(
-                                                'yyyy-MM-dd   h:mm a',
-                                              ).format(
-                                                DateTime.parse(
-                                                    provider.checkInList[index]
-                                                        ['clockIn']),
-                                              ),
+                                              title: DateTime.tryParse(
+                                                          provider.checkInList[
+                                                                      index]
+                                                                  ['clockIn'] ??
+                                                              '') !=
+                                                      null
+                                                  ? DateFormat(
+                                                          'dd-MM-yyyy hh:mm a')
+                                                      .format(
+                                                      DateTime.parse(provider
+                                                                  .checkInList[
+                                                              index]['clockIn'])
+                                                          .toLocal(),
+                                                    )
+                                                  : provider.checkInList[index]
+                                                          ['clockIn'] ??
+                                                      '',
                                             ),
                                             AppText(
                                               fontSize: 1.6.h,
@@ -179,14 +189,23 @@ class CheckInScreen extends StatelessWidget {
                                               title: provider.checkInList[index]
                                                           ['clockOut'] !=
                                                       null
-                                                  ? DateFormat(
-                                                      'yyyy-MM-dd   h:mm a',
-                                                    ).format(
-                                                      DateTime.parse(
-                                                        provider.checkInList[
-                                                            index]['clockOut'],
-                                                      ),
-                                                    )
+                                                  ? (DateTime.tryParse(
+                                                            provider.checkInList[
+                                                                    index]
+                                                                ['clockOut'],
+                                                          ) !=
+                                                          null
+                                                      ? DateFormat(
+                                                          'dd-MM-yyyy hh:mm a',
+                                                        ).format(
+                                                          DateTime.parse(
+                                                            provider.checkInList[
+                                                                    index]
+                                                                ['clockOut'],
+                                                          ).toLocal(),
+                                                        )
+                                                      : provider.checkInList[
+                                                          index]['clockOut'])
                                                   : 'Remaining check out time',
                                             ),
                                           ],

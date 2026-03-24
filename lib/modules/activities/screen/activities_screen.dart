@@ -32,8 +32,10 @@ class ActivitiesScreen extends StatelessWidget {
                     radius: 0.5.h,
                     context: context,
                     colors: context.theme.colorScheme.scrim,
-                    child: SvgPicture.asset(AppAssets.APP_ACTIVITIES_SVG,
-                        color: context.theme.primaryColor),
+                    child: SvgPicture.asset(
+                      AppAssets.APP_ACTIVITIES_SVG,
+                      color: context.theme.primaryColor,
+                    ),
                   ),
                   AppText(
                     fontSize: 1.8.h,

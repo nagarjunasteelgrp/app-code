@@ -55,7 +55,8 @@ class ContactListScreen extends StatelessWidget {
                         colors: context.theme.colorScheme.primary,
                         child: SvgPicture.asset(
                           AppAssets.APP_CONTACTS_SVG,
-                          color: context.theme.primaryColor,
+                          colorFilter: ColorFilter.mode(
+                              context.theme.primaryColor, BlendMode.srcIn),
                         ),
                       ),
                       Column(
@@ -89,17 +90,19 @@ class ContactListScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: AppText(
-                                  fontSize: 1.5.h,
-                                  fontWeight: FontWeight.w500,
-                                  title: Constants.company_Name,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w500,
+                                    title: Constants.company_Name,
+                                  ),
+                                ),
                                 Expanded(
-                                    child: AppText(
-                                  fontSize: 1.5.h,
-                                  fontWeight: FontWeight.w600,
-                                  title: provider.companyName,
-                                )),
+                                  child: AppText(
+                                    fontSize: 1.5.h,
+                                    fontWeight: FontWeight.w600,
+                                    title: provider.companyName,
+                                  ),
+                                ),
                               ],
                             ),
                           ),

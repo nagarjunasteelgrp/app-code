@@ -46,6 +46,7 @@ class Constants {
   static const String phone_Number = 'Phone Number';
   static const String phone_Number2 = 'Phone Number2';
   static const String privacyPolicy = 'Privacy Policy';
+  static const String rate_Us = 'Rate Us';
   static const String PACKAGE_NAME = 'com.digital.lync.app';
   static const String related_Contacts = 'Related Contacts';
   static const String result_not_found = 'Result Not Found';
