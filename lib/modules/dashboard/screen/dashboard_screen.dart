@@ -18,7 +18,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-DashboardProvider dashboardProvider = DashboardProvider();
+final dashboardProvider = DashboardProvider();
 
 class DashBoardScreen extends StatelessWidget {
   const DashBoardScreen({super.key});

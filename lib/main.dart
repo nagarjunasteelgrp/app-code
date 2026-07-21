@@ -8,8 +8,8 @@ import 'package:digital_lync/services/app_permissions.dart';
 import 'package:digital_lync/theme/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -43,6 +43,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   Future<bool> getToken() async {
     bool isLogin = SharedPrefsHelper.getBool("isLogin") ?? false;
     return isLogin;
