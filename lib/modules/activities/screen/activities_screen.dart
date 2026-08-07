@@ -26,7 +26,7 @@ class ActivitiesScreen extends StatelessWidget {
               child: Row(
                 spacing: 3.w,
                 children: [
-                  appCircleIcon(
+                  appCircleIcon( 
                     width: 8.w,
                     height: 8.w,
                     radius: 0.5.h,
@@ -34,7 +34,10 @@ class ActivitiesScreen extends StatelessWidget {
                     colors: context.theme.colorScheme.scrim,
                     child: SvgPicture.asset(
                       AppAssets.APP_ACTIVITIES_SVG,
-                      color: context.theme.primaryColor,
+                      colorFilter: ColorFilter.mode(
+                        context.theme.primaryColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                   AppText(
@@ -57,7 +60,6 @@ class ActivitiesScreen extends StatelessWidget {
                           itemCount: provider.taskList.length,
                           itemBuilder: (context, index) {
                             final task = provider.taskList[index];
-
                             return Column(
                               children: [
                                 Padding(
@@ -101,8 +103,8 @@ class ActivitiesScreen extends StatelessWidget {
                                           children: [
                                             AppText(
                                               fontSize: 1.6.h,
-                                              fontWeight: FontWeight.w600,
                                               title: task['subject'],
+                                              fontWeight: FontWeight.w600,
                                             ),
                                             AppText(
                                               fontSize: 1.6.h,

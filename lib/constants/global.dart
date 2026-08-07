@@ -132,7 +132,7 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     await updateNotification("Getting location...");
 
     Position? position;
-    try {
+    /*  try {
       position = await Geolocator.getCurrentPosition(
         locationSettings: AndroidSettings(
           forceLocationManager: true,
@@ -142,9 +142,18 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       );
     } catch (e) {
       position = await Geolocator.getLastKnownPosition();
-    }
+    } */
 
-    if (position == null) {
+    try {
+      position = await Geolocator.getCurrentPosition(
+        locationSettings: AndroidSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: const Duration(seconds: 15),
+        ),
+      );
+    } catch (e) {
+      print(
+          "⚠️ Live GPS fetch failed ($e). Skipping update to ensure 100% fresh location.");
       await updateNotification("Weak GPS Signal");
       return;
     }
@@ -165,8 +174,50 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       return;
     }
     // --- SECURITY END ---
+    // Round raw GPS to 6 decimal places to prevent floating point representation noise
+    double rawLat = double.parse(position.latitude.toStringAsFixed(6));
+    double rawLng = double.parse(position.longitude.toStringAsFixed(6));
+
+    double sendLat = rawLat;
+    double sendLng = rawLng;
+
+    // --- 📌 GPS JITTER / NOISE FILTER 📌 ---
+    double? lastSavedLat = SharedPrefsHelper.getDouble("lastTrackingLat");
+    double? lastSavedLng = SharedPrefsHelper.getDouble("lastTrackingLng");
+
+    if (lastSavedLat != null && lastSavedLng != null) {
+      double distanceInMeters = Geolocator.distanceBetween(
+        lastSavedLat,
+        lastSavedLng,
+        rawLat,
+        rawLng,
+      );
+
+      // Re-use exact same pinned coordinates to eliminate GPS micro-jitter/noise.
+      // Threshold: 0.13m (~5 inches) — any movement beyond this sends fresh coordinates.
+      if (distanceInMeters < 0.13) {
+        sendLat = lastSavedLat;
+        sendLng = lastSavedLng;
+        print(
+          "📌 Stationary device (jitter ${distanceInMeters.toStringAsFixed(4)}m < 0.13m/5inch). Pinned: ($sendLat, $sendLng)",
+        );
+      } else {
+        // User moved > 5 inches! Send fresh coordinates.
+        sendLat = rawLat;
+        sendLng = rawLng;
+        await SharedPrefsHelper.setDouble("lastTrackingLat", sendLat);
+        await SharedPrefsHelper.setDouble("lastTrackingLng", sendLng);
+      }
+    } else {
+      // Initial base coordinate save
+      sendLat = rawLat;
+      sendLng = rawLng;
+      await SharedPrefsHelper.setDouble("lastTrackingLat", sendLat);
+      await SharedPrefsHelper.setDouble("lastTrackingLng", sendLng);
+    }
+
     List<Placemark> placeMarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(sendLat, sendLng);
 
     Placemark placeMark = placeMarks[0];
 
@@ -176,8 +227,8 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     var logResponse = await apiServices.autoTrackingAPI(
       userId: bgUserId,
       address: addressValue,
-      latitude: position.latitude,
-      longitude: position.longitude,
+      latitude: sendLat,
+      longitude: sendLng,
     );
 
     if (logResponse.statusCode == 200 || logResponse.statusCode == 201) {

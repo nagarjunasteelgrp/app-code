@@ -16,11 +16,11 @@ class LoginProvider extends ChangeNotifier {
   bool isChecked = false;
   bool obscureText = true;
 
-  ApiServices apiServices = ApiServices();
-  LocationService locationService = LocationService();
+  final apiServices = ApiServices();
+  final locationService = LocationService();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   void toggleCheckbox() {
     isChecked = !isChecked;
@@ -49,11 +49,8 @@ class LoginProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-
       debugPrint('🟡 Checking GPS and permissions before login...');
-
       bool hasPermissions = await locationService.checkLocationPermission();
-
       if (!hasPermissions) {
         isLoading = false;
         notifyListeners();
@@ -64,7 +61,6 @@ class LoginProvider extends ChangeNotifier {
         return;
       }
       debugPrint('🟢 GPS and permissions check passed');
-
       await apiServices
           .login(
         email: emailController.text.trim().replaceAll(RegExp(r'\s+'), ''),
@@ -129,7 +125,6 @@ class LoginProvider extends ChangeNotifier {
         type: 'Error',
         title: 'Something went wrong, please try again later.',
       );
-      print('-catch error--${e.toString()}');
       notifyListeners();
     }
   }

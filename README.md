@@ -8,7 +8,7 @@ A new Flutter project.
 <!-- 3.9.0 (Flutter) -->
 
 Latest build configuration.
-<!-- fvm flutter clean &&  fvm flutter build appbundle --build-name=1.5 --build-number=18 --> Uploaded Build
+<!-- fvm flutter clean &&  fvm flutter build appbundle --build-name=1.6 --build-number=19 --> Uploaded Build
 
 This project is a starting point for a Flutter application.
 

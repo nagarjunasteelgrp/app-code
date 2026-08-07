@@ -2,7 +2,8 @@ class ApiUrl {
   //----------------------BaseURL--------------------------------//
   static String baseUrl = productionUrl;
 
-  static String localUrl = 'http://192.168.29.53:4001/api/v1/';
+  static String localUrl =
+      'https://0bc3-2405-201-2024-aa28-c86a-27ea-ddfa-1faf.ngrok-free.app/api/v1/';
 
   static String qaUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 

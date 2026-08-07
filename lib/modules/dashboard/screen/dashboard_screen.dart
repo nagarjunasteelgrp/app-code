@@ -78,14 +78,16 @@ class DashBoardScreen extends StatelessWidget {
                                         children: [
                                           AppText(
                                             fontWeight: FontWeight.bold,
-                                            title:
-                                                provider.myProgressAPIResponse !=
-                                                        null
-                                                    ? provider
-                                                        .myProgressAPIResponse[
-                                                            'noOfVisits']
-                                                        .toString()
-                                                    : '0',
+                                            title: (provider.myProgressAPIResponse
+                                                        is Map &&
+                                                    provider.myProgressAPIResponse[
+                                                            'noOfVisits'] !=
+                                                        null)
+                                                ? provider
+                                                    .myProgressAPIResponse[
+                                                        'noOfVisits']
+                                                    .toString()
+                                                : '0',
                                           ),
                                           SizedBox(height: 0.5.h),
                                           AppText(
@@ -107,14 +109,16 @@ class DashBoardScreen extends StatelessWidget {
                                         children: [
                                           AppText(
                                             fontWeight: FontWeight.bold,
-                                            title:
-                                                provider.myProgressAPIResponse !=
-                                                        null
-                                                    ? provider
-                                                        .myProgressAPIResponse[
-                                                            'newContacts']
-                                                        .toString()
-                                                    : '0',
+                                            title: (provider.myProgressAPIResponse
+                                                        is Map &&
+                                                    provider.myProgressAPIResponse[
+                                                            'newContacts'] !=
+                                                        null)
+                                                ? provider
+                                                    .myProgressAPIResponse[
+                                                        'newContacts']
+                                                    .toString()
+                                                : '0',
                                           ),
                                           AppText(
                                             title: 'New Contacts',
@@ -135,9 +139,11 @@ class DashBoardScreen extends StatelessWidget {
                                         children: [
                                           AppText(
                                             fontWeight: FontWeight.bold,
-                                            title: provider
-                                                        .myProgressAPIResponse !=
-                                                    null
+                                            title: (provider.myProgressAPIResponse
+                                                        is Map &&
+                                                    provider.myProgressAPIResponse[
+                                                            'workingHours'] !=
+                                                        null)
                                                 ? '${provider.myProgressAPIResponse['workingHours'].toString()} hrs'
                                                 : '0 hrs',
                                           ),

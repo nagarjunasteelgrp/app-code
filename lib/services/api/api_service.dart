@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:digital_lync/constants/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'api_url.dart';
@@ -12,11 +13,14 @@ class ApiServices {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({"username": email, "password": password}),
     );
-    /*  print("login : ${response.request}");
-    print("login : ${response.statusCode}");
-    print("login : ${response.body}");
-    print("email : ${email}");
-    print("password : ${password}"); */
+    if (kDebugMode) {
+      debugPrint("================ 🔑 LOGIN API DEBUG 🔑 ================");
+      debugPrint("URL: ${ApiUrl.loginUrl}");
+      debugPrint("Request Email: $email");
+      debugPrint("Status Code: ${response.statusCode}");
+      debugPrint("Response Body: ${response.body}");
+      debugPrint("======================================================");
+    }
     return response;
   }
 

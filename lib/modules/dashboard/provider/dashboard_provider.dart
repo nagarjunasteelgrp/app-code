@@ -196,10 +196,10 @@ class DashboardProvider extends ChangeNotifier {
           myProgressAPIResponse = responseData;
           isLoading = false;
         } else {
-          myProgressAPIResponse = [];
+          myProgressAPIResponse = {};
         }
       } else {
-        myProgressAPIResponse = [];
+        myProgressAPIResponse = {};
       }
     } finally {
       isLoading = false;
