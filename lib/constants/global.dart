@@ -32,6 +32,7 @@ ApiServices apiServices = ApiServices();
 final serviceInitialize = FlutterBackgroundService();
 ValueNotifier<bool> checkInStatus = ValueNotifier<bool>(true);
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+bool _trackingRequestInProgress = false;
 
 Future<Map<String, String>> getHeaders() async {
   token = SharedPrefsHelper.getString("token");
@@ -108,6 +109,11 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     }
   }
 
+  if (_trackingRequestInProgress) {
+    return;
+  }
+  _trackingRequestInProgress = true;
+
   try {
     // Data Fetching
     int? bgUserId = SharedPrefsHelper.getInt("userId");
@@ -147,8 +153,8 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     try {
       position = await Geolocator.getCurrentPosition(
         locationSettings: AndroidSettings(
-          accuracy: LocationAccuracy.high,
-          timeLimit: const Duration(seconds: 15),
+          accuracy: LocationAccuracy.bestForNavigation,
+          timeLimit: const Duration(seconds: 30),
         ),
       );
     } catch (e) {
@@ -193,16 +199,15 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
         rawLng,
       );
 
-      // Re-use exact same pinned coordinates to eliminate GPS micro-jitter/noise.
-      // Threshold: 0.13m (~5 inches) — any movement beyond this sends fresh coordinates.
-      if (distanceInMeters < 0.13) {
+      // Re-use the previous coordinates for sub-five-metre GPS noise.
+      if (distanceInMeters < 5) {
         sendLat = lastSavedLat;
         sendLng = lastSavedLng;
         print(
-          "📌 Stationary device (jitter ${distanceInMeters.toStringAsFixed(4)}m < 0.13m/5inch). Pinned: ($sendLat, $sendLng)",
+          "📌 Stationary device (jitter ${distanceInMeters.toStringAsFixed(2)}m < 5m). Pinned: ($sendLat, $sendLng)",
         );
       } else {
-        // User moved > 5 inches! Send fresh coordinates.
+        // Meaningful movement: send fresh coordinates.
         sendLat = rawLat;
         sendLng = rawLng;
         await SharedPrefsHelper.setDouble("lastTrackingLat", sendLat);
@@ -216,30 +221,42 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       await SharedPrefsHelper.setDouble("lastTrackingLng", sendLng);
     }
 
-    List<Placemark> placeMarks =
-        await placemarkFromCoordinates(sendLat, sendLng);
-
-    Placemark placeMark = placeMarks[0];
-
-    String addressValue =
-        "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
+    String addressValue = "Location: $sendLat, $sendLng";
+    try {
+      final placeMarks = await placemarkFromCoordinates(sendLat, sendLng);
+      if (placeMarks.isNotEmpty) {
+        final placeMark = placeMarks.first;
+        addressValue =
+            "${placeMark.thoroughfare} ${placeMark.street}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.country}";
+      }
+    } catch (error) {
+      print("Reverse geocoding failed; uploading coordinates: $error");
+    }
 
     var logResponse = await apiServices.autoTrackingAPI(
       userId: bgUserId,
       address: addressValue,
       latitude: sendLat,
       longitude: sendLng,
+      accuracy: position.accuracy,
+      capturedAt: position.timestamp,
     );
 
-    if (logResponse.statusCode == 200 || logResponse.statusCode == 201) {
+    if (logResponse.statusCode == 201) {
       final response = jsonDecode(logResponse.body);
       print('Location Updated📍 ${DateTime.now()}   response:--$response');
       await updateNotification(
         "Location Updated: ${DateTime.now().toString().substring(11, 16)}",
       );
+    } else {
+      await updateNotification(
+        "Location not saved (HTTP ${logResponse.statusCode})",
+      );
     }
   } catch (e) {
     print('Main Timer Loop Error: $e');
+  } finally {
+    _trackingRequestInProgress = false;
   }
 }
 

@@ -178,6 +178,8 @@ class ApiServices {
     String? address,
     double? latitude,
     double? longitude,
+    double? accuracy,
+    DateTime? capturedAt,
   }) async {
     var body = jsonEncode({
       "userId": userId,
@@ -185,7 +187,8 @@ class ApiServices {
       "latitude": latitude,
       "longitude": longitude,
       "trackingType": "auto",
-      "time": DateTime.now().toIso8601String(),
+      "time": (capturedAt ?? DateTime.now()).toIso8601String(),
+      "accuracy": accuracy,
     });
     final response = await http.post(
       body: body,

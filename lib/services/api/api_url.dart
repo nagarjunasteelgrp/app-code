@@ -1,6 +1,14 @@
 class ApiUrl {
   //----------------------BaseURL--------------------------------//
-  static String baseUrl = productionUrl;
+  static const String productionUrl =
+      'https://api.app.nagarjunacrm.com/api/v1/';
+
+  // Override for test builds with:
+  // flutter build apk --dart-define=API_BASE_URL=http://<host>:3000/api/v1/
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: productionUrl,
+  );
 
   static String localUrl =
       'https://0bc3-2405-201-2024-aa28-c86a-27ea-ddfa-1faf.ngrok-free.app/api/v1/';
@@ -8,8 +16,6 @@ class ApiUrl {
   static String qaUrl = 'https://api.qa.nagarjunacrm.com/api/v1/';
 
   static String devUrl = 'https://api.dev.nagarjunacrm.com/api/v1/';
-
-  static String productionUrl = 'https://api.app.nagarjunacrm.com/api/v1/';
 
   //----------------------API Routs--------------------------------//
 
