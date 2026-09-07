@@ -341,9 +341,6 @@ class DashboardProvider extends ChangeNotifier {
             }
           }
 
-          // Route draw karna
-          await loadRouteWithWaypoints();
-
           // 1. Date from First activity
           final date = DateTime.parse(activities.first['createdAt']);
           dateSelectedActivityLocation =
@@ -361,6 +358,13 @@ class DashboardProvider extends ChangeNotifier {
           }
           totalDistanceCoveredActivityLocation =
               "${totalDistance.toStringAsFixed(2)} km";
+
+          // Google Directions can turn a tiny indoor GPS displacement into a
+          // large road detour. Only road-snap meaningful travel; otherwise the
+          // map falls back to the short direct line between filtered points.
+          if (totalDistance >= 0.1) {
+            await loadRouteWithWaypoints();
+          }
 
           // 4. Total locations
           totalLocationActivityLocation = activities.length;

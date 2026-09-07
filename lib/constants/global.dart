@@ -206,8 +206,10 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
         rawLng,
       );
 
+      // Two-minute CRM tracking can safely use a wider dead zone. Genuine
+      // movement accumulates from the last confirmed coordinate.
       final stationaryRadiusMeters =
-          position.accuracy > 30 ? position.accuracy : 30.0;
+          position.accuracy > 75 ? position.accuracy : 75.0;
       final poorAccuracy = position.accuracy > 50;
       final stationarySpeed = position.speed >= 0 && position.speed < 0.5;
 
