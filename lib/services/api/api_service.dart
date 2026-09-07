@@ -164,7 +164,7 @@ class ApiServices {
         "trackingType": "captured",
         "userId": userId,
         "dealerId": dealerId,
-        "time": DateTime.now().toIso8601String()
+        "time": DateTime.now().toUtc().toIso8601String()
       }),
     );
     /*  print("trackingInfo : ${response.request}");
@@ -188,7 +188,7 @@ class ApiServices {
       "latitude": latitude,
       "longitude": longitude,
       "trackingType": "auto",
-      "time": (capturedAt ?? DateTime.now()).toIso8601String(),
+      "time": (capturedAt ?? DateTime.now()).toUtc().toIso8601String(),
       "accuracy": accuracy,
       "speed": speed,
     });
