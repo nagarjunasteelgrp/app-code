@@ -184,12 +184,19 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     double rawLat = double.parse(position.latitude.toStringAsFixed(6));
     double rawLng = double.parse(position.longitude.toStringAsFixed(6));
 
+    if (position.accuracy > 50) {
+      await updateNotification("Waiting for accurate GPS");
+      return;
+    }
+
     double sendLat = rawLat;
     double sendLng = rawLng;
 
     // --- 📌 GPS JITTER / NOISE FILTER 📌 ---
-    double? lastSavedLat = SharedPrefsHelper.getDouble("lastTrackingLat");
-    double? lastSavedLng = SharedPrefsHelper.getDouble("lastTrackingLng");
+    final lastLatitudeKey = "lastTrackingLat_$bgUserId";
+    final lastLongitudeKey = "lastTrackingLng_$bgUserId";
+    double? lastSavedLat = SharedPrefsHelper.getDouble(lastLatitudeKey);
+    double? lastSavedLng = SharedPrefsHelper.getDouble(lastLongitudeKey);
 
     if (lastSavedLat != null && lastSavedLng != null) {
       double distanceInMeters = Geolocator.distanceBetween(
@@ -199,26 +206,26 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
         rawLng,
       );
 
-      // Re-use the previous coordinates for sub-five-metre GPS noise.
-      if (distanceInMeters < 5) {
+      final stationaryRadiusMeters =
+          position.accuracy > 30 ? position.accuracy : 30.0;
+      final poorAccuracy = position.accuracy > 50;
+      final stationarySpeed = position.speed >= 0 && position.speed < 0.5;
+
+      if (poorAccuracy ||
+          stationarySpeed ||
+          distanceInMeters < stationaryRadiusMeters) {
         sendLat = lastSavedLat;
         sendLng = lastSavedLng;
-        print(
-          "📌 Stationary device (jitter ${distanceInMeters.toStringAsFixed(2)}m < 5m). Pinned: ($sendLat, $sendLng)",
-        );
+        print("Stationary/noisy GPS reading pinned to confirmed location");
       } else {
         // Meaningful movement: send fresh coordinates.
         sendLat = rawLat;
         sendLng = rawLng;
-        await SharedPrefsHelper.setDouble("lastTrackingLat", sendLat);
-        await SharedPrefsHelper.setDouble("lastTrackingLng", sendLng);
       }
     } else {
       // Initial base coordinate save
       sendLat = rawLat;
       sendLng = rawLng;
-      await SharedPrefsHelper.setDouble("lastTrackingLat", sendLat);
-      await SharedPrefsHelper.setDouble("lastTrackingLng", sendLng);
     }
 
     String addressValue = "Location: $sendLat, $sendLng";
@@ -239,10 +246,13 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       latitude: sendLat,
       longitude: sendLng,
       accuracy: position.accuracy,
+      speed: position.speed,
       capturedAt: position.timestamp,
     );
 
     if (logResponse.statusCode == 201) {
+      await SharedPrefsHelper.setDouble(lastLatitudeKey, sendLat);
+      await SharedPrefsHelper.setDouble(lastLongitudeKey, sendLng);
       final response = jsonDecode(logResponse.body);
       print('Location Updated📍 ${DateTime.now()}   response:--$response');
       await updateNotification(

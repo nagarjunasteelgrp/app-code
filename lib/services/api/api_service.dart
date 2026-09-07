@@ -179,6 +179,7 @@ class ApiServices {
     double? latitude,
     double? longitude,
     double? accuracy,
+    double? speed,
     DateTime? capturedAt,
   }) async {
     var body = jsonEncode({
@@ -189,6 +190,7 @@ class ApiServices {
       "trackingType": "auto",
       "time": (capturedAt ?? DateTime.now()).toIso8601String(),
       "accuracy": accuracy,
+      "speed": speed,
     });
     final response = await http.post(
       body: body,

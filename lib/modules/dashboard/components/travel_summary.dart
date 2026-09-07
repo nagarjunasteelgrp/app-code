@@ -210,7 +210,7 @@ Widget travelSummary() {
                         children: [
                           const AppText(
                             fontSize: 14,
-                            title: "Locations Visited",
+                            title: "Tracking Points",
                             fontWeight: FontWeight.bold,
                             color: AppColors.lightBlackColor,
                           ),
@@ -247,8 +247,8 @@ Widget travelSummary() {
                         },
                         initialCameraPosition: CameraPosition(
                           zoom: 13,
-                          target: provider.points.isNotEmpty
-                              ? provider.points[0]
+                          target: provider.movementPoints.isNotEmpty
+                              ? provider.movementPoints[0]
                               : const LatLng(0, 0),
                         ),
                         polylines: {
@@ -258,20 +258,22 @@ Widget travelSummary() {
                             polylineId: const PolylineId('route'),
                             points: provider.routePoints.isNotEmpty
                                 ? provider.routePoints
-                                : provider.points,
+                                : provider.movementPoints,
                           )
                         },
                         markers: {
-                          for (int i = 0; i < provider.points.length; i++)
+                          for (int i = 0;
+                              i < provider.movementPoints.length;
+                              i++)
                             Marker(
-                              position: provider.points[i],
+                              position: provider.movementPoints[i],
                               markerId: MarkerId(i.toString()),
                               // CHANGE: COLOR LOGIC
                               icon: BitmapDescriptor.defaultMarkerWithHue(
                                 i == 0
                                     ? BitmapDescriptor
                                         .hueGreen // Start Point = GREEN
-                                    : i == provider.points.length - 1
+                                    : i == provider.movementPoints.length - 1
                                         ? BitmapDescriptor
                                             .hueRed // End Point = RED
                                         : BitmapDescriptor

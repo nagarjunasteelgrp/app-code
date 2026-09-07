@@ -46,6 +46,7 @@ class DashboardProvider extends ChangeNotifier {
   String get selectedValue => _selectedValue;
 
   List<LatLng> points = [];
+  List<LatLng> movementPoints = [];
   List<String> addresses = [];
   List<LatLng> routePoints = [];
   List? newEnrollmentAPIResponse;
@@ -316,6 +317,7 @@ class DashboardProvider extends ChangeNotifier {
         List<dynamic> activities = decodedResponse['activity'] as List<dynamic>;
 
         points.clear();
+        movementPoints.clear();
         addresses.clear();
         routePoints.clear();
 
@@ -330,8 +332,13 @@ class DashboardProvider extends ChangeNotifier {
 
           for (int i = 0; i < activities.length; i++) {
             final item = activities[i];
-            points.add(LatLng(item['latitude'], item['longitude']));
+            final point = LatLng(item['latitude'], item['longitude']);
+            points.add(point);
             addresses.add(item['address']);
+            final distance = (item['distance'] as num?)?.toDouble() ?? 0;
+            if (i == 0 || distance > 0) {
+              movementPoints.add(point);
+            }
           }
 
           // Route draw karna
@@ -342,10 +349,8 @@ class DashboardProvider extends ChangeNotifier {
           dateSelectedActivityLocation =
               DateFormat('MMMM d, yyyy').format(date);
 
-          // 2. Latest Time (Last Activity)
-          // Ab ye sahi "Latest" time dikhayega kyunki list sorted hai
-          final lastItem = activities.last;
-          final time = DateTime.parse(lastItem['createdAt']);
+          // Start time is the first activity after chronological sorting.
+          final time = DateTime.parse(activities.first['createdAt']);
           startTimeSelectedActivityLocation =
               DateFormat('h:mm a').format(time.toLocal());
 
@@ -604,12 +609,15 @@ class DashboardProvider extends ChangeNotifier {
 
   Future<void> loadRouteWithWaypoints() async {
     try {
-      if (points.length < 2) return;
+      if (movementPoints.length < 2) {
+        routePoints = [];
+        return;
+      }
 
       notifyListeners();
 
       final decodedRoute = await fetchRouteCoordinatesWithWaypoints(
-        waypoints: points,
+        waypoints: movementPoints,
       );
 
       routePoints = decodedRoute;
