@@ -184,7 +184,7 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     double rawLat = double.parse(position.latitude.toStringAsFixed(6));
     double rawLng = double.parse(position.longitude.toStringAsFixed(6));
 
-    if (position.accuracy > 50) {
+    if (position.accuracy > 100) {
       await updateNotification("Waiting for accurate GPS");
       return;
     }
@@ -210,12 +210,9 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       // movement accumulates from the last confirmed coordinate.
       final stationaryRadiusMeters =
           position.accuracy > 75 ? position.accuracy : 75.0;
-      final poorAccuracy = position.accuracy > 50;
-      final stationarySpeed = position.speed >= 0 && position.speed < 0.5;
+      final poorAccuracy = position.accuracy > 100;
 
-      if (poorAccuracy ||
-          stationarySpeed ||
-          distanceInMeters < stationaryRadiusMeters) {
+      if (poorAccuracy || distanceInMeters < stationaryRadiusMeters) {
         sendLat = lastSavedLat;
         sendLng = lastSavedLng;
         print("Stationary/noisy GPS reading pinned to confirmed location");
@@ -261,8 +258,17 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
         "Location Updated: ${DateTime.now().toString().substring(11, 16)}",
       );
     } else {
+      String failureDetail = "HTTP ${logResponse.statusCode}";
+      try {
+        final errorResponse = jsonDecode(logResponse.body);
+        failureDetail = errorResponse['reason'] ??
+            errorResponse['message'] ??
+            failureDetail;
+      } catch (_) {
+        // Keep the HTTP status when the server response is not JSON.
+      }
       await updateNotification(
-        "Location not saved (HTTP ${logResponse.statusCode})",
+        "Location not saved: $failureDetail",
       );
     }
   } catch (e) {
