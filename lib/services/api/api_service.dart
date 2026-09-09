@@ -203,6 +203,22 @@ class ApiServices {
     return response;
   }
 
+  Future<http.Response> autoTrackingBatch({
+    required List<Map<String, dynamic>> points,
+    required String authToken,
+  }) async {
+    return http
+        .post(
+          Uri.parse(ApiUrl.trackingBatchUrl),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $authToken',
+          },
+          body: jsonEncode({'points': points}),
+        )
+        .timeout(const Duration(seconds: 30));
+  }
+
   Future<http.Response> trackingImages({
     required File image,
     required String imageType,

@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:digital_lync/constants/global.dart';
 import 'package:digital_lync/helper/shared_prefs_helper.dart';
 import 'package:digital_lync/services/api/api_service.dart';
+import 'package:digital_lync/services/tracking_queue_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -66,6 +68,9 @@ class CheckInProvider extends ChangeNotifier {
         );
 
         // --- START AUTO TRACKING ---
+        if (userId != null) {
+          await TrackingQueueService.instance.startNewSession(userId!);
+        }
         await WakelockPlus.enable();
         await FlutterBackground.hasPermissions;
         // 1. Set Flag
@@ -110,6 +115,9 @@ class CheckInProvider extends ChangeNotifier {
         final service = FlutterBackgroundService();
         if (await service.isRunning()) {
           service.invoke('stopService');
+        }
+        if (userId != null) {
+          await TrackingQueueService.instance.endSession(userId!);
         }
         await WakelockPlus.disable();
         notifyListeners();

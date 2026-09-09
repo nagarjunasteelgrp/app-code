@@ -36,6 +36,8 @@ class ApiUrl {
 
   static String autoTrackingUrl = '${baseUrl}activities';
 
+  static String trackingBatchUrl = '${baseUrl}activities/batch';
+
   static String trackingNotesUrl = '${baseUrl}tracking-notes';
 
   static String trackingImageUrl = '${baseUrl}tracking-images';

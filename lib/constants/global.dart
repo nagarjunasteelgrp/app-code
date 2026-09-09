@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:digital_lync/constants/constants.dart';
 import 'package:digital_lync/helper/shared_prefs_helper.dart';
 import 'package:digital_lync/modules/task/provider/task_provider.dart';
 import 'package:digital_lync/routes/routes_path.dart';
 import 'package:digital_lync/services/api/api_service.dart';
+import 'package:digital_lync/services/tracking_queue_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
@@ -76,17 +78,71 @@ void onStart(ServiceInstance service) async {
   // Immediate first tracking on service start
   await performTracking(service);
 
-  Timer.periodic(
-    const Duration(minutes: 2),
-    (timer) async {
-      bool isServiceEnabled = SharedPrefsHelper.getBool('isService') ?? false;
-      if (!isServiceEnabled) {
-        timer.cancel();
-        service.stopSelf();
-        return;
+  Timer.periodic(const Duration(minutes: 2), (timer) async {
+    bool isServiceEnabled = SharedPrefsHelper.getBool('isService') ?? false;
+    if (!isServiceEnabled) {
+      timer.cancel();
+      service.stopSelf();
+      return;
+    }
+    await performTracking(service);
+  });
+}
+
+class TrackingSyncResult {
+  const TrackingSyncResult({required this.pending, this.rejectionReason});
+
+  final int pending;
+  final String? rejectionReason;
+}
+
+Future<TrackingSyncResult> syncPendingTrackingPoints({
+  required int authenticatedUserId,
+  required String authToken,
+}) async {
+  final queue = TrackingQueueService.instance;
+  final points = await queue.pendingPoints(userId: authenticatedUserId);
+  if (points.isEmpty) return const TrackingSyncResult(pending: 0);
+
+  final pointIds = points.map((point) => point.pointId).toList();
+  String? rejectionReason;
+  try {
+    final response = await apiServices.autoTrackingBatch(
+      points: points.map((point) => point.toApiJson()).toList(),
+      authToken: authToken,
+    );
+    if (response.statusCode != 200) {
+      await queue.markRetry(pointIds, 'HTTP ${response.statusCode}');
+      return TrackingSyncResult(
+        pending: await queue.pendingCount(userId: authenticatedUserId),
+      );
+    }
+
+    final body = jsonDecode(response.body) as Map<String, dynamic>;
+    final results = body['results'] as List<dynamic>? ?? const [];
+    final acknowledged = <String>[];
+    for (final rawResult in results) {
+      final result = rawResult as Map<String, dynamic>;
+      final pointId = result['pointId']?.toString();
+      final status = result['status']?.toString();
+      if (pointId == null) continue;
+      if (status == 'accepted' || status == 'duplicate') {
+        acknowledged.add(pointId);
+      } else if (status == 'rejected') {
+        rejectionReason = result['reason']?.toString() ?? 'rejected_by_server';
+        await queue.markRejected(
+          pointId,
+          rejectionReason,
+        );
       }
-      await performTracking(service);
-    },
+    }
+    await queue.deleteAcknowledged(acknowledged);
+  } catch (error) {
+    await queue.markRetry(pointIds, error.toString());
+  }
+  return TrackingSyncResult(
+    pending: await queue.pendingCount(userId: authenticatedUserId),
+    rejectionReason: rejectionReason,
   );
 }
 
@@ -159,7 +215,8 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       );
     } catch (e) {
       print(
-          "⚠️ Live GPS fetch failed ($e). Skipping update to ensure 100% fresh location.");
+        "⚠️ Live GPS fetch failed ($e). Skipping update to ensure 100% fresh location.",
+      );
       await updateNotification("Weak GPS Signal");
       return;
     }
@@ -183,6 +240,39 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
     // Round raw GPS to 6 decimal places to prevent floating point representation noise
     double rawLat = double.parse(position.latitude.toStringAsFixed(6));
     double rawLng = double.parse(position.longitude.toStringAsFixed(6));
+
+    final useOfflineQueue =
+        SharedPrefsHelper.getBool('professionalTrackingQueue') ?? true;
+    if (useOfflineQueue) {
+      final queue = TrackingQueueService.instance;
+      await queue.enqueue(
+        userId: bgUserId,
+        latitude: rawLat,
+        longitude: rawLng,
+        address: 'Location: $rawLat, $rawLng',
+        accuracy: position.accuracy,
+        speed: position.speed,
+        heading: position.heading,
+        capturedAt: position.timestamp,
+      );
+      final syncResult = await syncPendingTrackingPoints(
+        authenticatedUserId: bgUserId,
+        authToken: bgToken,
+      );
+      await queue.cleanupRejected();
+      if (syncResult.pending > 0) {
+        await updateNotification(
+          'Saved offline: ${syncResult.pending} waiting to sync',
+        );
+      } else if (syncResult.rejectionReason != null) {
+        await updateNotification(
+          'Point not counted: ${syncResult.rejectionReason}',
+        );
+      } else {
+        await updateNotification('All locations synced');
+      }
+      return;
+    }
 
     if (position.accuracy > 100) {
       await updateNotification("Waiting for accurate GPS");
@@ -267,9 +357,7 @@ Future<void> performTracking(ServiceInstance service, {Timer? timer}) async {
       } catch (_) {
         // Keep the HTTP status when the server response is not JSON.
       }
-      await updateNotification(
-        "Location not saved: $failureDetail",
-      );
+      await updateNotification("Location not saved: $failureDetail");
     }
   } catch (e) {
     print('Main Timer Loop Error: $e');
@@ -323,11 +411,16 @@ Future<void> showNotification(String title, String body) async {
     visibility: NotificationVisibility.public,
   );
 
-  const NotificationDetails notificationDetails =
-      NotificationDetails(android: androidDetails);
+  const NotificationDetails notificationDetails = NotificationDetails(
+    android: androidDetails,
+  );
 
   await flutterLocalNotificationsPlugin.show(
-      0, title, body, notificationDetails);
+    0,
+    title,
+    body,
+    notificationDetails,
+  );
 }
 
 Future<void> followUpsForNotificationFetching() async {
