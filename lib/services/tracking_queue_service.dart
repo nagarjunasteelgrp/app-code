@@ -47,18 +47,18 @@ class QueuedTrackingPoint {
   }
 
   Map<String, dynamic> toApiJson() => {
-    'pointId': pointId,
-    'sessionId': sessionId,
-    'userId': userId,
-    'latitude': latitude,
-    'longitude': longitude,
-    'address': address,
-    'accuracy': accuracy,
-    'speed': speed,
-    'heading': heading,
-    'capturedAt': capturedAt.toIso8601String(),
-    'source': 'fused',
-  };
+        'pointId': pointId,
+        'sessionId': sessionId,
+        'userId': userId,
+        'latitude': latitude,
+        'longitude': longitude,
+        'address': address,
+        'accuracy': accuracy,
+        'speed': speed,
+        'heading': heading,
+        'capturedAt': capturedAt.toIso8601String(),
+        'source': 'fused',
+      };
 }
 
 class TrackingQueueService {
@@ -132,8 +132,7 @@ class TrackingQueueService {
     double? heading,
   }) async {
     final db = await database;
-    final count =
-        Sqflite.firstIntValue(
+    final count = Sqflite.firstIntValue(
           await db.rawQuery(
             'SELECT COUNT(*) FROM tracking_queue WHERE status = ?',
             ['pending'],
@@ -186,6 +185,18 @@ class TrackingQueueService {
           ),
         ) ??
         0;
+  }
+
+  Future<void> updateAddress({
+    required String pointId,
+    required String address,
+  }) async {
+    await (await database).update(
+      'tracking_queue',
+      {'address': address},
+      where: 'point_id = ? AND status = ?',
+      whereArgs: [pointId, 'pending'],
+    );
   }
 
   Future<void> deleteAcknowledged(List<String> pointIds) async {

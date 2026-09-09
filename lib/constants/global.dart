@@ -96,13 +96,75 @@ class TrackingSyncResult {
   final String? rejectionReason;
 }
 
+bool _needsReadableAddress(String address) =>
+    address.trimLeft().startsWith('Location:');
+
+String _formatPlacemark(Placemark placemark) {
+  final parts = <String?>[
+    placemark.name,
+    placemark.thoroughfare,
+    placemark.street,
+    placemark.subLocality,
+    placemark.locality,
+    placemark.administrativeArea,
+    placemark.postalCode,
+    placemark.country,
+  ]
+      .whereType<String>()
+      .map((part) => part.trim())
+      .where((part) => part.isNotEmpty)
+      .toSet();
+  return parts.join(', ');
+}
+
+Future<void> _enrichPendingTrackingAddresses({
+  required int authenticatedUserId,
+}) async {
+  final queue = TrackingQueueService.instance;
+  final pending = await queue.pendingPoints(
+    userId: authenticatedUserId,
+    limit: 10,
+  );
+
+  for (final point in pending.where(
+    (point) => _needsReadableAddress(point.address),
+  )) {
+    try {
+      final placemarks = await placemarkFromCoordinates(
+        point.latitude,
+        point.longitude,
+      ).timeout(const Duration(seconds: 15));
+      if (placemarks.isEmpty) break;
+
+      final readableAddress = _formatPlacemark(placemarks.first);
+      if (readableAddress.isEmpty) break;
+      await queue.updateAddress(
+        pointId: point.pointId,
+        address: readableAddress,
+      );
+    } catch (error) {
+      print('Reverse geocoding deferred for offline point: $error');
+      break;
+    }
+  }
+}
+
 Future<TrackingSyncResult> syncPendingTrackingPoints({
   required int authenticatedUserId,
   required String authToken,
 }) async {
   final queue = TrackingQueueService.instance;
-  final points = await queue.pendingPoints(userId: authenticatedUserId);
-  if (points.isEmpty) return const TrackingSyncResult(pending: 0);
+  await _enrichPendingTrackingAddresses(
+    authenticatedUserId: authenticatedUserId,
+  );
+  final points = (await queue.pendingPoints(userId: authenticatedUserId))
+      .where((point) => !_needsReadableAddress(point.address))
+      .toList();
+  if (points.isEmpty) {
+    return TrackingSyncResult(
+      pending: await queue.pendingCount(userId: authenticatedUserId),
+    );
+  }
 
   final pointIds = points.map((point) => point.pointId).toList();
   String? rejectionReason;
