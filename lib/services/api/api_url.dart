@@ -1,7 +1,7 @@
 class ApiUrl {
   //----------------------BaseURL--------------------------------//
   static const String productionUrl =
-      'https://api.app.nagarjunacrm.com/api/v1/';
+      'https://nagarjuna-crm-backend-309427312636.asia-south1.run.app/api/v1/';
 
   // Override for test builds with:
   // flutter build apk --dart-define=API_BASE_URL=http://<host>:3000/api/v1/
